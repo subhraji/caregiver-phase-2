@@ -5,6 +5,7 @@
     app:cardCornerRadius="5dp"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
+    android:id="@+id/root_lay"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -63,6 +64,7 @@
             app:layout_constraintTop_toBottomOf="@+id/view_1"
             app:layout_constraintStart_toStartOf="@+id/agency_logo_img_view"
             android:src="@drawable/ic_baseline_person_24"
+            android:tint="@color/white"
             android:layout_marginTop="5dp"/>
         <TextView
             android:id="@+id/care_type_tv"

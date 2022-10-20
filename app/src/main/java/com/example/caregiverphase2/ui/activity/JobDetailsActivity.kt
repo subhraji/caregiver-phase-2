@@ -13,5 +13,9 @@ class JobDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityJobDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.backBtn.setOnClickListener {
+            finish()
+        }
     }
 }
