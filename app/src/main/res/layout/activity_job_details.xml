@@ -337,11 +337,13 @@
             android:weightSum="1"
             android:padding="3dp">
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:id="@+id/job_overview_card"
+                android:layout_width="120dp"
                 android:layout_height="40dp"
                 app:cardCornerRadius="7dp"
                 android:layout_weight="0.5">
                 <TextView
+                    android:id="@+id/job_overview_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Job overview"
@@ -350,7 +352,7 @@
                     android:gravity="center"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     android:textStyle="bold"/>
 
             </androidx.cardview.widget.CardView>
@@ -358,20 +360,22 @@
                 android:layout_width="5dp"
                 android:layout_height="1dp"/>
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:id="@+id/checklist_card"
+                android:layout_width="120dp"
                 android:layout_height="40dp"
                 app:cardCornerRadius="7dp"
                 android:layout_weight="0.5">
                 <TextView
+                    android:id="@+id/checkList_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Job overview"
+                    android:text="Checklist"
                     android:textColor="@color/theme_blue"
                     android:background="@color/white"
                     android:gravity="center"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     android:textStyle="bold"/>
 
             </androidx.cardview.widget.CardView>
@@ -499,7 +503,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Skin allergy" />
+                    android:text="CNA Trained" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/job_exp_linear_lay_2"
@@ -519,7 +523,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Skin allergy" />
+                    android:text="CPR Trained" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/job_exp_linear_lay_3"
@@ -539,7 +543,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Skin allergy" />
+                    android:text="Wound care" />
             </LinearLayout>
 
             <TextView
@@ -594,6 +598,110 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_lay_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/linear_lay_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/checklist_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Caregiver checklist personal care duties and tasks:"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:id="@+id/checklist_linear_lay_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/checklist_htv"
+                android:layout_marginTop="10dp">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_baseline_check_circle_24"
+                    app:tint="@color/color_blue"
+                    android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shopping for groceries"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/checklist_linear_lay_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/checklist_linear_lay_1"
+                android:layout_marginTop="5dp">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_baseline_check_circle_24"
+                    app:tint="@color/color_blue"
+                    android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preparing meal"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/checklist_linear_lay_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/checklist_linear_lay_2"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_baseline_check_circle_24"
+                    app:tint="@color/color_blue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Doing dishes and kitchen clean up" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/checklist_linear_lay_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/checklist_linear_lay_3"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_baseline_check_circle_24"
+                    app:tint="@color/color_blue"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Changing bedding" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

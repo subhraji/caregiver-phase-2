@@ -14,5 +14,6 @@
     <color name="color_grey">#CDCDCD</color>
     <color name="dash_green">#4CAA50</color>
     <color name="dash_yellow">#FFC107</color>
+    <color name="color_blue">#2196F3</color>
 
 </resources>
