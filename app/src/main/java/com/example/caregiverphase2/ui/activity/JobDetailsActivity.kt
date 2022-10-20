@@ -30,6 +30,10 @@ class JobDetailsActivity : AppCompatActivity() {
         binding.checklistCard.setOnClickListener {
             clickCheckList()
         }
+
+        binding.bidNowTv.setOnClickListener {
+
+        }
     }
 
     private fun clickJobOverview(){
