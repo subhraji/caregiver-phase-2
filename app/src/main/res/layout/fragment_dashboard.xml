@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.DashboardFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp">
+            <ImageView
+                android:id="@+id/image_view_1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/new_logo_white"
+                app:tint="@color/theme_blue"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Peaceworc"
+                android:textColor="@color/theme_blue"
+                app:layout_constraintTop_toTopOf="@+id/image_view_1"
+                app:layout_constraintBottom_toBottomOf="@+id/image_view_1"
+                app:layout_constraintStart_toEndOf="@+id/image_view_1"
+                android:layout_marginStart="10dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_image_view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_view_1"
+                app:layout_constraintBottom_toBottomOf="@+id/image_view_1"
+                android:layout_marginEnd="15dp"
+                android:src="@color/color_grey"/>
+            <RelativeLayout
+                android:id="@+id/dash_search_lay"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/dash_search_bg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/user_image_view"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/search_icon_image_view"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:src="@drawable/ic_search_36"
+                    app:tint="#808080" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/search_icon_image_view"
+                    android:text="Search job"
+                    android:textSize="15sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/profile_pending_cart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dash_search_bg"
+                android:backgroundTint="@color/dash_green"
+                app:layout_constraintTop_toBottomOf="@+id/dash_search_lay"
+                app:layout_constraintStart_toStartOf="@+id/dash_search_lay"
+                app:layout_constraintEnd_toEndOf="@+id/dash_search_lay"
+                android:layout_marginTop="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                >
+
+                <ImageView
+                    android:id="@+id/job_bag_image_view"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_anagcy_logo_18"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toLeftOf="@+id/chevron_right_img"
+                    android:layout_toRightOf="@+id/job_bag_image_view"
+                    android:text="Please complete your caregiver profile to accept job."
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+                <ImageView
+                    android:id="@+id/chevron_right_img"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                    app:tint="@color/white"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"/>
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/quick_call_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/profile_pending_cart"
+                app:layout_constraintStart_toStartOf="@+id/profile_pending_cart"
+                android:text="Quick Calls"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/see_all_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/quick_call_htv"
+                app:layout_constraintEnd_toEndOf="@+id/profile_pending_cart"
+                app:layout_constraintBottom_toBottomOf="@+id/quick_call_htv"
+                android:text="See All"
+                android:textSize="14sp"
+                android:textColor="@color/theme_blue"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/quick_call_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/quick_call_htv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/open_bid_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/quick_call_recycler"
+                app:layout_constraintStart_toStartOf="@+id/profile_pending_cart"
+                android:text="Open Bids"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/see_all_2_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/open_bid_htv"
+                app:layout_constraintEnd_toEndOf="@+id/profile_pending_cart"
+                app:layout_constraintBottom_toBottomOf="@+id/open_bid_htv"
+                android:text="See All"
+                android:textSize="14sp"
+                android:textColor="@color/theme_blue"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/open_bids_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/open_bid_htv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/open_job_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/open_bids_recycler"
+                app:layout_constraintStart_toStartOf="@+id/profile_pending_cart"
+                android:text="Open Jobs"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/see_all_3_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/open_job_htv"
+                app:layout_constraintEnd_toEndOf="@+id/profile_pending_cart"
+                app:layout_constraintBottom_toBottomOf="@+id/open_job_htv"
+                android:text="See All"
+                android:textSize="14sp"
+                android:textColor="@color/theme_blue"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/open_jobs_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/open_job_htv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingBottom="10dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</RelativeLayout>
