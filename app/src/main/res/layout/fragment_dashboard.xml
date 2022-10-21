@@ -27,6 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Peaceworc"
+                android:textStyle="bold"
                 android:textColor="@color/theme_blue"
                 app:layout_constraintTop_toTopOf="@+id/image_view_1"
                 app:layout_constraintBottom_toBottomOf="@+id/image_view_1"
@@ -47,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/dash_search_bg"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -111,11 +112,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/dash_search_bg"
-                android:backgroundTint="@color/dash_green"
+                android:backgroundTint="#106466"
                 app:layout_constraintTop_toBottomOf="@+id/dash_search_lay"
                 app:layout_constraintStart_toStartOf="@+id/dash_search_lay"
                 app:layout_constraintEnd_toEndOf="@+id/dash_search_lay"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
 
@@ -158,7 +159,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="24dp"/>
             <TextView
                 android:id="@+id/see_all_htv"
                 android:layout_width="wrap_content"
@@ -175,7 +176,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/quick_call_htv"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:id="@+id/open_bid_htv"
@@ -187,7 +189,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="24dp"/>
             <TextView
                 android:id="@+id/see_all_2_htv"
                 android:layout_width="wrap_content"
@@ -216,7 +218,8 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="24dp"
+                android:visibility="visible"/>
             <TextView
                 android:id="@+id/see_all_3_htv"
                 android:layout_width="wrap_content"
@@ -226,15 +229,15 @@
                 app:layout_constraintBottom_toBottomOf="@+id/open_job_htv"
                 android:text="See All"
                 android:textSize="14sp"
-                android:textColor="@color/theme_blue"/>
+                android:textColor="@color/theme_blue"
+                android:visibility="visible"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/open_jobs_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/open_job_htv"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingBottom="10dp"/>
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -67,11 +67,25 @@
                 android:textSize="13sp"
                 android:textColor="@color/theme_blue"
                 android:textStyle="bold"/>
+
+            <View
+                android:id="@+id/view_1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/color_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_profile_htv" />
+
             <TextView
                 android:id="@+id/title_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/view_profile_htv"
+                app:layout_constraintTop_toBottomOf="@+id/view_1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="10dp"
@@ -80,7 +94,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="10dp"/>
 
             <LinearLayout
                 android:id="@+id/linear_lay_1"
@@ -176,7 +190,6 @@
                         android:id="@+id/rewards_htv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
                         android:layout_marginEnd="10dp"
                         android:text="Rewards"
                         android:textColor="@color/black"
@@ -299,7 +312,6 @@
                         android:id="@+id/remittance_htv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
                         android:layout_marginEnd="10dp"
                         android:text="Remittance"
                         android:textColor="@color/text_grey"
@@ -328,14 +340,29 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <View
+                android:id="@+id/view_2"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/color_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_lay_2" />
+
+
+
             <LinearLayout
                 android:id="@+id/linear_lay_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/linear_lay_2"
+                app:layout_constraintTop_toBottomOf="@+id/view_2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/grey_corner_bg"
                 android:orientation="horizontal"
                 android:weightSum="1"
@@ -394,21 +421,24 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="35dp">
+
                 <TextView
                     android:id="@+id/job_desc_htv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Job Descriptions &amp; Responsiblities"
+                    android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/job_desc_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/job_desc_htv"
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/black"
                     android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages" />
 
                 <TextView
@@ -429,14 +459,15 @@
                     android:layout_below="@+id/medical_his_htv"
                     android:layout_marginTop="10dp">
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
                         android:src="@drawable/bullet_point_bg"
                         android:layout_gravity="center_vertical"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Heart disease"
+                        android:textColor="@color/black"
                         android:layout_marginStart="10dp"/>
                 </LinearLayout>
                 <LinearLayout
@@ -447,14 +478,15 @@
                     android:layout_below="@+id/medical_linear_lay_1"
                     android:layout_marginTop="5dp">
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
                         android:src="@drawable/bullet_point_bg"
                         android:layout_gravity="center_vertical"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="High blood pressure"
+                        android:textColor="@color/black"
                         android:layout_marginStart="10dp"/>
                 </LinearLayout>
 
@@ -467,8 +499,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/bullet_point_bg" />
 
@@ -476,6 +508,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
                         android:text="Skin allergy" />
                 </LinearLayout>
 
@@ -499,8 +532,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/bullet_point_bg" />
 
@@ -508,6 +541,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
                         android:text="CNA Trained" />
                 </LinearLayout>
                 <LinearLayout
@@ -519,8 +553,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/bullet_point_bg" />
 
@@ -528,6 +562,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
                         android:text="CPR Trained" />
                 </LinearLayout>
                 <LinearLayout
@@ -539,8 +574,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/bullet_point_bg" />
 
@@ -548,6 +583,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
                         android:text="Wound care" />
                 </LinearLayout>
 
@@ -570,8 +606,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/bullet_point_bg" />
 
@@ -579,6 +615,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
                         android:text="Lorem Ipsum is simply dummy text of the printing" />
                 </LinearLayout>
                 <LinearLayout
@@ -590,8 +627,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/bullet_point_bg" />
 
@@ -599,6 +636,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
                         android:text="when an unknown printer took a galley" />
                 </LinearLayout>
 
@@ -613,7 +651,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="35dp">
 
                 <TextView
                     android:id="@+id/checklist_htv"
@@ -629,7 +667,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_below="@+id/checklist_htv"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="7dp">
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
@@ -639,6 +677,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:text="Shopping for groceries"
                         android:layout_marginStart="10dp"/>
                 </LinearLayout>
@@ -658,6 +697,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:text="Preparing meal"
                         android:layout_marginStart="10dp"/>
                 </LinearLayout>
@@ -680,6 +720,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
                         android:text="Doing dishes and kitchen clean up" />
                 </LinearLayout>
                 <LinearLayout
@@ -701,6 +742,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
                         android:text="Changing bedding" />
                 </LinearLayout>
 
@@ -727,9 +769,11 @@
                 android:background="@color/dash_yellow"
                 android:text="BIDDING TIME: 02:00:00"
                 android:textColor="@color/white"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:layout_weight="1"/>
             <TextView
                 android:id="@+id/bid_now_tv"

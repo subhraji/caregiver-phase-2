@@ -4,9 +4,7 @@
         android:id="@+id/dashboardFragment"
         android:icon="@drawable/home_icon"/>
     <item android:title="Profile"
-        android:id="@+id/profileFragment"
         android:icon="@drawable/profile_icon"/>
     <item android:title="Settings"
-        android:id="@+id/settingsFragment"
         android:icon="@drawable/settings_icon"/>
 </menu>

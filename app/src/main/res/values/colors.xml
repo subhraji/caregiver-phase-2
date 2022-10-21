@@ -10,10 +10,11 @@
 
     <color name="transparent">#00FFFFFF</color>
     <color name="theme_blue">#003C81</color>
-    <color name="text_grey">#A5A5A5</color>
+    <color name="text_grey">#6A6A6A</color>
     <color name="color_grey">#ECECEC</color>
     <color name="dash_green">#4CAA50</color>
     <color name="dash_yellow">#FFC107</color>
     <color name="color_blue">#2196F3</color>
+    <color name="dark_grey_1">#737373</color>
 
 </resources>

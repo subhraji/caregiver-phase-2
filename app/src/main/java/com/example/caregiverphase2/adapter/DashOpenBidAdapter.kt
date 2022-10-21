@@ -1,11 +1,13 @@
 package com.example.caregiverphase2.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caregiverphase2.databinding.OpenBidsItemLayoutBinding
 import com.example.caregiverphase2.model.TestModel
+import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.user.caregiver.gone
 import com.user.caregiver.visible
 
@@ -41,6 +43,11 @@ class DashOpenBidAdapter(private val itemList: List<TestModel>, private val cont
                     timeLeftTv.gone()
                 }else{
                     timeLeftTv.visible()
+                }
+
+                rootLay.setOnClickListener {
+                    val intent = Intent(context, JobDetailsActivity::class.java)
+                    context.startActivity(intent)
                 }
             }
         }
