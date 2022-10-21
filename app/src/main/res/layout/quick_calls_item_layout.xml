@@ -59,8 +59,8 @@
             android:layout_marginEnd="10dp"/>
         <ImageView
             android:id="@+id/person_img"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             app:layout_constraintTop_toBottomOf="@+id/view_1"
             app:layout_constraintStart_toStartOf="@+id/agency_logo_img_view"
             android:src="@drawable/ic_baseline_person_24"
@@ -189,45 +189,35 @@
             android:id="@+id/date_htv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            app:layout_constraintTop_toTopOf="@+id/job_bag_img"
-            app:layout_constraintStart_toEndOf="@+id/job_bag_img"
-            android:layout_marginStart="10dp"
-            />
-        <TextView
-            android:id="@+id/date_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Today, Sept 13"
             android:textSize="11sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/date_htv"
-            app:layout_constraintStart_toStartOf="@+id/date_htv"/>
-        <TextView
-            android:id="@+id/hour_htv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hours"
-            android:textColor="@color/white"
-            android:textSize="11sp"
             app:layout_constraintTop_toTopOf="@+id/job_bag_img"
-            app:layout_constraintStart_toEndOf="@+id/date_tv"
-            android:layout_marginStart="15dp"/>
+            app:layout_constraintStart_toEndOf="@+id/job_bag_img"
+            android:layout_marginStart="5dp"
+            />
+        <ImageView
+            android:id="@+id/clock_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_baseline_access_time_24"
+            app:layout_constraintTop_toTopOf="@+id/job_bag_img"
+            app:layout_constraintStart_toEndOf="@+id/date_htv"
+            android:layout_marginStart="15dp"
+            app:tint="@color/white"/>
+
         <TextView
             android:id="@+id/hour_tv"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="8:00 AM - 12:00 PM"
             android:textSize="11sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/hour_htv"
-            app:layout_constraintStart_toStartOf="@+id/hour_htv"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="10dp"/>
+            app:layout_constraintTop_toTopOf="@+id/job_bag_img"
+            app:layout_constraintStart_toEndOf="@+id/clock_icon"
+            android:layout_marginStart="5dp"/>
         <TextView
             android:id="@+id/price_tv"
             android:layout_width="wrap_content"
