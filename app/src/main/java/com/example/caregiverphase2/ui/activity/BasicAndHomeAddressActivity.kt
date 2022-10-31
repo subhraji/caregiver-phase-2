@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.caregiverphase2.R
@@ -16,6 +17,11 @@ class BasicAndHomeAddressActivity : AppCompatActivity() {
 
         binding.backBtn.setOnClickListener {
             finish()
+        }
+
+        binding.nextCardBtn.setOnClickListener {
+            val intent = Intent(this, EducationAndCertificateActivity::class.java)
+            startActivity(intent)
         }
     }
 }
