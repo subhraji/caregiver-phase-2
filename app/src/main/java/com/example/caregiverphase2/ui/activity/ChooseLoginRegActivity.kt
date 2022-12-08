@@ -18,11 +18,13 @@ class ChooseLoginRegActivity : AppCompatActivity() {
         binding.loginBtn.setOnClickListener {
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.regBtn.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

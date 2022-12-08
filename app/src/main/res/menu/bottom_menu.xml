@@ -6,5 +6,6 @@
     <item android:title="Profile"
         android:icon="@drawable/profile_icon"/>
     <item android:title="Settings"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/settings_icon"/>
 </menu>

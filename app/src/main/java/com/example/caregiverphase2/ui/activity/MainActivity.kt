@@ -6,9 +6,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityMainBinding
-import com.example.caregiverphase2.databinding.ActivitySplashBinding
-import com.user.caregiver.lightStatusBar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

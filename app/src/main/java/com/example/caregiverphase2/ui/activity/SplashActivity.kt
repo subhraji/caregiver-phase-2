@@ -5,14 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.Window
-import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivitySplashBinding
-import com.user.caregiver.lightStatusBar
+import com.example.caregiverphase2.utils.PrefManager
+import isConnectedToInternet
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
@@ -28,9 +27,29 @@ class SplashActivity : AppCompatActivity() {
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
 
+        checkInternet()
+    }
+
+    private fun checkInternet(){
+
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, ChooseLoginRegActivity::class.java)
-            startActivity(intent)
-            finish() }, 3000)
+
+            if(isConnectedToInternet()){
+                if(PrefManager.getLogInStatus() == true){
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }else{
+                    val intent = Intent(this, ChooseLoginRegActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }else{
+                /*val intent = Intent(this, NoInternetActivity::class.java)
+                startActivity(intent)
+                finish()*/
+                Toast.makeText(this,"No internet connection",Toast.LENGTH_SHORT).show()
+            } }, 3000)
+
     }
 }

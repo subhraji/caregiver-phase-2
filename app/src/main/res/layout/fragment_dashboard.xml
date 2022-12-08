@@ -65,6 +65,7 @@
                     app:tint="#808080" />
 
                 <TextView
+                    android:id="@+id/test_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"

@@ -1,10 +1,14 @@
 package com.example.caregiverphase2.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
@@ -13,8 +17,12 @@ import com.example.caregiverphase2.adapter.DashQuickCallsAdapter
 import com.example.caregiverphase2.databinding.FragmentDashboardBinding
 import com.example.caregiverphase2.databinding.FragmentLoginBinding
 import com.example.caregiverphase2.model.TestModel
+import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.viewmodel.NewViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
+@AndroidEntryPoint
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
@@ -49,6 +57,7 @@ class DashboardFragment : Fragment() {
             .placeholder(R.color.dash_yellow) // any placeholder to load at start
             .centerCrop()
             .into(binding.userImageView)
+
     }
 
     private fun fillQuickCallsRecycler(list: List<TestModel>) {

@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.caregiverphase2.databinding.OpenBidsItemLayoutBinding
 import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.ui.activity.JobDetailsActivity
-import com.user.caregiver.gone
-import com.user.caregiver.visible
+import gone
+import visible
 
 class DashOpenBidAdapter(private val itemList: List<TestModel>, private val context: Context, private val isBid: Boolean):
     RecyclerView.Adapter<DashOpenBidAdapter.DashQuickCallsViewHolder>() {
