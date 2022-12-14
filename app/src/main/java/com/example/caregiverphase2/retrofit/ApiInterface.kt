@@ -1,15 +1,13 @@
 package com.example.caregiverphase2.retrofit
 
+import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
 import com.example.caregiverphase2.model.pojo.login.LoginRequest
 import com.example.caregiverphase2.model.pojo.login.LoginResponse
 import com.example.caregiverphase2.model.pojo.logout.LogoutResponse
 import com.example.caregiverphase2.model.pojo.signup.SignUpRequest
 import com.example.caregiverphase2.model.pojo.signup.SignUpResponse
 import com.example.caregiverphase2.model.pojo.todo.GetTodosResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiInterface {
     @GET("todos")
@@ -23,4 +21,9 @@ interface ApiInterface {
 
     @POST("logout")
     suspend fun logout(@Header("Authorization") token: String): LogoutResponse?
+
+    @GET("job/get-jobs")
+    suspend fun getOpenJobs(
+        @Header("Authorization") token: String,
+    ): GetOpenJobsResponse?
 }
