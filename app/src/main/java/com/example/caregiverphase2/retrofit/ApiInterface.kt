@@ -1,6 +1,6 @@
 package com.example.caregiverphase2.retrofit
 
-import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
+import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOPenJobsResponse
 import com.example.caregiverphase2.model.pojo.login.LoginRequest
 import com.example.caregiverphase2.model.pojo.login.LoginResponse
 import com.example.caregiverphase2.model.pojo.logout.LogoutResponse
@@ -25,5 +25,5 @@ interface ApiInterface {
     @GET("job/get-jobs")
     suspend fun getOpenJobs(
         @Header("Authorization") token: String,
-    ): GetOpenJobsResponse?
+    ): GetOPenJobsResponse?
 }
