@@ -89,4 +89,10 @@ dependencies {
 
     //shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    //Image compress
+    implementation 'id.zelory:compressor:3.0.1'
+
+    //permission Listener
+    implementation 'com.karumi:dexter:6.2.3'
 }

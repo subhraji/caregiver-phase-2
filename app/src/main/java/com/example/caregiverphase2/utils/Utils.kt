@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -14,6 +15,12 @@ import androidx.appcompat.app.AlertDialog
 import com.airbnb.lottie.LottieAnimationView
 import com.example.caregiverphase2.R
 import com.google.android.material.snackbar.Snackbar
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 fun <A : Activity> Activity.startNewActivity(activity: Class<A>) {
     Intent(this, activity).also {
@@ -113,4 +120,16 @@ fun Activity.loadingDialog(cancelable: Boolean = false, lottieFile: Int? = null)
         loadingAnimation.setAnimation(lottieFile)
     }
     return loading
+}
+
+fun String.toMultipartFormString(): RequestBody {
+    return this.toRequestBody(MultipartBody.FORM)
+}
+
+fun Context.createMultiPart(keyName: String, photoPath: File): MultipartBody.Part {
+
+    val requestFile = photoPath.asRequestBody("image/*".toMediaTypeOrNull())
+    Log.i("xxx ",requestFile.toString())
+    return MultipartBody.Part.createFormData(keyName, photoPath.name, requestFile)
+
 }
