@@ -34,7 +34,7 @@
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/drawable/settings_item_border_bg.xml" value="0.1375" />
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/activity_ask_location.xml" value="0.2" />
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/activity_auth.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/activity_basic_and_home_address.xml" value="0.2" />
+        <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/activity_basic_and_home_address.xml" value="0.22" />
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/activity_choose_login_reg.xml" value="0.18" />
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/activity_education_and_certificate.xml" value="0.22" />
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/activity_job_details.xml" value="0.2" />
@@ -42,6 +42,7 @@
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/activity_sign_up.xml" value="0.2" />
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/activity_splash.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/fragment_dashboard.xml" value="0.18" />
+        <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/fragment_image_preview.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/fragment_profile.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User Hp/AndroidStudioProjects/caregiverphase2/app/src/main/res/layout/fragment_settings.xml" value="0.20416666666666666" />
