@@ -7,6 +7,8 @@ import com.example.caregiverphase2.model.pojo.logout.LogoutResponse
 import com.example.caregiverphase2.model.pojo.register.RegisterResponse
 import com.example.caregiverphase2.model.pojo.signup.SignUpRequest
 import com.example.caregiverphase2.model.pojo.signup.SignUpResponse
+import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidRequest
+import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidResponse
 import com.example.caregiverphase2.model.pojo.todo.GetTodosResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -48,4 +50,15 @@ interface ApiInterface {
         @Part("certificate") certificate: RequestBody? = null,
         @Header("Authorization") token: String
     ): RegisterResponse?
+
+
+    @POST("job/bidding/submit-bid")
+    suspend fun submitBid(
+        @Body body: SubmitBidRequest?,
+        @Header("Authorization") token: String): SubmitBidResponse?
+
+    @GET("job/get-bidded-jobs")
+    suspend fun getOPenBids(
+        @Header("Authorization") token: String,
+    ): GetOPenJobsResponse?
 }

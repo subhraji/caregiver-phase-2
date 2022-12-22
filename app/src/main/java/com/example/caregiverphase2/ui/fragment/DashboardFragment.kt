@@ -1,11 +1,15 @@
 package com.example.caregiverphase2.ui.fragment
 
+import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,7 +23,9 @@ import com.example.caregiverphase2.databinding.FragmentDashboardBinding
 import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.ui.activity.BasicAndHomeAddressActivity
 import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.GetOPenBidsViewModel
 import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import gone
@@ -34,6 +40,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var accessToken: String
     private val mGetOpenJobsViewModel: GetOpenJobsViewModel by viewModels()
+    private val mGetOPenBidsViewModel: GetOPenBidsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,19 +64,24 @@ class DashboardFragment : Fragment() {
 
         //observer
         getOPenJobsObserver()
+        getOPenBidsObserver()
 
         val quickCallList = ArrayList<TestModel>()
         quickCallList.add(TestModel("a"))
         quickCallList.add(TestModel("b"))
         quickCallList.add(TestModel("c"))
         fillQuickCallsRecycler(quickCallList)
-        fillOpenBidsRecycler(quickCallList)
+        //fillOpenBidsRecycler(quickCallList)
 
         Glide.with(this)
             .load("https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80") // image url
             .placeholder(R.color.dash_yellow) // any placeholder to load at start
             .centerCrop()
             .into(binding.userImageView)
+
+        binding.profilePendingCart.setOnClickListener {
+            showCompleteDialog()
+        }
 
     }
 
@@ -79,6 +91,12 @@ class DashboardFragment : Fragment() {
             binding.openJobsShimmerView.startShimmer()
             binding.openJobsRecycler.gone()
             mGetOpenJobsViewModel.getOPenJobs(accessToken)
+
+            binding.openBidsShimmerView.visible()
+            binding.openBidsShimmerView.startShimmer()
+            binding.openBidsRecycler.gone()
+            mGetOPenBidsViewModel.getOpenBids(accessToken)
+
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }
@@ -93,7 +111,7 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun fillOpenBidsRecycler(list: List<TestModel>) {
+    private fun fillOpenBidsRecycler(list: List<Data>) {
         val gridLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.openBidsRecycler.apply {
             layoutManager = gridLayoutManager
@@ -140,5 +158,55 @@ class DashboardFragment : Fragment() {
             }
         })
     }
+
+    private fun getOPenBidsObserver(){
+        mGetOPenBidsViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    binding.openBidsShimmerView.gone()
+                    binding.openBidsShimmerView.stopShimmer()
+                    if(outcome.data?.success == true){
+                        if(outcome.data?.data != null && outcome.data?.data!!.isNotEmpty()){
+                            binding.seeAll2Htv.visible()
+                            binding.openBidHtv.visible()
+                            binding.openBidsRecycler.visible()
+                            fillOpenBidsRecycler(outcome.data?.data!!)
+                        }else{
+                            binding.seeAll2Htv.gone()
+                            binding.openBidHtv.gone()
+                            binding.openBidsRecycler.gone()
+                        }
+                        mGetOPenBidsViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+
+    private fun showCompleteDialog() {
+        val dialog = Dialog(requireActivity())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.profile_completion_dialog_layout)
+        val complete = dialog.findViewById<TextView>(R.id.complete_btn)
+        complete.setOnClickListener {
+            dialog.dismiss()
+
+            val intent = Intent(requireActivity(), BasicAndHomeAddressActivity::class.java)
+            startActivity(intent)
+        }
+        dialog.show()
+    }
+
 
 }

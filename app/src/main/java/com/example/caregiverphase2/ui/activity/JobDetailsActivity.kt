@@ -7,21 +7,37 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.view.Window
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityJobDetailsBinding
+import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.SignUpViewModel
+import com.example.caregiverphase2.viewmodel.SubmitBidViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import gone
+import isConnectedToInternet
+import loadingDialog
 import visible
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+@AndroidEntryPoint
 class JobDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityJobDetailsBinding
     private var start_time: String? = ""
+    private lateinit var job_id: String
     var cTimer: CountDownTimer? = null
+
+    private lateinit var accessToken: String
+
+    private val mSubmitBidViewModel: SubmitBidViewModel by viewModels()
+    private lateinit var loader: androidx.appcompat.app.AlertDialog
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +48,16 @@ class JobDetailsActivity : AppCompatActivity() {
         val extras = intent.extras
         if (extras != null) {
             start_time = intent?.getStringExtra("start_time")!!
+            job_id = intent?.getStringExtra("id")!!
         }
+
+        //get token
+        accessToken = "Bearer "+PrefManager.getKeyAuthToken()
+
+        loader = this.loadingDialog()
+
+        //observer
+        submitBidObserver()
 
         startTimer()
 
@@ -51,7 +76,14 @@ class JobDetailsActivity : AppCompatActivity() {
         }
 
         binding.bidNowTv.setOnClickListener {
-            showCompleteDialog()
+            //showCompleteDialog()
+
+            if(isConnectedToInternet()){
+                mSubmitBidViewModel.submitBid(job_id,accessToken)
+                loader.show()
+            }else{
+                Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
@@ -77,22 +109,6 @@ class JobDetailsActivity : AppCompatActivity() {
 
         binding.relativeLay2.visible()
         binding.relativeLay1.gone()
-    }
-
-    private fun showCompleteDialog() {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.setContentView(R.layout.profile_completion_dialog_layout)
-        val complete = dialog.findViewById<TextView>(R.id.complete_btn)
-        complete.setOnClickListener {
-            dialog.dismiss()
-
-            val intent = Intent(this, BasicAndHomeAddressActivity::class.java)
-            startActivity(intent)
-        }
-        dialog.show()
     }
 
     private fun getCurrentDateTime():String{
@@ -166,6 +182,29 @@ class JobDetailsActivity : AppCompatActivity() {
     override fun onDestroy() {
         cancelTimer()
         super.onDestroy()
+    }
+
+
+    private fun submitBidObserver(){
+        mSubmitBidViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        mSubmitBidViewModel.navigationComplete()
+                        finish()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
     }
 
 

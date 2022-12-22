@@ -95,10 +95,21 @@ class SettingsFragment : Fragment() {
                         mLogoutViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+
+
+                        PrefManager.clearPref()
+                        startActivity(Intent(requireActivity(), ChooseLoginRegActivity::class.java))
+                        requireActivity().finish()
+                        mLogoutViewModel.navigationComplete()
                     }
                 }
                 is Outcome.Failure<*> -> {
                     Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    PrefManager.clearPref()
+                    startActivity(Intent(requireActivity(), ChooseLoginRegActivity::class.java))
+                    requireActivity().finish()
+                    mLogoutViewModel.navigationComplete()
 
                     outcome.e.printStackTrace()
                     Log.i("status",outcome.e.cause.toString())

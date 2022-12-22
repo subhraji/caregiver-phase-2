@@ -201,19 +201,33 @@
                 android:text="See All"
                 android:textSize="14sp"
                 android:textColor="@color/theme_blue"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/open_bids_recycler"
+
+            <RelativeLayout
+                android:id="@+id/open_bids_relative_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/open_bid_htv"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/open_bids_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/open_bids_shimmer_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/open_jobs_shimmer_layout" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/open_job_htv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/open_bids_recycler"
+                app:layout_constraintTop_toBottomOf="@+id/open_bids_relative_lay"
                 app:layout_constraintStart_toStartOf="@+id/profile_pending_cart"
                 android:text="Open Jobs"
                 android:textColor="@color/black"
@@ -233,23 +247,25 @@
                 android:textColor="@color/theme_blue"
                 android:visibility="visible"/>
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/open_jobs_shimmer_view"
+            <RelativeLayout
+                android:id="@+id/open_jobs_relative_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/open_job_htv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
-                <include layout="@layout/open_jobs_shimmer_layout" />
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/open_jobs_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/open_job_htv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/open_jobs_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/open_jobs_shimmer_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/open_jobs_shimmer_layout" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
