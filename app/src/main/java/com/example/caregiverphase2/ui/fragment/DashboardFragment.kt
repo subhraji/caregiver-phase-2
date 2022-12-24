@@ -24,6 +24,7 @@ import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.activity.BasicAndHomeAddressActivity
+import com.example.caregiverphase2.ui.activity.SearchLocationActivity
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetOPenBidsViewModel
 import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
@@ -81,6 +82,11 @@ class DashboardFragment : Fragment() {
 
         binding.profilePendingCart.setOnClickListener {
             showCompleteDialog()
+        }
+
+        binding.locBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), SearchLocationActivity::class.java)
+            startActivity(intent)
         }
 
     }

@@ -95,4 +95,10 @@ dependencies {
 
     //permission Listener
     implementation 'com.karumi:dexter:6.2.3'
+
+    //map
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+
+    //places
+    implementation 'com.google.android.libraries.places:places:2.6.0'
 }
