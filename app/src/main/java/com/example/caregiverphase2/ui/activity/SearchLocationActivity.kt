@@ -2,11 +2,10 @@ package com.example.caregiverphase2.ui.activity
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.caregiverphase2.R
-import com.example.caregiverphase2.databinding.ActivityMainBinding
 import com.example.caregiverphase2.databinding.ActivitySearchLocationBinding
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.model.LatLng
@@ -36,6 +35,12 @@ class SearchLocationActivity : AppCompatActivity() {
         }
     }
 
+    fun getCoordinate(lat0: Double, lng0: Double, dy: Long, dx: Long): LatLng? {
+        val lat = lat0 + 180 / Math.PI * (dy / 6378137)
+        val lng = lng0 + 180 / Math.PI * (dx / 6378137) / Math.cos(lat0)
+        return LatLng(lat, lng)
+    }
+
     private fun autocomplete(){
         // Initialize the AutocompleteSupportFragment.
         val autocompleteFragment =
@@ -45,17 +50,23 @@ class SearchLocationActivity : AppCompatActivity() {
         autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT)
         autocompleteFragment.setCountries("IN")
         autocompleteFragment.setLocationBias(
-            RectangularBounds.newInstance(
+            /*RectangularBounds.newInstance(
                 LatLng(-33.880490, 151.184363),
                 LatLng(-33.858754, 151.229596)
+            )*/
+
+            RectangularBounds.newInstance(
+                getCoordinate(26.1442464,91.784392, -1000, -1000),
+                getCoordinate(26.1442464,91.784392, 1000, 1000)
             )
+
         )
-        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG))
 
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 // TODO: Get info about the selected place.
-                Log.i("place2", "Place: ${place.name}, ${place.id}, ${place.latLng}")
+                Log.i("place2", "Place: ${place.name}, ${place.id}, ${place.address}")
             }
 
             override fun onError(status: Status) {
@@ -71,7 +82,7 @@ class SearchLocationActivity : AppCompatActivity() {
                 Activity.RESULT_OK -> {
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
-                        Log.i("place", "Place: ${place.name}, ${place.id}")
+                        Log.i("place", "Place: ${place.name}, ${place.id}, ${place.address}")
                     }
                 }
                 AutocompleteActivity.RESULT_ERROR -> {

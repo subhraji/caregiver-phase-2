@@ -172,20 +172,34 @@
                 android:text="See All"
                 android:textSize="14sp"
                 android:textColor="@color/theme_blue"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/quick_call_recycler"
+
+            <RelativeLayout
+                android:id="@+id/quick_call_relay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/quick_call_htv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp">
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/quick_call_shimmer_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/open_jobs_shimmer_layout" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/quick_call_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/open_bid_htv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/quick_call_recycler"
+                app:layout_constraintTop_toBottomOf="@+id/quick_call_relay"
                 app:layout_constraintStart_toStartOf="@+id/profile_pending_cart"
                 android:text="Open Bids"
                 android:textColor="@color/black"

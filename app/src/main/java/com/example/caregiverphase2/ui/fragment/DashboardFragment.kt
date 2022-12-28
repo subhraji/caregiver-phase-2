@@ -28,6 +28,7 @@ import com.example.caregiverphase2.ui.activity.SearchLocationActivity
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetOPenBidsViewModel
 import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
+import com.example.caregiverphase2.viewmodel.GetQuickCallViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
@@ -42,6 +43,7 @@ class DashboardFragment : Fragment() {
     private lateinit var accessToken: String
     private val mGetOpenJobsViewModel: GetOpenJobsViewModel by viewModels()
     private val mGetOPenBidsViewModel: GetOPenBidsViewModel by viewModels()
+    private val mGetQuickCallViewModel: GetQuickCallViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,12 +68,13 @@ class DashboardFragment : Fragment() {
         //observer
         getOPenJobsObserver()
         getOPenBidsObserver()
+        getQuickCallObserver()
 
         val quickCallList = ArrayList<TestModel>()
         quickCallList.add(TestModel("a"))
         quickCallList.add(TestModel("b"))
         quickCallList.add(TestModel("c"))
-        fillQuickCallsRecycler(quickCallList)
+        //fillQuickCallsRecycler(quickCallList)
         //fillOpenBidsRecycler(quickCallList)
 
         Glide.with(this)
@@ -103,13 +106,18 @@ class DashboardFragment : Fragment() {
             binding.openBidsRecycler.gone()
             mGetOPenBidsViewModel.getOpenBids(accessToken)
 
+            binding.quickCallShimmerView.visible()
+            binding.quickCallShimmerView.startShimmer()
+            binding.quickCallRecycler.gone()
+            mGetQuickCallViewModel.getQuickCall(accessToken)
+
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }
         super.onResume()
     }
 
-    private fun fillQuickCallsRecycler(list: List<TestModel>) {
+    private fun fillQuickCallsRecycler(list: List<Data>) {
         val gridLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.quickCallRecycler.apply {
             layoutManager = gridLayoutManager
@@ -197,6 +205,37 @@ class DashboardFragment : Fragment() {
         })
     }
 
+    private fun getQuickCallObserver(){
+        mGetQuickCallViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    binding.quickCallShimmerView.gone()
+                    binding.quickCallShimmerView.stopShimmer()
+                    if(outcome.data?.success == true){
+                        if(outcome.data?.data != null && outcome.data?.data!!.isNotEmpty()){
+                            binding.seeAllHtv.visible()
+                            binding.quickCallHtv.visible()
+                            binding.quickCallRecycler.visible()
+                            fillQuickCallsRecycler(outcome.data?.data!!)
+                        }else{
+                            binding.seeAllHtv.gone()
+                            binding.quickCallHtv.gone()
+                            binding.quickCallRecycler.gone()
+                        }
+                        mGetQuickCallViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
 
     private fun showCompleteDialog() {
         val dialog = Dialog(requireActivity())

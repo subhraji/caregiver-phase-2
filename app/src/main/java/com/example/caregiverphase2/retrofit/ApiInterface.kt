@@ -61,4 +61,9 @@ interface ApiInterface {
     suspend fun getOPenBids(
         @Header("Authorization") token: String,
     ): GetOPenJobsResponse?
+
+    @GET("job/quick-call")
+    suspend fun getQuickCall(
+        @Header("Authorization") token: String,
+    ): GetOPenJobsResponse?
 }
