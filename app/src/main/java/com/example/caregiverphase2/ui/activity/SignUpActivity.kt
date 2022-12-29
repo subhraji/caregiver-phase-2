@@ -14,6 +14,7 @@ import com.example.caregiverphase2.databinding.ActivityChooseLoginRegBinding
 import com.example.caregiverphase2.databinding.ActivitySignUpBinding
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.SignUpEmailVerificationViewModel
 import com.example.caregiverphase2.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import hideSoftKeyboard
@@ -23,8 +24,8 @@ import showKeyboard
 @AndroidEntryPoint
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
-    private val signUpViewModel: SignUpViewModel by viewModels()
     private lateinit var loader: androidx.appcompat.app.AlertDialog
+    private val mSignUpEmailVerificationViewModel: SignUpEmailVerificationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class SignUpActivity : AppCompatActivity() {
         conPasswordFocusListener()
 
         //observer
-        signupObserve()
+        getOtpObserver()
 
         binding.backBtn.setOnClickListener {
             finish()
@@ -57,11 +58,8 @@ class SignUpActivity : AppCompatActivity() {
                 if(validEmail){
                     if(validPassword){
                         if(validConPassword){
-                            signUpViewModel.signup(
-                                binding.fullNameTxt.text.toString(),
+                            mSignUpEmailVerificationViewModel.getOtp(
                                 binding.emailAddressTxt.text.toString(),
-                                binding.passwordTxt.text.toString(),
-                                binding.conPasswordTxt.text.toString()
                             )
                             loader = this.loadingDialog()
                             loader.show()
@@ -161,32 +159,35 @@ class SignUpActivity : AppCompatActivity() {
         return  null
     }
 
-    private fun signupObserve(){
-        signUpViewModel.response.observe(this, Observer { outcome ->
+    private fun getOtpObserver(){
+        mSignUpEmailVerificationViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
                     loader.dismiss()
                     if(outcome.data?.success == true){
-                        if (outcome.data!!.token != null) {
-                            outcome.data!!.token?.let { PrefManager.setKeyAuthToken(it) }
-                        }
-                        PrefManager.setLogInStatus(true)
-                        val intent = Intent(this, AskLocationActivity::class.java)
+                        Toast.makeText(this,outcome.data!!.message.toString(), Toast.LENGTH_LONG).show()
+                        val intent = Intent(this, EmailVerificationActivity::class.java)
+                        intent.putExtra("name",binding.fullNameTxt.text.toString())
+                        intent.putExtra("email",binding.emailAddressTxt.text.toString())
+                        intent.putExtra("password",binding.passwordTxt.text.toString())
+                        intent.putExtra("con_password",binding.conPasswordTxt.text.toString())
                         startActivity(intent)
                         finish()
-                        signUpViewModel.navigationComplete()
+
+                        mSignUpEmailVerificationViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }
                 }
                 is Outcome.Failure<*> -> {
                     Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
-
+                    loader.dismiss()
                     outcome.e.printStackTrace()
                     Log.i("status",outcome.e.cause.toString())
                 }
             }
         })
     }
+
 
 }

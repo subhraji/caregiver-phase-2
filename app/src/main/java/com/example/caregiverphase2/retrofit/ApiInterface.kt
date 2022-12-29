@@ -1,5 +1,9 @@
 package com.example.caregiverphase2.retrofit
 
+import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordRequest
+import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordResponse
+import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
+import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOPenJobsResponse
 import com.example.caregiverphase2.model.pojo.login.LoginRequest
 import com.example.caregiverphase2.model.pojo.login.LoginResponse
@@ -66,4 +70,15 @@ interface ApiInterface {
     suspend fun getQuickCall(
         @Header("Authorization") token: String,
     ): GetOPenJobsResponse?
+
+    @POST("profile/change-password")
+    suspend fun changePassword(
+        @Body body: ChangePasswordRequest?,
+        @Header("Authorization") token: String,
+    ): ChangePasswordResponse?
+
+    @POST("check-email-exist")
+    suspend fun getEmailVerificationOtp(
+        @Body body: SignUpEmailVerificationRequest?
+    ): SignUpEmailVerificationResponse?
 }
