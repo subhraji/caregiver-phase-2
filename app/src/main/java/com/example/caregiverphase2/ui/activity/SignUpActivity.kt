@@ -45,6 +45,12 @@ class SignUpActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.loginBtn.setOnClickListener {
+            val intent = Intent(this, AuthActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         binding.registerBtn.setOnClickListener {
             /*val intent = Intent(this, AskLocationActivity::class.java)
             startActivity(intent)*/

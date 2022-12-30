@@ -61,9 +61,9 @@ class LoginFragment : Fragment() {
         emailFocusListener()
         passwordFocusListener()
 
-        binding.backBtn.setOnClickListener {
+        /*binding.backBtn.setOnClickListener {
             requireActivity().finish()
-        }
+        }*/
 
         binding.loginBtn.setOnClickListener {
 
