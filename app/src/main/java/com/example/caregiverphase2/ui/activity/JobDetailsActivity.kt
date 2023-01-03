@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -78,12 +79,7 @@ class JobDetailsActivity : AppCompatActivity() {
         binding.bidNowTv.setOnClickListener {
             //showCompleteDialog()
 
-            if(isConnectedToInternet()){
-                mSubmitBidViewModel.submitBid(job_id,accessToken)
-                loader.show()
-            }else{
-                Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
-            }
+            showBidPopUp()
         }
 
     }
@@ -207,6 +203,24 @@ class JobDetailsActivity : AppCompatActivity() {
         })
     }
 
-
+    private fun showBidPopUp(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Bid now")
+        builder.setMessage("Do you want to bid this job ?")
+        builder.setIcon(R.drawable.ic_baseline_logout_24)
+        builder.setPositiveButton("Yes"){dialogInterface, which ->
+            if(isConnectedToInternet()){
+                mSubmitBidViewModel.submitBid(job_id,accessToken)
+                loader.show()
+            }else{
+                Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
+            }
+        }
+        builder.setNegativeButton("No"){dialogInterface, which ->
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+    }
 
 }

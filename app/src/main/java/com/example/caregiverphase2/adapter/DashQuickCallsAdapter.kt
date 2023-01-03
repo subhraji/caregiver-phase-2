@@ -38,33 +38,33 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
 
     class DashQuickCallsViewHolder(private val itemBinding: QuickCallsItemLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
+        private lateinit var gen:String
         fun bind(data: Data, context: Context) {
-
             itemBinding.apply {
 
                 jobTitleTv.text = data?.job_title.toString()
-                /*priceTv.text = "$"+data?.amount.toString()
+                priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
                 addressTv.text = data?.address.toString()
-                //hourHtv.text = data?.start_time+" - "+data?.end_time
+                hourTv.text = data?.start_time+" - "+data?.end_time
                 dateHtv.text = data?.date
                 priceTv.text = "$"+data?.amount.toString()
-                agencyNameTv.text = data?.company_name.toString()*/
-                /*gen = ""
+                agencyNameTv.text = data?.company_name.toString()
+                gen = ""
                 for(i in data?.care_items){
                     if(gen.isEmpty()){
                         gen = i.gender+": "+i.age
                     }else{
                         gen = gen+", "+i.gender+": "+i.age
                     }
-                }*/
-                /*ageTv.text = gen*/
-                /*rootLay.setOnClickListener {
+                }
+                ageTv.text = gen
+                rootLay.setOnClickListener {
                     val intent = Intent(context, JobDetailsActivity::class.java)
                     intent.putExtra("start_time", data?.start_time)
                     intent.putExtra("id", data?.job_id.toString())
                     context.startActivity(intent)
-                }*/
+                }
 
                 Glide.with(context)
                     .load(Constants.PUBLIC_URL+data?.company_photo) // image url
