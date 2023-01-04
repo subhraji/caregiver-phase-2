@@ -1,7 +1,13 @@
 package com.example.caregiverphase2.ui.fragment
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
@@ -10,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -23,6 +30,8 @@ import com.example.caregiverphase2.ui.activity.SignUpActivity
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.LoginViewModel
 import com.example.caregiverphase2.viewmodel.SignUpViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import hideSoftKeyboard
 import isConnectedToInternet
@@ -66,6 +75,7 @@ class LoginFragment : Fragment() {
         }*/
 
         binding.loginBtn.setOnClickListener {
+
 
             val validEmail = binding.emailTxtLay.helperText == null && binding.emailTxt.text.toString().isNotEmpty()
             val validPassword = binding.passwordTxtLay.helperText == null && binding.passwordTxt.text.toString().isNotEmpty()
@@ -166,5 +176,4 @@ class LoginFragment : Fragment() {
             }
         })
     }
-
 }

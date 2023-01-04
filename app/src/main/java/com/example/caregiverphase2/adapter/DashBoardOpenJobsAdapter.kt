@@ -48,7 +48,7 @@ class DashBoardOpenJobsAdapter (private val itemList: List<Data>,
                 jobTitleTv.text = data?.job_title.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
-                addressTv.text = data?.address.toString()
+                addressTv.text = data?.short_address.toString()
                 hourHtv.text = data?.start_time+" - "+data?.end_time
                 dateHtv.text = data?.date
                 priceTv.text = "$"+data?.amount.toString()

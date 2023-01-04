@@ -12,11 +12,15 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityJobDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
 import com.example.caregiverphase2.viewmodel.SignUpViewModel
 import com.example.caregiverphase2.viewmodel.SubmitBidViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +41,7 @@ class JobDetailsActivity : AppCompatActivity() {
 
     private lateinit var accessToken: String
 
+    private val mGetOpenJobsViewModel: GetOpenJobsViewModel by viewModels()
     private val mSubmitBidViewModel: SubmitBidViewModel by viewModels()
     private lateinit var loader: androidx.appcompat.app.AlertDialog
 
@@ -59,8 +64,9 @@ class JobDetailsActivity : AppCompatActivity() {
 
         //observer
         submitBidObserver()
+        getOpenJobsDetailsObserver()
 
-        startTimer()
+        //startTimer()
 
         clickJobOverview()
 
@@ -82,6 +88,18 @@ class JobDetailsActivity : AppCompatActivity() {
             showBidPopUp()
         }
 
+
+        if(isConnectedToInternet()){
+            mGetOpenJobsViewModel.getOPenJobs(token = accessToken, id = job_id.toInt())
+        }else{
+            Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    override fun onResume() {
+
+        super.onResume()
     }
 
     private fun clickJobOverview(){
@@ -222,5 +240,50 @@ class JobDetailsActivity : AppCompatActivity() {
         alertDialog.setCancelable(false)
         alertDialog.show()
     }
+
+    private fun getOpenJobsDetailsObserver(){
+        mGetOpenJobsViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        var gen = ""
+                        for(i in outcome.data!!.data[0].care_items){
+                            if(gen.isEmpty()){
+                                gen = i.gender+": "+i.age
+                            }else{
+                                gen = gen+", "+i.gender+": "+i.age
+                            }
+                        }
+                        binding.ageTv.text = gen
+                        binding.titleTv.text = outcome.data!!.data[0].job_title
+                        binding.careTypeTv.text = outcome.data!!.data[0].care_type
+                        binding.locTv.text = outcome.data!!.data[0].short_address
+                        binding.dateTv.text = outcome.data!!.data[0].date.toString()
+                        binding.timeTv.text = outcome.data!!.data[0].start_time.toString()+" - "+outcome.data!!.data[0].end_time.toString()
+                        binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
+                        binding.agencyNameTv.text = outcome.data!!.data[0].company_name.toString()
+
+                        Glide.with(this)
+                            .load(Constants.PUBLIC_URL+outcome.data!!.data[0].company_photo) // image url
+                            .placeholder(R.color.dash_yellow) // any placeholder to load at start
+                            .centerCrop()
+                            .into(binding.agencyImgView)
+                        mGetOpenJobsViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
 
 }

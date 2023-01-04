@@ -18,10 +18,11 @@ class GetOpenJobsViewModel @Inject constructor(private val repository: GetOPenJo
     val response: MutableLiveData<Outcome<GetOPenJobsResponse?>?> = _response
 
     fun getOPenJobs(
-        token: String
+        token: String,
+        id: Int? = null
     ) = viewModelScope.launch {
         repository.getOPenJobs(
-            token
+            token, id
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

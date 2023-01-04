@@ -34,6 +34,7 @@ interface ApiInterface {
     @GET("job/get-jobs")
     suspend fun getOpenJobs(
         @Header("Authorization") token: String,
+        @Query("id") id: Int? = null,
     ): GetOPenJobsResponse?
 
     @Multipart

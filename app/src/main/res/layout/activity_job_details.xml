@@ -42,7 +42,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/new_logo"/>
+                android:src="@color/dash_yellow"/>
             <TextView
                 android:id="@+id/agency_name_tv"
                 android:layout_width="wrap_content"
@@ -51,7 +51,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@color/black"
-                android:text="Home care agency"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"/>
@@ -123,7 +122,6 @@
                         android:id="@+id/care_type_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2 Senior"
                         android:textSize="13sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
@@ -149,7 +147,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/care_type_tv"
                         app:layout_constraintStart_toStartOf="@+id/care_type_tv"
-                        android:text="Female: 60 yrs Male: 50 yrs"
                         />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <RelativeLayout
@@ -161,25 +158,24 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_loction_18"/>
+
                     <TextView
                         android:id="@+id/loc_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="San Francisco, California"
+                        android:layout_toRightOf="@+id/loc_img"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
                         android:textSize="13sp"
-                        android:layout_toRightOf="@+id/loc_img"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2 mils"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
                         android:layout_below="@+id/loc_tv"
-                        android:layout_alignStart="@id/loc_tv"/>
+                        android:layout_alignStart="@id/loc_tv"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -266,7 +262,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/date_htv"
                         app:layout_constraintStart_toStartOf="@+id/date_htv"
-                        android:text="Today, 12 Sept"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         />
@@ -294,11 +289,11 @@
                         android:layout_toRightOf="@+id/time_img"/>
 
                     <TextView
+                        android:id="@+id/time_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/time_img"
                         android:layout_alignStart="@id/time_htv"
-                        android:text="8:00 AM - 12:00 PM"
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         android:textStyle="bold" />
@@ -327,11 +322,11 @@
                         android:gravity="center">
 
                         <TextView
+                            android:id="@+id/price_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
                             android:gravity="center"
-                            android:text="$80"
                             android:textColor="#00BCD4"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -770,6 +765,7 @@
                 android:background="@color/dash_yellow"
                 android:textColor="@color/white"
                 android:textSize="13sp"
+                android:text="04:34:09"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:paddingStart="10dp"

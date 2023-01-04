@@ -18,5 +18,8 @@ data class Data(
     val medical_history: List<String>,
     val other_requirements: List<Any>,
     val start_time: String,
-    val status: String
+    val status: String,
+    val short_address: String,
+    val lat: String,
+    val long: String
 )

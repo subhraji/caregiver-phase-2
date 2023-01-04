@@ -9,9 +9,11 @@ import android.widget.Toast
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivitySplashBinding
 import com.example.caregiverphase2.utils.PrefManager
 import isConnectedToInternet
+import lightStatusBar
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
@@ -20,12 +22,13 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        lightStatusBar(this, R.color.theme_blue)
 
-        val windowInsetsController =
+        /*val windowInsetsController =
             WindowCompat.getInsetsController(window, window.decorView) ?: return
         windowInsetsController.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())*/
 
         checkInternet()
     }

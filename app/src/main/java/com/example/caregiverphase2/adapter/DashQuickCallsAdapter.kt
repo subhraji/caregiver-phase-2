@@ -45,7 +45,7 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                 jobTitleTv.text = data?.job_title.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
-                addressTv.text = data?.address.toString()
+                addressTv.text = data?.short_address.toString()
                 hourTv.text = data?.start_time+" - "+data?.end_time
                 dateHtv.text = data?.date
                 priceTv.text = "$"+data?.amount.toString()
@@ -60,10 +60,10 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                 }
                 ageTv.text = gen
                 rootLay.setOnClickListener {
-                    val intent = Intent(context, JobDetailsActivity::class.java)
+                    /*val intent = Intent(context, JobDetailsActivity::class.java)
                     intent.putExtra("start_time", data?.start_time)
                     intent.putExtra("id", data?.job_id.toString())
-                    context.startActivity(intent)
+                    context.startActivity(intent)*/
                 }
 
                 Glide.with(context)
