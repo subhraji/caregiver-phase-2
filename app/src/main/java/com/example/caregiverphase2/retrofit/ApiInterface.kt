@@ -14,6 +14,8 @@ import com.example.caregiverphase2.model.pojo.signup.SignUpResponse
 import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidRequest
 import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidResponse
 import com.example.caregiverphase2.model.pojo.todo.GetTodosResponse
+import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationRequest
+import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -82,4 +84,9 @@ interface ApiInterface {
     suspend fun getEmailVerificationOtp(
         @Body body: SignUpEmailVerificationRequest?
     ): SignUpEmailVerificationResponse?
+
+    @POST("user/update-location")
+    suspend fun updateLocation(
+        @Body body: UpdateLocationRequest?
+    ): UpdateLocationResponse?
 }

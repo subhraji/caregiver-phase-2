@@ -45,7 +45,6 @@ class JobDetailsActivity : AppCompatActivity() {
     private val mSubmitBidViewModel: SubmitBidViewModel by viewModels()
     private lateinit var loader: androidx.appcompat.app.AlertDialog
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityJobDetailsBinding.inflate(layoutInflater)
@@ -197,7 +196,6 @@ class JobDetailsActivity : AppCompatActivity() {
         cancelTimer()
         super.onDestroy()
     }
-
 
     private fun submitBidObserver(){
         mSubmitBidViewModel.response.observe(this, Observer { outcome ->

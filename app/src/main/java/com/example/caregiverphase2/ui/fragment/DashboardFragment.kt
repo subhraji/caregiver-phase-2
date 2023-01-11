@@ -110,10 +110,10 @@ class DashboardFragment : Fragment() {
     override fun onResume() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        //getCurrentLocation()
+        getCurrentLocation()
 
         if(requireActivity().isConnectedToInternet()){
-            binding.openJobsShimmerView.visible()
+            /*binding.openJobsShimmerView.visible()
             binding.openJobsShimmerView.startShimmer()
             binding.openJobsRecycler.gone()
             mGetOpenJobsViewModel.getOPenJobs(token = accessToken, id = 0)
@@ -126,7 +126,7 @@ class DashboardFragment : Fragment() {
             binding.quickCallShimmerView.visible()
             binding.quickCallShimmerView.startShimmer()
             binding.quickCallRecycler.gone()
-            mGetQuickCallViewModel.getQuickCall(accessToken)
+            mGetQuickCallViewModel.getQuickCall(accessToken)*/
 
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
