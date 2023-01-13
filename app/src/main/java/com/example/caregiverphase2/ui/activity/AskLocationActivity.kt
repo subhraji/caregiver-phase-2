@@ -46,6 +46,14 @@ class AskLocationActivity : AppCompatActivity() {
 
         //observer
         updateLocationObserver()
+
+        binding.useLocBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
     }
 
     override fun onResume() {
@@ -112,16 +120,13 @@ class AskLocationActivity : AppCompatActivity() {
                         longitude = location.longitude.toString()
 
                         if(!latitude.isEmpty() && !longitude.isEmpty()){
-                            binding.useLocBtn.setOnClickListener {
-                                Toast.makeText(this,"Got it", Toast.LENGTH_LONG).show()
-                                mUpdateLocationViewModel.updateLocation(latitude,longitude)
-                                loader = this.loadingDialog()
-                                loader.show()
-                            }
+
+                            mUpdateLocationViewModel.updateLocation(latitude,longitude)
+                            loader = this.loadingDialog()
+                            loader.show()
+
                         }else{
-                            binding.useLocBtn.setOnClickListener {
-                                Toast.makeText(this,"Please check your location", Toast.LENGTH_LONG).show()
-                            }
+                            Toast.makeText(this,"Please check your location", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -160,10 +165,6 @@ class AskLocationActivity : AppCompatActivity() {
                 is Outcome.Success ->{
                     loader.dismiss()
                     if(outcome.data?.success == true){
-
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
 
                         mUpdateLocationViewModel.navigationComplete()
                     }else{

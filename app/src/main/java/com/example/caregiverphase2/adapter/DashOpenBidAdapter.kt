@@ -1,19 +1,14 @@
 package com.example.caregiverphase2.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.OpenBidsItemLayoutBinding
-import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
-import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
-import gone
-import visible
 
 class DashOpenBidAdapter(private val itemList: List<Data>, private val context: Context, private val isBid: Boolean):
     RecyclerView.Adapter<DashOpenBidAdapter.DashQuickCallsViewHolder>() {
