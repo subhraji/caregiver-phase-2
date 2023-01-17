@@ -1,0 +1,134 @@
+{
+  "project_info": {
+    "project_number": "773983614211",
+    "project_id": "peaceworcagency",
+    "storage_bucket": "peaceworcagency.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773983614211:android:7bc1aef92c456abc4b6536",
+        "android_client_info": {
+          "package_name": "com.example.caregiverphase2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773983614211-tvs9sjdd544rtuhbb72ib5eqstjpnv2e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB99iLWZtJTZWTJ9iX5vNBMHwiJOHRYNIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773983614211-tvs9sjdd544rtuhbb72ib5eqstjpnv2e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773983614211:android:316d036e69beabd34b6536",
+        "android_client_info": {
+          "package_name": "com.example.hiltapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773983614211-tvs9sjdd544rtuhbb72ib5eqstjpnv2e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB99iLWZtJTZWTJ9iX5vNBMHwiJOHRYNIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773983614211-tvs9sjdd544rtuhbb72ib5eqstjpnv2e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773983614211:android:ea39daacafa3b97f4b6536",
+        "android_client_info": {
+          "package_name": "com.example.peaceworcagency"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773983614211-o84kit3unn6qkut2bqpo244mn02g37cv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.peaceworcagency",
+            "certificate_hash": "e27036d52a40efea104db2ed85ee49543ccf05b2"
+          }
+        },
+        {
+          "client_id": "773983614211-tvs9sjdd544rtuhbb72ib5eqstjpnv2e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB99iLWZtJTZWTJ9iX5vNBMHwiJOHRYNIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773983614211-tvs9sjdd544rtuhbb72ib5eqstjpnv2e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773983614211:android:ff87a659b6f47e174b6536",
+        "android_client_info": {
+          "package_name": "com.example.testnotification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773983614211-tvs9sjdd544rtuhbb72ib5eqstjpnv2e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB99iLWZtJTZWTJ9iX5vNBMHwiJOHRYNIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773983614211-tvs9sjdd544rtuhbb72ib5eqstjpnv2e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
