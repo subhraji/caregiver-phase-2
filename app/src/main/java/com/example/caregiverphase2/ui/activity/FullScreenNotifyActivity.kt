@@ -1,10 +1,13 @@
 package com.example.caregiverphase2.ui.activity
 
 import android.app.AlertDialog
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.Window
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.Toast
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityFullScreenNotifyBinding
@@ -39,7 +42,8 @@ class FullScreenNotifyActivity : AppCompatActivity() {
         }
 
         binding.acceptBtn.setOnClickListener {
-            finish()
+            showAcceptDialog()
+            cancelTimer()
         }
     }
 
@@ -59,6 +63,24 @@ class FullScreenNotifyActivity : AppCompatActivity() {
 
     fun cancelTimer() {
         if (cTimer != null) cTimer!!.cancel()
+    }
+
+    private fun showAcceptDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.job_accept_success_dialog_layout)
+
+        val clear = dialog.findViewById<ImageView>(R.id.clear_btn)
+        /*Handler(Looper.getMainLooper()).postDelayed({
+
+        }, 2500)*/
+        clear.setOnClickListener {
+            dialog.dismiss()
+            finish()
+        }
+        dialog.show()
     }
 
     override fun onDestroy() {
