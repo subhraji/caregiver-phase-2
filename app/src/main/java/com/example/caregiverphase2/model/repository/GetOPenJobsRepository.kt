@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.model.repository
 
+import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
 import com.example.caregiverphase2.retrofit.ApiInterface
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +13,7 @@ class GetOPenJobsRepository @Inject constructor(private val apiInterface: ApiInt
     fun getOPenJobs(
         token: String,
         id: Int? = null
-    ): Flow<GetOpenJobsResponse?> = flow{
+    ): Flow<GetJobsResponse?> = flow{
         emit(apiInterface.getOpenJobs(token, id))
     }.flowOn(Dispatchers.IO)
 }

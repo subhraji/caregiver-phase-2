@@ -131,7 +131,7 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun fillOpenJobsRecycler(list: List<Data>) {
+    private fun fillOpenJobsRecycler(list: List<com.example.caregiverphase2.model.pojo.get_jobs.Data>) {
         val gridLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.openJobsRecycler.apply {
             layoutManager = gridLayoutManager

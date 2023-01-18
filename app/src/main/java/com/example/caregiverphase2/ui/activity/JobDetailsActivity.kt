@@ -5,8 +5,11 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Window
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -225,18 +228,40 @@ class JobDetailsActivity : AppCompatActivity() {
         builder.setMessage("Do you want to bid this job ?")
         builder.setIcon(R.drawable.ic_baseline_logout_24)
         builder.setPositiveButton("Yes"){dialogInterface, which ->
-            if(isConnectedToInternet()){
-                mSubmitBidViewModel.submitBid(job_id,accessToken)
-                loader.show()
-            }else{
-                Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
-            }
+
+            showEligibilityDialog()
         }
         builder.setNegativeButton("No"){dialogInterface, which ->
         }
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
         alertDialog.show()
+    }
+
+
+    private fun showEligibilityDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.bid_check_layout)
+
+        /*Handler(Looper.getMainLooper()).postDelayed({
+
+        }, 2500)*/
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            if(isConnectedToInternet()){
+                mSubmitBidViewModel.submitBid(job_id,accessToken)
+                loader.show()
+            }else{
+                Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
+            }
+
+            dialog.dismiss()
+        }, 4000)
+
+        dialog.show()
     }
 
     private fun getOpenJobsDetailsObserver(){
@@ -247,7 +272,7 @@ class JobDetailsActivity : AppCompatActivity() {
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         var gen = ""
-                        for(i in outcome.data!!.data[0].care_items){
+                        for(i in outcome.data!!.data[0].careItems){
                             if(gen.isEmpty()){
                                 gen = i.gender+": "+i.age
                             }else{
@@ -255,16 +280,16 @@ class JobDetailsActivity : AppCompatActivity() {
                             }
                         }
                         binding.ageTv.text = gen
-                        binding.titleTv.text = outcome.data!!.data[0].job_title
-                        binding.careTypeTv.text = outcome.data!!.data[0].care_type
-                        binding.locTv.text = outcome.data!!.data[0].short_address
+                        binding.titleTv.text = outcome.data!!.data[0].jobTitle
+                        binding.careTypeTv.text = outcome.data!!.data[0].careType
+                        binding.locTv.text = outcome.data!!.data[0].shortAddress
                         binding.dateTv.text = outcome.data!!.data[0].date.toString()
-                        binding.timeTv.text = outcome.data!!.data[0].start_time.toString()+" - "+outcome.data!!.data[0].end_time.toString()
+                        binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" - "+outcome.data!!.data[0].endTime.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
-                        binding.agencyNameTv.text = outcome.data!!.data[0].company_name.toString()
+                        binding.agencyNameTv.text = outcome.data!!.data[0].companyName.toString()
 
                         Glide.with(this)
-                            .load(Constants.PUBLIC_URL+outcome.data!!.data[0].company_photo) // image url
+                            .load(Constants.PUBLIC_URL+outcome.data!!.data[0].companyPhoto) // image url
                             .placeholder(R.color.dash_yellow) // any placeholder to load at start
                             .centerCrop()
                             .into(binding.agencyImgView)

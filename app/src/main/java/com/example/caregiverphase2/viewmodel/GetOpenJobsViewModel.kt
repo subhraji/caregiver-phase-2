@@ -3,6 +3,7 @@ package com.example.caregiverphase2.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
 import com.example.caregiverphase2.model.repository.GetOPenJobsRepository
 import com.example.caregiverphase2.model.repository.Outcome
@@ -14,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GetOpenJobsViewModel @Inject constructor(private val repository: GetOPenJobsRepository) : ViewModel() {
-    private var _response = MutableLiveData<Outcome<GetOpenJobsResponse?>?>()
-    val response: MutableLiveData<Outcome<GetOpenJobsResponse?>?> = _response
+    private var _response = MutableLiveData<Outcome<GetJobsResponse?>?>()
+    val response: MutableLiveData<Outcome<GetJobsResponse?>?> = _response
 
     fun getOPenJobs(
         token: String,

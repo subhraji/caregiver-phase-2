@@ -4,6 +4,7 @@ import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordRequ
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordResponse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
+import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
 import com.example.caregiverphase2.model.pojo.login.LoginRequest
 import com.example.caregiverphase2.model.pojo.login.LoginResponse
@@ -37,7 +38,7 @@ interface ApiInterface {
     suspend fun getOpenJobs(
         @Header("Authorization") token: String,
         @Query("id") id: Int? = null,
-    ): GetOpenJobsResponse?
+    ): GetJobsResponse?
 
     @Multipart
     @POST("profile/register")
