@@ -1,6 +1,10 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -9,6 +13,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityChangePasswordBinding
@@ -18,6 +23,8 @@ import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.ChangePasswordViewModel
 import com.example.caregiverphase2.viewmodel.SignUpEmailVerificationViewModel
 import com.example.caregiverphase2.viewmodel.SignUpViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import hideSoftKeyboard
@@ -33,6 +40,8 @@ class EmailVerificationActivity : AppCompatActivity() {
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private val mSignUpEmailVerificationViewModel: SignUpEmailVerificationViewModel by viewModels()
     private val signUpViewModel: SignUpViewModel by viewModels()
+    private lateinit var token: String
+    private var CHANNEL_ID = "101"
 
     private var name: String = ""
     private var email: String = ""
@@ -40,19 +49,23 @@ class EmailVerificationActivity : AppCompatActivity() {
     private var con_password: String = ""
     var cTimer: CountDownTimer? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityEmailVerificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val extras = intent.extras
         if (extras != null) {
-            name = extras.getString("company_name").toString()
+            name = extras.getString("name").toString()
             email = extras.getString("email").toString()
             password = extras.getString("password").toString()
             con_password = extras.getString("con_password").toString()
         }
+
+        createNotificationChannel()
+        getToken()
+        subscribeToTopic()
 
         loader = this.loadingDialog()
 
@@ -145,7 +158,8 @@ class EmailVerificationActivity : AppCompatActivity() {
                         name,
                         email,
                         password,
-                        con_password
+                        con_password,
+                        token
                     )
                     loader.show()
 
@@ -258,4 +272,56 @@ class EmailVerificationActivity : AppCompatActivity() {
         })
     }
 
+    //notification subscribe
+    private fun subscribeToTopic(){
+        FirebaseMessaging.getInstance().subscribeToTopic("cloud")
+            .addOnCompleteListener { task ->
+                var msg = "Done"
+                if (!task.isSuccessful) {
+                    msg = "Failed"
+                }
+            }
+    }
+
+    //get token
+    private fun getToken(){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("Token", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            token = task.result
+
+            // Log and toast
+            //val msg = getString(R.string.msg_token_fmt, token)
+            Log.e("Token", token)
+            //Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    private fun createNotificationChannel() {
+
+        NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setContentTitle("textTitle")
+            .setContentText("textContent")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "firebaseNotifChannel"
+            val descriptionText = "this is a channel to receive firebase notification."
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+        }
+    }
 }

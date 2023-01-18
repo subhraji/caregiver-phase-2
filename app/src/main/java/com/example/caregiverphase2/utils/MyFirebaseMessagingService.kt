@@ -41,6 +41,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         val intent = Intent(this, FullScreenNotifyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NO_USER_ACTION)
+        intent.putExtra("title",title)
         startActivity(intent)
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

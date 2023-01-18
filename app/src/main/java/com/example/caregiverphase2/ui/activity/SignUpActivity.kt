@@ -1,12 +1,17 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.app.NotificationCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import com.example.caregiverphase2.R
@@ -16,6 +21,8 @@ import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.SignUpEmailVerificationViewModel
 import com.example.caregiverphase2.viewmodel.SignUpViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import hideSoftKeyboard
 import loadingDialog
@@ -91,6 +98,7 @@ class SignUpActivity : AppCompatActivity() {
                 binding.fullNameTxt.showKeyboard()
             }
         }
+
     }
 
     private fun fullNameFocusListener(){
@@ -194,6 +202,5 @@ class SignUpActivity : AppCompatActivity() {
             }
         })
     }
-
 
 }

@@ -22,10 +22,11 @@ class SignUpViewModel @Inject constructor(private val repository: SignUpReposito
         name: String,
         email: String,
         password: String,
-        con_password: String
+        con_password: String,
+        fcm_token: String
     ) = viewModelScope.launch {
         repository.signup(
-            otp, name, email, password, con_password
+            otp, name, email, password, con_password, fcm_token
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {
