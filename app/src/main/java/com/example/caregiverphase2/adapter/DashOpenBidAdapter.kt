@@ -1,6 +1,7 @@
 package com.example.caregiverphase2.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.OpenBidsItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
+import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
 
 class DashOpenBidAdapter(private val itemList: List<Data>, private val context: Context, private val isBid: Boolean):
@@ -61,6 +63,10 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
                     intent.putExtra("start_time", data?.start_time)
                     intent.putExtra("id", data?.job_id.toString())
                     context.startActivity(intent)*/
+                    val intent = Intent(context, JobDetailsActivity::class.java)
+                    intent.putExtra("start_time", data?.start_time)
+                    intent.putExtra("id", data?.job_id.toString())
+                    context.startActivity(intent)
                 }
 
                 Glide.with(context)

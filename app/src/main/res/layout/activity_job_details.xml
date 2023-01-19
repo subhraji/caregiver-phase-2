@@ -431,8 +431,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/job_desc_htv"
                     android:layout_marginTop="7dp"
-                    android:textColor="@color/black"
-                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages" />
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/medical_his_htv"
@@ -444,198 +443,44 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
-                <LinearLayout
-                    android:id="@+id/medical_linear_lay_1"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/medical_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/medical_his_htv"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="7dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/bullet_point_bg" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="Heart disease"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/medical_linear_lay_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/medical_linear_lay_1"
-                    android:layout_marginTop="5dp">
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="7dp"
-                        android:src="@drawable/bullet_point_bg"
-                        android:layout_gravity="center_vertical"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="High blood pressure"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="10dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/medical_linear_lay_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/medical_linear_lay_2"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="7dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/bullet_point_bg" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:text="Skin allergy" />
-                </LinearLayout>
+                    android:layout_below="@+id/medical_his_htv"/>
 
                 <TextView
                     android:id="@+id/job_exp_htv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/medical_linear_lay_3"
+                    android:layout_below="@+id/medical_recycler"
                     android:layout_marginTop="20dp"
                     android:text="Job Experties Skill(s) Required:"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
-                    android:id="@+id/job_exp_linear_lay_1"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/job_exp_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/job_exp_htv"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="7dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/bullet_point_bg" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:text="CNA Trained" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/job_exp_linear_lay_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/job_exp_linear_lay_1"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="7dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/bullet_point_bg" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:text="CPR Trained" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/job_exp_linear_lay_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/job_exp_linear_lay_2"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="7dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/bullet_point_bg" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:text="Wound care" />
-                </LinearLayout>
+                    android:layout_below="@+id/job_exp_htv" />
 
                 <TextView
                     android:id="@+id/other_req_htv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/job_exp_linear_lay_3"
+                    android:layout_below="@+id/job_exp_recycler"
                     android:layout_marginTop="20dp"
                     android:text="Other Requirements:"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-                <LinearLayout
-                    android:id="@+id/other_req_linear_lay_1"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/other_req_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/other_req_htv"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="7dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/bullet_point_bg" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:text="Lorem Ipsum is simply dummy text of the printing" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/other_req_linear_lay_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/other_req_linear_lay_1"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="7dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/bullet_point_bg" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:text="when an unknown printer took a galley" />
-                </LinearLayout>
-
+                    android:layout_below="@+id/other_req_htv"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -647,7 +492,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginTop="35dp">
+                android:layout_marginTop="35dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/checklist_htv"

@@ -2,29 +2,26 @@ package com.example.caregiverphase2.ui.activity
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.Window
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
+import com.example.caregiverphase2.adapter.BulletPointAdapter
 import com.example.caregiverphase2.databinding.ActivityJobDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
-import com.example.caregiverphase2.viewmodel.SignUpViewModel
 import com.example.caregiverphase2.viewmodel.SubmitBidViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import gone
@@ -64,11 +61,16 @@ class JobDetailsActivity : AppCompatActivity() {
 
         loader = this.loadingDialog()
 
+        binding.medicalRecycler.gone()
+        binding.medicalHisHtv.gone()
+        binding.jobExpRecycler.gone()
+        binding.jobExpHtv.gone()
+        binding.otherReqRecycler.gone()
+        binding.otherReqHtv.gone()
+
         //observer
         submitBidObserver()
         getOpenJobsDetailsObserver()
-
-        //startTimer()
 
         clickJobOverview()
 
@@ -206,6 +208,7 @@ class JobDetailsActivity : AppCompatActivity() {
                 is Outcome.Success ->{
                     loader.dismiss()
                     if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         mSubmitBidViewModel.navigationComplete()
                         finish()
                     }else{
@@ -270,7 +273,7 @@ class JobDetailsActivity : AppCompatActivity() {
                 is Outcome.Success ->{
 
                     if(outcome.data?.success == true){
-                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         var gen = ""
                         for(i in outcome.data!!.data[0].careItems){
                             if(gen.isEmpty()){
@@ -287,13 +290,30 @@ class JobDetailsActivity : AppCompatActivity() {
                         binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" - "+outcome.data!!.data[0].endTime.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data[0].companyName.toString()
-
+                        binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
                         Glide.with(this)
                             .load(Constants.PUBLIC_URL+outcome.data!!.data[0].companyPhoto) // image url
                             .placeholder(R.color.dash_yellow) // any placeholder to load at start
                             .centerCrop()
                             .into(binding.agencyImgView)
                         mGetOpenJobsViewModel.navigationComplete()
+
+                        if(outcome.data!!.data[0].medicalHistory.isNotEmpty()){
+                            binding.medicalRecycler.visible()
+                            binding.medicalHisHtv.visible()
+                            medicalHistoryFillRecycler(outcome.data!!.data[0].medicalHistory.toMutableList())
+                        }
+                        if(outcome.data!!.data[0].experties.isNotEmpty()){
+                            binding.jobExpRecycler.visible()
+                            binding.jobExpHtv.visible()
+                            jobExpFillRecycler(outcome.data!!.data[0].experties.toMutableList())
+                        }
+                        if(outcome.data!!.data[0].otherRequirements.isNotEmpty()){
+                            binding.otherReqRecycler.visible()
+                            binding.otherReqHtv.visible()
+                            otherFillRecycler(outcome.data!!.data[0].otherRequirements.toMutableList())
+                        }
+
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }
@@ -308,5 +328,27 @@ class JobDetailsActivity : AppCompatActivity() {
         })
     }
 
+    private fun medicalHistoryFillRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.medicalRecycler.apply {
+            layoutManager = gridLayoutManager
+            adapter = BulletPointAdapter(list,this@JobDetailsActivity)
+        }
+    }
 
+    private fun jobExpFillRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.jobExpRecycler.apply {
+            layoutManager = gridLayoutManager
+            adapter = BulletPointAdapter(list,this@JobDetailsActivity)
+        }
+    }
+
+    private fun otherFillRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.otherReqRecycler.apply {
+            layoutManager = gridLayoutManager
+            adapter = BulletPointAdapter(list,this@JobDetailsActivity)
+        }
+    }
 }
