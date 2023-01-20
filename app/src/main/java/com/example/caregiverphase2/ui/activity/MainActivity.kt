@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -61,8 +62,8 @@ class MainActivity : AppCompatActivity() {
 
             // Log and toast
             //val msg = getString(R.string.msg_token_fmt, token)
-            Log.e("Token", token)
-            //Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+            Log.d("Token", token)
+            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
         })
     }
 
