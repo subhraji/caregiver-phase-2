@@ -57,7 +57,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             .setCategory(Notification.CATEGORY_CALL)
             .setVisibility(VISIBILITY_PUBLIC)
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE), AudioManager.STREAM_ALARM)
-            .setPriority(Notification.PRIORITY_MAX)
             .setTicker(title)
             .setFullScreenIntent(pendingIntent, true)
             .setAutoCancel(true)
