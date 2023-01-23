@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,9 @@ import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.FragmentLoginBinding
 import com.example.caregiverphase2.databinding.FragmentProfileBinding
+import com.example.caregiverphase2.ui.activity.AddBioActivity
+import com.example.caregiverphase2.ui.activity.AddCertificateActivity
+import com.example.caregiverphase2.ui.activity.AddEducationActivity
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -36,5 +40,20 @@ class ProfileFragment : Fragment() {
             .placeholder(R.color.dash_yellow) // any placeholder to load at start
             .centerCrop()
             .into(binding.userImgView)
+
+        binding.addBioBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), AddBioActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.addEduBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), AddEducationActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.addCertificateBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), AddCertificateActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
