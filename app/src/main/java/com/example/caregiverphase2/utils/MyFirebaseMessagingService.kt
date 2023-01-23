@@ -14,6 +14,7 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import com.example.caregiverphase2.ui.activity.FullScreenNotifyActivity
+import com.example.caregiverphase2.ui.activity.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -23,7 +24,13 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         super.onMessageReceived(message)
         Log.e("message","message recieved..."+message.data)
         if(message.notification != null){
-            getNotification(message.notification?.title.toString(), message.data["key"])
+
+            if(message.data["notification_type"] == "fullscreen"){
+                getFullScreenNotification(message.notification?.title.toString(), message.notification?.body, message.data["job_title"])
+            }else{
+                getNotification(message.notification?.title.toString(), message.notification?.body)
+            }
+
         }
     }
 
@@ -36,12 +43,10 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         return remoteview
     }
 
-    private fun getNotification(title: String?, body: String?){
-        //val intent = Intent(this, MainActivity::class.java)
-
+    private fun getFullScreenNotification(title: String?, body: String?, job_title: String?){
         val intent = Intent(this, FullScreenNotifyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NO_USER_ACTION)
-        intent.putExtra("title",title)
+        intent.putExtra("title",job_title)
         startActivity(intent)
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -76,6 +81,44 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         manager.notify(0, builder.build())
     }
+
+    private fun getNotification(title: String?, body: String?){
+        val intent = Intent(this, MainActivity::class.java)
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntent = PendingIntent
+            .getActivity(this, 0, intent, 0)
+
+        val channelId = "Default"
+        var builder: NotificationCompat.Builder = NotificationCompat.Builder(this, channelId)
+            .setOngoing(true)
+            .setSmallIcon(R.drawable.ic_notification_clear_all)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setCategory(Notification.CATEGORY_CALL)
+            .setVisibility(VISIBILITY_PUBLIC)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE), AudioManager.STREAM_ALARM)
+            .setTicker(title)
+            .setFullScreenIntent(pendingIntent, true)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+
+        builder = builder.setContent(getRemoveView(title,body))
+
+        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "Default",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            manager.createNotificationChannel(channel)
+        }
+
+        manager.notify(0, builder.build())
+    }
+
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.e("token","new token")
