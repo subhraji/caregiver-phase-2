@@ -31,6 +31,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import createMultiPart
 import dagger.hilt.android.AndroidEntryPoint
+import gone
 import hideSoftKeyboard
 import id.zelory.compressor.Compressor
 import isConnectedToInternet
@@ -39,6 +40,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import loadingDialog
+import visible
 import java.io.File
 import java.io.InputStream
 
@@ -61,6 +63,11 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         binding= ActivityBasicAndHomeAddressBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //stepper
+        //binding.relativeLay1.gone()
+        binding.relativeLay2.gone()
+        binding.relativeLay3.gone()
+
         loader = this.loadingDialog()
 
         binding.backBtn.setOnClickListener {
@@ -68,10 +75,8 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         }
 
         binding.nextCardBtn.setOnClickListener {
-            /*val intent = Intent(this, EducationAndCertificateActivity::class.java)
-            startActivity(intent)*/
 
-            try {
+            /*try {
                 CoroutineScope(Dispatchers.IO).launch {
                     withContext(Dispatchers.Main) {
                         val file = File(absolutePath)
@@ -84,12 +89,12 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
                                 "21/01.1998",
                                 "male",
                                 binding.ssnNumberTxt.text.toString(),
-                                binding.experienceTxt.text.toString(),
+                                "test",
                                 "part time",
                                 "wall street",
                                 "boston",
                                 "AL",
-                                binding.zipcodeTxt.text.toString(),
+                                "test",
                                 token = accessToken
                             )
                             hideSoftKeyboard()
@@ -102,7 +107,22 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-            }
+            }*/
+
+
+            binding.relativeLay1.gone()
+            binding.relativeLay3.gone()
+            binding.relativeLay2.visible()
+        }
+
+        binding.nextCardBtn2.setOnClickListener {
+            binding.relativeLay2.gone()
+            binding.relativeLay1.gone()
+            binding.relativeLay3.visible()
+        }
+
+        binding.nextCardBtn3.setOnClickListener {
+            finish()
         }
 
         binding.imageAddBtn.setOnClickListener {
