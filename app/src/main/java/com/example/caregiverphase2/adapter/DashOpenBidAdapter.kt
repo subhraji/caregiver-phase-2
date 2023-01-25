@@ -59,13 +59,10 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
                 }
                 ageTv.text = gen
                 rootLay.setOnClickListener {
-                    /*val intent = Intent(context, JobDetailsActivity::class.java)
-                    intent.putExtra("start_time", data?.start_time)
-                    intent.putExtra("id", data?.job_id.toString())
-                    context.startActivity(intent)*/
                     val intent = Intent(context, JobDetailsActivity::class.java)
                     intent.putExtra("start_time", data?.start_time)
                     intent.putExtra("id", data?.job_id.toString())
+                    intent.putExtra("job_type", "open_bid")
                     context.startActivity(intent)
                 }
 

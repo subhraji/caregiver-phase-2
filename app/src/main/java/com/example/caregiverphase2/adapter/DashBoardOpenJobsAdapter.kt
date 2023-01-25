@@ -66,6 +66,7 @@ class DashBoardOpenJobsAdapter (private val itemList: List<com.example.caregiver
                     val intent = Intent(context, JobDetailsActivity::class.java)
                     intent.putExtra("start_time", data?.startTime)
                     intent.putExtra("id", data?.jobId.toString())
+                    intent.putExtra("job_type", "open_job")
                     context.startActivity(intent)
                 }
 

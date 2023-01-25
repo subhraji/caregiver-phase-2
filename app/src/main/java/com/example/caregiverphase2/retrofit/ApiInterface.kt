@@ -5,6 +5,7 @@ import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordResp
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
 import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
+import com.example.caregiverphase2.model.pojo.get_open_bid_details.GetOpenBidDetailsResponse
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
 import com.example.caregiverphase2.model.pojo.login.LoginRequest
 import com.example.caregiverphase2.model.pojo.login.LoginResponse
@@ -59,7 +60,6 @@ interface ApiInterface {
         @Header("Authorization") token: String
     ): RegisterResponse?
 
-
     @POST("job/bidding/submit-bid")
     suspend fun submitBid(
         @Body body: SubmitBidRequest?,
@@ -90,4 +90,10 @@ interface ApiInterface {
     suspend fun updateLocation(
         @Body body: UpdateLocationRequest?
     ): UpdateLocationResponse?
+
+    @GET("job/get-single-job-for-bidded")
+    suspend fun getOpenBidDetails(
+        @Header("Authorization") token: String,
+        @Query("job_id") id: Int? = null,
+    ): GetOpenBidDetailsResponse?
 }

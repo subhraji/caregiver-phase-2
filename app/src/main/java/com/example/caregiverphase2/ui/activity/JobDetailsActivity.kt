@@ -21,6 +21,7 @@ import com.example.caregiverphase2.databinding.ActivityJobDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.GetOpenBidDetailsViewModel
 import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
 import com.example.caregiverphase2.viewmodel.SubmitBidViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,12 +38,15 @@ class JobDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityJobDetailsBinding
     private var start_time: String? = ""
     private lateinit var job_id: String
+    private lateinit var job_type: String
     var cTimer: CountDownTimer? = null
 
     private lateinit var accessToken: String
 
     private val mGetOpenJobsViewModel: GetOpenJobsViewModel by viewModels()
     private val mSubmitBidViewModel: SubmitBidViewModel by viewModels()
+    private val mGetOpenBidDetailsViewModel: GetOpenBidDetailsViewModel by viewModels()
+
     private lateinit var loader: androidx.appcompat.app.AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +58,7 @@ class JobDetailsActivity : AppCompatActivity() {
         if (extras != null) {
             start_time = intent?.getStringExtra("start_time")!!
             job_id = intent?.getStringExtra("id")!!
+            job_type = intent?.getStringExtra("job_type")!!
         }
 
         //get token
@@ -71,6 +76,7 @@ class JobDetailsActivity : AppCompatActivity() {
         //observer
         submitBidObserver()
         getOpenJobsDetailsObserver()
+        getOpenBidsDetailsObserver()
 
         clickJobOverview()
 
@@ -93,17 +99,20 @@ class JobDetailsActivity : AppCompatActivity() {
         }
 
 
-        if(isConnectedToInternet()){
-            mGetOpenJobsViewModel.getOPenJobs(token = accessToken, id = job_id.toInt())
-        }else{
-            Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
+        if(job_type == "open_bid"){
+            if(isConnectedToInternet()){
+                mGetOpenBidDetailsViewModel.getOpenBids(accessToken, job_id.toInt())
+            }else{
+                Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
+            }
+        }else if(job_type == "open_job"){
+            if(isConnectedToInternet()){
+                mGetOpenJobsViewModel.getOPenJobs(token = accessToken, id = job_id.toInt())
+            }else{
+                Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
+            }
         }
 
-    }
-
-    override fun onResume() {
-
-        super.onResume()
     }
 
     private fun clickJobOverview(){
@@ -231,7 +240,6 @@ class JobDetailsActivity : AppCompatActivity() {
         builder.setMessage("Do you want to bid this job ?")
         builder.setIcon(R.drawable.ic_baseline_logout_24)
         builder.setPositiveButton("Yes"){dialogInterface, which ->
-
             showEligibilityDialog()
         }
         builder.setNegativeButton("No"){dialogInterface, which ->
@@ -248,10 +256,6 @@ class JobDetailsActivity : AppCompatActivity() {
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
         dialog.setContentView(R.layout.bid_check_layout)
-
-        /*Handler(Looper.getMainLooper()).postDelayed({
-
-        }, 2500)*/
 
         Handler(Looper.getMainLooper()).postDelayed({
             if(isConnectedToInternet()){
@@ -312,6 +316,67 @@ class JobDetailsActivity : AppCompatActivity() {
                             binding.otherReqRecycler.visible()
                             binding.otherReqHtv.visible()
                             otherFillRecycler(outcome.data!!.data[0].otherRequirements.toMutableList())
+                        }
+
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun getOpenBidsDetailsObserver(){
+        mGetOpenBidDetailsViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+
+                    if(outcome.data?.success == true){
+                        //Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        var gen = ""
+                        for(i in outcome.data!!.data.careItems){
+                            if(gen.isEmpty()){
+                                gen = i.gender+": "+i.age
+                            }else{
+                                gen = gen+", "+i.gender+": "+i.age
+                            }
+                        }
+                        binding.ageTv.text = gen
+                        binding.titleTv.text = outcome.data!!.data.jobTitle
+                        binding.careTypeTv.text = outcome.data!!.data.careType
+                        binding.locTv.text = outcome.data!!.data.shortAddress
+                        binding.dateTv.text = outcome.data!!.data.date.toString()
+                        binding.timeTv.text = outcome.data!!.data.startTime.toString()+" - "+outcome.data!!.data.endTime.toString()
+                        binding.priceTv.text = "$"+outcome.data!!.data.amount.toString()
+                        binding.agencyNameTv.text = outcome.data!!.data.companyName.toString()
+                        binding.jobDescTv.text = outcome.data!!.data.description.toString()
+                        Glide.with(this)
+                            .load(Constants.PUBLIC_URL+outcome.data!!.data.companyPhoto) // image url
+                            .placeholder(R.color.dash_yellow) // any placeholder to load at start
+                            .centerCrop()
+                            .into(binding.agencyImgView)
+                        mGetOpenJobsViewModel.navigationComplete()
+
+                        if(outcome.data!!.data.medicalHistory.isNotEmpty()){
+                            binding.medicalRecycler.visible()
+                            binding.medicalHisHtv.visible()
+                            medicalHistoryFillRecycler(outcome.data!!.data.medicalHistory.toMutableList())
+                        }
+                        if(outcome.data!!.data.experties.isNotEmpty()){
+                            binding.jobExpRecycler.visible()
+                            binding.jobExpHtv.visible()
+                            jobExpFillRecycler(outcome.data!!.data.experties.toMutableList())
+                        }
+                        if(outcome.data!!.data.otherRequirements.isNotEmpty()){
+                            binding.otherReqRecycler.visible()
+                            binding.otherReqHtv.visible()
+                            otherFillRecycler(outcome.data!!.data.otherRequirements.toMutableList())
                         }
 
                     }else{
