@@ -27,7 +27,6 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
     }
 
     override fun onBindViewHolder(holder: DashQuickCallsAdapter.DashQuickCallsViewHolder, position: Int) {
-
         val rowData = itemList[position]
         holder.bind(rowData, context)
     }

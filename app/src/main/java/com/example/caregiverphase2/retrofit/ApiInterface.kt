@@ -4,6 +4,7 @@ import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordRequ
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordResponse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
+import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
 import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
 import com.example.caregiverphase2.model.pojo.get_open_bid_details.GetOpenBidDetailsResponse
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
@@ -96,4 +97,10 @@ interface ApiInterface {
         @Header("Authorization") token: String,
         @Query("job_id") id: Int? = null,
     ): GetOpenBidDetailsResponse?
+
+    @GET("job/get-all-my-bidded-jobs")
+    suspend fun getBiddedJobs(
+        @Header("Authorization") token: String,
+        @Query("id") id: Int? = null,
+    ): GetBiddedJobsResponse?
 }

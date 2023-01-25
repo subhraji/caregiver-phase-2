@@ -4,6 +4,10 @@
         android:id="@+id/dashboardFragment"
         android:icon="@drawable/home_icon"/>
     <item
+        android:id="@+id/jobsFragment"
+        android:title="Jobs"
+        android:icon="@drawable/job_icon"/>
+    <item
         android:id="@+id/profileFragment"
         android:title="Profile"
         android:icon="@drawable/profile_icon"/>
