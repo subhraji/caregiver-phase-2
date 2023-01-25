@@ -1,57 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     tools:context=".ui.activity.FullScreenNotifyActivity">
     <TextView
-        android:id="@+id/job_title_tv"
-        android:layout_width="0dp"
+        android:id="@+id/job_alert_htv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Job Alert"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/job_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/job_alert_htv"
         android:layout_margin="20dp"
         android:textColor="@color/black"
         android:textStyle="bold"
+        android:text="hello new job is here."
         android:textSize="18sp"/>
+
     <TextView
         android:id="@+id/timer_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_below="@+id/price_relay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
         android:textSize="40dp"
+        android:text="50"
         android:textColor="@color/theme_blue"
         android:layout_marginBottom="60dp"/>
+
+    <RelativeLayout
+        android:id="@+id/care_item_relay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/doc_upload_grey_bg"
+        android:layout_below="@id/job_title_tv"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+        <ImageView
+            android:id="@+id/person_img"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_baseline_person_24"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:id="@+id/care_type_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 Senior"
+            android:layout_alignTop="@+id/person_img"
+            android:layout_toRightOf="@+id/person_img"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:id="@+id/care_items_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="F: 60 years, Rohger Jhons \nM: 58 years, Michele Jhons"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_below="@+id/person_img"
+            android:layout_alignStart="@+id/care_type_tv"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/date_time_relay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/doc_upload_grey_bg"
+        android:layout_below="@id/care_item_relay"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+        <ImageView
+            android:id="@+id/date_img"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:tint="@color/text_grey"
+            android:src="@drawable/ic_baseline_calendar_month_24"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today 26 th Sept"
+            android:layout_alignTop="@+id/date_img"
+            android:layout_toRightOf="@+id/date_img"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+        <ImageView
+            android:id="@+id/time_img"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:tint="@color/text_grey"
+            android:src="@drawable/ic_baseline_access_time_24"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/date_img"/>
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8:00 AM - 10:30 AM"
+            android:layout_alignTop="@+id/time_img"
+            android:layout_toRightOf="@+id/time_img"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:id="@+id/address_tv"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="London, \n2 Miles away"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_loction_18"
+            android:layout_toLeftOf="@+id/address_tv"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            app:tint="@color/text_grey"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/price_relay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/doc_upload_grey_bg"
+        android:layout_below="@id/date_time_relay"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+        <TextView
+            android:id="@+id/price_htv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remittance"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$80"
+            android:textSize="20sp"
+            android:textColor="@color/color_blue"
+            android:textStyle="bold"
+            android:layout_below="@+id/price_htv"
+            android:layout_alignStart="@+id/price_htv"/>
+        <TextView
+            android:id="@+id/star_tv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/dash_yellow"
+            android:background="@drawable/ic_baseline_star_24"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rewards"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_toLeftOf="@+id/star_tv"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/timer_tv"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         android:orientation="horizontal"
         android:weightSum="2">
-        <TextView
-            android:id="@+id/decline_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Decline"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:textColor="@color/black"
-            android:background="@drawable/settings_item_border_bg"/>
-        <View
-            android:layout_width="10dp"
-            android:layout_height="1dp"/>
         <TextView
             android:id="@+id/accept_btn"
             android:layout_width="match_parent"
@@ -63,6 +214,20 @@
             android:textColor="@color/white"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"/>
+        <View
+            android:layout_width="10dp"
+            android:layout_height="1dp"/>
+        <TextView
+            android:id="@+id/decline_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Decline"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/black"
+            android:background="@drawable/settings_item_border_bg"/>
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
