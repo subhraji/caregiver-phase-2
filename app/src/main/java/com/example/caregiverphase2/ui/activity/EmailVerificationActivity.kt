@@ -251,6 +251,7 @@ class EmailVerificationActivity : AppCompatActivity() {
                                 PrefManager.setKeyAuthToken(it)
 
                                 val intent = Intent(this, AskLocationActivity::class.java)
+                                intent.putExtra("from","login")
                                 startActivity(intent)
                                 finish()
                             }

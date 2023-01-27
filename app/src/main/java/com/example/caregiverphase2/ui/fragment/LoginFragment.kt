@@ -158,6 +158,7 @@ class LoginFragment : Fragment() {
                         }
                         PrefManager.setLogInStatus(true)
                         val intent = Intent(requireActivity(), AskLocationActivity::class.java)
+                        intent.putExtra("from","login")
                         startActivity(intent)
                         requireActivity().finish()
                         loginViewModel.navigationComplete()

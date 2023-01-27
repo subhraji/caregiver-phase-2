@@ -20,9 +20,10 @@ class UpdateLocationViewModel @Inject constructor(private val repository: Update
     fun updateLocation(
         lat: String,
         long: String,
+        token: String
     ) = viewModelScope.launch {
         repository.updateLocation(
-            lat, long
+            lat, long, token
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

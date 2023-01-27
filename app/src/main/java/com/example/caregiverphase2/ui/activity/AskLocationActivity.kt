@@ -18,6 +18,7 @@ import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityAskLocationBinding
 import com.example.caregiverphase2.databinding.ActivityAuthBinding
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
 import com.example.caregiverphase2.viewmodel.SubmitBidViewModel
 import com.example.caregiverphase2.viewmodel.UpdateLocationViewModel
@@ -35,7 +36,7 @@ class AskLocationActivity : AppCompatActivity() {
     private var latitude: String = ""
     private var longitude: String = ""
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
+    private lateinit var from: String
     private lateinit var accessToken: String
 
     private val mUpdateLocationViewModel: UpdateLocationViewModel by viewModels()
@@ -45,21 +46,17 @@ class AskLocationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityAskLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.useLocBtn.gone()
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        getCurrentLocation()
-
-        //observer
-        updateLocationObserver()
-
+        val extras = intent.extras
+        if (extras != null) {
+            from = intent?.getStringExtra("from")!!
+        }
+        //get token
+        accessToken = "Bearer "+PrefManager.getKeyAuthToken()
 
         binding.useLocBtn.setOnClickListener {
-            /*val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()*/
 
-            mUpdateLocationViewModel.updateLocation(latitude,longitude)
+            mUpdateLocationViewModel.updateLocation(latitude,longitude,accessToken)
             loader = this.loadingDialog()
             loader.show()
 
@@ -67,6 +64,12 @@ class AskLocationActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        binding.useLocBtn.gone()
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        getCurrentLocation()
+
+        //observer
+        updateLocationObserver()
         super.onResume()
     }
 
@@ -119,9 +122,8 @@ class AskLocationActivity : AppCompatActivity() {
 
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener(this) { task ->
                     val location: Location? = task.result
-                    Log.e("location", location.toString())
                     if(location == null){
-                        Toast.makeText(this,"Null Recieved", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Please open your google map once, then retry", Toast.LENGTH_SHORT).show()
                     }else{
                         Toast.makeText(this,"Get Success", Toast.LENGTH_SHORT).show()
                         latitude = location.latitude.toString()
@@ -172,6 +174,14 @@ class AskLocationActivity : AppCompatActivity() {
                     loader.dismiss()
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        if(from == "login"){
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }else{
+                            finish()
+                        }
+
                         mUpdateLocationViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()

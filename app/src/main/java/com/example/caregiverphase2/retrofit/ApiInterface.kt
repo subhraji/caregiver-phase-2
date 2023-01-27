@@ -89,7 +89,8 @@ interface ApiInterface {
 
     @POST("user/update-location")
     suspend fun updateLocation(
-        @Body body: UpdateLocationRequest?
+        @Body body: UpdateLocationRequest?,
+        @Header("Authorization") token: String,
     ): UpdateLocationResponse?
 
     @GET("job/get-single-job-for-bidded")

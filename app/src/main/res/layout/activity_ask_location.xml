@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="@+id/logo_img"
         app:layout_constraintTop_toBottomOf="@+id/logo_img"
         app:layout_constraintEnd_toEndOf="@+id/logo_img"
-        android:text="Peaceworc Agency"
+        android:text="Peaceworc Caregiver"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="24sp"/>
@@ -100,6 +100,7 @@
         android:layout_marginEnd="10dp"
         android:textColor="@color/white"
         android:textAlignment="center"
+        android:visibility="gone"
         android:text="Or Set your location manually"
         android:layout_marginTop="15dp"
         android:textSize="18sp"

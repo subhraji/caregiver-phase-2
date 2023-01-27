@@ -13,7 +13,8 @@ class UpdateLocationRepository @Inject constructor(private val apiInterface: Api
     fun updateLocation(
         lat: String,
         long: String,
+        token: String
     ): Flow<UpdateLocationResponse?> = flow{
-        emit(apiInterface.updateLocation(UpdateLocationRequest(lat, long)))
+        emit(apiInterface.updateLocation(UpdateLocationRequest(lat, long), token))
     }.flowOn(Dispatchers.IO)
 }
