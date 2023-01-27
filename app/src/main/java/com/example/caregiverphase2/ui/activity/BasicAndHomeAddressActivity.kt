@@ -2,6 +2,7 @@ package com.example.caregiverphase2.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,6 +17,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.caregiverphase2.R
@@ -43,11 +47,13 @@ import loadingDialog
 import visible
 import java.io.File
 import java.io.InputStream
+import java.util.*
+import javax.xml.datatype.DatatypeConstants.MONTHS
 
 @AndroidEntryPoint
 class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
     private lateinit var binding: ActivityBasicAndHomeAddressBinding
-    private val mRegisterViewModel: RegisterViewModel by viewModels()
+    val genderList: Array<String> =  arrayOf("Select gender", "Male", "Female", "Other")
 
     private var imageUri: Uri? = null
     private var absolutePath: String? = null
@@ -55,8 +61,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
     private var grantedOtherPermissions: Boolean = false
     private val PICK_IMAGE = 100
 
-    private lateinit var accessToken: String
+    private val mRegisterViewModel: RegisterViewModel by viewModels()
     private lateinit var loader: androidx.appcompat.app.AlertDialog
+    private lateinit var accessToken: String
+    private var gender: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,10 +76,28 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         binding.relativeLay2.gone()
         binding.relativeLay3.gone()
 
+        binding.dobTv.gone()
+
         loader = this.loadingDialog()
+
+        //spinner
+        setUpGenderSpinner()
 
         binding.backBtn.setOnClickListener {
             finish()
+        }
+
+        binding.dobAddBtn.setOnClickListener {
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+            val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                binding.dobTv.visible()
+                binding.dobTv.setText("" + dayOfMonth + "-" + monthOfYear+1 + "-" + year)
+            }, year, month, day)
+            dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000)
+            dpd.show()
         }
 
         binding.nextCardBtn.setOnClickListener {
@@ -135,6 +161,30 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
             }else{
                 requestPermission()
             }
+        }
+    }
+
+    private fun setUpGenderSpinner(){
+        val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,genderList)
+        binding.genderSpinner.adapter = arrayAdapter
+        binding.genderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
+            AdapterView.OnItemClickListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if(p2 == 0){
+                    gender = ""
+                }else{
+                    gender = genderList[p2]
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+            }
+
         }
     }
 

@@ -48,9 +48,9 @@ class SignUpActivity : AppCompatActivity() {
         //observer
         getOtpObserver()
 
-        binding.backBtn.setOnClickListener {
+        /*binding.backBtn.setOnClickListener {
             finish()
-        }
+        }*/
 
         binding.loginBtn.setOnClickListener {
             val intent = Intent(this, AuthActivity::class.java)

@@ -43,21 +43,15 @@ interface ApiInterface {
     ): GetJobsResponse?
 
     @Multipart
-    @POST("profile/register")
+    @POST("profile/basic-information")
     suspend fun registration(
         @Part photo: MultipartBody.Part?,
         @Part("phone") phone: RequestBody,
         @Part("dob") dob: RequestBody,
         @Part("gender") gender: RequestBody,
         @Part("ssn") ssn: RequestBody,
-        @Part("experience") experience: RequestBody,
-        @Part("job_type") job_type: RequestBody,
-        @Part("street") street: RequestBody,
-        @Part("city_or_district") city_or_district: RequestBody,
-        @Part("state") state: RequestBody,
-        @Part("zip_code") zip_code: RequestBody,
-        @Part("education") education: RequestBody? = null,
-        @Part("certificate") certificate: RequestBody? = null,
+        @Part("full_address") full_address: RequestBody,
+        @Part("short_address") short_address: RequestBody,
         @Header("Authorization") token: String
     ): RegisterResponse?
 
