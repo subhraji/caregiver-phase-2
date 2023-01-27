@@ -24,7 +24,9 @@ import com.example.caregiverphase2.viewmodel.UpdateLocationViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import gone
 import loadingDialog
+import visible
 
 @AndroidEntryPoint
 class AskLocationActivity : AppCompatActivity() {
@@ -43,23 +45,28 @@ class AskLocationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityAskLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.useLocBtn.gone()
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        getCurrentLocation()
 
         //observer
         updateLocationObserver()
 
+
         binding.useLocBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            /*val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            finish()
+            finish()*/
+
+            mUpdateLocationViewModel.updateLocation(latitude,longitude)
+            loader = this.loadingDialog()
+            loader.show()
+
         }
-
-
     }
 
     override fun onResume() {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        getCurrentLocation()
-
         super.onResume()
     }
 
@@ -112,6 +119,7 @@ class AskLocationActivity : AppCompatActivity() {
 
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener(this) { task ->
                     val location: Location? = task.result
+                    Log.e("location", location.toString())
                     if(location == null){
                         Toast.makeText(this,"Null Recieved", Toast.LENGTH_SHORT).show()
                     }else{
@@ -121,9 +129,7 @@ class AskLocationActivity : AppCompatActivity() {
 
                         if(!latitude.isEmpty() && !longitude.isEmpty()){
 
-                            mUpdateLocationViewModel.updateLocation(latitude,longitude)
-                            loader = this.loadingDialog()
-                            loader.show()
+                            binding.useLocBtn.visible()
 
                         }else{
                             Toast.makeText(this,"Please check your location", Toast.LENGTH_LONG).show()
@@ -165,7 +171,7 @@ class AskLocationActivity : AppCompatActivity() {
                 is Outcome.Success ->{
                     loader.dismiss()
                     if(outcome.data?.success == true){
-
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         mUpdateLocationViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()

@@ -23,7 +23,9 @@ import com.example.caregiverphase2.databinding.FragmentDashboardBinding
 import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.ui.activity.AskLocationActivity
 import com.example.caregiverphase2.ui.activity.BasicAndHomeAddressActivity
+import com.example.caregiverphase2.ui.activity.MainActivity
 import com.example.caregiverphase2.ui.activity.SearchLocationActivity
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetOPenBidsViewModel
@@ -78,6 +80,11 @@ class DashboardFragment : Fragment() {
 
         binding.profilePendingCart.setOnClickListener {
             showCompleteDialog()
+        }
+
+        binding.userImageView.setOnClickListener {
+            val intent = Intent(requireActivity(), AskLocationActivity::class.java)
+            startActivity(intent)
         }
 
         binding.locBtn.setOnClickListener {
