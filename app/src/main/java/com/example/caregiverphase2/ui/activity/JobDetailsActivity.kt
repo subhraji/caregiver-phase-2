@@ -72,6 +72,8 @@ class JobDetailsActivity : AppCompatActivity() {
         binding.jobExpHtv.gone()
         binding.otherReqRecycler.gone()
         binding.otherReqHtv.gone()
+        binding.noCheckListTv.gone()
+        binding.checkListRecycler.gone()
 
         //observer
         submitBidObserver()
@@ -300,7 +302,6 @@ class JobDetailsActivity : AppCompatActivity() {
                             .placeholder(R.color.dash_yellow) // any placeholder to load at start
                             .centerCrop()
                             .into(binding.agencyImgView)
-                        mGetOpenJobsViewModel.navigationComplete()
 
                         if(outcome.data!!.data[0].medicalHistory.isNotEmpty()){
                             binding.medicalRecycler.visible()
@@ -317,7 +318,14 @@ class JobDetailsActivity : AppCompatActivity() {
                             binding.otherReqHtv.visible()
                             otherFillRecycler(outcome.data!!.data[0].otherRequirements.toMutableList())
                         }
-
+                        if(outcome.data!!.data[0].checkList.isNotEmpty()){
+                            binding.checkListRecycler.visible()
+                            binding.noCheckListTv.gone()
+                            checkListFillRecycler(outcome.data!!.data[0].checkList.toMutableList())
+                        }else{
+                            binding.noCheckListTv.visible()
+                        }
+                        mGetOpenJobsViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }
@@ -378,7 +386,13 @@ class JobDetailsActivity : AppCompatActivity() {
                             binding.otherReqHtv.visible()
                             otherFillRecycler(outcome.data!!.data.otherRequirements.toMutableList())
                         }
-
+                        if(outcome.data!!.data.checkList.isNotEmpty()){
+                            binding.checkListRecycler.visible()
+                            binding.noCheckListTv.gone()
+                            checkListFillRecycler(outcome.data!!.data.checkList.toMutableList())
+                        }else{
+                            binding.noCheckListTv.visible()
+                        }
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }
@@ -412,6 +426,14 @@ class JobDetailsActivity : AppCompatActivity() {
     private fun otherFillRecycler(list: MutableList<String>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.otherReqRecycler.apply {
+            layoutManager = gridLayoutManager
+            adapter = BulletPointAdapter(list,this@JobDetailsActivity)
+        }
+    }
+
+    private fun checkListFillRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.checkListRecycler.apply {
             layoutManager = gridLayoutManager
             adapter = BulletPointAdapter(list,this@JobDetailsActivity)
         }

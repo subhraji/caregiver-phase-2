@@ -17,7 +17,7 @@ data class Data(
     @SerializedName("care_type")
     val careType: String,
     @SerializedName("check_list")
-    val checkList: List<Any>,
+    val checkList: List<String>,
     @SerializedName("company_name")
     val companyName: String,
     @SerializedName("company_photo")

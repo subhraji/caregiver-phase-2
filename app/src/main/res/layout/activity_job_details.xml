@@ -503,90 +503,19 @@
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-                <LinearLayout
-                    android:id="@+id/checklist_linear_lay_1"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/check_list_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/checklist_htv"
-                    android:layout_marginTop="7dp">
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_baseline_check_circle_24"
-                        app:tint="@color/color_blue"
-                        android:layout_gravity="center_vertical"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="Shopping for groceries"
-                        android:layout_marginStart="10dp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/checklist_linear_lay_2"
-                    android:layout_width="match_parent"
+                    android:layout_below="@+id/checklist_htv" />
+                <TextView
+                    android:id="@+id/no_check_list_tv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/checklist_linear_lay_1"
-                    android:layout_marginTop="5dp">
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_baseline_check_circle_24"
-                        app:tint="@color/color_blue"
-                        android:layout_gravity="center_vertical"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="Preparing meal"
-                        android:layout_marginStart="10dp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/checklist_linear_lay_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/checklist_linear_lay_2"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_baseline_check_circle_24"
-                        app:tint="@color/color_blue" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:text="Doing dishes and kitchen clean up" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/checklist_linear_lay_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/checklist_linear_lay_3"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_baseline_check_circle_24"
-                        app:tint="@color/color_blue"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:text="Changing bedding" />
-                </LinearLayout>
+                    android:text="No Data"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/checklist_htv"/>
 
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

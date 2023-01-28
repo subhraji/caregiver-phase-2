@@ -491,8 +491,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginTop="35dp"
-                android:visibility="gone">
+                android:layout_marginTop="35dp">
 
                 <TextView
                     android:id="@+id/checklist_htv"
@@ -502,90 +501,20 @@
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-                <LinearLayout
-                    android:id="@+id/checklist_linear_lay_1"
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/check_list_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/checklist_htv"
-                    android:layout_marginTop="7dp">
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_baseline_check_circle_24"
-                        app:tint="@color/color_blue"
-                        android:layout_gravity="center_vertical"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="Shopping for groceries"
-                        android:layout_marginStart="10dp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/checklist_linear_lay_2"
-                    android:layout_width="match_parent"
+                    android:layout_below="@+id/checklist_htv" />
+                <TextView
+                    android:id="@+id/no_check_list_tv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/checklist_linear_lay_1"
-                    android:layout_marginTop="5dp">
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_baseline_check_circle_24"
-                        app:tint="@color/color_blue"
-                        android:layout_gravity="center_vertical"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="Preparing meal"
-                        android:layout_marginStart="10dp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/checklist_linear_lay_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/checklist_linear_lay_2"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_baseline_check_circle_24"
-                        app:tint="@color/color_blue" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:text="Doing dishes and kitchen clean up" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/checklist_linear_lay_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/checklist_linear_lay_3"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_baseline_check_circle_24"
-                        app:tint="@color/color_blue"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:text="Changing bedding" />
-                </LinearLayout>
+                    android:text="No Data"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/checklist_htv"/>
 
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -602,7 +531,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="10">
             <TextView
                 android:id="@+id/bid_time_tv"
                 android:layout_width="match_parent"
@@ -610,23 +540,23 @@
                 android:background="@color/dash_yellow"
                 android:textColor="@color/white"
                 android:textSize="13sp"
-                android:text="04:34:09"
+                android:text="Bidding Time Left 04:34:09"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="4"/>
             <TextView
                 android:id="@+id/bid_now_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#F1F1F1"
-                android:text="BID NOW"
-                android:textColor="@color/theme_blue"
-                android:textSize="15sp"
+                android:text="Already Bidded"
+                android:textColor="@color/white"
+                android:background="@color/dash_yellow"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:layout_weight="1"/>
+                android:layout_weight="6"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
