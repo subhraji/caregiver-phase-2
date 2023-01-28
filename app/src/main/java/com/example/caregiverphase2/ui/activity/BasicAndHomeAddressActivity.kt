@@ -2,6 +2,7 @@ package com.example.caregiverphase2.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -17,17 +18,29 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.widget.doOnTextChanged
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityBasicAndHomeAddressBinding
 import com.example.caregiverphase2.databinding.ActivityJobDetailsBinding
+import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.fragment.ImagePreviewFragment
+import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.UploadDocListener
 import com.example.caregiverphase2.viewmodel.RegisterViewModel
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.RectangularBounds
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -44,6 +57,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import loadingDialog
+import showKeyboard
 import visible
 import java.io.File
 import java.io.InputStream
@@ -65,11 +79,18 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private lateinit var accessToken: String
     private var gender: String = ""
+    private val AUTOCOMPLETE_REQUEST_CODE = 1
+    private var full_address: String = ""
+    private var short_address: String = ""
+    private var dob: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityBasicAndHomeAddressBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //get token
+        accessToken = "Bearer "+PrefManager.getKeyAuthToken()
 
         //stepper
         //binding.relativeLay1.gone()
@@ -79,6 +100,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         binding.dobTv.gone()
 
         loader = this.loadingDialog()
+        Places.initialize(applicationContext, getString(R.string.api_key))
 
         //spinner
         setUpGenderSpinner()
@@ -94,51 +116,71 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
             val day = c.get(Calendar.DAY_OF_MONTH)
             val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 binding.dobTv.visible()
-                binding.dobTv.setText("" + dayOfMonth + "-" + monthOfYear+1 + "-" + year)
+                binding.dobTv.setText("" + monthOfYear+1 + "-" + dayOfMonth+ "-" + year)
+                dob = binding.dobTv.text.toString()
             }, year, month, day)
-            dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000)
+            dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
             dpd.show()
         }
 
         binding.nextCardBtn.setOnClickListener {
+            val validMobile = binding.mobileNumberTxtLay.helperText == null && binding.mobileNumberTxt.text.toString().isNotEmpty()
+            val validSsn = binding.ssnNumberTxtLay.helperText == null && binding.ssnNumberTxt.text.toString().isNotEmpty()
 
-            /*try {
-                CoroutineScope(Dispatchers.IO).launch {
-                    withContext(Dispatchers.Main) {
-                        val file = File(absolutePath)
-                        val compressedImageFile = Compressor.compress(this@BasicAndHomeAddressActivity, file)
-                        val imagePart = createMultiPart("photo", compressedImageFile)
-                        if(isConnectedToInternet()){
-                            mRegisterViewModel.register(
-                                imagePart,
-                                binding.mobileNumberTxt.text.toString(),
-                                "21/01.1998",
-                                "male",
-                                binding.ssnNumberTxt.text.toString(),
-                                "test",
-                                "part time",
-                                "wall street",
-                                "boston",
-                                "AL",
-                                "test",
-                                token = accessToken
-                            )
-                            hideSoftKeyboard()
-                            //loader.show()
+            if(imageUri != null){
+                if(validMobile){
+                    if(!dob.isEmpty()){
+                        if(!gender.isEmpty()){
+                            if(validSsn){
+                                if(full_address.isNotEmpty()){
+                                    try {
+                                        CoroutineScope(Dispatchers.IO).launch {
+                                            withContext(Dispatchers.Main) {
+                                                val file = File(absolutePath)
+                                                val compressedImageFile = Compressor.compress(this@BasicAndHomeAddressActivity, file)
+                                                val imagePart = createMultiPart("photo", compressedImageFile)
+                                                if(isConnectedToInternet()){
+                                                    mRegisterViewModel.register(
+                                                        imagePart,
+                                                        binding.mobileNumberTxt.text.toString(),
+                                                        binding.dobTv.text.toString(),
+                                                        gender,
+                                                        binding.ssnNumberTxt.text.toString(),
+                                                        full_address,
+                                                        short_address,
+                                                        accessToken
+                                                    )
+                                                    hideSoftKeyboard()
+                                                    loader.show()
+                                                }else{
+                                                    Toast.makeText(this@BasicAndHomeAddressActivity,"No internet connection.", Toast.LENGTH_SHORT).show()
+                                                }
+
+                                            }
+                                        }
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                }else{
+                                    Toast.makeText(this,"Please add location/address.",Toast.LENGTH_SHORT).show()
+                                }
+                            }else{
+                                if(binding.ssnNumberTxtLay.helperText == null) binding.ssnNumberTxtLay.helperText = "required"
+                                binding.ssnNumberTxt.showKeyboard()
+                            }
                         }else{
-                            Toast.makeText(this@BasicAndHomeAddressActivity,"No internet connection.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,"Please select gender.",Toast.LENGTH_SHORT).show()
                         }
-
+                    }else{
+                        Toast.makeText(this,"Please select date of birth.",Toast.LENGTH_SHORT).show()
                     }
+                }else{
+                    if(binding.mobileNumberTxtLay.helperText == null) binding.mobileNumberTxtLay.helperText = "required"
+                    binding.mobileNumberTxt.showKeyboard()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }*/
-
-
-            binding.relativeLay1.gone()
-            binding.relativeLay3.gone()
-            binding.relativeLay2.visible()
+            }else{
+                Toast.makeText(this,"Please select a profile picture.",Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.nextCardBtn2.setOnClickListener {
@@ -162,6 +204,56 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
                 requestPermission()
             }
         }
+
+        binding.addLocBtn.setOnClickListener {
+            autocompleteWithIntent()
+        }
+
+        //observer
+        addBasicInfoObserve()
+
+        //validation
+        mobileFocusListener()
+        ssnFocusListener()
+    }
+
+
+    private fun mobileFocusListener(){
+        binding.mobileNumberTxt.doOnTextChanged { text, start, before, count ->
+            binding.mobileNumberTxtLay.helperText = validMobileNumber()
+        }
+    }
+
+    private fun validMobileNumber(): String? {
+        val mobileText = binding.mobileNumberTxt.text.toString()
+        if(mobileText.length != 10){
+            return "10 digit number required."
+        }
+
+        if(binding.mobileNumberTxt.text.toString().toDouble() == 0.00){
+            return "Please provide a valid phone number."
+        }
+
+        return  null
+    }
+
+    private fun ssnFocusListener(){
+        binding.ssnNumberTxt.doOnTextChanged { text, start, before, count ->
+            binding.ssnNumberTxtLay.helperText = validSsnNumber()
+        }
+    }
+
+    private fun validSsnNumber(): String? {
+        val mobileText = binding.ssnNumberTxt.text.toString()
+        if(mobileText.length != 9){
+            return "9 digit number required."
+        }
+
+        if(binding.ssnNumberTxt.text.toString().toDouble() == 0.00){
+            return "Please provide a valid tax number."
+        }
+
+        return  null
     }
 
     private fun setUpGenderSpinner(){
@@ -186,6 +278,23 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
             }
 
         }
+    }
+
+    private fun autocompleteWithIntent(){
+        val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
+
+        // Start the autocomplete intent.
+        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+            .setTypeFilter(TypeFilter.ESTABLISHMENT)
+            .setLocationBias(
+                RectangularBounds.newInstance(
+                    LatLng(26.1442464,91.784392),
+                    LatLng(26.1442464,91.784392)
+                )
+            )
+            .setCountry("IN")
+            .build(this)
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
     }
 
     override fun uploadFile(path: String) {
@@ -318,6 +427,31 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
             }
         }
 
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    data?.let {
+                        val place = Autocomplete.getPlaceFromIntent(data)
+                        Log.i("place", "Place: ${place.name}, ${place.id}, ${place.latLng}")
+                        binding.locTv.text = place.address
+                        full_address = place.address
+                        short_address = place.name
+                    }
+                }
+                AutocompleteActivity.RESULT_ERROR -> {
+                    // TODO: Handle the error.
+                    data?.let {
+                        val status = Autocomplete.getStatusFromIntent(data)
+                        Log.i("place", status.statusMessage ?: "")
+                    }
+                }
+                Activity.RESULT_CANCELED -> {
+                    // The user canceled the operation.
+                }
+            }
+            return
+        }
+
         if (requestCode == 2296) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 if (Environment.isExternalStorageManager()) {
@@ -330,4 +464,30 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         }
 
     }
+
+    private fun addBasicInfoObserve(){
+        mRegisterViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        binding.relativeLay1.gone()
+                        binding.relativeLay3.gone()
+                        binding.relativeLay2.visible()
+                        mRegisterViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
 }
