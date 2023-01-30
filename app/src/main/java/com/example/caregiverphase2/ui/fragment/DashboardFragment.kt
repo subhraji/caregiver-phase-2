@@ -30,10 +30,12 @@ import com.example.caregiverphase2.ui.activity.SearchLocationActivity
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetOPenBidsViewModel
 import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
+import com.example.caregiverphase2.viewmodel.GetProfileStatusViewModel
 import com.example.caregiverphase2.viewmodel.GetQuickCallViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
+import loadingDialog
 import visible
 import java.util.ArrayList
 
@@ -46,6 +48,8 @@ class DashboardFragment : Fragment() {
     private val mGetOpenJobsViewModel: GetOpenJobsViewModel by viewModels()
     private val mGetOPenBidsViewModel: GetOPenBidsViewModel by viewModels()
     private val mGetQuickCallViewModel: GetQuickCallViewModel by viewModels()
+    private val mGetProfileStatusViewModel: GetProfileStatusViewModel by viewModels()
+    private lateinit var loader: androidx.appcompat.app.AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,10 +71,13 @@ class DashboardFragment : Fragment() {
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
 
+        loader = requireActivity().loadingDialog()
+
         //observer
         getOPenJobsObserver()
         getOPenBidsObserver()
         getQuickCallObserver()
+        getProfileStatusObserver()
 
         Glide.with(this)
             .load("https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80") // image url
@@ -79,7 +86,12 @@ class DashboardFragment : Fragment() {
             .into(binding.userImageView)
 
         binding.profilePendingCart.setOnClickListener {
-            showCompleteDialog()
+            if(requireActivity().isConnectedToInternet()){
+                mGetProfileStatusViewModel.getProfileStatus(accessToken)
+                loader.show()
+            }else{
+                Toast.makeText(requireActivity(),"Oops!! No internet connection",Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.userImageView.setOnClickListener {
@@ -243,20 +255,61 @@ class DashboardFragment : Fragment() {
         })
     }
 
-    private fun showCompleteDialog() {
+    private fun showCompleteDialog(title: String, btn_txt: String, step: Int) {
         val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
         dialog.setContentView(R.layout.profile_completion_dialog_layout)
-        val complete = dialog.findViewById<TextView>(R.id.complete_btn)
-        complete.setOnClickListener {
-            dialog.dismiss()
 
-            val intent = Intent(requireActivity(), BasicAndHomeAddressActivity::class.java)
-            startActivity(intent)
+        val msg_tv = dialog.findViewById<TextView>(R.id.text_view_1)
+        val complete = dialog.findViewById<TextView>(R.id.complete_btn)
+
+        msg_tv.text = title
+        complete.text = btn_txt
+
+        complete.setOnClickListener {
+            if(step != 4){
+                dialog.dismiss()
+                val intent = Intent(requireActivity(), BasicAndHomeAddressActivity::class.java)
+                intent.putExtra("step", step.toString())
+                startActivity(intent)
+            }else{
+                dialog.dismiss()
+            }
+
         }
         dialog.show()
+    }
+
+    private fun getProfileStatusObserver(){
+        mGetProfileStatusViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        if(outcome.data?.data!!.isBasicInfoAdded == 0){
+                            showCompleteDialog("Please add your basic details to complete your profile","Complete now", 1)
+                        }else if(outcome.data?.data!!.isDocumentsUploaded == 0){
+                            showCompleteDialog("Please add your documents to complete your profile","Complete now", 3)
+                        }else if(outcome.data?.data!!.isProfileApproved == 0){
+                            showCompleteDialog("Your profile is under approval process.","Ok", 4)
+                        }
+                        mGetProfileStatusViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
     }
 
 }

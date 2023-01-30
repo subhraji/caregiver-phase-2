@@ -8,10 +8,13 @@ import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsRespo
 import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
 import com.example.caregiverphase2.model.pojo.get_open_bid_details.GetOpenBidDetailsResponse
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
+import com.example.caregiverphase2.model.pojo.get_profile_status.GetProfileStatusResponse
 import com.example.caregiverphase2.model.pojo.login.LoginRequest
 import com.example.caregiverphase2.model.pojo.login.LoginResponse
 import com.example.caregiverphase2.model.pojo.logout.LogoutResponse
 import com.example.caregiverphase2.model.pojo.register.RegisterResponse
+import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRegRequest
+import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRegResponse
 import com.example.caregiverphase2.model.pojo.signup.SignUpRequest
 import com.example.caregiverphase2.model.pojo.signup.SignUpResponse
 import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidRequest
@@ -98,4 +101,15 @@ interface ApiInterface {
         @Header("Authorization") token: String,
         @Query("id") id: Int? = null,
     ): GetBiddedJobsResponse?
+
+    @POST("profile/optional-information")
+    suspend fun submitOptionalReg(
+        @Body body: SubmitOptionalRegRequest?,
+        @Header("Authorization") token: String,
+    ): SubmitOptionalRegResponse?
+
+    @GET("status/profile-completion-status")
+    suspend fun getProfileStatus(
+        @Header("Authorization") token: String,
+    ): GetProfileStatusResponse?
 }

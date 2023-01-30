@@ -13,7 +13,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Please complete your caregiver profile to accept jobs"
         android:textSize="18sp"
         android:textColor="@color/theme_blue"
         android:textStyle="bold"

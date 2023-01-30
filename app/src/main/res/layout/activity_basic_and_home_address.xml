@@ -31,12 +31,25 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/skip_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SKIP"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/back_btn"
+            app:layout_constraintBottom_toBottomOf="@+id/back_btn"
+            android:layout_marginEnd="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <RelativeLayout
         android:id="@+id/relative_lay_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:visibility="gone">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -409,8 +422,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/optional_stepper_lay"
                     app:layout_constraintStart_toStartOf="@+id/optional_stepper_lay"
                     app:layout_constraintEnd_toEndOf="@+id/optional_stepper_lay">
+                    <Spinner
+                        android:id="@+id/job_type_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:visibility="visible"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@color/text_grey"/>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/experience_txt_lay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
@@ -422,37 +447,7 @@
                         app:boxStrokeWidthFocused="0dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:hint="Job Type"
-                            android:inputType="text"
-                            android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
-                            android:textColorHint="@color/dark_grey_1"
-                            android:textCursorDrawable="@null"
-                            android:textSize="16sp" />
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:visibility="visible"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:background="@color/text_grey"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:textColorHint="@color/text_grey"
-                        app:boxBackgroundColor="@color/transparent"
-                        android:background="@color/transparent"
-                        app:boxStrokeWidth="0dp"
-                        app:boxStrokeColor="@color/text_grey"
-                        app:boxStrokeWidthFocused="0dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/experience_txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
@@ -463,14 +458,14 @@
                             android:textColorHint="@color/dark_grey_1"
                             android:textCursorDrawable="@null"
                             android:textSize="16sp" />
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:visibility="visible"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:background="@color/text_grey"/>
                     </com.google.android.material.textfield.TextInputLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:visibility="visible"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@color/text_grey"/>
 
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

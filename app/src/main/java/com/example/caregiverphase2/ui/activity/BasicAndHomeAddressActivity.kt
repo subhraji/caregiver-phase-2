@@ -33,6 +33,7 @@ import com.example.caregiverphase2.ui.fragment.ImagePreviewFragment
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.UploadDocListener
 import com.example.caregiverphase2.viewmodel.RegisterViewModel
+import com.example.caregiverphase2.viewmodel.SubmitOptionalRegViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -68,6 +69,7 @@ import javax.xml.datatype.DatatypeConstants.MONTHS
 class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
     private lateinit var binding: ActivityBasicAndHomeAddressBinding
     val genderList: Array<String> =  arrayOf("Select gender", "Male", "Female", "Other")
+    val jobTypeList: Array<String> =  arrayOf("Select job type", "Full time", "Part time")
 
     private var imageUri: Uri? = null
     private var absolutePath: String? = null
@@ -76,6 +78,8 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
     private val PICK_IMAGE = 100
 
     private val mRegisterViewModel: RegisterViewModel by viewModels()
+    private val mSubmitOptionalRegViewModel: SubmitOptionalRegViewModel by viewModels()
+
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private lateinit var accessToken: String
     private var gender: String = ""
@@ -83,19 +87,36 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
     private var full_address: String = ""
     private var short_address: String = ""
     private var dob: String = ""
+    private var job_type: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityBasicAndHomeAddressBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val extras = intent.extras
+        if (extras != null) {
+            val step = intent?.getStringExtra("step")!!
+
+            if(step == "1"){
+                binding.relativeLay1.visible()
+                binding.relativeLay2.gone()
+                binding.relativeLay3.gone()
+                binding.skipBtn.gone()
+            }else if(step == "2"){
+                binding.relativeLay1.gone()
+                binding.relativeLay2.visible()
+                binding.relativeLay3.gone()
+                binding.skipBtn.visible()
+            }else if(step == "3"){
+                binding.relativeLay1.gone()
+                binding.relativeLay2.gone()
+                binding.relativeLay3.visible()
+                binding.skipBtn.gone()
+            }
+        }
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
-
-        //stepper
-        //binding.relativeLay1.gone()
-        binding.relativeLay2.gone()
-        binding.relativeLay3.gone()
 
         binding.dobTv.gone()
 
@@ -104,6 +125,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
 
         //spinner
         setUpGenderSpinner()
+        setUpJobTypeSpinner()
 
         binding.backBtn.setOnClickListener {
             finish()
@@ -184,9 +206,13 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         }
 
         binding.nextCardBtn2.setOnClickListener {
-            binding.relativeLay2.gone()
-            binding.relativeLay1.gone()
-            binding.relativeLay3.visible()
+
+            if(isConnectedToInternet()){
+                mSubmitOptionalRegViewModel.submitOptionalReg(job_type = job_type, experience = binding.experienceTxt.text.toString(),token = accessToken)
+                loader.show()
+            }else{
+                Toast.makeText(this,"Oops!! No internet connection.",Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.nextCardBtn3.setOnClickListener {
@@ -211,6 +237,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
 
         //observer
         addBasicInfoObserve()
+        submitOptionalRegObserve()
 
         //validation
         mobileFocusListener()
@@ -266,6 +293,30 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
                     gender = ""
                 }else{
                     gender = genderList[p2]
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+            }
+
+        }
+    }
+
+    private fun setUpJobTypeSpinner(){
+        val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,jobTypeList)
+        binding.jobTypeSpinner.adapter = arrayAdapter
+        binding.jobTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
+            AdapterView.OnItemClickListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if(p2 == 0){
+                    job_type = ""
+                }else{
+                    job_type = jobTypeList[p2]
                 }
             }
 
@@ -475,6 +526,31 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
                         binding.relativeLay1.gone()
                         binding.relativeLay3.gone()
                         binding.relativeLay2.visible()
+                        mRegisterViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun submitOptionalRegObserve(){
+        mSubmitOptionalRegViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        binding.relativeLay2.gone()
+                        binding.relativeLay1.gone()
+                        binding.relativeLay3.visible()
                         mRegisterViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
