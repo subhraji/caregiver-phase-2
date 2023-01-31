@@ -23,7 +23,9 @@ import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetBiddedJobsViewModel
 import com.example.caregiverphase2.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import gone
 import isConnectedToInternet
+import visible
 
 @AndroidEntryPoint
 class BidedJobFragment : Fragment() {
@@ -53,6 +55,10 @@ class BidedJobFragment : Fragment() {
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
 
+        binding.biddedJobsRecycler.gone()
+        binding.jobsShimmerView.startShimmer()
+
+
         //observer
         getBiddedJobsObserver()
 
@@ -67,13 +73,15 @@ class BidedJobFragment : Fragment() {
         mGetBiddedJobsViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-
                     if(outcome.data?.success == true){
-
+                        binding.jobsShimmerView.stopShimmer()
+                        binding.jobsShimmerView.gone()
                         if(outcome.data?.data!!.isNotEmpty() && outcome.data?.data != null){
+                            binding.biddedJobsRecycler.visible()
                             fillBiddedJobsRecycler(outcome.data?.data!!)
+                        }else{
+                            binding.biddedJobsRecycler.gone()
                         }
-
                         mGetBiddedJobsViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
