@@ -227,5 +227,24 @@
             android:paddingEnd="7dp"
             android:paddingTop="3dp"
             android:paddingBottom="5dp"/>
+        <ImageView
+            android:id="@+id/right_arrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            app:tint="@color/theme_blue"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/time_left_tv"/>
+        <TextView
+            android:id="@+id/job_status_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/right_arrow"
+            app:layout_constraintTop_toTopOf="@+id/right_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/right_arrow"
+            android:layout_marginEnd="5dp"
+            android:textSize="13sp"
+            android:textColor="@color/theme_blue"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

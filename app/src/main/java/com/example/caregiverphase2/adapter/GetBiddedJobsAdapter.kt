@@ -12,6 +12,7 @@ import com.example.caregiverphase2.model.pojo.get_bidded_jobs.Data
 import com.example.caregiverphase2.ui.activity.BiddedJobDetailsActivity
 import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
+import gone
 
 class GetBiddedJobsAdapter (private val itemList: List<Data>, private val context: Context):
     RecyclerView.Adapter<GetBiddedJobsAdapter.ViewHolder>() {
@@ -39,8 +40,9 @@ class GetBiddedJobsAdapter (private val itemList: List<Data>, private val contex
         private lateinit var gen:String
         fun bind(data: Data, context: Context) {
             itemBinding.apply {
+                jobStatusTv.gone()
+                rightArrow.gone()
                 jobTitleTv.text = data?.jobTitle.toString()
-
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.careItems.size.toString()+" "+data?.careType
                 addressTv.text = data?.shortAddress.toString()

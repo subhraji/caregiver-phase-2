@@ -89,6 +89,7 @@ class SettingsFragment : Fragment() {
                 is Outcome.Success ->{
                     loader.dismiss()
                     if(outcome.data?.success == true){
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         PrefManager.clearPref()
                         startActivity(Intent(requireActivity(), ChooseLoginRegActivity::class.java))
                         requireActivity().finish()
