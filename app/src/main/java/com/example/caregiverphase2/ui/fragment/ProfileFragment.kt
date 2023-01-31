@@ -2,21 +2,41 @@ package com.example.caregiverphase2.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.FragmentLoginBinding
 import com.example.caregiverphase2.databinding.FragmentProfileBinding
+import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.activity.AddBioActivity
 import com.example.caregiverphase2.ui.activity.AddCertificateActivity
 import com.example.caregiverphase2.ui.activity.AddEducationActivity
+import com.example.caregiverphase2.ui.activity.ChooseLoginRegActivity
+import com.example.caregiverphase2.utils.Constants
+import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.GetProfileViewModel
+import com.example.caregiverphase2.viewmodel.LogoutViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import gone
+import isConnectedToInternet
+import loadingDialog
+import visible
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
+
+    private val mGetProfileViewModel: GetProfileViewModel by viewModels()
+    private lateinit var loader: androidx.appcompat.app.AlertDialog
+    private lateinit var accessToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +55,12 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Glide.with(this)
-            .load("https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80") // image url
-            .placeholder(R.color.dash_yellow) // any placeholder to load at start
-            .centerCrop()
-            .into(binding.userImgView)
+        //get token
+        accessToken = "Bearer "+ PrefManager.getKeyAuthToken()
+        loader = requireActivity().loadingDialog()
+
+        //observer
+        getProfileObserve()
 
         binding.addBioBtn.setOnClickListener {
             val intent = Intent(requireActivity(), AddBioActivity::class.java)
@@ -55,5 +76,72 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireActivity(), AddCertificateActivity::class.java)
             startActivity(intent)
         }
+
+        if(requireActivity().isConnectedToInternet()){
+            mGetProfileViewModel.getProfile(accessToken)
+            loader.show()
+        }else{
+            Toast.makeText(requireActivity(),"No internet connection.",Toast.LENGTH_SHORT).show()
+        }
     }
+
+    private fun getProfileObserve(){
+        mGetProfileViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        val data = outcome.data?.data
+
+                        data?.basic_info?.photo?.let {
+                            Glide.with(this)
+                                .load(Constants.PUBLIC_URL+it) // image url
+                                .placeholder(R.color.dash_yellow) // any placeholder to load at start
+                                .centerCrop()
+                                .into(binding.userImgView)
+                        }
+                        data?.basic_info?.care_completed?.let {
+                            binding.careCompletedTv.text = it.toString()
+                        }
+                        data?.basic_info?.user?.email?.let {
+                            binding.emailTv.text = it.toString()
+                        }
+                        data?.basic_info?.phone?.let {
+                            binding.phoneTv.text = it.toString()
+                        }
+                        data?.basic_info?.experience?.let {
+                            binding.expTv.text = it.toString()+" Years"
+                        }
+                        data?.basic_info?.gender?.let {
+                            binding.genderTv.text = it.toString()
+                        }
+                        data?.basic_info?.bio?.let {
+                            binding.ageTv.text = it.toString()
+                        }
+                        if(data?.basic_info?.bio != null){
+                            binding.showBioLay.visible()
+                            binding.addBioBtn.gone()
+                            binding.bioImg.gone()
+                            binding.bioHtv.gone()
+                        }else{
+                            binding.showBioLay.gone()
+                            binding.addBioBtn.visible()
+                            binding.bioImg.visible()
+                            binding.bioHtv.visible()
+                        }
+
+                        mGetProfileViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
 }

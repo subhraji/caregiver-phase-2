@@ -8,6 +8,7 @@ import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsRespo
 import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
 import com.example.caregiverphase2.model.pojo.get_open_bid_details.GetOpenBidDetailsResponse
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
+import com.example.caregiverphase2.model.pojo.get_profile.GetProfileResponse
 import com.example.caregiverphase2.model.pojo.get_profile_status.GetProfileStatusResponse
 import com.example.caregiverphase2.model.pojo.login.LoginRequest
 import com.example.caregiverphase2.model.pojo.login.LoginResponse
@@ -112,4 +113,9 @@ interface ApiInterface {
     suspend fun getProfileStatus(
         @Header("Authorization") token: String,
     ): GetProfileStatusResponse?
+
+    @GET("profile/get-details")
+    suspend fun getProfile(
+        @Header("Authorization") token: String,
+    ): GetProfileResponse?
 }
