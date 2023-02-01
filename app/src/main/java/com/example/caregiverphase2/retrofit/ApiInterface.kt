@@ -1,5 +1,7 @@
 package com.example.caregiverphase2.retrofit
 
+import com.example.caregiverphase2.model.pojo.add_bio.AddBioRequest
+import com.example.caregiverphase2.model.pojo.add_bio.AddBioResponse
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordRequest
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordResponse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
@@ -118,4 +120,10 @@ interface ApiInterface {
     suspend fun getProfile(
         @Header("Authorization") token: String,
     ): GetProfileResponse?
+
+    @POST("profile/add-bio")
+    suspend fun addBio(
+        @Body body: AddBioRequest?,
+        @Header("Authorization") token: String,
+    ): AddBioResponse?
 }

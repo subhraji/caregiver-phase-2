@@ -25,6 +25,7 @@
         app:layout_constraintTop_toTopOf="@+id/bio_htv"
         app:layout_constraintBottom_toBottomOf="@+id/bio_htv"
         android:layout_marginEnd="20dp"/>
+<!--
     <EditText
         android:id="@+id/bio_txt"
         android:layout_width="0dp"
@@ -34,7 +35,24 @@
         app:layout_constraintStart_toStartOf="@+id/bio_htv"
         app:layout_constraintEnd_toEndOf="@+id/clear_btn"
         android:layout_marginTop="10dp"
-        android:inputType="textMultiLine"/>
+        android:inputType="textMultiLine"
+        />
+-->
+
+    <EditText
+        android:id="@+id/bio_txt"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:hint="Type here ..."
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="2000"
+        android:minHeight="150dp"
+        android:background="@drawable/bio_border_bg"
+        app:layout_constraintTop_toBottomOf="@+id/bio_htv"
+        app:layout_constraintStart_toStartOf="@+id/bio_htv"
+        app:layout_constraintEnd_toEndOf="@+id/clear_btn"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"/>
     <androidx.cardview.widget.CardView
         android:id="@+id/add_btn"
         android:layout_width="match_parent"

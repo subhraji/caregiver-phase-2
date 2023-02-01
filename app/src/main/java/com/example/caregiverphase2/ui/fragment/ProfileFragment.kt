@@ -76,13 +76,17 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireActivity(), AddCertificateActivity::class.java)
             startActivity(intent)
         }
+    }
 
+    override fun onResume() {
         if(requireActivity().isConnectedToInternet()){
             mGetProfileViewModel.getProfile(accessToken)
             loader.show()
         }else{
             Toast.makeText(requireActivity(),"No internet connection.",Toast.LENGTH_SHORT).show()
         }
+
+        super.onResume()
     }
 
     private fun getProfileObserve(){
@@ -116,18 +120,22 @@ class ProfileFragment : Fragment() {
                             binding.genderTv.text = it.toString()
                         }
                         data?.basic_info?.bio?.let {
-                            binding.ageTv.text = it.toString()
+                            binding.showBioTv.text = it.toString()
                         }
                         if(data?.basic_info?.bio != null){
-                            binding.showBioLay.visible()
                             binding.addBioBtn.gone()
                             binding.bioImg.gone()
                             binding.bioHtv.gone()
+                            binding.showBioHtv.visible()
+                            binding.showBioTv.visible()
+                            binding.editBioBtn.visible()
                         }else{
-                            binding.showBioLay.gone()
                             binding.addBioBtn.visible()
                             binding.bioImg.visible()
                             binding.bioHtv.visible()
+                            binding.showBioHtv.gone()
+                            binding.showBioTv.gone()
+                            binding.editBioBtn.gone()
                         }
 
                         mGetProfileViewModel.navigationComplete()

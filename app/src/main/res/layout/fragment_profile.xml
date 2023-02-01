@@ -228,49 +228,6 @@
             android:background="@color/color_grey"
             app:layout_constraintTop_toBottomOf="@+id/age_tv" />
 
-        <ImageView
-            android:id="@+id/bio_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/ic_baseline_note_add_24"
-            app:layout_constraintStart_toStartOf="@+id/phone_htv"
-            app:layout_constraintTop_toBottomOf="@+id/view_1"
-            app:tint="@color/black" />
-
-        <TextView
-            android:id="@+id/bio_htv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Bio"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/bio_img"
-            app:layout_constraintStart_toEndOf="@+id/bio_img"
-            app:layout_constraintTop_toTopOf="@+id/bio_img" />
-
-        <TextView
-            android:id="@+id/add_bio_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/care_completed_bg"
-            android:backgroundTint="@color/lightest_grey"
-            android:drawableStart="@drawable/ic_outline_add_circle_outline_24"
-            android:drawableTint="@color/black"
-            android:paddingStart="15dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="15dp"
-            android:paddingBottom="3dp"
-            android:text="  Add"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/bio_img"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bio_img" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/show_bio_lay"
@@ -278,8 +235,54 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/view_1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingBottom="10dp">
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/bio_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_baseline_note_add_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/black"
+                android:layout_marginStart="20dp"/>
+
+            <TextView
+                android:id="@+id/bio_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Bio"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/bio_img"
+                app:layout_constraintStart_toEndOf="@+id/bio_img"
+                app:layout_constraintTop_toTopOf="@+id/bio_img" />
+
+            <TextView
+                android:id="@+id/add_bio_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/care_completed_bg"
+                android:backgroundTint="@color/lightest_grey"
+                android:drawableStart="@drawable/ic_outline_add_circle_outline_24"
+                android:drawableTint="@color/black"
+                android:paddingStart="15dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="3dp"
+                android:text="  Add"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/bio_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bio_img"
+                />
+
             <TextView
                 android:id="@+id/show_bio_htv"
                 android:layout_width="wrap_content"
@@ -291,7 +294,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:visibility="gone"/>
             <ImageView
                 android:id="@+id/edit_bio_btn"
                 android:layout_width="wrap_content"
@@ -301,7 +305,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/show_bio_htv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/show_bio_htv"
-                app:tint="@color/black" />
+                app:tint="@color/black"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/show_bio_tv"
                 android:layout_width="0dp"
@@ -312,7 +317,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/show_bio_htv"
                 app:layout_constraintStart_toStartOf="@+id/show_bio_htv"
                 app:layout_constraintEnd_toEndOf="@+id/edit_bio_btn"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:visibility="gone"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
@@ -321,7 +327,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
             android:background="@color/color_grey"
-            app:layout_constraintTop_toBottomOf="@+id/add_bio_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/show_bio_lay" />
 
         <ImageView
             android:id="@+id/edu_img"
