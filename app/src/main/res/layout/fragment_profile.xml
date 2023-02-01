@@ -233,20 +233,20 @@
             android:id="@+id/show_bio_lay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/view_1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/view_1">
 
             <ImageView
                 android:id="@+id/bio_img"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/ic_baseline_note_add_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black"
-                android:layout_marginStart="20dp"/>
+                app:tint="@color/black" />
 
             <TextView
                 android:id="@+id/bio_htv"
@@ -280,45 +280,46 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/bio_img"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/bio_img"
-                />
+                app:layout_constraintTop_toTopOf="@+id/bio_img" />
 
             <TextView
                 android:id="@+id/show_bio_htv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bio"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:visibility="gone"/>
+                android:text="Bio"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/edit_bio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/ic_outline_edit_24"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/show_bio_htv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/show_bio_htv"
-                app:tint="@color/black"
-                android:visibility="gone"/>
+                app:tint="@color/black" />
+
             <TextView
                 android:id="@+id/show_bio_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="rrfr rfbf rjfbjr \n jkrfje"
                 android:textColor="@color/black"
                 android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@+id/show_bio_htv"
-                app:layout_constraintStart_toStartOf="@+id/show_bio_htv"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/edit_bio_btn"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"/>
+                app:layout_constraintStart_toStartOf="@+id/show_bio_htv"
+                app:layout_constraintTop_toBottomOf="@+id/show_bio_htv" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
@@ -329,57 +330,89 @@
             android:background="@color/color_grey"
             app:layout_constraintTop_toBottomOf="@+id/show_bio_lay" />
 
-        <ImageView
-            android:id="@+id/edu_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/ic_baseline_school_24"
-            app:layout_constraintStart_toStartOf="@+id/phone_htv"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/show_edu_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_2"
-            app:tint="@color/black" />
+            app:layout_constraintEnd_toEndOf="parent">
+            <ImageView
+                android:id="@+id/edu_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_baseline_school_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="20dp"
+                app:tint="@color/black" />
 
-        <TextView
-            android:id="@+id/edu_htv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Education"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/edu_img"
-            app:layout_constraintStart_toEndOf="@+id/edu_img"
-            app:layout_constraintTop_toTopOf="@+id/edu_img" />
+            <TextView
+                android:id="@+id/edu_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Education"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/edu_img"
+                app:layout_constraintStart_toEndOf="@+id/edu_img"
+                app:layout_constraintTop_toTopOf="@+id/edu_img" />
 
-        <TextView
-            android:id="@+id/add_edu_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/care_completed_bg"
-            android:backgroundTint="@color/lightest_grey"
-            android:drawableStart="@drawable/ic_outline_add_circle_outline_24"
-            android:drawableTint="@color/black"
-            android:paddingStart="15dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="15dp"
-            android:paddingBottom="3dp"
-            android:text="  Add"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/edu_img"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/edu_img" />
+            <TextView
+                android:id="@+id/add_edu_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/care_completed_bg"
+                android:backgroundTint="@color/lightest_grey"
+                android:drawableStart="@drawable/ic_outline_add_circle_outline_24"
+                android:drawableTint="@color/black"
+                android:paddingStart="15dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="3dp"
+                android:text="  Add"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/edu_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edu_img" />
 
+            <TextView
+                android:id="@+id/show_education_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Education"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/education_recycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/show_education_htv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <View
             android:id="@+id/view_3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
             android:background="@color/color_grey"
-            app:layout_constraintTop_toBottomOf="@+id/add_edu_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/show_edu_lay" />
 
         <ImageView
             android:id="@+id/certificate_img"

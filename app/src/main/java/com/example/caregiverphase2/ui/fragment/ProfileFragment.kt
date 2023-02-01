@@ -122,6 +122,9 @@ class ProfileFragment : Fragment() {
                         data?.basic_info?.bio?.let {
                             binding.showBioTv.text = it.toString()
                         }
+                        data?.basic_info?.dob?.let {
+                            binding.ageTv.text = it.toString()+" Years"
+                        }
                         if(data?.basic_info?.bio != null){
                             binding.addBioBtn.gone()
                             binding.bioImg.gone()
