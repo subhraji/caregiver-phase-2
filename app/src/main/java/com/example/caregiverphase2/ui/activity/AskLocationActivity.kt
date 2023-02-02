@@ -125,7 +125,7 @@ class AskLocationActivity : AppCompatActivity() {
                     if(location == null){
                         Toast.makeText(this,"Please open your google map once, then retry", Toast.LENGTH_SHORT).show()
                     }else{
-                        Toast.makeText(this,"Get Success", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this,"Get Success", Toast.LENGTH_SHORT).show()
                         latitude = location.latitude.toString()
                         longitude = location.longitude.toString()
 

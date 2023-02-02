@@ -115,255 +115,338 @@
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constrain_lay_2"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/constrain_lay_1">
-
-        <TextView
-            android:id="@+id/phone_htv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:text="Phone no."
-            android:textColor="@color/text_grey"
-            android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/phone_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/gender_tv"
-            app:layout_constraintStart_toStartOf="@+id/phone_htv"
-            app:layout_constraintTop_toBottomOf="@+id/phone_htv" />
-
-        <TextView
-            android:id="@+id/exp_htv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Caregiver experience"
-            android:textColor="@color/text_grey"
-            android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="@+id/phone_htv"
-            app:layout_constraintTop_toBottomOf="@+id/phone_tv" />
-
-        <TextView
-            android:id="@+id/exp_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/age_tv"
-            app:layout_constraintStart_toStartOf="@+id/phone_htv"
-            app:layout_constraintTop_toBottomOf="@+id/exp_htv" />
-
-        <ImageView
-            android:id="@+id/edit_basic_info_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_outline_edit_24"
-            app:layout_constraintBottom_toBottomOf="@+id/exp_tv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/phone_htv"
-            app:tint="@color/black" />
-
-        <TextView
-            android:id="@+id/gender_htv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gender"
-            android:textColor="@color/text_grey"
-            android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="@+id/gender_tv"
-            app:layout_constraintTop_toTopOf="@+id/phone_htv" />
-
-        <TextView
-            android:id="@+id/gender_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/edit_basic_info_btn"
-            app:layout_constraintStart_toStartOf="@+id/age_tv"
-            app:layout_constraintTop_toTopOf="@+id/phone_tv" />
-
-        <TextView
-            android:id="@+id/age_htv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Age"
-            android:textColor="@color/text_grey"
-            android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="@+id/age_tv"
-            app:layout_constraintTop_toTopOf="@+id/exp_htv" />
-
-        <TextView
-            android:id="@+id/age_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="No data"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/edit_basic_info_btn"
-            app:layout_constraintTop_toBottomOf="@+id/age_htv" />
-
-        <View
-            android:id="@+id/view_1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/color_grey"
-            app:layout_constraintTop_toBottomOf="@+id/age_tv" />
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/show_bio_lay"
+            android:id="@+id/constrain_lay_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_1">
-
-            <ImageView
-                android:id="@+id/bio_img"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/ic_baseline_note_add_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/bio_htv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Bio"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/bio_img"
-                app:layout_constraintStart_toEndOf="@+id/bio_img"
-                app:layout_constraintTop_toTopOf="@+id/bio_img" />
-
-            <TextView
-                android:id="@+id/add_bio_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/care_completed_bg"
-                android:backgroundTint="@color/lightest_grey"
-                android:drawableStart="@drawable/ic_outline_add_circle_outline_24"
-                android:drawableTint="@color/black"
-                android:paddingStart="15dp"
-                android:paddingTop="3dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="3dp"
-                android:text="  Add"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/bio_img"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/bio_img" />
-
-            <TextView
-                android:id="@+id/show_bio_htv"
+                android:id="@+id/phone_htv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text="Bio"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="gone"
+                android:text="Phone no."
+                android:textColor="@color/text_grey"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/phone_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/gender_tv"
+                app:layout_constraintStart_toStartOf="@+id/phone_htv"
+                app:layout_constraintTop_toBottomOf="@+id/phone_htv" />
+
+            <TextView
+                android:id="@+id/exp_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Caregiver experience"
+                android:textColor="@color/text_grey"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="@+id/phone_htv"
+                app:layout_constraintTop_toBottomOf="@+id/phone_tv" />
+
+            <TextView
+                android:id="@+id/exp_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/age_tv"
+                app:layout_constraintStart_toStartOf="@+id/phone_htv"
+                app:layout_constraintTop_toBottomOf="@+id/exp_htv" />
+
             <ImageView
-                android:id="@+id/edit_bio_btn"
+                android:id="@+id/edit_basic_info_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/ic_outline_edit_24"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/show_bio_htv"
+                app:layout_constraintBottom_toBottomOf="@+id/exp_tv"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/show_bio_htv"
+                app:layout_constraintTop_toTopOf="@+id/phone_htv"
                 app:tint="@color/black" />
 
             <TextView
-                android:id="@+id/show_bio_tv"
+                android:id="@+id/gender_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textColor="@color/text_grey"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="@+id/gender_tv"
+                app:layout_constraintTop_toTopOf="@+id/phone_htv" />
+
+            <TextView
+                android:id="@+id/gender_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="rrfr rfbf rjfbjr \n jkrfje"
                 android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/edit_basic_info_btn"
+                app:layout_constraintStart_toStartOf="@+id/age_tv"
+                app:layout_constraintTop_toTopOf="@+id/phone_tv" />
+
+            <TextView
+                android:id="@+id/age_htv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Age"
+                android:textColor="@color/text_grey"
                 android:textSize="13sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/edit_bio_btn"
-                app:layout_constraintStart_toStartOf="@+id/show_bio_htv"
-                app:layout_constraintTop_toBottomOf="@+id/show_bio_htv" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintStart_toStartOf="@+id/age_tv"
+                app:layout_constraintTop_toTopOf="@+id/exp_htv" />
 
-        <View
-            android:id="@+id/view_2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/color_grey"
-            app:layout_constraintTop_toBottomOf="@+id/show_bio_lay" />
+            <TextView
+                android:id="@+id/age_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="No data"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/edit_basic_info_btn"
+                app:layout_constraintTop_toBottomOf="@+id/age_htv" />
+
+            <View
+                android:id="@+id/view_1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/color_grey"
+                app:layout_constraintTop_toBottomOf="@+id/age_tv" />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/show_edu_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_2"
-            app:layout_constraintEnd_toEndOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/show_bio_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_1">
+
+                <ImageView
+                    android:id="@+id/bio_img"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/ic_baseline_note_add_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/bio_htv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Bio"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/bio_img"
+                    app:layout_constraintStart_toEndOf="@+id/bio_img"
+                    app:layout_constraintTop_toTopOf="@+id/bio_img" />
+
+                <TextView
+                    android:id="@+id/add_bio_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/care_completed_bg"
+                    android:backgroundTint="@color/lightest_grey"
+                    android:drawableStart="@drawable/ic_outline_add_circle_outline_24"
+                    android:drawableTint="@color/black"
+                    android:paddingStart="15dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="3dp"
+                    android:text="  Add"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/bio_img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/bio_img" />
+
+                <TextView
+                    android:id="@+id/show_bio_htv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Bio"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/edit_bio_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_outline_edit_24"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/show_bio_htv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/show_bio_htv"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/show_bio_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="rrfr rfbf rjfbjr \n jkrfje"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/edit_bio_btn"
+                    app:layout_constraintStart_toStartOf="@+id/show_bio_htv"
+                    app:layout_constraintTop_toBottomOf="@+id/show_bio_htv" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view_2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/color_grey"
+                app:layout_constraintTop_toBottomOf="@+id/show_bio_lay" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/show_edu_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_2"
+                app:layout_constraintEnd_toEndOf="parent">
+                <ImageView
+                    android:id="@+id/edu_img"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/ic_baseline_school_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="20dp"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/edu_htv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Education"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/edu_img"
+                    app:layout_constraintStart_toEndOf="@+id/edu_img"
+                    app:layout_constraintTop_toTopOf="@+id/edu_img" />
+
+                <TextView
+                    android:id="@+id/add_edu_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/care_completed_bg"
+                    android:backgroundTint="@color/lightest_grey"
+                    android:drawableStart="@drawable/ic_outline_add_circle_outline_24"
+                    android:drawableTint="@color/black"
+                    android:paddingStart="15dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="3dp"
+                    android:text="  Add"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/edu_img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/edu_img" />
+
+                <TextView
+                    android:id="@+id/show_education_htv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Education"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/education_recycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/show_education_htv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    tools:listitem="@layout/show_edu_item_layout"
+                    tools:itemCount="2"
+                    android:visibility="gone"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:id="@+id/view_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/color_grey"
+                app:layout_constraintTop_toBottomOf="@+id/show_edu_lay" />
+
             <ImageView
-                android:id="@+id/edu_img"
+                android:id="@+id/certificate_img"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/ic_baseline_school_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toStartOf="@+id/phone_htv"
+                app:layout_constraintTop_toBottomOf="@+id/view_3"
                 app:tint="@color/black" />
 
             <TextView
-                android:id="@+id/edu_htv"
-                android:layout_width="wrap_content"
+                android:id="@+id/certificate_htv"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="Education"
+                android:text="Caregiver certificate/course"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/edu_img"
-                app:layout_constraintStart_toEndOf="@+id/edu_img"
-                app:layout_constraintTop_toTopOf="@+id/edu_img" />
+                app:layout_constraintBottom_toBottomOf="@+id/certificate_img"
+                app:layout_constraintEnd_toStartOf="@+id/add_certificate_btn"
+                app:layout_constraintStart_toEndOf="@+id/certificate_img"
+                app:layout_constraintTop_toTopOf="@+id/certificate_img" />
 
             <TextView
-                android:id="@+id/add_edu_btn"
+                android:id="@+id/add_certificate_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
@@ -379,94 +462,19 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/edu_img"
+                app:layout_constraintBottom_toBottomOf="@+id/certificate_img"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/edu_img" />
+                app:layout_constraintTop_toTopOf="@+id/certificate_img" />
 
-            <TextView
-                android:id="@+id/show_education_htv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:text="Education"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <View
+                android:id="@+id/view_4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/color_grey"
+                app:layout_constraintTop_toBottomOf="@+id/add_certificate_btn" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/education_recycler"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/show_education_htv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <View
-            android:id="@+id/view_3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/color_grey"
-            app:layout_constraintTop_toBottomOf="@+id/show_edu_lay" />
 
-        <ImageView
-            android:id="@+id/certificate_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/ic_baseline_school_24"
-            app:layout_constraintStart_toStartOf="@+id/phone_htv"
-            app:layout_constraintTop_toBottomOf="@+id/view_3"
-            app:tint="@color/black" />
-
-        <TextView
-            android:id="@+id/certificate_htv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Caregiver certificate/course"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/certificate_img"
-            app:layout_constraintEnd_toStartOf="@+id/add_certificate_btn"
-            app:layout_constraintStart_toEndOf="@+id/certificate_img"
-            app:layout_constraintTop_toTopOf="@+id/certificate_img" />
-
-        <TextView
-            android:id="@+id/add_certificate_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/care_completed_bg"
-            android:backgroundTint="@color/lightest_grey"
-            android:drawableStart="@drawable/ic_outline_add_circle_outline_24"
-            android:drawableTint="@color/black"
-            android:paddingStart="15dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="15dp"
-            android:paddingBottom="3dp"
-            android:text="  Add"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/certificate_img"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/certificate_img" />
-
-        <View
-            android:id="@+id/view_4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/color_grey"
-            app:layout_constraintTop_toBottomOf="@+id/add_certificate_btn" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </ScrollView>
 </RelativeLayout>

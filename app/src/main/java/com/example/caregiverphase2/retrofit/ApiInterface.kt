@@ -2,6 +2,8 @@ package com.example.caregiverphase2.retrofit
 
 import com.example.caregiverphase2.model.pojo.add_bio.AddBioRequest
 import com.example.caregiverphase2.model.pojo.add_bio.AddBioResponse
+import com.example.caregiverphase2.model.pojo.add_education.AddEducationRequest
+import com.example.caregiverphase2.model.pojo.add_education.AddEducationResponse
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordRequest
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordResponse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
@@ -49,7 +51,7 @@ interface ApiInterface {
     ): GetJobsResponse?
 
     @Multipart
-    @POST("profile/basic-information")
+    @POST("profile/registration/basic-information")
     suspend fun registration(
         @Part photo: MultipartBody.Part?,
         @Part("phone") phone: RequestBody,
@@ -121,9 +123,15 @@ interface ApiInterface {
         @Header("Authorization") token: String,
     ): GetProfileResponse?
 
-    @POST("profile/add-bio")
+    @POST("profile/bio/add")
     suspend fun addBio(
         @Body body: AddBioRequest?,
         @Header("Authorization") token: String,
     ): AddBioResponse?
+
+    @POST("profile/education/add")
+    suspend fun addEducation(
+        @Body body: AddEducationRequest?,
+        @Header("Authorization") token: String,
+    ): AddEducationResponse?
 }

@@ -8,12 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
+import com.example.caregiverphase2.adapter.ProfileEducationAdapter
+import com.example.caregiverphase2.adapter.UpcommingJobsAdapter
 import com.example.caregiverphase2.databinding.FragmentLoginBinding
 import com.example.caregiverphase2.databinding.FragmentProfileBinding
+import com.example.caregiverphase2.model.TestModel
+import com.example.caregiverphase2.model.pojo.get_profile.Education
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.activity.AddBioActivity
 import com.example.caregiverphase2.ui.activity.AddCertificateActivity
@@ -141,6 +147,21 @@ class ProfileFragment : Fragment() {
                             binding.editBioBtn.gone()
                         }
 
+                        if(data?.education != null && data.education.isNotEmpty()){
+                            binding.educationRecycler.visible()
+                            binding.showEducationHtv.visible()
+                            binding.eduImg.gone()
+                            binding.eduHtv.gone()
+                            binding.addEduBtn.gone()
+                            fillEducationRecycler(data?.education)
+                        }else{
+                            binding.educationRecycler.gone()
+                            binding.showEducationHtv.gone()
+                            binding.eduImg.visible()
+                            binding.eduHtv.visible()
+                            binding.addEduBtn.visible()
+                        }
+
                         mGetProfileViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
@@ -155,4 +176,11 @@ class ProfileFragment : Fragment() {
         })
     }
 
+    private fun fillEducationRecycler(list: List<Education>) {
+        val gridLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        binding.educationRecycler.apply {
+            layoutManager = gridLayoutManager
+            adapter = ProfileEducationAdapter(list,requireActivity())
+        }
+    }
 }
