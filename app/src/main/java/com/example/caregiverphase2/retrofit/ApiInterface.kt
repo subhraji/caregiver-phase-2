@@ -7,6 +7,7 @@ import com.example.caregiverphase2.model.pojo.add_education.AddEducationRequest
 import com.example.caregiverphase2.model.pojo.add_education.AddEducationResponse
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordRequest
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordResponse
+import com.example.caregiverphase2.model.pojo.change_profile_pic.ChangeProfilePicResponse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
@@ -145,4 +146,11 @@ interface ApiInterface {
         @Part("end_year") end_year: RequestBody,
         @Header("Authorization") token: String
     ): AddCertificateResponse?
+
+    @Multipart
+    @POST("profile/change-photo")
+    suspend fun changeProfilePic(
+        @Part photo: MultipartBody.Part?,
+        @Header("Authorization") token: String
+    ): ChangeProfilePicResponse?
 }
