@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.adapter.ProfileEducationAdapter
+import com.example.caregiverphase2.adapter.ShowCertificateAdapter
 import com.example.caregiverphase2.adapter.UpcommingJobsAdapter
 import com.example.caregiverphase2.databinding.FragmentLoginBinding
 import com.example.caregiverphase2.databinding.FragmentProfileBinding
 import com.example.caregiverphase2.model.TestModel
+import com.example.caregiverphase2.model.pojo.get_profile.Certificate
 import com.example.caregiverphase2.model.pojo.get_profile.Education
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.activity.AddBioActivity
@@ -162,6 +164,12 @@ class ProfileFragment : Fragment() {
                             binding.addEduBtn.visible()
                         }
 
+                        if(data?.education != null && data.education.isNotEmpty()){
+
+                        }else{
+
+                        }
+
                         mGetProfileViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
@@ -181,6 +189,14 @@ class ProfileFragment : Fragment() {
         binding.educationRecycler.apply {
             layoutManager = gridLayoutManager
             adapter = ProfileEducationAdapter(list,requireActivity())
+        }
+    }
+
+    private fun fillCertificateRecycler(list: List<Certificate>) {
+        val gridLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        binding.educationRecycler.apply {
+            layoutManager = gridLayoutManager
+            adapter = ShowCertificateAdapter(list,requireActivity())
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.caregiverphase2.retrofit
 
 import com.example.caregiverphase2.model.pojo.add_bio.AddBioRequest
 import com.example.caregiverphase2.model.pojo.add_bio.AddBioResponse
+import com.example.caregiverphase2.model.pojo.add_certificate.AddCertificateResponse
 import com.example.caregiverphase2.model.pojo.add_education.AddEducationRequest
 import com.example.caregiverphase2.model.pojo.add_education.AddEducationResponse
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordRequest
@@ -134,4 +135,14 @@ interface ApiInterface {
         @Body body: AddEducationRequest?,
         @Header("Authorization") token: String,
     ): AddEducationResponse?
+
+    @Multipart
+    @POST("profile/certificate/add")
+    suspend fun addCertificate(
+        @Part document: MultipartBody.Part?,
+        @Part("certificate_or_course") certificate_or_course: RequestBody,
+        @Part("start_year") start_year: RequestBody,
+        @Part("end_year") end_year: RequestBody,
+        @Header("Authorization") token: String
+    ): AddCertificateResponse?
 }
