@@ -16,7 +16,9 @@ import com.example.caregiverphase2.databinding.FragmentLoginBinding
 import com.example.caregiverphase2.databinding.FragmentSettingsBinding
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.activity.AskLocationActivity
+import com.example.caregiverphase2.ui.activity.ChangePasswordActivity
 import com.example.caregiverphase2.ui.activity.ChooseLoginRegActivity
+import com.example.caregiverphase2.ui.activity.MainActivity
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.LoginViewModel
 import com.example.caregiverphase2.viewmodel.LogoutViewModel
@@ -59,6 +61,11 @@ class SettingsFragment : Fragment() {
 
         binding.logoutBtn.setOnClickListener {
             showLogoutPopUp()
+        }
+
+        binding.changePassBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), ChangePasswordActivity::class.java)
+            startActivity(intent)
         }
     }
 
