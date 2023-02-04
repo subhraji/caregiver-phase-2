@@ -18,10 +18,11 @@ class GetQuickCallViewModel @Inject constructor(private val repository: GetQuick
     val response: MutableLiveData<Outcome<GetOpenJobsResponse?>?> = _response
 
     fun getQuickCall(
-        token: String
+        token: String,
+        id: Int
     ) = viewModelScope.launch {
         repository.getQuickCall(
-            token
+            token, id
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

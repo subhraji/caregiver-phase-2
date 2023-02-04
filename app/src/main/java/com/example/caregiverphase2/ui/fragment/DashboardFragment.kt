@@ -126,7 +126,7 @@ class DashboardFragment : Fragment() {
             binding.quickCallShimmerView.visible()
             binding.quickCallShimmerView.startShimmer()
             binding.quickCallRecycler.gone()
-            mGetQuickCallViewModel.getQuickCall(accessToken)
+            mGetQuickCallViewModel.getQuickCall(accessToken, 0)
 
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()

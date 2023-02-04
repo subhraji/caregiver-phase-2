@@ -11,7 +11,8 @@ import javax.inject.Inject
 class GetQuickCallRepository @Inject constructor(private val apiInterface: ApiInterface)  {
     fun getQuickCall(
         token: String,
+        id: Int
     ): Flow<GetOpenJobsResponse?> = flow{
-        emit(apiInterface.getQuickCall(token))
+        emit(apiInterface.getQuickCall(token, id))
     }.flowOn(Dispatchers.IO)
 }

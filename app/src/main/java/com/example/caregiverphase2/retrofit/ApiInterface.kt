@@ -78,6 +78,7 @@ interface ApiInterface {
     @GET("job/quick-call")
     suspend fun getQuickCall(
         @Header("Authorization") token: String,
+        @Query("id") id: Int? = null,
     ): GetOpenJobsResponse?
 
     @POST("profile/change-password")

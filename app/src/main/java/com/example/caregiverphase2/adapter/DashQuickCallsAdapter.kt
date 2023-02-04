@@ -10,6 +10,7 @@ import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.QuickCallsItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.ui.activity.JobDetailsActivity
+import com.example.caregiverphase2.ui.activity.QuickCallsDetailsActivity
 import com.example.caregiverphase2.utils.Constants
 
 class DashQuickCallsAdapter(private val itemList: List<Data>, private val context: Context):
@@ -57,10 +58,9 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                 }
                 ageTv.text = gen
                 rootLay.setOnClickListener {
-                    val intent = Intent(context, JobDetailsActivity::class.java)
+                    val intent = Intent(context, QuickCallsDetailsActivity::class.java)
                     intent.putExtra("start_time", data?.start_time)
                     intent.putExtra("id", data?.job_id.toString())
-                    intent.putExtra("job_type", "open_job")
                     context.startActivity(intent)
                 }
 
