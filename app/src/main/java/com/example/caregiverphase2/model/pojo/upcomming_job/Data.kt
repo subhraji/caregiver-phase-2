@@ -1,0 +1,33 @@
+package com.example.caregiverphase2.model.pojo.upcomming_job
+
+
+import com.google.gson.annotations.SerializedName
+
+data class Data(
+    @SerializedName("agency_name")
+    val agencyName: String,
+    @SerializedName("agency_photo")
+    val agencyPhoto: String,
+    @SerializedName("amount")
+    val amount: String,
+    @SerializedName("care_items")
+    val careItems: List<String>,
+    @SerializedName("care_type")
+    val careType: String,
+    @SerializedName("date")
+    val date: String,
+    @SerializedName("end_time")
+    val endTime: String,
+    @SerializedName("job_starts_in")
+    val jobStartsIn: Int,
+    @SerializedName("lat")
+    val lat: String,
+    @SerializedName("long")
+    val long: String,
+    @SerializedName("start_time")
+    val startTime: String,
+    @SerializedName("status")
+    val status: String,
+    @SerializedName("title")
+    val title: String
+)

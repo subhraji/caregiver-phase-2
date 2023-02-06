@@ -28,10 +28,7 @@ import com.example.caregiverphase2.ui.activity.BasicAndHomeAddressActivity
 import com.example.caregiverphase2.ui.activity.MainActivity
 import com.example.caregiverphase2.ui.activity.SearchLocationActivity
 import com.example.caregiverphase2.utils.PrefManager
-import com.example.caregiverphase2.viewmodel.GetOPenBidsViewModel
-import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
-import com.example.caregiverphase2.viewmodel.GetProfileStatusViewModel
-import com.example.caregiverphase2.viewmodel.GetQuickCallViewModel
+import com.example.caregiverphase2.viewmodel.*
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
@@ -49,6 +46,8 @@ class DashboardFragment : Fragment() {
     private val mGetOPenBidsViewModel: GetOPenBidsViewModel by viewModels()
     private val mGetQuickCallViewModel: GetQuickCallViewModel by viewModels()
     private val mGetProfileStatusViewModel: GetProfileStatusViewModel by viewModels()
+    private val mGetUpcommingJobsViewModel: GetUpcommingJobsViewModel by viewModels()
+
     private lateinit var loader: androidx.appcompat.app.AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,11 +72,14 @@ class DashboardFragment : Fragment() {
 
         loader = requireActivity().loadingDialog()
 
+        binding.ongoingAdjustView.gone()
+        binding.ongoingCard.gone()
         //observer
         getOPenJobsObserver()
         getOPenBidsObserver()
         getQuickCallObserver()
         getProfileStatusObserver()
+        getUpcommingJoobsObserver()
 
         Glide.with(this)
             .load("https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80") // image url
@@ -127,6 +129,8 @@ class DashboardFragment : Fragment() {
             binding.quickCallShimmerView.startShimmer()
             binding.quickCallRecycler.gone()
             mGetQuickCallViewModel.getQuickCall(accessToken, 0)
+
+            mGetUpcommingJobsViewModel.getUpcommingJobs(accessToken,"ongoing")
 
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
@@ -297,6 +301,35 @@ class DashboardFragment : Fragment() {
                             showCompleteDialog("Your profile is under approval process.","Ok", 4)
                         }
                         mGetProfileStatusViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun getUpcommingJoobsObserver(){
+        mGetUpcommingJobsViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        if(outcome.data?.data!!.isNotEmpty()){
+                            binding.ongoingAdjustView.visible()
+                            binding.ongoingCard.visible()
+                        }else{
+                            binding.ongoingAdjustView.visible()
+                            binding.ongoingCard.visible()
+                        }
+                        mGetUpcommingJobsViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }

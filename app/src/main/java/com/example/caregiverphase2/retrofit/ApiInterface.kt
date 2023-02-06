@@ -1,5 +1,7 @@
 package com.example.caregiverphase2.retrofit
 
+import com.example.caregiverphase2.model.pojo.accept_job.AcceptJobRequest
+import com.example.caregiverphase2.model.pojo.accept_job.AcceptJobResponse
 import com.example.caregiverphase2.model.pojo.add_bio.AddBioRequest
 import com.example.caregiverphase2.model.pojo.add_bio.AddBioResponse
 import com.example.caregiverphase2.model.pojo.add_certificate.AddCertificateResponse
@@ -27,6 +29,7 @@ import com.example.caregiverphase2.model.pojo.signup.SignUpResponse
 import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidRequest
 import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidResponse
 import com.example.caregiverphase2.model.pojo.todo.GetTodosResponse
+import com.example.caregiverphase2.model.pojo.upcomming_job.GetUpcommingJobsResponse
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationRequest
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationResponse
 import okhttp3.MultipartBody
@@ -110,7 +113,7 @@ interface ApiInterface {
         @Query("id") id: Int? = null,
     ): GetBiddedJobsResponse?
 
-    @POST("profile/optional-information")
+    @POST("profile/registration/optional-information")
     suspend fun submitOptionalReg(
         @Body body: SubmitOptionalRegRequest?,
         @Header("Authorization") token: String,
@@ -154,4 +157,16 @@ interface ApiInterface {
         @Part photo: MultipartBody.Part?,
         @Header("Authorization") token: String
     ): ChangeProfilePicResponse?
+
+    @POST("job/accept")
+    suspend fun acceptJob(
+        @Body body: AcceptJobRequest?,
+        @Header("Authorization") token: String,
+    ): AcceptJobResponse?
+
+    @GET("job/ongoing-job")
+    suspend fun getUpcommingJobs(
+        @Header("Authorization") token: String,
+        @Query("type") type: String,
+    ): GetUpcommingJobsResponse?
 }

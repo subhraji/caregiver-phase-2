@@ -138,7 +138,20 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
             val day = c.get(Calendar.DAY_OF_MONTH)
             val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 binding.dobTv.visible()
-                binding.dobTv.setText("" + monthOfYear+1 + "-" + dayOfMonth+ "-" + year)
+
+                var day = ""
+                var month = ""
+                if(dayOfMonth<10){
+                    day = "0"+dayOfMonth.toString()
+                }else{
+                    day = dayOfMonth.toString()
+                }
+                if(monthOfYear+1 < 10){
+                    month = "0"+(monthOfYear+1)
+                }else{
+                    month = (monthOfYear+1).toString()
+                }
+                binding.dobTv.setText("" +month + "-" + day+ "-" + year)
                 dob = binding.dobTv.text.toString()
             }, year, month, day)
             dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
@@ -547,7 +560,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
                 is Outcome.Success ->{
                     loader.dismiss()
                     if(outcome.data?.success == true){
-                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         binding.relativeLay2.gone()
                         binding.relativeLay1.gone()
                         binding.relativeLay3.visible()

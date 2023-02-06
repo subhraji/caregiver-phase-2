@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,10 +18,7 @@ import com.example.caregiverphase2.databinding.ActivityQuickCallsDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
-import com.example.caregiverphase2.viewmodel.GetOpenBidDetailsViewModel
-import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
-import com.example.caregiverphase2.viewmodel.GetQuickCallViewModel
-import com.example.caregiverphase2.viewmodel.SubmitBidViewModel
+import com.example.caregiverphase2.viewmodel.*
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
@@ -33,6 +31,8 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
 
     private lateinit var accessToken: String
     private val mGetQuickCallViewModel: GetQuickCallViewModel by viewModels()
+    private val mAcceptJobViewModel: AcceptJobViewModel by viewModels()
+
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private var start_time: String? = ""
     private lateinit var job_id: String
@@ -64,6 +64,10 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
 
         clickJobOverview()
 
+        binding.backBtn.setOnClickListener {
+            finish()
+        }
+
         binding.jobOverviewCard.setOnClickListener {
             clickJobOverview()
         }
@@ -72,8 +76,13 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
             clickCheckList()
         }
 
+        binding.acceptTv.setOnClickListener {
+            acceptPopUp()
+        }
+
         //observer
         getQuickCallObserver()
+        acceptJobObserver()
 
         if(isConnectedToInternet()){
             binding.mainLay.gone()
@@ -208,4 +217,48 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun acceptJobObserver(){
+        mAcceptJobViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        binding.acceptLayout.gone()
+                        mGetQuickCallViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun acceptPopUp(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Accept")
+        builder.setMessage("Do you want to accept this job ?")
+        builder.setIcon(R.drawable.ic_baseline_logout_24)
+        builder.setPositiveButton("Yes"){dialogInterface, which ->
+            if(isConnectedToInternet()){
+                mAcceptJobViewModel.acceptJob(job_id,accessToken)
+                loader.dismiss()
+            }else{
+                Toast.makeText(this,"Oops!! No internet connection.", Toast.LENGTH_SHORT).show()
+            }
+        }
+        builder.setNegativeButton("No"){dialogInterface, which ->
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+    }
 }

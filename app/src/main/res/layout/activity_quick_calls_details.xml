@@ -470,6 +470,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/accept_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
@@ -496,7 +497,7 @@
                     android:paddingEnd="10dp"
                     android:layout_weight="1"/>
                 <TextView
-                    android:id="@+id/bid_now_tv"
+                    android:id="@+id/accept_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#F1F1F1"
