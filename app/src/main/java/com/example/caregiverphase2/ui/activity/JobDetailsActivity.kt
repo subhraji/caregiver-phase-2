@@ -103,12 +103,18 @@ class JobDetailsActivity : AppCompatActivity() {
 
         if(job_type == "open_bid"){
             if(isConnectedToInternet()){
+                binding.mainLay.gone()
+                binding.detailsShimmerView.visible()
+                binding.detailsShimmerView.startShimmer()
                 mGetOpenBidDetailsViewModel.getOpenBids(accessToken, job_id.toInt())
             }else{
                 Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
             }
         }else if(job_type == "open_job"){
             if(isConnectedToInternet()){
+                binding.mainLay.gone()
+                binding.detailsShimmerView.visible()
+                binding.detailsShimmerView.startShimmer()
                 mGetOpenJobsViewModel.getOPenJobs(token = accessToken, id = job_id.toInt())
             }else{
                 Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
@@ -277,7 +283,9 @@ class JobDetailsActivity : AppCompatActivity() {
         mGetOpenJobsViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-
+                    binding.mainLay.visible()
+                    binding.detailsShimmerView.gone()
+                    binding.detailsShimmerView.stopShimmer()
                     if(outcome.data?.success == true){
                         //Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         var gen = ""
@@ -344,7 +352,9 @@ class JobDetailsActivity : AppCompatActivity() {
         mGetOpenBidDetailsViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-
+                    binding.mainLay.visible()
+                    binding.detailsShimmerView.gone()
+                    binding.detailsShimmerView.stopShimmer()
                     if(outcome.data?.success == true){
                         //Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         var gen = ""

@@ -76,8 +76,10 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
         getQuickCallObserver()
 
         if(isConnectedToInternet()){
+            binding.mainLay.gone()
+            binding.detailsShimmerView.visible()
+            binding.detailsShimmerView.startShimmer()
             mGetQuickCallViewModel.getQuickCall(accessToken,job_id.toInt())
-            loader.show()
         }else{
             Toast.makeText(this,"Oops!! No internet connection.", Toast.LENGTH_SHORT).show()
         }
@@ -110,7 +112,9 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
         mGetQuickCallViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-                    loader.dismiss()
+                    binding.mainLay.visible()
+                    binding.detailsShimmerView.gone()
+                    binding.detailsShimmerView.stopShimmer()
                     if(outcome.data?.success == true){
                         var gen = ""
                         for(i in outcome.data!!.data[0].care_items){
