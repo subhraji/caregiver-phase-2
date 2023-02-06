@@ -75,6 +75,7 @@ class JobDetailsActivity : AppCompatActivity() {
         binding.noCheckListTv.gone()
         binding.checkListRecycler.gone()
 
+        //startTimer()
         //observer
         submitBidObserver()
         getOpenJobsDetailsObserver()
@@ -158,7 +159,7 @@ class JobDetailsActivity : AppCompatActivity() {
             ((secs + 1) * 1000).toLong(), 1000
         ) {
             override fun onTick(millisUntilFinished: Long) {
-                getConditionHour(getCurrentDateTime(),"14-12-2022 "+start_time)
+                getConditionHour(getCurrentDateTime(),"07-02-2022 "+start_time)
             }
             override fun onFinish() {
                 cancelTimer()
