@@ -22,7 +22,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="70dp">
+                android:paddingBottom="100dp">
                 <ImageView
                     android:id="@+id/back_btn"
                     android:layout_width="30dp"
@@ -468,16 +468,24 @@
                 </RelativeLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-        <androidx.cardview.widget.CardView
+
+        <com.ncorti.slidetoact.SlideToActView
+            android:id="@+id/slide_to_start_btn"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            app:cardCornerRadius="10dp"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            app:area_margin="5dp"
+            app:animation_duration="250"
+            app:outer_color="@color/theme_blue"
+            app:inner_color="@color/color_grey"
+            app:border_radius="80dp"
+            app:text="Swipe to start the job."
+            app:text_size="12sp"
+            app:slider_height="60dp"
+            app:slider_locked="false"
+            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
-            android:layout_alignParentBottom="true">
-
-
-        </androidx.cardview.widget.CardView>
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
     </RelativeLayout>
 </RelativeLayout>

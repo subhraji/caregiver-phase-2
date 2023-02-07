@@ -105,4 +105,7 @@ dependencies {
     //places
     implementation 'com.google.android.libraries.places:places:2.6.0'
 
+    //swipe
+    implementation "com.ncorti:slidetoact:0.9.0"
+
 }
