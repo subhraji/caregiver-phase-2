@@ -11,6 +11,7 @@ import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.AlreadyBiddedItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.upcomming_job.Data
 import com.example.caregiverphase2.ui.activity.BiddedJobDetailsActivity
+import com.example.caregiverphase2.ui.activity.UpcommingJobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
 import gone
 
@@ -62,11 +63,8 @@ class UpcommingJobsAdapter (private val itemList: List<Data>, private val contex
                 }
                 ageTv.text = gen
                 rootLay.setOnClickListener {
-                    /*val intent = Intent(context, BiddedJobDetailsActivity::class.java)
-                    intent.putExtra("start_time", data?.startTime)
-                    //intent.putExtra("id", data?.jobId.toString())
-                    intent.putExtra("job_type", "open_bid")
-                    context.startActivity(intent)*/
+                    val intent = Intent(context, UpcommingJobDetailsActivity::class.java)
+                    context.startActivity(intent)
                 }
 
                 Glide.with(context)
