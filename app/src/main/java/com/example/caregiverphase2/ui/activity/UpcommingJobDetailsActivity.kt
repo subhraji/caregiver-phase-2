@@ -27,7 +27,6 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         }
         binding.checklistCard.setOnClickListener {
             clickCheckList()
-
         }
 
         //swipe
