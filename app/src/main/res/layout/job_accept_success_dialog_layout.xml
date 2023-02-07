@@ -14,7 +14,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:src="@drawable/ic_baseline_clear_24"
-        app:tint="@color/black"/>
+        app:tint="@color/black"
+        android:visibility="invisible"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/ja_dialog_done_img"
@@ -41,14 +42,34 @@
         android:textSize="30dp"
         android:textStyle="bold"/>
     <TextView
+        android:id="@+id/text_view_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thank you for accepting the job"
+        android:text="Thank you for accepting the job. You can find the job on upcoming job section."
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="16sp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textAlignment="center"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ja_dialog_great_tv"/>
+    <TextView
+        android:id="@+id/ok_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="Okay"
+        android:textSize="16sp"
+        android:background="@drawable/ok_btn_border_bg"
+        android:textColor="@color/theme_blue"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="4dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

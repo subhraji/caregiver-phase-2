@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityFullScreenNotifyBinding
@@ -72,14 +73,16 @@ class FullScreenNotifyActivity : AppCompatActivity() {
         dialog.setCanceledOnTouchOutside(false)
         dialog.setContentView(R.layout.job_accept_success_dialog_layout)
 
-        val clear = dialog.findViewById<ImageView>(R.id.clear_btn)
+        val okay = dialog.findViewById<TextView>(R.id.ok_btn)
+
         /*Handler(Looper.getMainLooper()).postDelayed({
 
         }, 2500)*/
-        clear.setOnClickListener {
+        okay.setOnClickListener {
             dialog.dismiss()
             finish()
         }
+
         dialog.show()
     }
 

@@ -70,6 +70,9 @@ class BiddedJobDetailsActivity : AppCompatActivity() {
             clickCheckList()
         }
 
+        binding.mainLay.gone()
+        binding.detailsShimmerView.visible()
+        binding.detailsShimmerView.startShimmer()
         if(isConnectedToInternet()){
             mGetBiddedJobsViewModel.getBiddedJobs(accessToken,job_id.toInt())
         }else{
@@ -107,7 +110,9 @@ class BiddedJobDetailsActivity : AppCompatActivity() {
         mGetBiddedJobsViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-
+                    binding.mainLay.visible()
+                    binding.detailsShimmerView.gone()
+                    binding.detailsShimmerView.stopShimmer()
                     if(outcome.data?.success == true){
                         var gen = ""
                         for(i in outcome.data!!.data[0].careItems){

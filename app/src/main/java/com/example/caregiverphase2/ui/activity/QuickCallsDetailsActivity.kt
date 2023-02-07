@@ -1,9 +1,12 @@
 package com.example.caregiverphase2.ui.activity
 
 import android.app.AlertDialog
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -226,6 +229,7 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         binding.acceptLayout.gone()
+                        showAcceptDialog()
                         mGetQuickCallViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
@@ -260,5 +264,25 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
         alertDialog.show()
+    }
+
+    private fun showAcceptDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.job_accept_success_dialog_layout)
+
+        val okay = dialog.findViewById<TextView>(R.id.ok_btn)
+
+        /*Handler(Looper.getMainLooper()).postDelayed({
+
+        }, 2500)*/
+        okay.setOnClickListener {
+            dialog.dismiss()
+            finish()
+        }
+
+        dialog.show()
     }
 }

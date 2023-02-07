@@ -326,8 +326,8 @@ class DashboardFragment : Fragment() {
                             binding.ongoingAdjustView.visible()
                             binding.ongoingCard.visible()
                         }else{
-                            binding.ongoingAdjustView.visible()
-                            binding.ongoingCard.visible()
+                            binding.ongoingAdjustView.gone()
+                            binding.ongoingCard.gone()
                         }
                         mGetUpcommingJobsViewModel.navigationComplete()
                     }else{

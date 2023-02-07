@@ -11,7 +11,7 @@ data class Data(
     @SerializedName("amount")
     val amount: String,
     @SerializedName("care_items")
-    val careItems: List<String>,
+    val careItems: List<CareItem>,
     @SerializedName("care_type")
     val careType: String,
     @SerializedName("date")
@@ -27,7 +27,9 @@ data class Data(
     @SerializedName("start_time")
     val startTime: String,
     @SerializedName("status")
-    val status: String,
+    val status: Any,
     @SerializedName("title")
-    val title: String
+    val title: String,
+    val job_id: Int,
+    val agency_address: String
 )
