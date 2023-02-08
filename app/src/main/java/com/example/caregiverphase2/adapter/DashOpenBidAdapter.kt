@@ -37,9 +37,7 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
     class DashQuickCallsViewHolder(private val itemBinding: OpenBidsItemLayoutBinding, private val isBid: Boolean) :
         RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var gen:String
-
         fun bind(data: Data, context: Context) {
-
             itemBinding.apply {
                 jobTitleTv.text = data?.job_title.toString()
                 priceTv.text = "$"+data?.amount.toString()
