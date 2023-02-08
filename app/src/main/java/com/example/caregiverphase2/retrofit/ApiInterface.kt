@@ -78,7 +78,7 @@ interface ApiInterface {
         @Header("Authorization") token: String,
     ): GetOpenJobsResponse?
 
-    @GET("job/quick-call")
+    @GET("job/quick-call/get")
     suspend fun getQuickCall(
         @Header("Authorization") token: String,
         @Query("id") id: Int? = null,
