@@ -275,7 +275,7 @@ class JobDetailsActivity : AppCompatActivity() {
             }
 
             dialog.dismiss()
-        }, 4000)
+        }, 2000)
 
         dialog.show()
     }
