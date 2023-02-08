@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.UpcommingJobDetailsActivity">
+    tools:context=".ui.activity.OnGoingJobDetailsActivity">
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/details_shimmer_view"
         android:layout_width="match_parent"
@@ -183,7 +183,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"/>
                     <TextView
                         android:id="@+id/loc_tv"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="13sp"
@@ -201,7 +201,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/job_bag_img"
                         app:layout_constraintStart_toStartOf="@+id/job_bag_img"
                         app:layout_constraintEnd_toEndOf="@+id/job_bag_img"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginTop="4dp"/>
                     <TextView
                         android:id="@+id/time_tv"
@@ -470,16 +469,16 @@
         </ScrollView>
 
         <com.ncorti.slidetoact.SlideToActView
-            android:id="@+id/slide_to_start_btn"
+            android:id="@+id/slide_to_complete_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="10dp"
             app:area_margin="5dp"
             app:animation_duration="250"
-            app:outer_color="@color/theme_blue"
+            app:outer_color="@color/dash_green"
             app:inner_color="@color/color_grey"
             app:border_radius="80dp"
-            app:text="Swipe to start the job."
+            app:text="Swipe to complete the job."
             app:text_size="12sp"
             app:slider_height="60dp"
             app:slider_locked="false"

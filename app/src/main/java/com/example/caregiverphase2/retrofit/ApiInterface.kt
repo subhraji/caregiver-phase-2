@@ -14,6 +14,7 @@ import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVeri
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
 import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
+import com.example.caregiverphase2.model.pojo.get_ongoing_job.GetOngoingJobResponse
 import com.example.caregiverphase2.model.pojo.get_open_bid_details.GetOpenBidDetailsResponse
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
 import com.example.caregiverphase2.model.pojo.get_profile.GetProfileResponse
@@ -177,4 +178,9 @@ interface ApiInterface {
         @Body body: JobStartRequest?,
         @Header("Authorization") token: String,
     ): StartJobResponse?
+
+    @GET("job/ongoing/get")
+    suspend fun getOngoingJob(
+        @Header("Authorization") token: String,
+    ): GetOngoingJobResponse?
 }

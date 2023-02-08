@@ -351,13 +351,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="wdas dsf"
-                android:textSize="13sp"
+                android:textSize="11sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="@+id/ongoing_status_tv"
                 app:layout_constraintTop_toBottomOf="@+id/ongoing_status_tv"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="10dp"/>
+                app:layout_constraintEnd_toStartOf="@+id/arrow_right"
+                android:layout_marginEnd="10dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:focusable="true"/>
             <TextView
                 android:id="@+id/time_left_tv"
                 android:layout_width="wrap_content"
@@ -377,8 +381,10 @@
                 android:paddingTop="2dp"
                 android:paddingBottom="3dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                />
             <ImageView
+                android:id="@+id/arrow_right"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_baseline_arrow_forward_ios_24"

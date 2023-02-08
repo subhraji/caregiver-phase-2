@@ -2,6 +2,7 @@ package com.example.caregiverphase2.ui.fragment
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -23,10 +24,8 @@ import com.example.caregiverphase2.databinding.FragmentDashboardBinding
 import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.model.repository.Outcome
-import com.example.caregiverphase2.ui.activity.AskLocationActivity
-import com.example.caregiverphase2.ui.activity.BasicAndHomeAddressActivity
-import com.example.caregiverphase2.ui.activity.MainActivity
-import com.example.caregiverphase2.ui.activity.SearchLocationActivity
+import com.example.caregiverphase2.ui.activity.*
+import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,6 +45,7 @@ class DashboardFragment : Fragment() {
     private val mGetOPenBidsViewModel: GetOPenBidsViewModel by viewModels()
     private val mGetQuickCallViewModel: GetQuickCallViewModel by viewModels()
     private val mGetProfileStatusViewModel: GetProfileStatusViewModel by viewModels()
+    private val mGetOngoingJobViewModel: GetOngoingJobViewModel by viewModels()
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
 
@@ -73,11 +73,14 @@ class DashboardFragment : Fragment() {
 
         binding.ongoingAdjustView.gone()
         binding.ongoingCard.gone()
+        binding.timeLeftTv.setBackgroundTintList(ColorStateList.valueOf(requireActivity().resources.getColor(R.color.dash_green)))
+
         //observer
         getOPenJobsObserver()
         getOPenBidsObserver()
         getQuickCallObserver()
         getProfileStatusObserver()
+        getOngoingJobObserver()
 
         Glide.with(this)
             .load("https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80") // image url
@@ -105,6 +108,10 @@ class DashboardFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.ongoingCard.setOnClickListener {
+            val intent = Intent(requireActivity(), OnGoingJobDetailsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
@@ -127,6 +134,7 @@ class DashboardFragment : Fragment() {
             binding.quickCallShimmerView.startShimmer()
             binding.quickCallRecycler.gone()
             mGetQuickCallViewModel.getQuickCall(accessToken, 0)
+            mGetOngoingJobViewModel.getOngoingJob(accessToken)
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }
@@ -296,6 +304,43 @@ class DashboardFragment : Fragment() {
                             showCompleteDialog("Your profile is under approval process.","Ok", 4)
                         }
                         mGetProfileStatusViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun getOngoingJobObserver(){
+        mGetOngoingJobViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        if(outcome.data?.data != null && outcome.data!!.data.isNotEmpty()){
+                            binding.ongoingCard.visible()
+                            binding.ongoingAdjustView.visible()
+                            Glide.with(this)
+                                .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agency_photo) // image url
+                                .placeholder(R.color.dash_yellow) // any placeholder to load at start
+                                .centerCrop()
+                                .into(binding.agencyImgView)
+
+                            binding.ongoingTitleTv.text = outcome.data!!.data[0].title
+
+                        }else{
+                            binding.ongoingCard.gone()
+                            binding.ongoingAdjustView.gone()
+                        }
+                        mGetOngoingJobViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }

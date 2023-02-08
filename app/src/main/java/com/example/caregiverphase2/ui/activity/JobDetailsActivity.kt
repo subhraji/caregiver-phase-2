@@ -63,7 +63,6 @@ class JobDetailsActivity : AppCompatActivity() {
 
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
-
         loader = this.loadingDialog()
 
         binding.medicalRecycler.gone()

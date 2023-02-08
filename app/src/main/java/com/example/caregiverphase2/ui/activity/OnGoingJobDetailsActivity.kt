@@ -1,24 +1,25 @@
 package com.example.caregiverphase2.ui.activity
 
-import android.content.Intent
+import android.app.Dialog
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.adapter.BulletPointAdapter
+import com.example.caregiverphase2.databinding.ActivityOnGoingJobDetailsBinding
 import com.example.caregiverphase2.databinding.ActivityUpcommingJobDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
-import com.example.caregiverphase2.viewmodel.GetUpcommingJobsViewModel
-import com.example.caregiverphase2.viewmodel.StartJobViewModel
+import com.example.caregiverphase2.viewmodel.GetOngoingJobViewModel
 import com.ncorti.slidetoact.SlideToActView
 import dagger.hilt.android.AndroidEntryPoint
 import gone
@@ -27,31 +28,19 @@ import loadingDialog
 import visible
 
 @AndroidEntryPoint
-class UpcommingJobDetailsActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityUpcommingJobDetailsBinding
-
-    private val mGetUpcommingJobsViewModel: GetUpcommingJobsViewModel by viewModels()
-    private val mStartJobViewModel: StartJobViewModel by viewModels()
-    private lateinit var loader: androidx.appcompat.app.AlertDialog
-
+class OnGoingJobDetailsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityOnGoingJobDetailsBinding
+    private val mGetOngoingJobViewModel: GetOngoingJobViewModel by viewModels()
     private lateinit var accessToken: String
-
-    private var start_time: String? = ""
-    private lateinit var job_id: String
+    private lateinit var loader: androidx.appcompat.app.AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityUpcommingJobDetailsBinding.inflate(layoutInflater)
+        binding= ActivityOnGoingJobDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val extras = intent.extras
-        if (extras != null) {
-            start_time = intent?.getStringExtra("start_time")!!
-            job_id = intent?.getStringExtra("id")!!
-        }
-
         //get token
-        accessToken = "Bearer "+ PrefManager.getKeyAuthToken()
+        accessToken = "Bearer "+PrefManager.getKeyAuthToken()
         loader = this.loadingDialog()
 
         binding.medicalRecycler.gone()
@@ -63,26 +52,14 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         binding.noCheckListTv.gone()
         binding.checkListRecycler.gone()
 
-        clickJobOverview()
-
-        binding.jobOverviewCard.setOnClickListener {
-            clickJobOverview()
-        }
-        binding.checklistCard.setOnClickListener {
-            clickCheckList()
-        }
-        binding.backBtn.setOnClickListener {
-            finish()
-        }
-
         //swipe
-        binding.slideToStartBtn.onSlideCompleteListener = (object : SlideToActView.OnSlideCompleteListener{
+        binding.slideToCompleteBtn.onSlideCompleteListener = (object : SlideToActView.OnSlideCompleteListener{
             override fun onSlideComplete(view: SlideToActView) {
-                binding.slideToStartBtn.resetSlider()
+                binding.slideToCompleteBtn.resetSlider()
             }
         })
 
-        binding.slideToStartBtn.onSlideToActAnimationEventListener = (object : SlideToActView.OnSlideToActAnimationEventListener{
+        binding.slideToCompleteBtn.onSlideToActAnimationEventListener = (object : SlideToActView.OnSlideToActAnimationEventListener{
             override fun onSlideCompleteAnimationEnded(view: SlideToActView) {
                 //Toast.makeText(this@UpcommingJobDetailsActivity,"onSlideCompleteAnimationEnded",Toast.LENGTH_SHORT).show()
             }
@@ -97,65 +74,36 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
             }
 
             override fun onSlideResetAnimationStarted(view: SlideToActView) {
-                if(isConnectedToInternet()){
-                    mStartJobViewModel.starJob(job_id.toInt(),accessToken)
-                    loader.show()
-                }else{
-                    Toast.makeText(this@UpcommingJobDetailsActivity,"Oops!! No internet connection.", Toast.LENGTH_SHORT).show()
-                }
+                showCompleteDialog("Job is completed successfully, you can find this job on complete job section.")
             }
 
         })
 
-        binding.mainLay.gone()
-        binding.detailsShimmerView.visible()
-        binding.detailsShimmerView.startShimmer()
-        if(isConnectedToInternet()){
-            mGetUpcommingJobsViewModel.getUpcommingJobs(accessToken,job_id.toInt())
-        }else{
-            Toast.makeText(this,"No internet connection.", Toast.LENGTH_SHORT).show()
-        }
-
         //observer
-        getUpcommingJoobsObserver()
-        startJobObserver()
+        getOngoingJobObserver()
+
+        if(isConnectedToInternet()){
+            binding.mainLay.gone()
+            binding.detailsShimmerView.visible()
+            binding.detailsShimmerView.startShimmer()
+            mGetOngoingJobViewModel.getOngoingJob(accessToken)
+        }else{
+            Toast.makeText(this,"Oops!! No internet connection.", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun clickJobOverview(){
-        binding.jobOverviewTv.setBackgroundResource(R.color.theme_blue)
-        binding.jobOverviewTv.setTextColor(ContextCompat.getColor(this, R.color.white))
-
-        binding.checkListTv.setBackgroundResource(R.color.white)
-        binding.checkListTv.setTextColor(ContextCompat.getColor(this, R.color.theme_blue))
-
-        binding.relativeLay1.visible()
-        binding.relativeLay2.gone()
-
-    }
-
-    private fun clickCheckList(){
-        binding.checkListTv.setBackgroundResource(R.color.theme_blue)
-        binding.checkListTv.setTextColor(ContextCompat.getColor(this, R.color.white))
-
-        binding.jobOverviewTv.setBackgroundResource(R.color.white)
-        binding.jobOverviewTv.setTextColor(ContextCompat.getColor(this, R.color.theme_blue))
-
-        binding.relativeLay2.visible()
-        binding.relativeLay1.gone()
-    }
-
-    private fun getUpcommingJoobsObserver(){
-        mGetUpcommingJobsViewModel.response.observe(this, Observer { outcome ->
+    private fun getOngoingJobObserver(){
+        mGetOngoingJobViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
                     if(outcome.data?.success == true){
-                        binding.detailsShimmerView.gone()
-                        binding.detailsShimmerView.stopShimmer()
-                        if(outcome.data?.data!!.isNotEmpty()){
+                        if(outcome.data?.data != null && outcome.data!!.data.isNotEmpty()){
                             binding.mainLay.visible()
+                            binding.detailsShimmerView.gone()
+                            binding.detailsShimmerView.stopShimmer()
 
                             var gen = ""
-                            for(i in outcome.data!!.data[0].careItems){
+                            for(i in outcome.data!!.data[0].care_items){
                                 if(gen.isEmpty()){
                                     gen = i.gender+": "+i.age
                                 }else{
@@ -164,38 +112,38 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
                             }
                             binding.ageTv.text = gen
                             binding.titleTv.text = outcome.data!!.data[0].title
-                            binding.careTypeTv.text = outcome.data!!.data[0].careType
-                            binding.locTv.text = outcome.data!!.data[0].agency_address
+                            binding.careTypeTv.text = outcome.data!!.data[0].care_type
+                            binding.locTv.text = outcome.data!!.data[0].short_address
                             binding.dateTv.text = outcome.data!!.data[0].date.toString()
-                            binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" - "+outcome.data!!.data[0].endTime.toString()
+                            binding.timeTv.text = outcome.data!!.data[0].start_time.toString()+" - "+outcome.data!!.data[0].end_time.toString()
                             binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
-                            binding.agencyNameTv.text = outcome.data!!.data[0].agencyName.toString()
+                            binding.agencyNameTv.text = outcome.data!!.data[0].agency_name.toString()
                             binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
                             Glide.with(this)
-                                .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agencyPhoto) // image url
+                                .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agency_photo) // image url
                                 .placeholder(R.color.dash_yellow) // any placeholder to load at start
                                 .centerCrop()
                                 .into(binding.agencyImgView)
 
-                            if(outcome.data!!.data[0].medicalHistory.isNotEmpty()){
+                            if(outcome.data!!.data[0].medical_history.isNotEmpty()){
                                 binding.medicalRecycler.visible()
                                 binding.medicalHisHtv.visible()
-                                medicalHistoryFillRecycler(outcome.data!!.data[0].medicalHistory.toMutableList())
+                                medicalHistoryFillRecycler(outcome.data!!.data[0].medical_history.toMutableList())
                             }
                             if(outcome.data!!.data[0].experties.isNotEmpty()){
                                 binding.jobExpRecycler.visible()
                                 binding.jobExpHtv.visible()
                                 jobExpFillRecycler(outcome.data!!.data[0].experties.toMutableList())
                             }
-                            if(outcome.data!!.data[0].otherRequirements.isNotEmpty()){
+                            if(outcome.data!!.data[0].other_requirements.isNotEmpty()){
                                 binding.otherReqRecycler.visible()
                                 binding.otherReqHtv.visible()
-                                otherFillRecycler(outcome.data!!.data[0].otherRequirements.toMutableList())
+                                otherFillRecycler(outcome.data!!.data[0].other_requirements.toMutableList())
                             }
-                            if(outcome.data!!.data[0].checkList.isNotEmpty()){
+                            if(outcome.data!!.data[0].check_list.isNotEmpty()){
                                 binding.checkListRecycler.visible()
                                 binding.noCheckListTv.gone()
-                                checkListFillRecycler(outcome.data!!.data[0].checkList.toMutableList())
+                                checkListFillRecycler(outcome.data!!.data[0].check_list.toMutableList())
                             }else{
                                 binding.noCheckListTv.visible()
                             }
@@ -204,7 +152,7 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
                             binding.detailsShimmerView.visible()
                             binding.detailsShimmerView.startShimmer()
                         }
-                        mGetUpcommingJobsViewModel.navigationComplete()
+                        mGetOngoingJobViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }
@@ -218,12 +166,11 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
             }
         })
     }
-
     private fun medicalHistoryFillRecycler(list: MutableList<String>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.medicalRecycler.apply {
             layoutManager = gridLayoutManager
-            adapter = BulletPointAdapter(list,this@UpcommingJobDetailsActivity)
+            adapter = BulletPointAdapter(list,this@OnGoingJobDetailsActivity)
         }
     }
 
@@ -231,7 +178,7 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.jobExpRecycler.apply {
             layoutManager = gridLayoutManager
-            adapter = BulletPointAdapter(list,this@UpcommingJobDetailsActivity)
+            adapter = BulletPointAdapter(list,this@OnGoingJobDetailsActivity)
         }
     }
 
@@ -239,7 +186,7 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.otherReqRecycler.apply {
             layoutManager = gridLayoutManager
-            adapter = BulletPointAdapter(list,this@UpcommingJobDetailsActivity)
+            adapter = BulletPointAdapter(list,this@OnGoingJobDetailsActivity)
         }
     }
 
@@ -247,35 +194,30 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.checkListRecycler.apply {
             layoutManager = gridLayoutManager
-            adapter = BulletPointAdapter(list,this@UpcommingJobDetailsActivity)
+            adapter = BulletPointAdapter(list,this@OnGoingJobDetailsActivity)
         }
     }
 
-    private fun startJobObserver(){
-        mStartJobViewModel.response.observe(this, Observer { outcome ->
-            when(outcome){
-                is Outcome.Success ->{
-                    loader.dismiss()
-                    if(outcome.data?.success == true){
-                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
-                        binding.slideToStartBtn.gone()
-                        val intent = Intent(this, OnGoingJobDetailsActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                        mStartJobViewModel.navigationComplete()
-                    }else{
-                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
-                    }
-                }
-                is Outcome.Failure<*> -> {
-                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
-                    loader.dismiss()
+    private fun showCompleteDialog(title: String) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.job_accept_success_dialog_layout)
 
-                    outcome.e.printStackTrace()
-                    Log.i("status",outcome.e.cause.toString())
-                }
-            }
-        })
+        val okay = dialog.findViewById<TextView>(R.id.ok_btn)
+        val title_tv = dialog.findViewById<TextView>(R.id.text_view_2)
+
+        title_tv.text = title
+        /*Handler(Looper.getMainLooper()).postDelayed({
+
+        }, 2500)*/
+        okay.setOnClickListener {
+            dialog.dismiss()
+            finish()
+        }
+
+        dialog.show()
     }
 
 }
