@@ -11,8 +11,8 @@ import javax.inject.Inject
 class GetUpcommingJobsRepository @Inject constructor(private val apiInterface: ApiInterface)  {
     fun getUpcommingJobs(
         token: String,
-        type: String
+        job_id: Int
     ): Flow<GetUpcommingJobsResponse?> = flow{
-        emit(apiInterface.getUpcommingJobs(token, type))
+        emit(apiInterface.getUpcommingJobs(token, job_id))
     }.flowOn(Dispatchers.IO)
 }

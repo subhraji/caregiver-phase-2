@@ -56,7 +56,7 @@ class UpcommingJobFragment : Fragment() {
         binding.jobsShimmerView.visible()
         binding.jobsShimmerView.startShimmer()
         if(requireActivity().isConnectedToInternet()){
-            mGetUpcommingJobsViewModel.getUpcommingJobs(accessToken,"upcoming")
+            mGetUpcommingJobsViewModel.getUpcommingJobs(accessToken,0)
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }

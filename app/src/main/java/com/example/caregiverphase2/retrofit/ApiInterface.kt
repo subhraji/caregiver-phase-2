@@ -26,6 +26,8 @@ import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRe
 import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRegResponse
 import com.example.caregiverphase2.model.pojo.signup.SignUpRequest
 import com.example.caregiverphase2.model.pojo.signup.SignUpResponse
+import com.example.caregiverphase2.model.pojo.start_job.JobStartRequest
+import com.example.caregiverphase2.model.pojo.start_job.StartJobResponse
 import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidRequest
 import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidResponse
 import com.example.caregiverphase2.model.pojo.todo.GetTodosResponse
@@ -158,15 +160,21 @@ interface ApiInterface {
         @Header("Authorization") token: String
     ): ChangeProfilePicResponse?
 
-    @POST("job/accept")
+    @POST("job/accept-job/accept")
     suspend fun acceptJob(
         @Body body: AcceptJobRequest?,
         @Header("Authorization") token: String,
     ): AcceptJobResponse?
 
-    @GET("job/ongoing-job")
+    @GET("job/upcoming/get")
     suspend fun getUpcommingJobs(
         @Header("Authorization") token: String,
-        @Query("type") type: String,
+        @Query("job_id") job_id: Int,
     ): GetUpcommingJobsResponse?
+
+    @POST("job/start-job/start")
+    suspend fun startJob(
+        @Body body: JobStartRequest?,
+        @Header("Authorization") token: String,
+    ): StartJobResponse?
 }

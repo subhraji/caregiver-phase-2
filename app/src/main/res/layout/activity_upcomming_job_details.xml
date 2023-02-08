@@ -8,8 +8,7 @@
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/details_shimmer_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent">
         <include layout="@layout/job_details_shimmer_lay" />
     </com.facebook.shimmer.ShimmerFrameLayout>
     <RelativeLayout

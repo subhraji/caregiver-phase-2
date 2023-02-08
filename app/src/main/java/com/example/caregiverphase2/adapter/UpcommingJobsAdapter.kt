@@ -64,6 +64,8 @@ class UpcommingJobsAdapter (private val itemList: List<Data>, private val contex
                 ageTv.text = gen
                 rootLay.setOnClickListener {
                     val intent = Intent(context, UpcommingJobDetailsActivity::class.java)
+                    intent.putExtra("start_time", data?.startTime)
+                    intent.putExtra("id", data?.job_id.toString())
                     context.startActivity(intent)
                 }
 
