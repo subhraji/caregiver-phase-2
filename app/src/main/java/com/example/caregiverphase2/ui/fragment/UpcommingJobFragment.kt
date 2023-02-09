@@ -52,6 +52,12 @@ class UpcommingJobFragment : Fragment() {
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
 
+
+        //observer
+        getUpcommingJoobsObserver()
+    }
+
+    override fun onResume() {
         binding.upcommingJobsRecycler.gone()
         binding.jobsShimmerView.visible()
         binding.jobsShimmerView.startShimmer()
@@ -60,9 +66,7 @@ class UpcommingJobFragment : Fragment() {
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }
-
-        //observer
-        getUpcommingJoobsObserver()
+        super.onResume()
     }
 
     private fun fillUpcommingJobsRecycler(list: List<com.example.caregiverphase2.model.pojo.upcomming_job.Data>) {

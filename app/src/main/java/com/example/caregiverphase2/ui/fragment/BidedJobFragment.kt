@@ -62,11 +62,15 @@ class BidedJobFragment : Fragment() {
         //observer
         getBiddedJobsObserver()
 
+    }
+
+    override fun onResume() {
         if(requireActivity().isConnectedToInternet()){
             mGetBiddedJobsViewModel.getBiddedJobs(accessToken,0)
         }else{
             Toast.makeText(requireActivity(),"No internet connection.",Toast.LENGTH_SHORT).show()
         }
+        super.onResume()
     }
 
     private fun getBiddedJobsObserver(){
