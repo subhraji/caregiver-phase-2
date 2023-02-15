@@ -1,17 +1,19 @@
 package com.example.caregiverphase2.ui.activity
 
 import android.app.Dialog
+import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.viewModels
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.adapter.BulletPointAdapter
@@ -20,20 +22,27 @@ import com.example.caregiverphase2.databinding.ActivityUpcommingJobDetailsBindin
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.CompleteJobViewModel
 import com.example.caregiverphase2.viewmodel.GetOngoingJobViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ncorti.slidetoact.SlideToActView
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
 import loadingDialog
 import visible
+import java.util.*
 
 @AndroidEntryPoint
 class OnGoingJobDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnGoingJobDetailsBinding
     private val mGetOngoingJobViewModel: GetOngoingJobViewModel by viewModels()
+    private val mCompleteJobViewModel: CompleteJobViewModel by viewModels()
+
     private lateinit var accessToken: String
     private lateinit var loader: androidx.appcompat.app.AlertDialog
+    private var checkList:MutableList<String> = mutableListOf()
+    private var job_id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,13 +98,20 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
             }
 
             override fun onSlideResetAnimationStarted(view: SlideToActView) {
-                showCompleteDialog("Job is completed successfully, you can find this job on complete job section.")
+                if(!checkList.isEmpty()){
+                    showCheckListBottomsheet()
+                }else{
+                    // complete api call
+                    mCompleteJobViewModel.completeJob(job_id,accessToken)
+                    loader.show()
+                }
             }
 
         })
 
         //observer
         getOngoingJobObserver()
+        completeJobObserver()
 
         if(isConnectedToInternet()){
             binding.mainLay.gone()
@@ -116,6 +132,8 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                             binding.mainLay.visible()
                             binding.detailsShimmerView.gone()
                             binding.detailsShimmerView.stopShimmer()
+
+                            job_id = outcome.data!!.data[0].job_id
 
                             var gen = ""
                             for(i in outcome.data!!.data[0].care_items){
@@ -159,6 +177,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                                 binding.checkListRecycler.visible()
                                 binding.noCheckListTv.gone()
                                 checkListFillRecycler(outcome.data!!.data[0].check_list.toMutableList())
+                                checkList = outcome.data!!.data[0].check_list.toMutableList()
                             }else{
                                 binding.noCheckListTv.visible()
                             }
@@ -213,6 +232,30 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
         }
     }
 
+    private fun showCheckListBottomsheet(){
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.check_list_item_layout, null)
+
+        val checkRecycler = view.findViewById<RecyclerView>(R.id.check_recycler)
+        val submit = view.findViewById<CardView>(R.id.submit_btn)
+
+        submit.setOnClickListener {
+            mCompleteJobViewModel.completeJob(job_id,accessToken)
+            loader.show()
+            dialog.dismiss()
+        }
+
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        checkRecycler.apply {
+            layoutManager = gridLayoutManager
+            adapter = BulletPointAdapter(checkList,this@OnGoingJobDetailsActivity)
+        }
+
+        dialog.setCancelable(true)
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
     private fun showCompleteDialog(title: String) {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -257,6 +300,28 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
 
         binding.relativeLay2.visible()
         binding.relativeLay1.gone()
+    }
+
+    private fun completeJobObserver(){
+        mCompleteJobViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        showCompleteDialog("Your job has been completed successfully, You can find this on the completed job section.")
+                        mCompleteJobViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
     }
 
 }

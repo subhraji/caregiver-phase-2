@@ -10,9 +10,12 @@ import com.example.caregiverphase2.model.pojo.add_education.AddEducationResponse
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordRequest
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordResponse
 import com.example.caregiverphase2.model.pojo.change_profile_pic.ChangeProfilePicResponse
+import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobRequest
+import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobResponse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
+import com.example.caregiverphase2.model.pojo.get_complete_job.GetCompleteJobsResponse
 import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
 import com.example.caregiverphase2.model.pojo.get_ongoing_job.GetOngoingJobResponse
 import com.example.caregiverphase2.model.pojo.get_open_bid_details.GetOpenBidDetailsResponse
@@ -183,4 +186,15 @@ interface ApiInterface {
     suspend fun getOngoingJob(
         @Header("Authorization") token: String,
     ): GetOngoingJobResponse?
+
+    @POST("job/complete-job/complete")
+    suspend fun completeJob(
+        @Body body: CompleteJobRequest?,
+        @Header("Authorization") token: String,
+    ): CompleteJobResponse?
+
+    @GET("job/complete-job/get")
+    suspend fun getCompleteJobs(
+        @Header("Authorization") token: String,
+    ): GetCompleteJobsResponse?
 }
