@@ -1,7 +1,6 @@
 package com.example.caregiverphase2.ui.activity
 
 import android.app.Dialog
-import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,15 +9,14 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.adapter.BulletPointAdapter
+import com.example.caregiverphase2.adapter.CheckListAdapter
 import com.example.caregiverphase2.databinding.ActivityOnGoingJobDetailsBinding
-import com.example.caregiverphase2.databinding.ActivityUpcommingJobDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
@@ -31,7 +29,6 @@ import gone
 import isConnectedToInternet
 import loadingDialog
 import visible
-import java.util.*
 
 @AndroidEntryPoint
 class OnGoingJobDetailsActivity : AppCompatActivity() {
@@ -234,7 +231,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
 
     private fun showCheckListBottomsheet(){
         val dialog = BottomSheetDialog(this)
-        val view = layoutInflater.inflate(R.layout.check_list_item_layout, null)
+        val view = layoutInflater.inflate(R.layout.check_list_bottom_sheet_layout, null)
 
         val checkRecycler = view.findViewById<RecyclerView>(R.id.check_recycler)
         val submit = view.findViewById<CardView>(R.id.submit_btn)
@@ -248,7 +245,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         checkRecycler.apply {
             layoutManager = gridLayoutManager
-            adapter = BulletPointAdapter(checkList,this@OnGoingJobDetailsActivity)
+            adapter = CheckListAdapter(checkList,this@OnGoingJobDetailsActivity)
         }
 
         dialog.setCancelable(true)
