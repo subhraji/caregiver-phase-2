@@ -23,4 +23,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:itemCount="2"
         tools:listitem="@layout/already_bidded_item_layout"/>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/no_data_lottie"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:lottie_rawRes="@raw/no_data_lottie"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

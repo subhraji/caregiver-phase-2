@@ -55,17 +55,20 @@ class UpcommingJobFragment : Fragment() {
 
         //observer
         getUpcommingJoobsObserver()
-    }
 
-    override fun onResume() {
         binding.upcommingJobsRecycler.gone()
         binding.jobsShimmerView.visible()
         binding.jobsShimmerView.startShimmer()
+        binding.noDataLottie.gone()
         if(requireActivity().isConnectedToInternet()){
             mGetUpcommingJobsViewModel.getUpcommingJobs(accessToken,0)
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onResume() {
+
         super.onResume()
     }
 
@@ -86,9 +89,11 @@ class UpcommingJobFragment : Fragment() {
                         binding.jobsShimmerView.stopShimmer()
                         if(outcome.data?.data!!.isNotEmpty()){
                             binding.upcommingJobsRecycler.visible()
+                            binding.noDataLottie.gone()
                             fillUpcommingJobsRecycler(outcome.data!!.data)
                         }else{
                             binding.upcommingJobsRecycler.gone()
+                            binding.noDataLottie.visible()
                         }
                         mGetUpcommingJobsViewModel.navigationComplete()
                     }else{

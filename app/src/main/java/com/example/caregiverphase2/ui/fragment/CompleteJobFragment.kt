@@ -53,24 +53,22 @@ class CompleteJobFragment : Fragment() {
         //get token
         accessToken = "Bearer "+ PrefManager.getKeyAuthToken()
         binding.completedJobsRecycler.gone()
+        binding.noDataLottie.gone()
         binding.jobsShimmerView.startShimmer()
-        /*val list:MutableList<TestModel> = mutableListOf()
-        list.add(TestModel("a"))
-        list.add(TestModel("a"))
-        list.add(TestModel("a"))
-        fillCompletedJobsRecycler(list)*/
 
         //observe
         getCompleteJobJobsObserver()
 
-    }
 
-    override fun onResume() {
         if(requireActivity().isConnectedToInternet()){
             mGetCompleteJobsViewModel.getCompleteJob(accessToken)
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onResume() {
+
         super.onResume()
     }
 
@@ -83,9 +81,11 @@ class CompleteJobFragment : Fragment() {
                         binding.jobsShimmerView.gone()
                         if(outcome.data?.data!!.isNotEmpty() && outcome.data?.data != null){
                             binding.completedJobsRecycler.visible()
+                            binding.noDataLottie.gone()
                             fillCompletedJobsRecycler(outcome.data?.data!!)
                         }else{
                             binding.completedJobsRecycler.gone()
+                            binding.noDataLottie.visible()
                         }
                         mGetCompleteJobsViewModel.navigationComplete()
                     }else{

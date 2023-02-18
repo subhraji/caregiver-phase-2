@@ -55,9 +55,9 @@ class BidedJobFragment : Fragment() {
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
 
+        binding.noDataLottie.gone()
         binding.biddedJobsRecycler.gone()
         binding.jobsShimmerView.startShimmer()
-
 
         //observer
         getBiddedJobsObserver()
@@ -83,8 +83,10 @@ class BidedJobFragment : Fragment() {
                         if(outcome.data?.data!!.isNotEmpty() && outcome.data?.data != null){
                             binding.biddedJobsRecycler.visible()
                             fillBiddedJobsRecycler(outcome.data?.data!!)
+                            binding.noDataLottie.gone()
                         }else{
                             binding.biddedJobsRecycler.gone()
+                            binding.noDataLottie.visible()
                         }
                         mGetBiddedJobsViewModel.navigationComplete()
                     }else{
