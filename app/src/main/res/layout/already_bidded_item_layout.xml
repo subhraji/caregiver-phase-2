@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="10dp">
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/agency_logo_img_view"
             android:layout_width="30dp"
             android:layout_height="30dp"
