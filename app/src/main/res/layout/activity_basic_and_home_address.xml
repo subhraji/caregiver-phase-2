@@ -48,7 +48,8 @@
         android:id="@+id/relative_lay_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:visibility="gone">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -359,7 +360,8 @@
         android:id="@+id/relative_lay_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:visibility="gone">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -574,52 +576,117 @@
                         android:paddingBottom="10dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/doc_upload_grey_bg">
+
                         <TextView
                             android:id="@+id/tuber_htv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tuberculosis test result"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:layout_marginTop="10dp"
                             android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"/>
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/tuberculosis_test_result"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/tuber_htv_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="(2 step skin test or quantiFERON-TB Gold)"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
+                            android:layout_below="@+id/tuber_htv"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_below="@+id/tuber_htv"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/tuber_recycler_view"
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:layout_below="@+id/tuber_htv_2">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/tuber_recycler_view"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/tuber_htv_2"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp" />
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_below="@+id/tuber_htv_2"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_toRightOf="@+id/tuber_recycler_view"
+                                    android:background="@drawable/upload_doc_btn_bg"
+                                    android:padding="30dp"
+                                    android:src="@drawable/ic_baseline_cloud_upload_24"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/covid_bg_relay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/doc_upload_grey_bg">
+
+                        <TextView
+                            android:id="@+id/covid_bg_htv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tuber_htv_2"
-                            android:layout_margin="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp" />
+                            android:text="@string/covid_19_vaccination_card"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_below="@+id/tuber_htv_2"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_toRightOf="@+id/tuber_recycler_view"
-                            android:background="@drawable/upload_doc_btn_bg"
-                            app:tint="@color/black"
-                            android:padding="30dp"
-                            android:src="@drawable/ic_baseline_cloud_upload_24"/>
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:layout_below="@+id/covid_bg_htv"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/covid_bg_recycler_view"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp" />
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/upload_doc_btn_bg"
+                                    android:padding="30dp"
+                                    android:src="@drawable/ic_baseline_cloud_upload_24"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/criminal_bg_relay"
@@ -628,40 +695,307 @@
                         android:paddingBottom="20dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/doc_upload_grey_bg">
+
                         <TextView
                             android:id="@+id/criminal_bg_htv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Criminal background results"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:layout_marginTop="10dp"
                             android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"/>
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/criminal_background_result"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/criminal_bg_recycler_view"
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:layout_below="@+id/criminal_bg_htv"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/criminal_bg_recycler_view"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp" />
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/upload_doc_btn_bg"
+                                    android:padding="30dp"
+                                    android:src="@drawable/ic_baseline_cloud_upload_24"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/child_abuse_bg_relay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/doc_upload_grey_bg">
+
+                        <TextView
+                            android:id="@+id/child_abuse_bg_htv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/criminal_bg_htv"
                             android:layout_marginStart="10dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp" />
+                            android:text="@string/child_abuse_clearance"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_below="@+id/criminal_bg_htv"
-                            android:layout_marginTop="20dp"
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:layout_below="@+id/child_abuse_bg_htv"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/child_abuse_bg_recycler_view"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp" />
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/upload_doc_btn_bg"
+                                    android:padding="30dp"
+                                    android:src="@drawable/ic_baseline_cloud_upload_24"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/w4_bg_relay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/doc_upload_grey_bg">
+
+                        <TextView
+                            android:id="@+id/w4_bg_htv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_toRightOf="@+id/criminal_bg_recycler_view"
-                            android:background="@drawable/upload_doc_btn_bg"
-                            app:tint="@color/black"
-                            android:padding="30dp"
-                            android:src="@drawable/ic_baseline_cloud_upload_24"/>
+                            android:text="@string/w_4_form"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:layout_below="@+id/w4_bg_htv"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/w4_bg_recycler_view"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp" />
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/upload_doc_btn_bg"
+                                    android:padding="30dp"
+                                    android:src="@drawable/ic_baseline_cloud_upload_24"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/employment_bg_relay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/doc_upload_grey_bg">
+
+                        <TextView
+                            android:id="@+id/employment_bg_htv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/employment_eligibility_verification_form_i_9_form"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:layout_below="@+id/employment_bg_htv"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/employment_bg_recycler_view"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp" />
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/upload_doc_btn_bg"
+                                    android:padding="30dp"
+                                    android:src="@drawable/ic_baseline_cloud_upload_24"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/driving_bg_relay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/doc_upload_grey_bg">
+
+                        <TextView
+                            android:id="@+id/driving_bg_htv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/driving_license"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:layout_below="@+id/driving_bg_htv">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/driving_bg_recycler_view"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp" />
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/upload_doc_btn_bg"
+                                    android:padding="30dp"
+                                    android:src="@drawable/ic_baseline_cloud_upload_24"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/identity_bg_relay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/doc_upload_grey_bg">
+
+                        <TextView
+                            android:id="@+id/identity_bg_htv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="2 - forms of id"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:layout_below="@+id/identity_bg_htv">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/identity_bg_recycler_view"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp" />
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/upload_doc_btn_bg"
+                                    android:padding="30dp"
+                                    android:src="@drawable/ic_baseline_cloud_upload_24"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -684,19 +1018,11 @@
                     android:id="@+id/next_btn_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Next Step"
+                    android:text="Submit Documents"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/theme_blue"
                     android:layout_centerInParent="true"/>
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                    app:tint="@color/theme_blue"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/next_btn_3"
-                    android:layout_marginStart="5dp"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>

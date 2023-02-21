@@ -25,7 +25,10 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.caregiverphase2.R
+import com.example.caregiverphase2.adapter.BulletPointAdapter
+import com.example.caregiverphase2.adapter.TuberculosisListAdapter
 import com.example.caregiverphase2.databinding.ActivityBasicAndHomeAddressBinding
 import com.example.caregiverphase2.databinding.ActivityJobDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
@@ -247,6 +250,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         binding.addLocBtn.setOnClickListener {
             autocompleteWithIntent()
         }
+
+        //document upload
+        docUpload()
+
 
         //observer
         addBasicInfoObserve()
@@ -579,4 +586,77 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         })
     }
 
+    private fun docUpload(){
+        var tuberculosisList: MutableList<String> = mutableListOf()
+        tuberculosisList.add("a")
+        tuberculosisList.add("b")
+        tuberculosisList.add("c")
+        tuberculosisList.add("d")
+        fillTuberculosisRecycler(tuberculosisList)
+        fillCovidRecycler(tuberculosisList)
+        fillCriminalRecycler(tuberculosisList)
+        fillChildAbuseRecycler(tuberculosisList)
+        fillW4Recycler(tuberculosisList)
+        fillEmploymentRecycler(tuberculosisList)
+        fillDrivingRecycler(tuberculosisList)
+        fillIdentityRecycler(tuberculosisList)
+
+    }
+
+    private fun fillTuberculosisRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.tuberRecyclerView.apply {
+            layoutManager = gridLayoutManager
+            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+        }
+    }
+    private fun fillCovidRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.covidBgRecyclerView.apply {
+            layoutManager = gridLayoutManager
+            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+        }
+    }
+    private fun fillCriminalRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.criminalBgRecyclerView.apply {
+            layoutManager = gridLayoutManager
+            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+        }
+    }
+    private fun fillChildAbuseRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.childAbuseBgRecyclerView.apply {
+            layoutManager = gridLayoutManager
+            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+        }
+    }
+    private fun fillW4Recycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.w4BgRecyclerView.apply {
+            layoutManager = gridLayoutManager
+            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+        }
+    }
+    private fun fillEmploymentRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.employmentBgRecyclerView.apply {
+            layoutManager = gridLayoutManager
+            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+        }
+    }
+    private fun fillDrivingRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.drivingBgRecyclerView.apply {
+            layoutManager = gridLayoutManager
+            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+        }
+    }
+    private fun fillIdentityRecycler(list: MutableList<String>) {
+        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.identityBgRecyclerView.apply {
+            layoutManager = gridLayoutManager
+            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+        }
+    }
 }

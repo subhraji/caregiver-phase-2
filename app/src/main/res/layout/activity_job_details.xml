@@ -43,7 +43,7 @@
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:textColor="@color/black"/>
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/agency_img_view"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
