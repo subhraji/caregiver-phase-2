@@ -295,7 +295,7 @@ class DashboardFragment : Fragment() {
                 is Outcome.Success ->{
                     loader.dismiss()
                     if(outcome.data?.success == true){
-                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         if(outcome.data?.data!!.isBasicInfoAdded == 0){
                             showCompleteDialog("Please add your basic details to complete your profile","Complete now", 1)
                         }else if(outcome.data?.data!!.isDocumentsUploaded == 0){

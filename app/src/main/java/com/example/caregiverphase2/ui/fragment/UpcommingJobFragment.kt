@@ -55,7 +55,9 @@ class UpcommingJobFragment : Fragment() {
 
         //observer
         getUpcommingJoobsObserver()
+    }
 
+    override fun onResume() {
         binding.upcommingJobsRecycler.gone()
         binding.jobsShimmerView.visible()
         binding.jobsShimmerView.startShimmer()
@@ -65,10 +67,6 @@ class UpcommingJobFragment : Fragment() {
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    override fun onResume() {
-
         super.onResume()
     }
 
