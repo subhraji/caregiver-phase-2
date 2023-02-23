@@ -15,7 +15,7 @@ object PrefManager {
     // Keys
     const val KEY_AUTH_TOKEN = "Auth_Token"
     const val EMAIL = "email"
-    const val FIRST_NAME = "first_name"
+    const val FULL_NAME = "full_name"
     const val LAST_NAME = "last_name"
     const val MOBILE = "mobile"
     const val USER_IMG = "user_img"
@@ -97,8 +97,8 @@ object PrefManager {
     fun getKeyAuthToken(): String? {
         return getString(KEY_AUTH_TOKEN)
     }
-    fun getUserFirstName(): String? {
-        return getString(FIRST_NAME)
+    fun getUserFullName(): String? {
+        return getString(FULL_NAME)
     }
     fun getUserLastName(): String? {
         return getString(LAST_NAME)
@@ -118,8 +118,8 @@ object PrefManager {
     fun setKeyAuthToken(auth_token: String) {
         putString(KEY_AUTH_TOKEN, auth_token)
     }
-    fun setUserFirstName(name: String) {
-        putString(FIRST_NAME, name)
+    fun setUserFullName(name: String) {
+        putString(FULL_NAME, name)
     }
     fun setUserLastName(lastName: String) {
         putString(LAST_NAME, lastName)

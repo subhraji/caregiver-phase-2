@@ -249,7 +249,7 @@ class EmailVerificationActivity : AppCompatActivity() {
                         if (outcome.data!!.token != null) {
                             outcome.data!!.token?.let {
                                 PrefManager.setKeyAuthToken(it)
-
+                                PrefManager.setUserFullName(name)
                                 val intent = Intent(this, AskLocationActivity::class.java)
                                 intent.putExtra("from","login")
                                 startActivity(intent)

@@ -262,6 +262,8 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         //validation
         mobileFocusListener()
         ssnFocusListener()
+
+        binding.textView2.text = PrefManager.getUserFullName()
     }
 
 

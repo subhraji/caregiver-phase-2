@@ -298,8 +298,14 @@ class DashboardFragment : Fragment() {
                         //Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         if(outcome.data?.data!!.isBasicInfoAdded == 0){
                             showCompleteDialog("Please add your basic details to complete your profile","Complete now", 1)
-                        }else if(outcome.data?.data!!.isDocumentsUploaded == 0){
-                            showCompleteDialog("Please add your documents to complete your profile","Complete now", 3)
+                        }
+                        else if(outcome.data?.data!!.isDocumentsUploaded == 0){
+
+                            if(outcome.data?.data!!.isOptionalInfoAdded == 0){
+                                showCompleteDialog("Please complete your profile","Complete now", 2)
+                            }else{
+                                showCompleteDialog("Please add your documents to complete your profile","Complete now", 3)
+                            }
                         }else if(outcome.data?.data!!.isProfileApproved == 0){
                             showCompleteDialog("Your profile is under approval process.","Ok", 4)
                         }

@@ -26,7 +26,6 @@
             android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alexa Brown"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white"

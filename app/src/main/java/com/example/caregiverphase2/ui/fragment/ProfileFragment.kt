@@ -131,6 +131,8 @@ class ProfileFragment : Fragment(), UploadDocListener {
                 requestPermission()
             }
         }
+
+        binding.nameTv.text = PrefManager.getUserFullName()
     }
 
     override fun onResume() {
