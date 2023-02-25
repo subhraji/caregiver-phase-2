@@ -38,6 +38,7 @@ import com.example.caregiverphase2.model.pojo.todo.GetTodosResponse
 import com.example.caregiverphase2.model.pojo.upcomming_job.GetUpcommingJobsResponse
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationRequest
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationResponse
+import com.example.caregiverphase2.model.pojo.upload_documents.UploadDocumentsResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -197,4 +198,13 @@ interface ApiInterface {
     suspend fun getCompleteJobs(
         @Header("Authorization") token: String,
     ): GetCompleteJobsResponse?
+
+    @Multipart
+    @POST("document/upload")
+    suspend fun uploadDocuments(
+        @Part document: MultipartBody.Part?,
+        @Part("documentCategory ") documentCategory : RequestBody,
+        @Part("expiry_date") expiry_date: RequestBody,
+        @Header("Authorization") token: String
+    ): UploadDocumentsResponse?
 }
