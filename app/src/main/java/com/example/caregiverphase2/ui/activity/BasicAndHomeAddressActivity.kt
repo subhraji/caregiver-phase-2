@@ -39,6 +39,7 @@ import com.example.caregiverphase2.utils.UploadDocListener
 import com.example.caregiverphase2.utils.UploadDocumentListener
 import com.example.caregiverphase2.viewmodel.RegisterViewModel
 import com.example.caregiverphase2.viewmodel.SubmitOptionalRegViewModel
+import com.example.caregiverphase2.viewmodel.UploadDocumentsViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -84,6 +85,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
     private val PICK_IMAGE_DOC = 101
 
     private val mRegisterViewModel: RegisterViewModel by viewModels()
+    private val mUploadDocumentsViewModel: UploadDocumentsViewModel by viewModels()
     private val mSubmitOptionalRegViewModel: SubmitOptionalRegViewModel by viewModels()
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
@@ -262,6 +264,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         //observer
         addBasicInfoObserve()
         submitOptionalRegObserve()
+        uploadDocumentObserve()
 
         //validation
         mobileFocusListener()
@@ -619,6 +622,28 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         })
     }
 
+    private fun uploadDocumentObserve(){
+        mUploadDocumentsViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        mUploadDocumentsViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
     private fun docUpload(){
         var tuberculosisList: MutableList<String> = mutableListOf()
         tuberculosisList.add("a")
@@ -726,6 +751,27 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
     }
 
     override fun uploadDoc(path: String, expiry: String) {
-        Toast.makeText(this, doc_type.toString()+"..."+expiry.toString(), Toast.LENGTH_SHORT).show()
-    }
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Dispatchers.Main) {
+                    val file = File(path)
+                    val compressedImageFile = Compressor.compress(this@BasicAndHomeAddressActivity, file)
+                    val imagePart = createMultiPart("document", compressedImageFile)
+                    if(isConnectedToInternet()){
+                        mUploadDocumentsViewModel.uploadDocuments(
+                            imagePart,
+                            doc_type,
+                            expiry,
+                            accessToken
+                        )
+                        loader.show()
+                    }else{
+                        Toast.makeText(this@BasicAndHomeAddressActivity,"No internet connection.", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }    }
 }

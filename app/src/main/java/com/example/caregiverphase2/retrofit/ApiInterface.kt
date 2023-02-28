@@ -203,7 +203,7 @@ interface ApiInterface {
     @POST("document/upload")
     suspend fun uploadDocuments(
         @Part document: MultipartBody.Part?,
-        @Part("documentCategory ") documentCategory : RequestBody,
+        @Part("documentCategory") documentCategory : RequestBody,
         @Part("expiry_date") expiry_date: RequestBody,
         @Header("Authorization") token: String
     ): UploadDocumentsResponse?
