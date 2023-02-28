@@ -9,8 +9,12 @@ import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.DocumentListItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_documents.W4Form
 import com.example.caregiverphase2.utils.Constants
+import com.example.caregiverphase2.utils.DeleteDocClickListener
 
-class W4ListAdapter (private val itemList: List<W4Form>, private val context: Context):
+class W4ListAdapter (private val itemList: List<W4Form>,
+                     private val context: Context,
+                     private val deleteDocClickListener: DeleteDocClickListener
+):
     RecyclerView.Adapter<W4ListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): W4ListAdapter.ViewHolder {
@@ -29,13 +33,13 @@ class W4ListAdapter (private val itemList: List<W4Form>, private val context: Co
     override fun onBindViewHolder(holder: W4ListAdapter.ViewHolder, position: Int) {
 
         val rowData = itemList[position]
-        holder.bind(rowData, context)
+        holder.bind(rowData, context, deleteDocClickListener)
 
     }
 
     class ViewHolder(private val itemBinding: DocumentListItemLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(data: W4Form, context: Context) {
+        fun bind(data: W4Form, context: Context, deleteDocClickListener: DeleteDocClickListener) {
             itemBinding.apply {
                 Glide.with(context)
                     .load(Constants.PUBLIC_URL+data?.image) // image url
@@ -43,6 +47,9 @@ class W4ListAdapter (private val itemList: List<W4Form>, private val context: Co
                     .centerCrop()
                     .into(imageView)
 
+                clearBtn.setOnClickListener {
+                    deleteDocClickListener.deleteDoc(data?.id)
+                }
             }
         }
 

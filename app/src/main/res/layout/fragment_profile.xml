@@ -71,12 +71,6 @@
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 android:textStyle="bold" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_outline_camera_alt_24"
-                app:tint="@color/black"/>
         </RelativeLayout>
         <TextView
             android:id="@+id/email_tv"

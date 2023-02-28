@@ -3,6 +3,7 @@ package com.example.caregiverphase2.ui.activity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -24,6 +25,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.PermissionChecker
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.caregiverphase2.R
@@ -33,6 +35,7 @@ import com.example.caregiverphase2.model.pojo.get_documents.*
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.fragment.DocImagePreviewFragment
 import com.example.caregiverphase2.ui.fragment.ImagePreviewFragment
+import com.example.caregiverphase2.utils.DeleteDocClickListener
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.UploadDocListener
 import com.example.caregiverphase2.utils.UploadDocumentListener
@@ -71,7 +74,7 @@ import java.io.InputStream
 import java.util.*
 
 @AndroidEntryPoint
-class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, UploadDocumentListener{
+class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, UploadDocumentListener, DeleteDocClickListener{
     private lateinit var binding: ActivityBasicAndHomeAddressBinding
     val genderList: Array<String> =  arrayOf("Select gender", "Male", "Female", "Other")
     val jobTypeList: Array<String> =  arrayOf("Select job type", "Full time", "Part time")
@@ -711,35 +714,99 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
     private fun docUpload(){
         binding.tuberculosisBtn.setOnClickListener {
             doc_type = "tuberculosis"
-            dispatchDocGalleryIntent()
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    dispatchDocGalleryIntent()
+                }else{
+                    requestPermission()
+                }
+            }else{
+                requestPermission()
+            }
         }
         binding.covidBtn.setOnClickListener {
             doc_type = "covid"
-            dispatchDocGalleryIntent()
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    dispatchDocGalleryIntent()
+                }else{
+                    requestPermission()
+                }
+            }else{
+                requestPermission()
+            }
         }
         binding.criminalBtn.setOnClickListener {
             doc_type = "criminal"
-            dispatchDocGalleryIntent()
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    dispatchDocGalleryIntent()
+                }else{
+                    requestPermission()
+                }
+            }else{
+                requestPermission()
+            }
         }
         binding.childAbuseBtn.setOnClickListener {
             doc_type = "childAbuse"
-            dispatchDocGalleryIntent()
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    dispatchDocGalleryIntent()
+                }else{
+                    requestPermission()
+                }
+            }else{
+                requestPermission()
+            }
         }
         binding.w4Btn.setOnClickListener {
             doc_type = "w4_form"
-            dispatchDocGalleryIntent()
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    dispatchDocGalleryIntent()
+                }else{
+                    requestPermission()
+                }
+            }else{
+                requestPermission()
+            }
         }
         binding.employmentBtn.setOnClickListener {
             doc_type = "employment"
-            dispatchDocGalleryIntent()
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    dispatchDocGalleryIntent()
+                }else{
+                    requestPermission()
+                }
+            }else{
+                requestPermission()
+            }
         }
         binding.drivingBtn.setOnClickListener {
             doc_type = "driving"
-            dispatchDocGalleryIntent()
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    dispatchDocGalleryIntent()
+                }else{
+                    requestPermission()
+                }
+            }else{
+                requestPermission()
+            }
         }
         binding.identityBtn.setOnClickListener {
             doc_type = "identification"
-            dispatchDocGalleryIntent()
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    dispatchDocGalleryIntent()
+                }else{
+                    requestPermission()
+                }
+            }else{
+                requestPermission()
+            }
         }
     }
 
@@ -747,56 +814,56 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.tuberRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity, this@BasicAndHomeAddressActivity)
         }
     }
     private fun fillCovidRecycler(list: MutableList<Covid>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.covidBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = CovidListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = CovidListAdapter(list,this@BasicAndHomeAddressActivity, this@BasicAndHomeAddressActivity)
         }
     }
     private fun fillCriminalRecycler(list: MutableList<Criminal>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.criminalBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = CriminalListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = CriminalListAdapter(list,this@BasicAndHomeAddressActivity, this@BasicAndHomeAddressActivity)
         }
     }
     private fun fillChildAbuseRecycler(list: MutableList<ChildAbuse>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.childAbuseBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = ChildAbuseListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = ChildAbuseListAdapter(list,this@BasicAndHomeAddressActivity, this@BasicAndHomeAddressActivity)
         }
     }
     private fun fillW4Recycler(list: MutableList<W4Form>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.w4BgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = W4ListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = W4ListAdapter(list,this@BasicAndHomeAddressActivity, this@BasicAndHomeAddressActivity)
         }
     }
     private fun fillEmploymentRecycler(list: MutableList<Employment>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.employmentBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = EmploymentListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = EmploymentListAdapter(list,this@BasicAndHomeAddressActivity, this@BasicAndHomeAddressActivity)
         }
     }
     private fun fillDrivingRecycler(list: MutableList<Driving>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.drivingBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = DrivingLiscenceListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = DrivingLiscenceListAdapter(list,this@BasicAndHomeAddressActivity, this@BasicAndHomeAddressActivity)
         }
     }
     private fun fillIdentityRecycler(list: MutableList<Identification>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.identityBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = IdentityListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = IdentityListAdapter(list,this@BasicAndHomeAddressActivity, this@BasicAndHomeAddressActivity)
         }
     }
 
@@ -824,4 +891,23 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         } catch (e: Exception) {
             e.printStackTrace()
         }    }
+
+    override fun deleteDoc(id: Int) {
+        deleteAlertDialog(id)
+    }
+
+    private fun deleteAlertDialog(id: Int){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Delete !! ${id}")
+        builder.setMessage("Do you want to remove this document permanently?")
+        builder.setIcon(R.drawable.ic_baseline_warning_amber_24)
+        builder.setPositiveButton("Yes"){dialogInterface, which ->
+
+        }
+        builder.setNegativeButton("No"){dialogInterface, which ->
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+    }
 }

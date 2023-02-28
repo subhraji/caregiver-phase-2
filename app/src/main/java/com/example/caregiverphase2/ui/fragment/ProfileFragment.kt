@@ -120,7 +120,7 @@ class ProfileFragment : Fragment(), UploadDocListener {
             startActivity(intent)
         }
 
-        binding.userImgRelay.setOnClickListener {
+        /*binding.userImgRelay.setOnClickListener {
             if (checkSelfPermission(requireActivity(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 if(checkSelfPermission(requireActivity(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchGalleryIntent()
@@ -130,7 +130,7 @@ class ProfileFragment : Fragment(), UploadDocListener {
             }else{
                 requestPermission()
             }
-        }
+        }*/
 
         binding.nameTv.text = PrefManager.getUserFullName()
     }

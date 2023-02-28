@@ -9,8 +9,12 @@ import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.DocumentListItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_documents.Tuberculosi
 import com.example.caregiverphase2.utils.Constants
+import com.example.caregiverphase2.utils.DeleteDocClickListener
 
-class TuberculosisListAdapter (private val itemList: List<Tuberculosi>, private val context: Context):
+class TuberculosisListAdapter (private val itemList: List<Tuberculosi>,
+                               private val context: Context,
+                               private val docClickListener: DeleteDocClickListener
+):
     RecyclerView.Adapter<TuberculosisListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TuberculosisListAdapter.ViewHolder {
@@ -29,13 +33,13 @@ class TuberculosisListAdapter (private val itemList: List<Tuberculosi>, private 
     override fun onBindViewHolder(holder: TuberculosisListAdapter.ViewHolder, position: Int) {
 
         val rowData = itemList[position]
-        holder.bind(rowData, context)
+        holder.bind(rowData, context, docClickListener)
 
     }
 
     class ViewHolder(private val itemBinding: DocumentListItemLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(data: Tuberculosi, context: Context) {
+        fun bind(data: Tuberculosi, context: Context, docClickListener: DeleteDocClickListener) {
             itemBinding.apply {
                 Glide.with(context)
                     .load(Constants.PUBLIC_URL+data?.image) // image url
@@ -43,6 +47,9 @@ class TuberculosisListAdapter (private val itemList: List<Tuberculosi>, private 
                     .centerCrop()
                     .into(imageView)
 
+                clearBtn.setOnClickListener {
+                    docClickListener.deleteDoc(data?.id)
+                }
             }
         }
 
