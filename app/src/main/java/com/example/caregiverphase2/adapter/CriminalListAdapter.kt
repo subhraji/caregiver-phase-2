@@ -7,26 +7,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.DocumentListItemLayoutBinding
-import com.example.caregiverphase2.model.pojo.get_documents.Tuberculosi
+import com.example.caregiverphase2.model.pojo.get_documents.Criminal
 import com.example.caregiverphase2.utils.Constants
 
-class TuberculosisListAdapter (private val itemList: List<Tuberculosi>, private val context: Context):
-    RecyclerView.Adapter<TuberculosisListAdapter.ViewHolder>() {
+class CriminalListAdapter (private val itemList: List<Criminal>, private val context: Context):
+    RecyclerView.Adapter<CriminalListAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TuberculosisListAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CriminalListAdapter.ViewHolder {
         val itemBinding = DocumentListItemLayoutBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return TuberculosisListAdapter.ViewHolder(itemBinding)
+        return CriminalListAdapter.ViewHolder(itemBinding)
     }
 
     override fun getItemCount(): Int {
         return itemList.size
     }
 
-    override fun onBindViewHolder(holder: TuberculosisListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CriminalListAdapter.ViewHolder, position: Int) {
 
         val rowData = itemList[position]
         holder.bind(rowData, context)
@@ -35,7 +35,7 @@ class TuberculosisListAdapter (private val itemList: List<Tuberculosi>, private 
 
     class ViewHolder(private val itemBinding: DocumentListItemLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(data: Tuberculosi, context: Context) {
+        fun bind(data: Criminal, context: Context) {
             itemBinding.apply {
                 Glide.with(context)
                     .load(Constants.PUBLIC_URL+data?.image) // image url

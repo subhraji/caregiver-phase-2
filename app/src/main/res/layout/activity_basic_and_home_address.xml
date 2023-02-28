@@ -560,7 +560,18 @@
                         android:background="@drawable/reg_icon_three" />
                 </LinearLayout>
 
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/docs_shimmer_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/doc_stepper_lay"
+                    app:layout_constraintStart_toStartOf="@+id/doc_stepper_lay"
+                    app:layout_constraintEnd_toEndOf="@+id/doc_stepper_lay">
+                    <include layout="@layout/docs_shimmer_layout" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
                 <LinearLayout
+                    android:id="@+id/docs_list_main_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -602,8 +613,8 @@
                         <HorizontalScrollView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fillViewport="true"
-                            android:layout_below="@+id/tuber_htv_2">
+                            android:layout_below="@+id/tuber_htv_2"
+                            android:fillViewport="true">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -616,7 +627,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/tuber_htv_2"
                                     android:layout_marginStart="10dp"
-                                    android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp" />
 
@@ -624,11 +634,9 @@
                                     android:id="@+id/tuberculosis_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
-                                    android:layout_below="@+id/tuber_htv_2"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp"
-                                    android:layout_toRightOf="@+id/tuber_recycler_view"
                                     android:background="@drawable/upload_doc_btn_bg"
                                     android:padding="30dp"
                                     android:src="@drawable/ic_baseline_cloud_upload_24"
@@ -659,19 +667,19 @@
                         <HorizontalScrollView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fillViewport="true"
                             android:layout_below="@+id/covid_bg_htv"
-                            >
+                            android:fillViewport="true">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/covid_bg_recycler_view"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
-                                    android:layout_marginTop="20dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp" />
 
@@ -679,7 +687,7 @@
                                     android:id="@+id/covid_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp"
                                     android:background="@drawable/upload_doc_btn_bg"
@@ -724,7 +732,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
-                                    android:layout_marginTop="20dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp" />
 
@@ -732,7 +739,7 @@
                                     android:id="@+id/criminal_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp"
                                     android:background="@drawable/upload_doc_btn_bg"
@@ -777,7 +784,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
-                                    android:layout_marginTop="20dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp" />
 
@@ -785,7 +791,7 @@
                                     android:id="@+id/child_abuse_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp"
                                     android:background="@drawable/upload_doc_btn_bg"
@@ -830,7 +836,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
-                                    android:layout_marginTop="20dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp" />
 
@@ -838,7 +843,7 @@
                                     android:id="@+id/w4_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp"
                                     android:background="@drawable/upload_doc_btn_bg"
@@ -882,7 +887,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
-                                    android:layout_marginTop="20dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp" />
 
@@ -890,7 +894,7 @@
                                     android:id="@+id/employment_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp"
                                     android:background="@drawable/upload_doc_btn_bg"
@@ -934,7 +938,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
-                                    android:layout_marginTop="20dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp" />
 
@@ -942,7 +945,7 @@
                                     android:id="@+id/driving_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp"
                                     android:background="@drawable/upload_doc_btn_bg"
@@ -986,7 +989,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
-                                    android:layout_marginTop="20dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp" />
 
@@ -994,7 +996,7 @@
                                     android:id="@+id/identity_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="10dp"
                                     android:background="@drawable/upload_doc_btn_bg"

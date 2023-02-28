@@ -16,6 +16,7 @@ import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVeri
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
 import com.example.caregiverphase2.model.pojo.get_complete_job.GetCompleteJobsResponse
+import com.example.caregiverphase2.model.pojo.get_documents.GetDocumentsResponse
 import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
 import com.example.caregiverphase2.model.pojo.get_ongoing_job.GetOngoingJobResponse
 import com.example.caregiverphase2.model.pojo.get_open_bid_details.GetOpenBidDetailsResponse
@@ -207,4 +208,9 @@ interface ApiInterface {
         @Part("expiry_date") expiry_date: RequestBody,
         @Header("Authorization") token: String
     ): UploadDocumentsResponse?
+
+    @GET("document/get")
+    suspend fun getDocuments(
+        @Header("Authorization") token: String,
+    ): GetDocumentsResponse?
 }

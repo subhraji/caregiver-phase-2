@@ -27,16 +27,16 @@ import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.caregiverphase2.R
-import com.example.caregiverphase2.adapter.BulletPointAdapter
-import com.example.caregiverphase2.adapter.TuberculosisListAdapter
+import com.example.caregiverphase2.adapter.*
 import com.example.caregiverphase2.databinding.ActivityBasicAndHomeAddressBinding
-import com.example.caregiverphase2.databinding.ActivityJobDetailsBinding
+import com.example.caregiverphase2.model.pojo.get_documents.*
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.fragment.DocImagePreviewFragment
 import com.example.caregiverphase2.ui.fragment.ImagePreviewFragment
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.UploadDocListener
 import com.example.caregiverphase2.utils.UploadDocumentListener
+import com.example.caregiverphase2.viewmodel.GetDocumentsViewModel
 import com.example.caregiverphase2.viewmodel.RegisterViewModel
 import com.example.caregiverphase2.viewmodel.SubmitOptionalRegViewModel
 import com.example.caregiverphase2.viewmodel.UploadDocumentsViewModel
@@ -69,7 +69,6 @@ import visible
 import java.io.File
 import java.io.InputStream
 import java.util.*
-import javax.xml.datatype.DatatypeConstants.MONTHS
 
 @AndroidEntryPoint
 class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, UploadDocumentListener{
@@ -87,6 +86,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
     private val mRegisterViewModel: RegisterViewModel by viewModels()
     private val mUploadDocumentsViewModel: UploadDocumentsViewModel by viewModels()
     private val mSubmitOptionalRegViewModel: SubmitOptionalRegViewModel by viewModels()
+    private val mGetDocumentsViewModel: GetDocumentsViewModel by viewModels()
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private lateinit var accessToken: String
@@ -265,6 +265,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         addBasicInfoObserve()
         submitOptionalRegObserve()
         uploadDocumentObserve()
+        getDocumentObserve()
 
         //validation
         mobileFocusListener()
@@ -273,6 +274,17 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         binding.textView2.text = PrefManager.getUserFullName()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(isConnectedToInternet()){
+            binding.docsListMainLayout.gone()
+            binding.docsShimmerView.visible()
+            binding.docsShimmerView.startShimmer()
+            mGetDocumentsViewModel.getDocuments(accessToken)
+        }else{
+            Toast.makeText(this,"Oops!! No internet connection.",Toast.LENGTH_SHORT).show()
+        }
+    }
 
     private fun mobileFocusListener(){
         binding.mobileNumberTxt.doOnTextChanged { text, start, before, count ->
@@ -621,7 +633,6 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             }
         })
     }
-
     private fun uploadDocumentObserve(){
         mUploadDocumentsViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
             when(outcome){
@@ -629,7 +640,60 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                     loader.dismiss()
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+
+                        binding.docsListMainLayout.gone()
+                        binding.docsShimmerView.visible()
+                        binding.docsShimmerView.startShimmer()
+                        mGetDocumentsViewModel.getDocuments(accessToken)
+
                         mUploadDocumentsViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+    private fun getDocumentObserve(){
+        mGetDocumentsViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    binding.docsListMainLayout.visible()
+                    binding.docsShimmerView.gone()
+                    binding.docsShimmerView.stopShimmer()
+                    if(outcome.data?.success == true){
+                        outcome.data?.data!!.tuberculosis?.let {
+                            fillTuberculosisRecycler(outcome.data?.data!!.tuberculosis.toMutableList())
+                        }
+                        outcome.data?.data!!.covid?.let {
+                            fillCovidRecycler(outcome.data?.data!!.covid.toMutableList())
+                        }
+                        outcome.data?.data!!.criminal?.let {
+                            fillCriminalRecycler(outcome.data?.data!!.criminal.toMutableList())
+                        }
+                        outcome.data?.data!!.child_abuse?.let {
+                            fillChildAbuseRecycler(outcome.data?.data!!.child_abuse.toMutableList())
+                        }
+                        outcome.data?.data!!.w4_form?.let {
+                            fillW4Recycler(outcome.data?.data!!.w4_form.toMutableList())
+                        }
+                        outcome.data?.data!!.employment?.let {
+                            fillEmploymentRecycler(outcome.data?.data!!.employment.toMutableList())
+                        }
+                        outcome.data?.data!!.driving?.let {
+                            fillDrivingRecycler(outcome.data?.data!!.driving.toMutableList())
+                        }
+                        outcome.data?.data!!.identification?.let {
+                            fillIdentityRecycler(outcome.data?.data!!.identification.toMutableList())
+                        }
+
+                        mGetDocumentsViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }
@@ -645,20 +709,6 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
     }
 
     private fun docUpload(){
-        var tuberculosisList: MutableList<String> = mutableListOf()
-        tuberculosisList.add("a")
-        tuberculosisList.add("b")
-        tuberculosisList.add("c")
-        tuberculosisList.add("d")
-        fillTuberculosisRecycler(tuberculosisList)
-        fillCovidRecycler(tuberculosisList)
-        fillCriminalRecycler(tuberculosisList)
-        fillChildAbuseRecycler(tuberculosisList)
-        fillW4Recycler(tuberculosisList)
-        fillEmploymentRecycler(tuberculosisList)
-        fillDrivingRecycler(tuberculosisList)
-        fillIdentityRecycler(tuberculosisList)
-
         binding.tuberculosisBtn.setOnClickListener {
             doc_type = "tuberculosis"
             dispatchDocGalleryIntent()
@@ -693,60 +743,60 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         }
     }
 
-    private fun fillTuberculosisRecycler(list: MutableList<String>) {
+    private fun fillTuberculosisRecycler(list: MutableList<Tuberculosi>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.tuberRecyclerView.apply {
             layoutManager = gridLayoutManager
             adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
         }
     }
-    private fun fillCovidRecycler(list: MutableList<String>) {
+    private fun fillCovidRecycler(list: MutableList<Covid>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.covidBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = CovidListAdapter(list,this@BasicAndHomeAddressActivity)
         }
     }
-    private fun fillCriminalRecycler(list: MutableList<String>) {
+    private fun fillCriminalRecycler(list: MutableList<Criminal>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.criminalBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = CriminalListAdapter(list,this@BasicAndHomeAddressActivity)
         }
     }
-    private fun fillChildAbuseRecycler(list: MutableList<String>) {
+    private fun fillChildAbuseRecycler(list: MutableList<ChildAbuse>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.childAbuseBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = ChildAbuseListAdapter(list,this@BasicAndHomeAddressActivity)
         }
     }
-    private fun fillW4Recycler(list: MutableList<String>) {
+    private fun fillW4Recycler(list: MutableList<W4Form>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.w4BgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = W4ListAdapter(list,this@BasicAndHomeAddressActivity)
         }
     }
-    private fun fillEmploymentRecycler(list: MutableList<String>) {
+    private fun fillEmploymentRecycler(list: MutableList<Employment>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.employmentBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = EmploymentListAdapter(list,this@BasicAndHomeAddressActivity)
         }
     }
-    private fun fillDrivingRecycler(list: MutableList<String>) {
+    private fun fillDrivingRecycler(list: MutableList<Driving>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.drivingBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = DrivingLiscenceListAdapter(list,this@BasicAndHomeAddressActivity)
         }
     }
-    private fun fillIdentityRecycler(list: MutableList<String>) {
+    private fun fillIdentityRecycler(list: MutableList<Identification>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.identityBgRecyclerView.apply {
             layoutManager = gridLayoutManager
-            adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
+            adapter = IdentityListAdapter(list,this@BasicAndHomeAddressActivity)
         }
     }
 
