@@ -4,8 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:paddingBottom="24dp"
-    tools:context=".ui.fragment.ImagePreviewFragment">
+    android:paddingBottom="20dp"
+    android:minWidth="1000dp"
+    android:minHeight="1000dp"
+    tools:context=".ui.fragment.DocImagePreviewFragment">
     <LinearLayout
         android:id="@+id/doc_prev_top_layout"
         android:layout_width="match_parent"
@@ -21,27 +23,46 @@
             android:background="@drawable/ic_baseline_clear_24"
             android:backgroundTint="@color/white" />
     </LinearLayout>
+
     <ImageView
         android:id="@+id/doc_prev_imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/doc_upload_btn"
+        android:layout_above="@+id/expiry_date_tv"
         android:layout_below="@+id/doc_prev_top_layout"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <TextView
+        android:id="@+id/expiry_date_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/doc_upload_btn"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/expiry_border_bg"
+        android:drawableStart="@drawable/ic_baseline_calendar_month_24"
+        android:drawableTint="@color/white"
+        android:gravity="center"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Select expiry date"
+        android:textColor="@color/white" />
+
     <TextView
         android:id="@+id/doc_upload_btn"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/grey_corner_bg"
         android:gravity="center"
-        android:text="UPLOAD"
+        android:text="Submit"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold">

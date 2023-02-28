@@ -32,9 +32,11 @@ import com.example.caregiverphase2.adapter.TuberculosisListAdapter
 import com.example.caregiverphase2.databinding.ActivityBasicAndHomeAddressBinding
 import com.example.caregiverphase2.databinding.ActivityJobDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.ui.fragment.DocImagePreviewFragment
 import com.example.caregiverphase2.ui.fragment.ImagePreviewFragment
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.UploadDocListener
+import com.example.caregiverphase2.utils.UploadDocumentListener
 import com.example.caregiverphase2.viewmodel.RegisterViewModel
 import com.example.caregiverphase2.viewmodel.SubmitOptionalRegViewModel
 import com.google.android.gms.maps.model.LatLng
@@ -69,7 +71,7 @@ import java.util.*
 import javax.xml.datatype.DatatypeConstants.MONTHS
 
 @AndroidEntryPoint
-class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
+class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, UploadDocumentListener{
     private lateinit var binding: ActivityBasicAndHomeAddressBinding
     val genderList: Array<String> =  arrayOf("Select gender", "Male", "Female", "Other")
     val jobTypeList: Array<String> =  arrayOf("Select job type", "Full time", "Part time")
@@ -79,6 +81,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
     private var mImeiId: String? = null
     private var grantedOtherPermissions: Boolean = false
     private val PICK_IMAGE = 100
+    private val PICK_IMAGE_DOC = 101
 
     private val mRegisterViewModel: RegisterViewModel by viewModels()
     private val mSubmitOptionalRegViewModel: SubmitOptionalRegViewModel by viewModels()
@@ -91,6 +94,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
     private var short_address: String = ""
     private var dob: String = ""
     private var job_type: String = ""
+    private lateinit var doc_type: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -409,6 +413,11 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         startActivityForResult(gallery, PICK_IMAGE)
     }
 
+    private fun dispatchDocGalleryIntent() {
+        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        startActivityForResult(gallery, PICK_IMAGE_DOC)
+    }
+
     fun getRealPathFromUri(contentUri: Uri?): String? {
         var cursor: Cursor? = null
         return try {
@@ -431,6 +440,15 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         bundle.putString("uri",uri)
         bundle.putString("type",type)
         val dialogFragment = ImagePreviewFragment(this)
+        dialogFragment.arguments = bundle
+        dialogFragment.show(this.supportFragmentManager, "signature")
+    }
+
+    private fun showDocImageDialog(absolutePath: String,uri: String) {
+        val bundle = Bundle()
+        bundle.putString("path", absolutePath)
+        bundle.putString("uri",uri)
+        val dialogFragment = DocImagePreviewFragment(this)
         dialogFragment.arguments = bundle
         dialogFragment.show(this.supportFragmentManager, "signature")
     }
@@ -494,6 +512,19 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
                 val imageFile = File(path!!)
                 absolutePath = imageFile.absolutePath
                 showImageDialog(imageFile.absolutePath,imageUri.toString(),"covid")
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == PICK_IMAGE_DOC) {
+            try {
+                imageUri = data?.data
+                val path = getRealPathFromUri(imageUri)
+                val imageFile = File(path!!)
+                absolutePath = imageFile.absolutePath
+                showDocImageDialog(imageFile.absolutePath,imageUri.toString())
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -603,6 +634,38 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
         fillDrivingRecycler(tuberculosisList)
         fillIdentityRecycler(tuberculosisList)
 
+        binding.tuberculosisBtn.setOnClickListener {
+            doc_type = "tuberculosis"
+            dispatchDocGalleryIntent()
+        }
+        binding.covidBtn.setOnClickListener {
+            doc_type = "covid"
+            dispatchDocGalleryIntent()
+        }
+        binding.criminalBtn.setOnClickListener {
+            doc_type = "criminal"
+            dispatchDocGalleryIntent()
+        }
+        binding.childAbuseBtn.setOnClickListener {
+            doc_type = "childAbuse"
+            dispatchDocGalleryIntent()
+        }
+        binding.w4Btn.setOnClickListener {
+            doc_type = "w4_form"
+            dispatchDocGalleryIntent()
+        }
+        binding.employmentBtn.setOnClickListener {
+            doc_type = "employment"
+            dispatchDocGalleryIntent()
+        }
+        binding.drivingBtn.setOnClickListener {
+            doc_type = "driving"
+            dispatchDocGalleryIntent()
+        }
+        binding.identityBtn.setOnClickListener {
+            doc_type = "identification"
+            dispatchDocGalleryIntent()
+        }
     }
 
     private fun fillTuberculosisRecycler(list: MutableList<String>) {
@@ -660,5 +723,9 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener {
             layoutManager = gridLayoutManager
             adapter = TuberculosisListAdapter(list,this@BasicAndHomeAddressActivity)
         }
+    }
+
+    override fun uploadDoc(path: String, expiry: String) {
+        Toast.makeText(this, doc_type.toString()+"..."+expiry.toString(), Toast.LENGTH_SHORT).show()
     }
 }

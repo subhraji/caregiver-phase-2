@@ -48,7 +48,8 @@
         android:id="@+id/relative_lay_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:visibility="gone">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -358,7 +359,8 @@
         android:id="@+id/relative_lay_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:visibility="gone">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -619,6 +621,7 @@
                                     android:layout_marginBottom="10dp" />
 
                                 <ImageView
+                                    android:id="@+id/tuberculosis_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
                                     android:layout_below="@+id/tuber_htv_2"
@@ -673,6 +676,7 @@
                                     android:layout_marginBottom="10dp" />
 
                                 <ImageView
+                                    android:id="@+id/covid_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
                                     android:layout_marginTop="20dp"
@@ -725,6 +729,7 @@
                                     android:layout_marginBottom="10dp" />
 
                                 <ImageView
+                                    android:id="@+id/criminal_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
                                     android:layout_marginTop="20dp"
@@ -777,6 +782,7 @@
                                     android:layout_marginBottom="10dp" />
 
                                 <ImageView
+                                    android:id="@+id/child_abuse_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
                                     android:layout_marginTop="20dp"
@@ -829,6 +835,7 @@
                                     android:layout_marginBottom="10dp" />
 
                                 <ImageView
+                                    android:id="@+id/w4_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
                                     android:layout_marginTop="20dp"
@@ -880,6 +887,7 @@
                                     android:layout_marginBottom="10dp" />
 
                                 <ImageView
+                                    android:id="@+id/employment_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
                                     android:layout_marginTop="20dp"
@@ -931,6 +939,7 @@
                                     android:layout_marginBottom="10dp" />
 
                                 <ImageView
+                                    android:id="@+id/driving_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
                                     android:layout_marginTop="20dp"
@@ -982,6 +991,7 @@
                                     android:layout_marginBottom="10dp" />
 
                                 <ImageView
+                                    android:id="@+id/identity_btn"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
                                     android:layout_marginTop="20dp"
