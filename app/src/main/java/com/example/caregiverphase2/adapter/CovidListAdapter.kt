@@ -48,7 +48,7 @@ class CovidListAdapter (private val itemList: List<Covid>,
                     .into(imageView)
 
                 clearBtn.setOnClickListener {
-                    deleteDocClickListener.deleteDoc(data?.id)
+                    deleteDocClickListener.deleteDoc(data?.id,"covid")
                 }
             }
         }

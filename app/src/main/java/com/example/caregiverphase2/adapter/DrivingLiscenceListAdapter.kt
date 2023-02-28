@@ -48,7 +48,7 @@ class DrivingLiscenceListAdapter (private val itemList: List<Driving>,
                     .into(imageView)
 
                 clearBtn.setOnClickListener {
-                    deleteDocClickListener.deleteDoc(data?.id)
+                    deleteDocClickListener.deleteDoc(data?.id, "driving")
                 }
             }
         }

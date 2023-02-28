@@ -48,7 +48,7 @@ class EmploymentListAdapter (private val itemList: List<Employment>,
                     .into(imageView)
 
                 clearBtn.setOnClickListener {
-                    deleteDocClickListener.deleteDoc(data?.id)
+                    deleteDocClickListener.deleteDoc(data?.id, "employment")
                 }
 
             }

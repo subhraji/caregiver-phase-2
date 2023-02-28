@@ -39,10 +39,7 @@ import com.example.caregiverphase2.utils.DeleteDocClickListener
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.UploadDocListener
 import com.example.caregiverphase2.utils.UploadDocumentListener
-import com.example.caregiverphase2.viewmodel.GetDocumentsViewModel
-import com.example.caregiverphase2.viewmodel.RegisterViewModel
-import com.example.caregiverphase2.viewmodel.SubmitOptionalRegViewModel
-import com.example.caregiverphase2.viewmodel.UploadDocumentsViewModel
+import com.example.caregiverphase2.viewmodel.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -90,6 +87,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
     private val mUploadDocumentsViewModel: UploadDocumentsViewModel by viewModels()
     private val mSubmitOptionalRegViewModel: SubmitOptionalRegViewModel by viewModels()
     private val mGetDocumentsViewModel: GetDocumentsViewModel by viewModels()
+    private val mDeleteDocumentsViewModel: DeleteDocumentsViewModel by viewModels()
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private lateinit var accessToken: String
@@ -269,6 +267,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         submitOptionalRegObserve()
         uploadDocumentObserve()
         getDocumentObserve()
+        deleteDocumentObserve()
 
         //validation
         mobileFocusListener()
@@ -711,6 +710,34 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         })
     }
 
+    private fun deleteDocumentObserve(){
+        mDeleteDocumentsViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+
+                        binding.docsListMainLayout.gone()
+                        binding.docsShimmerView.visible()
+                        binding.docsShimmerView.startShimmer()
+                        mGetDocumentsViewModel.getDocuments(accessToken)
+
+                        mDeleteDocumentsViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    loader.dismiss()
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
     private fun docUpload(){
         binding.tuberculosisBtn.setOnClickListener {
             doc_type = "tuberculosis"
@@ -892,17 +919,18 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             e.printStackTrace()
         }    }
 
-    override fun deleteDoc(id: Int) {
-        deleteAlertDialog(id)
+    override fun deleteDoc(id: Int, category: String) {
+        deleteAlertDialog(id, category)
     }
 
-    private fun deleteAlertDialog(id: Int){
+    private fun deleteAlertDialog(id: Int, category: String){
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Delete !! ${id}")
+        builder.setTitle("Delete !!")
         builder.setMessage("Do you want to remove this document permanently?")
         builder.setIcon(R.drawable.ic_baseline_warning_amber_24)
         builder.setPositiveButton("Yes"){dialogInterface, which ->
-
+            mDeleteDocumentsViewModel.deleteDocument(category,id,accessToken)
+            loader.show()
         }
         builder.setNegativeButton("No"){dialogInterface, which ->
         }

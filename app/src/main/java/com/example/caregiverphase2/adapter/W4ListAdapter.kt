@@ -48,7 +48,7 @@ class W4ListAdapter (private val itemList: List<W4Form>,
                     .into(imageView)
 
                 clearBtn.setOnClickListener {
-                    deleteDocClickListener.deleteDoc(data?.id)
+                    deleteDocClickListener.deleteDoc(data?.id, "w4_form")
                 }
             }
         }

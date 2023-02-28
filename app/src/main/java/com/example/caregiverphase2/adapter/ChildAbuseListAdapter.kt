@@ -48,7 +48,7 @@ class ChildAbuseListAdapter (private val itemList: List<ChildAbuse>,
                     .into(imageView)
 
                 clearBtn.setOnClickListener {
-                    deleteDocClickListener.deleteDoc(data?.id)
+                    deleteDocClickListener.deleteDoc(data?.id,"childAbuse")
                 }
             }
         }

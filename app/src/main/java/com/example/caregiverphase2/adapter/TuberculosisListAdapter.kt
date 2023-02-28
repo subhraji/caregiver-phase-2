@@ -48,7 +48,7 @@ class TuberculosisListAdapter (private val itemList: List<Tuberculosi>,
                     .into(imageView)
 
                 clearBtn.setOnClickListener {
-                    docClickListener.deleteDoc(data?.id)
+                    docClickListener.deleteDoc(data?.id,"tuberculosis")
                 }
             }
         }

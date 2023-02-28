@@ -48,7 +48,7 @@ class IdentityListAdapter (private val itemList: List<Identification>,
                     .into(imageView)
 
                 clearBtn.setOnClickListener {
-                    deleteDocClickListener.deleteDoc(data?.id)
+                    deleteDocClickListener.deleteDoc(data?.id, "identification")
                 }
             }
         }

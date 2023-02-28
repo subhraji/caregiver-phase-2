@@ -48,7 +48,7 @@ class CriminalListAdapter (private val itemList: List<Criminal>,
                     .into(imageView)
 
                 clearBtn.setOnClickListener {
-                    deleteDocClickListener.deleteDoc(data?.id)
+                    deleteDocClickListener.deleteDoc(data?.id, "criminal")
                 }
             }
         }

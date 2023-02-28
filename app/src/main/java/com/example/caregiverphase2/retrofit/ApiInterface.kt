@@ -12,6 +12,8 @@ import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordResp
 import com.example.caregiverphase2.model.pojo.change_profile_pic.ChangeProfilePicResponse
 import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobRequest
 import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobResponse
+import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentRequest
+import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentResponse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
@@ -213,4 +215,10 @@ interface ApiInterface {
     suspend fun getDocuments(
         @Header("Authorization") token: String,
     ): GetDocumentsResponse?
+
+    @POST("document/delete")
+    suspend fun deleteDocument(
+        @Body body: DeleteDocumentRequest?,
+        @Header("Authorization") token: String,
+    ): DeleteDocumentResponse?
 }
