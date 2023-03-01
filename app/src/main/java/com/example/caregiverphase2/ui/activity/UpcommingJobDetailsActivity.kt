@@ -1,6 +1,7 @@
 package com.example.caregiverphase2.ui.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -39,6 +40,9 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
     private var start_time: String? = ""
     private lateinit var job_id: String
 
+    private var lat: String = ""
+    private var long: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityUpcommingJobDetailsBinding.inflate(layoutInflater)
@@ -62,6 +66,7 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         binding.otherReqHtv.gone()
         binding.noCheckListTv.gone()
         binding.checkListRecycler.gone()
+        binding.getDirectionBtn.gone()
 
         clickJobOverview()
 
@@ -119,6 +124,14 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         //observer
         getUpcommingJoobsObserver()
         startJobObserver()
+
+        binding.getDirectionBtn.setOnClickListener {
+            if(!lat.isEmpty() && !long.isEmpty()){
+                getDirection(lat, long)
+            }else{
+                Toast.makeText(this,"Could not fetch the location",Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun clickJobOverview(){
@@ -199,6 +212,13 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
                             }else{
                                 binding.noCheckListTv.visible()
                             }
+                            outcome.data!!.data[0].lat?.let {
+                                outcome.data!!.data[0].long?.let {
+                                    lat = outcome.data!!.data[0].lat
+                                    long = outcome.data!!.data[0].long
+                                    binding.getDirectionBtn.visible()
+                                }
+                            }
                         }else{
                             binding.mainLay.gone()
                             binding.detailsShimmerView.visible()
@@ -276,6 +296,13 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun getDirection(lat: String, long: String){
+        val gmmIntentUri = Uri.parse("google.navigation:q="+lat+","+long+ "&mode=d")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        startActivity(mapIntent)
     }
 
 }

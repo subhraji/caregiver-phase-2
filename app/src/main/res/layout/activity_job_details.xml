@@ -51,7 +51,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="20dp"
-                    android:src="@color/dash_yellow"/>
+                    android:src="@color/color_grey"/>
                 <TextView
                     android:id="@+id/agency_name_tv"
                     android:layout_width="wrap_content"
@@ -168,6 +168,7 @@
                         app:layout_constraintTop_toTopOf="@+id/job_bag_img"
                         app:layout_constraintStart_toEndOf="@+id/job_bag_img"
                         app:layout_constraintBottom_toBottomOf="@+id/job_bag_img"
+                        app:layout_constraintEnd_toStartOf="@+id/loc_img"
                         android:textColor="@color/black"
                         android:layout_marginStart="10dp"
                         android:textStyle="bold"
@@ -183,7 +184,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"/>
                     <TextView
                         android:id="@+id/loc_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="13sp"

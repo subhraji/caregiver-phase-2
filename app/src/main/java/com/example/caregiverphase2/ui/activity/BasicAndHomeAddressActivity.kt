@@ -88,6 +88,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
     private val mSubmitOptionalRegViewModel: SubmitOptionalRegViewModel by viewModels()
     private val mGetDocumentsViewModel: GetDocumentsViewModel by viewModels()
     private val mDeleteDocumentsViewModel: DeleteDocumentsViewModel by viewModels()
+    private val mUpdateDocumentStatusViewModel: UpdateDocumentStatusViewModel by viewModels()
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private lateinit var accessToken: String
@@ -268,6 +269,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         uploadDocumentObserve()
         getDocumentObserve()
         deleteDocumentObserve()
+        updateDocumentStatusObserve()
 
         //validation
         mobileFocusListener()
@@ -738,7 +740,41 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         })
     }
 
+    private fun updateDocumentStatusObserve(){
+        mUpdateDocumentStatusViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        mUpdateDocumentStatusViewModel.navigationComplete()
+                        finish()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    loader.dismiss()
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+
     private fun docUpload(){
+        binding.nextCardBtn3.setOnClickListener {
+            if(isConnectedToInternet()){
+                mUpdateDocumentStatusViewModel.updateDocStatus(accessToken)
+                loader.show()
+            }else{
+                Toast.makeText(this,"Oops!! No internet connection.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         binding.tuberculosisBtn.setOnClickListener {
             doc_type = "tuberculosis"
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {

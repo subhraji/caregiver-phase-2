@@ -39,6 +39,7 @@ import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidRequest
 import com.example.caregiverphase2.model.pojo.submit_bid.SubmitBidResponse
 import com.example.caregiverphase2.model.pojo.todo.GetTodosResponse
 import com.example.caregiverphase2.model.pojo.upcomming_job.GetUpcommingJobsResponse
+import com.example.caregiverphase2.model.pojo.update_doc_status.UpdateDocStatusResponse
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationRequest
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationResponse
 import com.example.caregiverphase2.model.pojo.upload_documents.UploadDocumentsResponse
@@ -221,4 +222,9 @@ interface ApiInterface {
         @Body body: DeleteDocumentRequest?,
         @Header("Authorization") token: String,
     ): DeleteDocumentResponse?
+
+    @POST("document/update-status")
+    suspend fun updateDocStatus(
+        @Header("Authorization") token: String,
+    ): UpdateDocStatusResponse?
 }
