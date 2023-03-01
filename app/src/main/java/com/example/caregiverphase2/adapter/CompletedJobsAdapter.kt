@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.AlreadyBiddedItemLayoutBinding
+import com.example.caregiverphase2.databinding.CompletedJobsItemLayoutBinding
 import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_complete_job.Data
 import com.example.caregiverphase2.ui.activity.BiddedJobDetailsActivity
@@ -18,7 +19,7 @@ class CompletedJobsAdapter (private val itemList: List<Data>, private val contex
     RecyclerView.Adapter<CompletedJobsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompletedJobsAdapter.ViewHolder {
-        val itemBinding = AlreadyBiddedItemLayoutBinding.inflate(
+        val itemBinding = CompletedJobsItemLayoutBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -35,7 +36,7 @@ class CompletedJobsAdapter (private val itemList: List<Data>, private val contex
         holder.bind(rowData, context)
     }
 
-    class ViewHolder(private val itemBinding: AlreadyBiddedItemLayoutBinding) :
+    class ViewHolder(private val itemBinding: CompletedJobsItemLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var gen:String
         fun bind(data: Data, context: Context) {

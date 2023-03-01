@@ -46,6 +46,7 @@ class DashboardFragment : Fragment() {
     private val mGetQuickCallViewModel: GetQuickCallViewModel by viewModels()
     private val mGetProfileStatusViewModel: GetProfileStatusViewModel by viewModels()
     private val mGetOngoingJobViewModel: GetOngoingJobViewModel by viewModels()
+    private val mGetProfileViewModel: GetProfileViewModel by viewModels()
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
 
@@ -81,12 +82,7 @@ class DashboardFragment : Fragment() {
         getQuickCallObserver()
         getProfileStatusObserver()
         getOngoingJobObserver()
-
-        Glide.with(this)
-            .load("https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80") // image url
-            .placeholder(R.color.dash_yellow) // any placeholder to load at start
-            .centerCrop()
-            .into(binding.userImageView)
+        getProfileObserve()
 
         binding.profilePendingCart.setOnClickListener {
             if(requireActivity().isConnectedToInternet()){
@@ -135,6 +131,7 @@ class DashboardFragment : Fragment() {
             binding.quickCallRecycler.gone()
             mGetQuickCallViewModel.getQuickCall(accessToken, 0)
             mGetOngoingJobViewModel.getOngoingJob(accessToken)
+            mGetProfileViewModel.getProfile(accessToken)
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }
@@ -355,6 +352,35 @@ class DashboardFragment : Fragment() {
                     Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
                     loader.dismiss()
 
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun getProfileObserve(){
+        mGetProfileViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        val data = outcome.data?.data
+
+                        data?.basic_info?.photo?.let {
+                            Glide.with(this)
+                                .load(Constants.PUBLIC_URL+it) // image url
+                                .placeholder(R.color.color_grey) // any placeholder to load at start
+                                .centerCrop()
+                                .into(binding.userImageView)
+                        }
+                        mGetProfileViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
                     outcome.e.printStackTrace()
                     Log.i("status",outcome.e.cause.toString())
                 }

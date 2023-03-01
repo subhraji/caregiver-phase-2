@@ -246,7 +246,7 @@ class JobDetailsActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Bid now")
         builder.setMessage("Do you want to bid this job ?")
-        builder.setIcon(R.drawable.ic_baseline_logout_24)
+        builder.setIcon(R.drawable.ic_baseline_front_hand_24)
         builder.setPositiveButton("Yes"){dialogInterface, which ->
             showEligibilityDialog()
         }

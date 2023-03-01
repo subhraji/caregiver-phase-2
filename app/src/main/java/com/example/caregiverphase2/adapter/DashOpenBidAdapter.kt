@@ -50,9 +50,9 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
                 gen = ""
                 for(i in data?.care_items){
                     if(gen.isEmpty()){
-                        gen = i.gender+": "+i.age
+                        gen = i.gender+" : "+i.age
                     }else{
-                        gen = gen+", "+i.gender+": "+i.age
+                        gen = gen+", "+i.gender+" : "+i.age
                     }
                 }
                 ageTv.text = gen

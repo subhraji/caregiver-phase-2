@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.QuickCallsItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
-import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.ui.activity.QuickCallsDetailsActivity
 import com.example.caregiverphase2.utils.Constants
 
