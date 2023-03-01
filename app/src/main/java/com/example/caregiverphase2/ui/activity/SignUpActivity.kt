@@ -186,7 +186,6 @@ class SignUpActivity : AppCompatActivity() {
                         intent.putExtra("password",binding.passwordTxt.text.toString())
                         intent.putExtra("con_password",binding.conPasswordTxt.text.toString())
                         startActivity(intent)
-                        finish()
 
                         mSignUpEmailVerificationViewModel.navigationComplete()
                     }else{

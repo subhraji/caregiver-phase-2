@@ -73,8 +73,6 @@ class EmailVerificationActivity : AppCompatActivity() {
         binding.resendTv.gone()
 
         binding.backBtn.setOnClickListener {
-            val intent = Intent(this, ChooseLoginRegActivity::class.java)
-            startActivity(intent)
             finish()
         }
 
@@ -252,6 +250,7 @@ class EmailVerificationActivity : AppCompatActivity() {
                                 PrefManager.setUserFullName(name)
                                 val intent = Intent(this, AskLocationActivity::class.java)
                                 intent.putExtra("from","login")
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
                                 finish()
                             }

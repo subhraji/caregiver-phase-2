@@ -70,10 +70,6 @@ class LoginFragment : Fragment() {
         emailFocusListener()
         passwordFocusListener()
 
-        /*binding.backBtn.setOnClickListener {
-            requireActivity().finish()
-        }*/
-
         binding.loginBtn.setOnClickListener {
 
 
@@ -159,8 +155,10 @@ class LoginFragment : Fragment() {
                         PrefManager.setLogInStatus(true)
                         val intent = Intent(requireActivity(), AskLocationActivity::class.java)
                         intent.putExtra("from","login")
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         requireActivity().finish()
+
                         loginViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()

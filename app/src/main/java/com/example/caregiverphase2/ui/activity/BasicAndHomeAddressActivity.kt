@@ -232,7 +232,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         binding.nextCardBtn2.setOnClickListener {
 
             if(isConnectedToInternet()){
-                mSubmitOptionalRegViewModel.submitOptionalReg(job_type = job_type, experience = binding.experienceTxt.text.toString(),token = accessToken)
+                mSubmitOptionalRegViewModel.submitOptionalReg(job_type = job_type, experience = "",token = accessToken)
                 loader.show()
             }else{
                 Toast.makeText(this,"Oops!! No internet connection.",Toast.LENGTH_SHORT).show()
@@ -259,9 +259,17 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             autocompleteWithIntent()
         }
 
+        binding.skipBtn.setOnClickListener {
+            if(isConnectedToInternet()){
+                mSubmitOptionalRegViewModel.submitOptionalReg(job_type = job_type, experience = binding.experienceTxt.text.toString(),token = accessToken)
+                loader.show()
+            }else{
+                Toast.makeText(this,"Oops!! No internet connection.",Toast.LENGTH_SHORT).show()
+            }
+        }
+
         //document upload
         docUpload()
-
 
         //observer
         addBasicInfoObserve()
@@ -623,6 +631,8 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                         binding.relativeLay2.gone()
                         binding.relativeLay1.gone()
                         binding.relativeLay3.visible()
+                        binding.skipBtn.gone()
+
                         mRegisterViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
