@@ -16,13 +16,13 @@ class UploadDocumentsRepository @Inject constructor(private val apiInterface: Ap
     fun uploadDocuments(
         document: MultipartBody.Part?,
         documentCategory: String,
-        expiry_date: String,
+        expiry_date: String?,
         token: String
     ): Flow<UploadDocumentsResponse?> = flow{
         emit(apiInterface.uploadDocuments(
             document,
             documentCategory.toMultipartFormString(),
-            expiry_date.toMultipartFormString(),
+            expiry_date?.toMultipartFormString(),
             token = token
         ))
     }.flowOn(Dispatchers.IO)

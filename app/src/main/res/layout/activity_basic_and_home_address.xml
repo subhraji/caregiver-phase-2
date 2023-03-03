@@ -73,11 +73,13 @@
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <ImageView
+                        android:id="@+id/basic_step_1"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="@drawable/reg_icon_one" />
 
                     <ImageView
+                        android:id="@+id/basic_dot_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -85,11 +87,13 @@
                         android:background="@drawable/reg_dots" />
 
                     <ImageView
+                        android:id="@+id/basic_step_2"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="@drawable/reg_icon_two" />
 
                     <ImageView
+                        android:id="@+id/basic_dot_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -97,6 +101,7 @@
                         android:background="@drawable/reg_dots" />
 
                     <ImageView
+                        android:id="@+id/basic_step_3"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="@drawable/reg_icon_three" />
@@ -221,8 +226,7 @@
                                     android:id="@+id/dob_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/black"
-                                    />
+                                    android:textColor="@color/black"/>
                             </LinearLayout>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -360,10 +364,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
-        android:visibility="gone">
+        android:visibility="visible">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -374,21 +380,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:weightSum="3"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
+                        android:id="@+id/optional_step_1"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="@drawable/stepper_done_icon" />
 
                     <ImageView
+                        android:id="@+id/optional_dot_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -396,11 +404,13 @@
                         android:background="@drawable/reg_dot_green" />
 
                     <ImageView
+                        android:id="@+id/optional_step_2"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="@drawable/reg_icon_two" />
 
                     <ImageView
+                        android:id="@+id/optional_dot_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -408,6 +418,7 @@
                         android:background="@drawable/reg_dots" />
 
                     <ImageView
+                        android:id="@+id/optional_step_3"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="@drawable/reg_icon_three" />
@@ -419,31 +430,33 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@+id/optional_stepper_lay"
+                    app:layout_constraintEnd_toEndOf="@+id/optional_stepper_lay"
                     app:layout_constraintStart_toStartOf="@+id/optional_stepper_lay"
-                    app:layout_constraintEnd_toEndOf="@+id/optional_stepper_lay">
+                    app:layout_constraintTop_toBottomOf="@+id/optional_stepper_lay">
+
                     <Spinner
                         android:id="@+id/job_type_spinner"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"/>
+                        android:layout_height="60dp" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:visibility="visible"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
-                        android:background="@color/text_grey"/>
+                        android:background="@color/text_grey"
+                        android:visibility="visible" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/experience_txt_lay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/transparent"
                         android:padding="5dp"
                         android:textColorHint="@color/text_grey"
                         app:boxBackgroundColor="@color/transparent"
-                        android:background="@color/transparent"
-                        app:boxStrokeWidth="0dp"
                         app:boxStrokeColor="@color/text_grey"
+                        app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -459,13 +472,14 @@
                             android:textCursorDrawable="@null"
                             android:textSize="16sp" />
                     </com.google.android.material.textfield.TextInputLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:visibility="visible"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
-                        android:background="@color/text_grey"/>
+                        android:background="@color/text_grey"
+                        android:visibility="visible" />
 
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -508,9 +522,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -521,16 +537,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:weightSum="3"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
+                        android:id="@+id/doc_step_1"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="@drawable/stepper_done_icon" />
@@ -543,6 +560,7 @@
                         android:background="@drawable/reg_dot_green" />
 
                     <ImageView
+                        android:id="@+id/doc_step_2"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="@drawable/stepper_done_icon" />
@@ -555,6 +573,7 @@
                         android:background="@drawable/reg_dot_green" />
 
                     <ImageView
+                        android:id="@+id/doc_step_3"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="@drawable/reg_icon_three" />
@@ -564,9 +583,10 @@
                     android:id="@+id/docs_shimmer_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/doc_stepper_lay"
+                    app:layout_constraintEnd_toEndOf="@+id/doc_stepper_lay"
                     app:layout_constraintStart_toStartOf="@+id/doc_stepper_lay"
-                    app:layout_constraintEnd_toEndOf="@+id/doc_stepper_lay">
+                    app:layout_constraintTop_toBottomOf="@+id/doc_stepper_lay">
+
                     <include layout="@layout/docs_shimmer_layout" />
                 </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -576,16 +596,17 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@+id/doc_stepper_lay"
+                    app:layout_constraintEnd_toEndOf="@+id/doc_stepper_lay"
                     app:layout_constraintStart_toStartOf="@+id/doc_stepper_lay"
-                    app:layout_constraintEnd_toEndOf="@+id/doc_stepper_lay">
+                    app:layout_constraintTop_toBottomOf="@+id/doc_stepper_lay">
+
                     <RelativeLayout
                         android:id="@+id/tuber_relay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/doc_upload_grey_bg">
+                        android:background="@drawable/doc_upload_grey_bg"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:id="@+id/tuber_htv"
@@ -644,13 +665,14 @@
                             </LinearLayout>
                         </HorizontalScrollView>
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:id="@+id/covid_bg_relay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="20dp"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/doc_upload_grey_bg">
+                        android:background="@drawable/doc_upload_grey_bg"
+                        android:paddingBottom="20dp">
 
                         <TextView
                             android:id="@+id/covid_bg_htv"
@@ -697,13 +719,14 @@
                             </LinearLayout>
                         </HorizontalScrollView>
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:id="@+id/criminal_bg_relay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="20dp"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/doc_upload_grey_bg">
+                        android:background="@drawable/doc_upload_grey_bg"
+                        android:paddingBottom="20dp">
 
                         <TextView
                             android:id="@+id/criminal_bg_htv"
@@ -720,13 +743,14 @@
                         <HorizontalScrollView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fillViewport="true"
                             android:layout_below="@+id/criminal_bg_htv"
-                            >
+                            android:fillViewport="true">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/criminal_bg_recycler_view"
                                     android:layout_width="wrap_content"
@@ -749,13 +773,14 @@
                             </LinearLayout>
                         </HorizontalScrollView>
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:id="@+id/child_abuse_bg_relay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="20dp"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/doc_upload_grey_bg">
+                        android:background="@drawable/doc_upload_grey_bg"
+                        android:paddingBottom="20dp">
 
                         <TextView
                             android:id="@+id/child_abuse_bg_htv"
@@ -772,13 +797,14 @@
                         <HorizontalScrollView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fillViewport="true"
                             android:layout_below="@+id/child_abuse_bg_htv"
-                            >
+                            android:fillViewport="true">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/child_abuse_bg_recycler_view"
                                     android:layout_width="wrap_content"
@@ -802,13 +828,14 @@
                         </HorizontalScrollView>
 
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:id="@+id/w4_bg_relay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="20dp"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/doc_upload_grey_bg">
+                        android:background="@drawable/doc_upload_grey_bg"
+                        android:paddingBottom="20dp">
 
                         <TextView
                             android:id="@+id/w4_bg_htv"
@@ -821,16 +848,18 @@
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+
                         <HorizontalScrollView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fillViewport="true"
                             android:layout_below="@+id/w4_bg_htv"
-                            >
+                            android:fillViewport="true">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/w4_bg_recycler_view"
                                     android:layout_width="wrap_content"
@@ -853,13 +882,14 @@
                             </LinearLayout>
                         </HorizontalScrollView>
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:id="@+id/employment_bg_relay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="20dp"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/doc_upload_grey_bg">
+                        android:background="@drawable/doc_upload_grey_bg"
+                        android:paddingBottom="20dp">
 
                         <TextView
                             android:id="@+id/employment_bg_htv"
@@ -872,16 +902,18 @@
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+
                         <HorizontalScrollView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fillViewport="true"
                             android:layout_below="@+id/employment_bg_htv"
-                            >
+                            android:fillViewport="true">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/employment_bg_recycler_view"
                                     android:layout_width="wrap_content"
@@ -905,13 +937,14 @@
                         </HorizontalScrollView>
 
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:id="@+id/driving_bg_relay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="20dp"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/doc_upload_grey_bg">
+                        android:background="@drawable/doc_upload_grey_bg"
+                        android:paddingBottom="20dp">
 
                         <TextView
                             android:id="@+id/driving_bg_htv"
@@ -924,15 +957,18 @@
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+
                         <HorizontalScrollView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fillViewport="true"
-                            android:layout_below="@+id/driving_bg_htv">
+                            android:layout_below="@+id/driving_bg_htv"
+                            android:fillViewport="true">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/driving_bg_recycler_view"
                                     android:layout_width="wrap_content"
@@ -956,13 +992,14 @@
                         </HorizontalScrollView>
 
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:id="@+id/identity_bg_relay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="20dp"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/doc_upload_grey_bg">
+                        android:background="@drawable/doc_upload_grey_bg"
+                        android:paddingBottom="20dp">
 
                         <TextView
                             android:id="@+id/identity_bg_htv"
@@ -975,15 +1012,18 @@
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+
                         <HorizontalScrollView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fillViewport="true"
-                            android:layout_below="@+id/identity_bg_htv">
+                            android:layout_below="@+id/identity_bg_htv"
+                            android:fillViewport="true">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/identity_bg_recycler_view"
                                     android:layout_width="wrap_content"

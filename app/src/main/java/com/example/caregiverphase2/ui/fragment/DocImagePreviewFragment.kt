@@ -99,14 +99,10 @@ class DocImagePreviewFragment(uploadDocumentListener: UploadDocumentListener) : 
         }
 
         binding.docUploadBtn.setOnClickListener {
-            if(binding.expiryDateTv.text != "Select expiry date"){
-                imagePath?.let { path ->
-                    uploadListener?.uploadDoc(path, binding.expiryDateTv.text.toString())
-                }
-                dismiss()
-            }else{
-               Toast.makeText(requireActivity(),"Please select expiry date.",Toast.LENGTH_SHORT).show()
+            imagePath?.let { path ->
+                uploadListener?.uploadDoc(path, binding.expiryDateTv.text.toString())
             }
+            dismiss()
         }
     }
 }

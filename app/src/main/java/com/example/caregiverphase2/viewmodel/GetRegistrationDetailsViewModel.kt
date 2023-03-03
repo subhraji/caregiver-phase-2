@@ -1,32 +1,27 @@
 package com.example.caregiverphase2.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.caregiverphase2.model.pojo.upload_documents.UploadDocumentsResponse
+import com.example.caregiverphase2.model.pojo.get_reg_details.GetRegistrationDetailsResponse
+import com.example.caregiverphase2.model.repository.GetRegistrationDetailsRepository
 import com.example.caregiverphase2.model.repository.Outcome
-import com.example.caregiverphase2.model.repository.UploadDocumentsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
-class UploadDocumentsViewModel @Inject constructor(private val repository: UploadDocumentsRepository) : ViewModel() {
-    private var _response = MutableLiveData<Outcome<UploadDocumentsResponse?>?>()
-    val response: LiveData<Outcome<UploadDocumentsResponse?>?> = _response
+class GetRegistrationDetailsViewModel @Inject constructor(private val repository: GetRegistrationDetailsRepository) : ViewModel() {
+    private var _response = MutableLiveData<Outcome<GetRegistrationDetailsResponse?>?>()
+    val response: MutableLiveData<Outcome<GetRegistrationDetailsResponse?>?> = _response
 
-    fun uploadDocuments(
-        document: MultipartBody.Part?,
-        documentCategory: String,
-        expiry_date: String?,
+    fun getRegDetails(
         token: String
     ) = viewModelScope.launch {
-        repository.uploadDocuments(
-            document, documentCategory, expiry_date, token
+        repository.getRegDetails(
+            token
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

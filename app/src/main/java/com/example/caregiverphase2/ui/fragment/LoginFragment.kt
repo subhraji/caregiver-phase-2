@@ -150,7 +150,10 @@ class LoginFragment : Fragment() {
                     loader.dismiss()
                     if(outcome.data?.success == true){
                         if (outcome.data!!.token != null) {
-                            outcome.data!!.token?.let { PrefManager.setKeyAuthToken(it) }
+                            outcome.data!!.token?.let {
+                                PrefManager.setKeyAuthToken(it)
+                                PrefManager.setUserFullName(outcome.data!!.data.name)
+                            }
                         }
                         PrefManager.setLogInStatus(true)
                         val intent = Intent(requireActivity(), AskLocationActivity::class.java)

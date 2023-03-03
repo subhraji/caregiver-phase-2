@@ -25,6 +25,7 @@ import com.example.caregiverphase2.model.pojo.get_open_bid_details.GetOpenBidDet
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
 import com.example.caregiverphase2.model.pojo.get_profile.GetProfileResponse
 import com.example.caregiverphase2.model.pojo.get_profile_status.GetProfileStatusResponse
+import com.example.caregiverphase2.model.pojo.get_reg_details.GetRegistrationDetailsResponse
 import com.example.caregiverphase2.model.pojo.login.LoginRequest
 import com.example.caregiverphase2.model.pojo.login.LoginResponse
 import com.example.caregiverphase2.model.pojo.logout.LogoutResponse
@@ -208,7 +209,7 @@ interface ApiInterface {
     suspend fun uploadDocuments(
         @Part document: MultipartBody.Part?,
         @Part("documentCategory") documentCategory : RequestBody,
-        @Part("expiry_date") expiry_date: RequestBody,
+        @Part("expiry_date") expiry_date: RequestBody? = null,
         @Header("Authorization") token: String
     ): UploadDocumentsResponse?
 
@@ -227,4 +228,9 @@ interface ApiInterface {
     suspend fun updateDocStatus(
         @Header("Authorization") token: String,
     ): UpdateDocStatusResponse?
+
+    @GET("profile/registration/get-registration-details")
+    suspend fun getRegDetails(
+        @Header("Authorization") token: String,
+    ): GetRegistrationDetailsResponse?
 }

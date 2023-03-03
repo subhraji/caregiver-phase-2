@@ -13,21 +13,23 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.content.PermissionChecker
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.adapter.*
 import com.example.caregiverphase2.databinding.ActivityBasicAndHomeAddressBinding
@@ -35,10 +37,7 @@ import com.example.caregiverphase2.model.pojo.get_documents.*
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.fragment.DocImagePreviewFragment
 import com.example.caregiverphase2.ui.fragment.ImagePreviewFragment
-import com.example.caregiverphase2.utils.DeleteDocClickListener
-import com.example.caregiverphase2.utils.PrefManager
-import com.example.caregiverphase2.utils.UploadDocListener
-import com.example.caregiverphase2.utils.UploadDocumentListener
+import com.example.caregiverphase2.utils.*
 import com.example.caregiverphase2.viewmodel.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
@@ -89,6 +88,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
     private val mGetDocumentsViewModel: GetDocumentsViewModel by viewModels()
     private val mDeleteDocumentsViewModel: DeleteDocumentsViewModel by viewModels()
     private val mUpdateDocumentStatusViewModel: UpdateDocumentStatusViewModel by viewModels()
+    private val mGetRegistrationDetailsViewModel: GetRegistrationDetailsViewModel by viewModels()
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private lateinit var accessToken: String
@@ -140,6 +140,64 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
 
         binding.backBtn.setOnClickListener {
             finish()
+        }
+
+        binding.basicStep2.setOnClickListener {
+            /*binding.relativeLay1.gone()
+            binding.relativeLay2.visible()
+            binding.relativeLay3.gone()
+            binding.skipBtn.visible()*/
+        }
+
+        binding.basicStep3.setOnClickListener {
+            /*binding.relativeLay1.gone()
+            binding.relativeLay2.gone()
+            binding.relativeLay3.visible()
+            binding.skipBtn.gone()*/
+        }
+
+        binding.docStep2.setOnClickListener {
+            binding.relativeLay1.gone()
+            binding.relativeLay2.visible()
+            binding.relativeLay3.gone()
+            binding.skipBtn.visible()
+
+            binding.optionalDot1.background = ContextCompat.getDrawable(this, R.drawable.reg_dot_green)
+            binding.optionalStep2.background = ContextCompat.getDrawable(this, R.drawable.stepper_done_icon)
+            mGetRegistrationDetailsViewModel.getRegDetails(accessToken)
+            loader.show()
+        }
+
+        binding.docStep1.setOnClickListener {
+            binding.relativeLay1.visible()
+            binding.relativeLay2.gone()
+            binding.relativeLay3.gone()
+            binding.skipBtn.gone()
+
+            binding.basicDot1.background = ContextCompat.getDrawable(this, R.drawable.reg_dot_green)
+            binding.basicDot2.background = ContextCompat.getDrawable(this, R.drawable.reg_dot_green)
+            binding.basicStep2.background = ContextCompat.getDrawable(this, R.drawable.stepper_done_icon)
+            binding.basicStep1.background = ContextCompat.getDrawable(this, R.drawable.stepper_done_icon)
+
+            mGetRegistrationDetailsViewModel.getRegDetails(accessToken)
+            loader.show()
+        }
+
+        binding.optionalStep1.setOnClickListener {
+            binding.relativeLay1.visible()
+            binding.relativeLay2.gone()
+            binding.relativeLay3.gone()
+            binding.skipBtn.gone()
+
+            binding.basicDot1.background = ContextCompat.getDrawable(this, R.drawable.reg_dot_green)
+            binding.basicStep1.background = ContextCompat.getDrawable(this, R.drawable.stepper_done_icon)
+        }
+
+        binding.optionalStep3.setOnClickListener {
+            /*binding.relativeLay1.gone()
+            binding.relativeLay2.gone()
+            binding.relativeLay3.visible()
+            binding.skipBtn.gone()*/
         }
 
         binding.dobAddBtn.setOnClickListener {
@@ -232,7 +290,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         binding.nextCardBtn2.setOnClickListener {
 
             if(isConnectedToInternet()){
-                mSubmitOptionalRegViewModel.submitOptionalReg(job_type = job_type, experience = "",token = accessToken)
+                mSubmitOptionalRegViewModel.submitOptionalReg(job_type = job_type, experience = binding.experienceTxt.text.toString(),token = accessToken)
                 loader.show()
             }else{
                 Toast.makeText(this,"Oops!! No internet connection.",Toast.LENGTH_SHORT).show()
@@ -261,7 +319,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
 
         binding.skipBtn.setOnClickListener {
             if(isConnectedToInternet()){
-                mSubmitOptionalRegViewModel.submitOptionalReg(job_type = job_type, experience = binding.experienceTxt.text.toString(),token = accessToken)
+                mSubmitOptionalRegViewModel.submitOptionalReg(job_type = job_type, experience = "",token = accessToken)
                 loader.show()
             }else{
                 Toast.makeText(this,"Oops!! No internet connection.",Toast.LENGTH_SHORT).show()
@@ -278,6 +336,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         getDocumentObserve()
         deleteDocumentObserve()
         updateDocumentStatusObserve()
+        getRegistrationDetailsObserve()
 
         //validation
         mobileFocusListener()
@@ -336,9 +395,15 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         return  null
     }
 
-    private fun setUpGenderSpinner(){
+    private fun setUpGenderSpinner(value: String? = null){
         val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,genderList)
         binding.genderSpinner.adapter = arrayAdapter
+
+        if (value != null) {
+            val spinnerPosition: Int = arrayAdapter.getPosition(value)
+            binding.genderSpinner.setSelection(spinnerPosition)
+        }
+
         binding.genderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
             AdapterView.OnItemClickListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -360,12 +425,19 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         }
     }
 
-    private fun setUpJobTypeSpinner(){
+    private fun setUpJobTypeSpinner(value: String? = null){
         val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,jobTypeList)
         binding.jobTypeSpinner.adapter = arrayAdapter
+
+        if (value != null) {
+            val spinnerPosition: Int = arrayAdapter.getPosition(value)
+            binding.jobTypeSpinner.setSelection(spinnerPosition)
+        }
+
         binding.jobTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
             AdapterView.OnItemClickListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
                 if(p2 == 0){
                     job_type = ""
                 }else{
@@ -647,6 +719,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             }
         })
     }
+
     private fun uploadDocumentObserve(){
         mUploadDocumentsViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
             when(outcome){
@@ -674,6 +747,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             }
         })
     }
+
     private fun getDocumentObserve(){
         mGetDocumentsViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
             when(outcome){
@@ -774,6 +848,63 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         })
     }
 
+    private fun getRegistrationDetailsObserve(){
+        mGetRegistrationDetailsViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        outcome.data?.data!!.short_address?.let {
+                            short_address = outcome.data?.data!!.short_address
+                        }
+                        outcome.data?.data!!.full_address?.let {
+                            binding.locTv.text = outcome.data?.data!!.full_address.toString()
+                            full_address = outcome.data?.data!!.full_address.toString()
+                        }
+                        outcome.data?.data!!.gender?.let {
+                            gender = outcome.data?.data!!.gender
+                            setUpGenderSpinner(outcome.data?.data!!.gender.toString())
+                        }
+                        outcome.data?.data!!.ssn?.let {
+                            binding.ssnNumberTxt.text = Editable.Factory.getInstance().newEditable(outcome.data?.data!!.ssn.toString())
+                        }
+                        outcome.data?.data!!.dob?.let {
+                            binding.dobTv.visible()
+                            binding.dobHtv.gone()
+                            binding.dobTv.text = outcome.data?.data!!.dob.toString()
+                        }
+                        outcome.data?.data!!.phone?.let {
+                            binding.mobileNumberTxt.text = Editable.Factory.getInstance().newEditable(outcome.data?.data!!.phone)
+                        }
+                        outcome.data?.data?.job_type?.let {
+                            job_type = outcome.data?.data?.job_type.toString()
+                            setUpJobTypeSpinner(outcome.data?.data?.job_type.toString())
+                        }
+                        outcome.data?.data!!.experience?.let {
+                            binding.experienceTxt.text = Editable.Factory.getInstance().newEditable(outcome.data?.data!!.experience.toString())
+                        }
+                        outcome.data?.data!!.photo?.let {
+                            Glide.with(this)
+                                .load(Constants.PUBLIC_URL+outcome.data?.data!!.photo) // image url
+                                .placeholder(R.color.dash_yellow) // any placeholder to load at start
+                                .centerCrop()
+                                .into(binding.userImg)
+                        }
+                        mGetRegistrationDetailsViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    loader.dismiss()
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
 
     private fun docUpload(){
         binding.nextCardBtn3.setOnClickListener {
@@ -940,7 +1071,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         }
     }
 
-    override fun uploadDoc(path: String, expiry: String) {
+    override fun uploadDoc(path: String, expiry: String?) {
         try {
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main) {
