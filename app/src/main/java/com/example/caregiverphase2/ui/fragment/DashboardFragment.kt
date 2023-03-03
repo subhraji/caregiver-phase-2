@@ -183,6 +183,11 @@ class DashboardFragment : Fragment() {
                         mGetOpenJobsViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        if(outcome.data!!.httpStatusCode == 401){
+                            PrefManager.clearPref()
+                            startActivity(Intent(requireActivity(), ChooseLoginRegActivity::class.java))
+                            requireActivity().finish()
+                        }
                     }
                 }
                 is Outcome.Failure<*> -> {

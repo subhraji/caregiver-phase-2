@@ -45,7 +45,7 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
                 addressTv.text = data?.short_address.toString()
                 hourHtv.text = data?.start_time+" - "+data?.end_time
                 dateHtv.text = data?.date
-                priceTv.text = "$"+data?.amount.toString()
+                priceTv.text = data?.amount.toString()
                 agencyNameTv.text = data?.company_name.toString()
                 gen = ""
                 for(i in data?.care_items){

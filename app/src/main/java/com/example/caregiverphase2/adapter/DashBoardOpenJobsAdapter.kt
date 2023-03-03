@@ -51,14 +51,14 @@ class DashBoardOpenJobsAdapter (private val itemList: List<com.example.caregiver
                 addressTv.text = data?.shortAddress.toString()
                 hourHtv.text = data?.startTime+" - "+data?.endTime
                 dateHtv.text = data?.date
-                priceTv.text = "$"+data?.amount.toString()
+                priceTv.text = data?.amount.toString()
                 agencyNameTv.text = data?.companyName.toString()
                 gen = ""
                 for(i in data?.careItems){
                     if(gen.isEmpty()){
-                        gen = i.gender+": "+i.age
+                        gen = i.gender+" : "+i.age
                     }else{
-                        gen = gen+", "+i.gender+": "+i.age
+                        gen = gen+", "+i.gender+" : "+i.age
                     }
                 }
                 ageTv.text = gen

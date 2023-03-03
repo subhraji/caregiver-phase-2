@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="370dp"
+    android:layout_width="377dp"
     android:layout_height="wrap_content"
     app:cardCornerRadius="5dp"
     android:layout_marginStart="10dp"
@@ -97,7 +97,9 @@
             android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:textSize="13sp"/>
+            android:textSize="13sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
         <TextView
             android:id="@+id/reward_htv"
             android:layout_width="wrap_content"
@@ -114,20 +116,21 @@
             app:layout_constraintEnd_toEndOf="@+id/reward_htv"
             app:layout_constraintStart_toStartOf="@+id/reward_htv"
             app:layout_constraintTop_toBottomOf="@+id/reward_htv">
+
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_star_19"
-                />
+                android:src="@drawable/ic_star_19" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="14dp"
                 android:text="13"
                 android:textColor="@color/theme_blue"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"/>
+                android:textStyle="bold" />
         </RelativeLayout>
         <ImageView
             android:id="@+id/location_img_view"
