@@ -180,7 +180,7 @@ class ProfileFragment : Fragment(), UploadDocListener {
                             binding.showBioTv.text = it.toString()
                         }
                         data?.basic_info?.dob?.let {
-                            binding.ageTv.text = it.toString()+" Years"
+                            binding.ageTv.text = it.toString()
                         }
                         if(data?.basic_info?.bio != null){
                             binding.addBioBtn.gone()
