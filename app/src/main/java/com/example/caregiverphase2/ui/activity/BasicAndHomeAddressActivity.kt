@@ -142,28 +142,16 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             finish()
         }
 
-        binding.basicStep2.setOnClickListener {
-            /*binding.relativeLay1.gone()
-            binding.relativeLay2.visible()
-            binding.relativeLay3.gone()
-            binding.skipBtn.visible()*/
-        }
-
-        binding.basicStep3.setOnClickListener {
-            /*binding.relativeLay1.gone()
-            binding.relativeLay2.gone()
-            binding.relativeLay3.visible()
-            binding.skipBtn.gone()*/
-        }
-
         binding.docStep2.setOnClickListener {
             binding.relativeLay1.gone()
             binding.relativeLay2.visible()
             binding.relativeLay3.gone()
-            binding.skipBtn.visible()
+            binding.skipBtn.gone()
 
+            binding.optionalDot2.background = ContextCompat.getDrawable(this, R.drawable.reg_dot_green)
             binding.optionalDot1.background = ContextCompat.getDrawable(this, R.drawable.reg_dot_green)
             binding.optionalStep2.background = ContextCompat.getDrawable(this, R.drawable.stepper_done_icon)
+
             mGetRegistrationDetailsViewModel.getRegDetails(accessToken)
             loader.show()
         }
@@ -191,13 +179,9 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
 
             binding.basicDot1.background = ContextCompat.getDrawable(this, R.drawable.reg_dot_green)
             binding.basicStep1.background = ContextCompat.getDrawable(this, R.drawable.stepper_done_icon)
-        }
 
-        binding.optionalStep3.setOnClickListener {
-            /*binding.relativeLay1.gone()
-            binding.relativeLay2.gone()
-            binding.relativeLay3.visible()
-            binding.skipBtn.gone()*/
+            mGetRegistrationDetailsViewModel.getRegDetails(accessToken)
+            loader.show()
         }
 
         binding.dobAddBtn.setOnClickListener {
@@ -319,7 +303,8 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
 
         binding.skipBtn.setOnClickListener {
             if(isConnectedToInternet()){
-                mSubmitOptionalRegViewModel.submitOptionalReg(job_type = job_type, experience = "",token = accessToken)
+
+                mSubmitOptionalRegViewModel.submitOptionalReg(job_type = job_type, experience = binding.experienceTxt.text.toString(),token = accessToken)
                 loader.show()
             }else{
                 Toast.makeText(this,"Oops!! No internet connection.",Toast.LENGTH_SHORT).show()
@@ -872,6 +857,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                             binding.dobTv.visible()
                             binding.dobHtv.gone()
                             binding.dobTv.text = outcome.data?.data!!.dob.toString()
+                            dob = binding.dobTv.text.toString()
                         }
                         outcome.data?.data!!.phone?.let {
                             binding.mobileNumberTxt.text = Editable.Factory.getInstance().newEditable(outcome.data?.data!!.phone)
@@ -883,13 +869,13 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                         outcome.data?.data!!.experience?.let {
                             binding.experienceTxt.text = Editable.Factory.getInstance().newEditable(outcome.data?.data!!.experience.toString())
                         }
-                        outcome.data?.data!!.photo?.let {
+                        /*outcome.data?.data!!.photo?.let {
                             Glide.with(this)
                                 .load(Constants.PUBLIC_URL+outcome.data?.data!!.photo) // image url
                                 .placeholder(R.color.dash_yellow) // any placeholder to load at start
                                 .centerCrop()
                                 .into(binding.userImg)
-                        }
+                        }*/
                         mGetRegistrationDetailsViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()

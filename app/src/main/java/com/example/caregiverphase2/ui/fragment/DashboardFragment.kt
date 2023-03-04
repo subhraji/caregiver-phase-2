@@ -267,8 +267,8 @@ class DashboardFragment : Fragment() {
     private fun showCompleteDialog(title: String, btn_txt: String, step: Int) {
         val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
         dialog.setContentView(R.layout.profile_completion_dialog_layout)
 
         val msg_tv = dialog.findViewById<TextView>(R.id.text_view_1)
