@@ -155,6 +155,10 @@ class LoginFragment : Fragment() {
                                 PrefManager.setUserFullName(outcome.data!!.data.name)
                             }
                         }
+                        PrefManager.setLatitude(null)
+                        PrefManager.setLongitude(null)
+                        PrefManager.setShortAddress(null)
+                        PrefManager.setFullAddress(null)
                         PrefManager.setLogInStatus(true)
                         val intent = Intent(requireActivity(), AskLocationActivity::class.java)
                         intent.putExtra("from","login")

@@ -39,9 +39,18 @@ class SplashActivity : AppCompatActivity() {
 
             if(isConnectedToInternet()){
                 if(PrefManager.getLogInStatus() == true){
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+
+                    if(PrefManager.getLatitude() != null && PrefManager.getLongitude() == null){
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }else{
+                        val intent = Intent(this, AskLocationActivity::class.java)
+                        intent.putExtra("from","login")
+                        startActivity(intent)
+                        finish()
+                    }
+
                 }else{
                     val intent = Intent(this, ChooseLoginRegActivity::class.java)
                     startActivity(intent)

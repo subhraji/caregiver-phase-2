@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import gone
 import loadingDialog
 import visible
+import java.util.*
 
 @AndroidEntryPoint
 class AskLocationActivity : AppCompatActivity() {
@@ -35,6 +38,8 @@ class AskLocationActivity : AppCompatActivity() {
 
     private var latitude: String = ""
     private var longitude: String = ""
+    private var shortAddress: String = ""
+    private var fullAddress: String = ""
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var from: String
     private lateinit var accessToken: String
@@ -122,7 +127,7 @@ class AskLocationActivity : AppCompatActivity() {
 
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener(this) { task ->
                     val location: Location? = task.result
-                    if(location == null){
+                    /*if(location == null){
                         Toast.makeText(this,"Please open your google map once, then retry", Toast.LENGTH_SHORT).show()
                     }else{
                         //Toast.makeText(this,"Get Success", Toast.LENGTH_SHORT).show()
@@ -136,6 +141,25 @@ class AskLocationActivity : AppCompatActivity() {
                         }else{
                             Toast.makeText(this,"Please check your location", Toast.LENGTH_LONG).show()
                         }
+                    }*/
+
+
+                    if (location != null) {
+                        val geocoder = Geocoder(this, Locale.getDefault())
+                        val list: List<Address> =
+                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                        latitude = list[0].latitude.toString()
+                        longitude = list[0].longitude.toString()
+                        shortAddress = "${list[0].subLocality},${list[0].locality}"
+                        fullAddress = list[0].getAddressLine(0)
+
+                        if(!latitude.isEmpty() && !longitude.isEmpty()){
+                            binding.useLocBtn.visible()
+                        }else{
+                            Toast.makeText(this,"Please check your location", Toast.LENGTH_LONG).show()
+                        }
+                    }else{
+                        Toast.makeText(this,"Please open your google map once, then retry", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -175,6 +199,10 @@ class AskLocationActivity : AppCompatActivity() {
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         if(from == "login"){
+                            PrefManager.setLatitude(latitude)
+                            PrefManager.setLongitude(longitude)
+                            PrefManager.setShortAddress(shortAddress)
+                            PrefManager.setFullAddress(fullAddress)
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()

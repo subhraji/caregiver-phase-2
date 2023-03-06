@@ -18,11 +18,16 @@ object PrefManager {
     const val FULL_NAME = "full_name"
     const val LAST_NAME = "last_name"
     const val MOBILE = "mobile"
-    const val USER_IMG = "user_img"
+    const val LAT = "current_lat"
+    const val LONG = "current_long"
+    const val SHORT_ADDRESS = "short_address"
+    const val FULL_ADDRESS = "full_address"
+
     const val TYPE = "type"
     const val ID = "id"
     const val USER_ID = "user_id"
     const val IS_LOGIN = "login"
+    const val IS_LOCATION = "location"
     const val IS_WHATS = "whatsOnTut"
     const val IS_HOW = "howTut"
     const val IS_CIRCLE = "circleTut"
@@ -103,11 +108,25 @@ object PrefManager {
     fun getUserLastName(): String? {
         return getString(LAST_NAME)
     }
-    fun getUserImg(): String? {
-        return getString(USER_IMG)
+
+    fun getLatitude(): String? {
+        return getString(LAT)
     }
+    fun getLongitude(): String? {
+        return getString(LONG)
+    }
+    fun getShortAddress(): String? {
+        return getString(SHORT_ADDRESS)
+    }
+    fun getFullAddress(): String? {
+        return getString(FULL_ADDRESS)
+    }
+
     fun getLogInStatus(): Boolean? {
         return getBoolean(IS_LOGIN)
+    }
+    fun getLocationStatus(): Boolean? {
+        return getBoolean(IS_LOCATION)
     }
     fun getUserId(): Int? {
         return getInt(USER_ID)
@@ -124,13 +143,24 @@ object PrefManager {
     fun setUserLastName(lastName: String) {
         putString(LAST_NAME, lastName)
     }
-    fun setUserImg(img: String) {
-        putString(USER_IMG, img)
+
+    fun setLatitude(latitude: String?) {
+        putString(LAT, latitude)
     }
+    fun setLongitude(longitude: String?) {
+        putString(LONG, longitude)
+    }
+    fun setShortAddress(address: String?) {
+        putString(SHORT_ADDRESS, address)
+    }
+    fun setFullAddress(address: String?) {
+        putString(FULL_ADDRESS, address)
+    }
+
     fun setLogInStatus(loginStatus: Boolean) {
         putBoolean(IS_LOGIN, loginStatus)
     }
-    fun setUserId(userId: Int) {
-        putInt(USER_ID, userId)
+    fun setLocationStatus(locationStatus: Boolean) {
+        putBoolean(IS_LOCATION, locationStatus)
     }
 }

@@ -76,6 +76,8 @@ class DashboardFragment : Fragment() {
         binding.ongoingCard.gone()
         binding.timeLeftTv.setBackgroundTintList(ColorStateList.valueOf(requireActivity().resources.getColor(R.color.dash_green)))
 
+        binding.shortAddressTv.text = PrefManager.getShortAddress()
+
         //observer
         getOPenJobsObserver()
         getOPenBidsObserver()
