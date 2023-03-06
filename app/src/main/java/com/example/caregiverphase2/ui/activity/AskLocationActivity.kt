@@ -385,6 +385,10 @@ class AskLocationActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         }else{
+                            PrefManager.setLatitude(latitude)
+                            PrefManager.setLongitude(longitude)
+                            PrefManager.setShortAddress(shortAddress)
+                            PrefManager.setFullAddress(fullAddress)
                             finish()
                         }
 

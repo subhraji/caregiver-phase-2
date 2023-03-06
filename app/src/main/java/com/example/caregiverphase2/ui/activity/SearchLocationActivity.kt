@@ -33,6 +33,12 @@ class SearchLocationActivity : AppCompatActivity() {
         binding.backArrow.setOnClickListener {
             finish()
         }
+
+        binding.useCurrentLocation.setOnClickListener {
+            val intent = Intent(this, AskLocationActivity::class.java)
+            intent.putExtra("from","other")
+            finish()
+        }
     }
 
     fun getCoordinate(lat0: Double, lng0: Double, dy: Long, dx: Long): LatLng? {
@@ -48,29 +54,21 @@ class SearchLocationActivity : AppCompatActivity() {
 
         // Specify the types of place data to return.
         autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT)
-        autocompleteFragment.setCountries("IN")
+        autocompleteFragment.setCountries("USA")
         autocompleteFragment.setLocationBias(
-            /*RectangularBounds.newInstance(
-                LatLng(-33.880490, 151.184363),
-                LatLng(-33.858754, 151.229596)
-            )*/
-
             RectangularBounds.newInstance(
-                getCoordinate(26.1442464,91.784392, -1000, -1000),
-                getCoordinate(26.1442464,91.784392, 1000, 1000)
+                LatLng(37.0902,95.7129),
+                LatLng(37.0902,95.7129)
             )
-
         )
         autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG))
 
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                // TODO: Get info about the selected place.
                 Log.i("place2", "Place: ${place.name}, ${place.id}, ${place.address}")
             }
 
             override fun onError(status: Status) {
-                // TODO: Handle the error.
                 Log.i("place2", "An error occurred: $status")
             }
         })

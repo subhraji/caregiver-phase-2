@@ -332,7 +332,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                app:cardCornerRadius="7dp">
                 <ImageView
                     android:id="@+id/agency_img_view"
                     android:layout_width="55dp"
