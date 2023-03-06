@@ -44,6 +44,27 @@
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             />
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/loc_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:background="@drawable/settings_item_border_bg">
+        <ImageView
+            android:id="@+id/loc_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_baseline_my_location_24"/>
+        <TextView
+            android:id="@+id/address_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/loc_icon"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+    </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

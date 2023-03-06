@@ -17,16 +17,24 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import gone
+import visible
 
 class SearchLocationActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchLocationBinding
     private val AUTOCOMPLETE_REQUEST_CODE = 1
+
+    private var latitude: String = ""
+    private var longitude: String = ""
+    private var shortAddress: String = ""
+    private var fullAddress: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivitySearchLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.locLay.gone()
         Places.initialize(applicationContext, getString(R.string.api_key));
 
         autocomplete()
@@ -37,6 +45,7 @@ class SearchLocationActivity : AppCompatActivity() {
         binding.useCurrentLocation.setOnClickListener {
             val intent = Intent(this, AskLocationActivity::class.java)
             intent.putExtra("from","other")
+            startActivity(intent)
             finish()
         }
     }
@@ -66,6 +75,15 @@ class SearchLocationActivity : AppCompatActivity() {
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 Log.i("place2", "Place: ${place.name}, ${place.id}, ${place.address}")
+
+                binding.locLay.visible()
+                val latLangList = place.latLng.toString().split("(").toTypedArray()
+                val final_latLangList = latLangList[1].toString().split(",").toTypedArray()
+                latitude = final_latLangList[0].toString()
+                longitude = final_latLangList[1].toString().substring(0, final_latLangList[1].length - 1)
+                shortAddress = place.address
+                fullAddress = place.name
+                binding.addressTv.text = fullAddress
             }
 
             override fun onError(status: Status) {
