@@ -449,11 +449,11 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             .setTypeFilter(TypeFilter.ESTABLISHMENT)
             .setLocationBias(
                 RectangularBounds.newInstance(
-                    LatLng(26.1442464,91.784392),
-                    LatLng(26.1442464,91.784392)
+                    LatLng(37.0902,95.7129),
+                    LatLng(37.0902,95.7129)
                 )
             )
-            .setCountry("IN")
+            .setCountry("USA")
             .build(this)
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
     }
