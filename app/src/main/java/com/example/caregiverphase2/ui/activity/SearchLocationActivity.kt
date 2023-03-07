@@ -50,12 +50,6 @@ class SearchLocationActivity : AppCompatActivity() {
         }
     }
 
-    fun getCoordinate(lat0: Double, lng0: Double, dy: Long, dx: Long): LatLng? {
-        val lat = lat0 + 180 / Math.PI * (dy / 6378137)
-        val lng = lng0 + 180 / Math.PI * (dx / 6378137) / Math.cos(lat0)
-        return LatLng(lat, lng)
-    }
-
     private fun autocomplete(){
         // Initialize the AutocompleteSupportFragment.
         val autocompleteFragment =
