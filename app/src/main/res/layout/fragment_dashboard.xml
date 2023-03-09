@@ -113,7 +113,7 @@
                             android:layout_marginStart="5dp"
                             android:textColor="@color/black"
                             android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>

@@ -112,7 +112,11 @@ class DashboardFragment : Fragment() {
 
     override fun onResume() {
 
-        binding.shortAddressTv.text = PrefManager.getShortAddress()
+        if(PrefManager.getShortAddress()!!.length >= 15){
+            binding.shortAddressTv.text = PrefManager.getShortAddress()!!.substring(0,15)+" ..."
+        }else{
+            binding.shortAddressTv.text = PrefManager.getShortAddress()
+        }
 
         if(requireActivity().isConnectedToInternet()){
             binding.openJobsShimmerView.visible()
