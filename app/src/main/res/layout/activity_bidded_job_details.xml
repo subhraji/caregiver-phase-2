@@ -165,13 +165,14 @@
                         android:id="@+id/date_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/loc_img"
                         app:layout_constraintTop_toTopOf="@+id/job_bag_img"
                         app:layout_constraintStart_toEndOf="@+id/job_bag_img"
                         app:layout_constraintBottom_toBottomOf="@+id/job_bag_img"
                         android:textColor="@color/black"
                         android:layout_marginStart="10dp"
                         android:textStyle="bold"
+                        android:layout_marginEnd="7dp"
                         />
                     <ImageView
                         android:id="@+id/loc_img"
@@ -184,7 +185,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"/>
                     <TextView
                         android:id="@+id/loc_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="13sp"
