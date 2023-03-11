@@ -65,6 +65,7 @@ interface ApiInterface {
     suspend fun getOpenJobs(
         @Header("Authorization") token: String,
         @Query("id") id: Int? = null,
+        @Query("page") page: Int? = null,
     ): GetJobsResponse?
 
     @Multipart
@@ -88,12 +89,14 @@ interface ApiInterface {
     @GET("job/get-bidded-jobs")
     suspend fun getOPenBids(
         @Header("Authorization") token: String,
+        @Query("page") page: Int? = null,
     ): GetOpenJobsResponse?
 
     @GET("job/quick-call/get")
     suspend fun getQuickCall(
         @Header("Authorization") token: String,
         @Query("id") id: Int? = null,
+        @Query("page") page: Int? = null,
     ): GetOpenJobsResponse?
 
     @POST("profile/change-password")

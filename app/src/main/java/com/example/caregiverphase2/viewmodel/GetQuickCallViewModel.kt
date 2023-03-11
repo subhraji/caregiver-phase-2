@@ -19,10 +19,11 @@ class GetQuickCallViewModel @Inject constructor(private val repository: GetQuick
 
     fun getQuickCall(
         token: String,
-        id: Int
+        id: Int,
+        page: Int? = null
     ) = viewModelScope.launch {
         repository.getQuickCall(
-            token, id
+            token, id, page
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

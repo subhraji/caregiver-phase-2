@@ -18,10 +18,12 @@ class GetOPenBidsViewModel @Inject constructor(private val repository: GetOpenBi
     val response: MutableLiveData<Outcome<GetOpenJobsResponse?>?> = _response
 
     fun getOpenBids(
-        token: String
+        token: String,
+        page: Int? = null
     ) = viewModelScope.launch {
         repository.getOpenBids(
-            token
+            token,
+            page
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

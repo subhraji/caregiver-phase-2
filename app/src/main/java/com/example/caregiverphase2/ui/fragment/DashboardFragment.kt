@@ -49,6 +49,7 @@ class DashboardFragment : Fragment() {
     private val mGetProfileViewModel: GetProfileViewModel by viewModels()
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
+    private var pageNumber = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,6 +109,21 @@ class DashboardFragment : Fragment() {
             val intent = Intent(requireActivity(), OnGoingJobDetailsActivity::class.java)
             startActivity(intent)
         }
+
+        binding.seeAllHtv.setOnClickListener {
+            val intent = Intent(requireActivity(), QuickCallListActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.seeAll2Htv.setOnClickListener {
+            val intent = Intent(requireActivity(), OpenBidsListActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.seeAll3Htv.setOnClickListener {
+            val intent = Intent(requireActivity(), OpenJobListActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
@@ -122,17 +138,17 @@ class DashboardFragment : Fragment() {
             binding.openJobsShimmerView.visible()
             binding.openJobsShimmerView.startShimmer()
             binding.openJobsRecycler.gone()
-            mGetOpenJobsViewModel.getOPenJobs(token = accessToken, id = 0)
+            mGetOpenJobsViewModel.getOPenJobs(token = accessToken, id = 0, page = pageNumber)
 
             binding.openBidsShimmerView.visible()
             binding.openBidsShimmerView.startShimmer()
             binding.openBidsRecycler.gone()
-            mGetOPenBidsViewModel.getOpenBids(accessToken)
+            mGetOPenBidsViewModel.getOpenBids(accessToken, page = pageNumber)
 
             binding.quickCallShimmerView.visible()
             binding.quickCallShimmerView.startShimmer()
             binding.quickCallRecycler.gone()
-            mGetQuickCallViewModel.getQuickCall(accessToken, 0)
+            mGetQuickCallViewModel.getQuickCall(accessToken, 0, page = pageNumber)
             mGetOngoingJobViewModel.getOngoingJob(accessToken)
             mGetProfileViewModel.getProfile(accessToken)
         }else{
@@ -162,7 +178,7 @@ class DashboardFragment : Fragment() {
         val gridLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.openJobsRecycler.apply {
             layoutManager = gridLayoutManager
-            adapter = DashBoardOpenJobsAdapter(list,requireActivity())
+            adapter = DashBoardOpenJobsAdapter(list.toMutableList(),requireActivity())
         }
     }
 

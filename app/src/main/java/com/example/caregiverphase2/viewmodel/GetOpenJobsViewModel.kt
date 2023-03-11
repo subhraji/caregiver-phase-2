@@ -20,10 +20,11 @@ class GetOpenJobsViewModel @Inject constructor(private val repository: GetOPenJo
 
     fun getOPenJobs(
         token: String,
-        id: Int? = null
+        id: Int? = null,
+        page: Int? = null
     ) = viewModelScope.launch {
         repository.getOPenJobs(
-            token, id
+            token, id, page
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

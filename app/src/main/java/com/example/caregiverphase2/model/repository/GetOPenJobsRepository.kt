@@ -12,8 +12,9 @@ import javax.inject.Inject
 class GetOPenJobsRepository @Inject constructor(private val apiInterface: ApiInterface)  {
     fun getOPenJobs(
         token: String,
-        id: Int? = null
+        id: Int? = null,
+        page: Int? = null
     ): Flow<GetJobsResponse?> = flow{
-        emit(apiInterface.getOpenJobs(token, id))
+        emit(apiInterface.getOpenJobs(token, id, page))
     }.flowOn(Dispatchers.IO)
 }

@@ -10,8 +10,9 @@ import javax.inject.Inject
 
 class GetOpenBidsRepository @Inject constructor(private val apiInterface: ApiInterface)  {
     fun getOpenBids(
-        token: String
+        token: String,
+        page: Int? = null
     ): Flow<GetOpenJobsResponse?> = flow{
-        emit(apiInterface.getOPenBids(token))
+        emit(apiInterface.getOPenBids(token, page))
     }.flowOn(Dispatchers.IO)
 }

@@ -7,25 +7,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
-import com.example.caregiverphase2.databinding.OpenJobsItemLayoutBinding
-import com.example.caregiverphase2.model.pojo.get_jobs.Data
+import com.example.caregiverphase2.databinding.OpenBidListItemLayoutBinding
+import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
 
-class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
-                                private val context: Context):
-    RecyclerView.Adapter<DashBoardOpenJobsAdapter.ViewHolder>() {
+class OpenBidListAdapter (private val itemList: MutableList<Data>, private val context: Context):
+    RecyclerView.Adapter<OpenBidListAdapter.DashQuickCallsViewHolder>() {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): DashBoardOpenJobsAdapter.ViewHolder {
-        val itemBinding = OpenJobsItemLayoutBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OpenBidListAdapter.DashQuickCallsViewHolder {
+        val itemBinding = OpenBidListItemLayoutBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return DashBoardOpenJobsAdapter.ViewHolder(itemBinding)
+        return OpenBidListAdapter.DashQuickCallsViewHolder(itemBinding)
+    }
+
+    override fun getItemCount(): Int {
+        return itemList.size
     }
 
     fun add(jobs: List<Data>) {
@@ -33,33 +33,27 @@ class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
         notifyItemInserted(itemList.size-1)
     }
 
-    override fun getItemCount(): Int {
-        return itemList.size
-    }
-
-    override fun onBindViewHolder(holder: DashBoardOpenJobsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: OpenBidListAdapter.DashQuickCallsViewHolder, position: Int) {
 
         val rowData = itemList[position]
         holder.bind(rowData, context)
     }
 
-    class ViewHolder(private val itemBinding: OpenJobsItemLayoutBinding) :
+    class DashQuickCallsViewHolder(private val itemBinding: OpenBidListItemLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var gen:String
-
         fun bind(data: Data, context: Context) {
-
             itemBinding.apply {
-                jobTitleTv.text = data?.jobTitle.toString()
+                jobTitleTv.text = data?.job_title.toString()
                 priceTv.text = "$"+data?.amount.toString()
-                careTypeTv.text = data?.careItems.size.toString()+" "+data?.careType
-                addressTv.text = data?.shortAddress.toString()
-                hourHtv.text = data?.startTime+" - "+data?.endTime
+                careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
+                addressTv.text = data?.short_address.toString()
+                hourHtv.text = data?.start_time+" - "+data?.end_time
                 dateHtv.text = data?.date
                 priceTv.text = data?.amount.toString()
-                agencyNameTv.text = data?.companyName.toString()
+                agencyNameTv.text = data?.company_name.toString()
                 gen = ""
-                for(i in data?.careItems){
+                for(i in data?.care_items){
                     if(gen.isEmpty()){
                         gen = i.gender+" : "+i.age
                     }else{
@@ -69,18 +63,19 @@ class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
                 ageTv.text = gen
                 rootLay.setOnClickListener {
                     val intent = Intent(context, JobDetailsActivity::class.java)
-                    intent.putExtra("start_time", data?.startTime)
-                    intent.putExtra("id", data?.jobId.toString())
-                    intent.putExtra("job_type", "open_job")
+                    intent.putExtra("start_time", data?.start_time)
+                    intent.putExtra("id", data?.job_id.toString())
+                    intent.putExtra("job_type", "open_bid")
                     context.startActivity(intent)
                 }
 
                 Glide.with(context)
-                    .load(Constants.PUBLIC_URL+data?.companyPhoto) // image url
+                    .load(Constants.PUBLIC_URL+data?.company_photo) // image url
                     .placeholder(R.color.dash_yellow) // any placeholder to load at start
                     .centerCrop()
                     .into(agencyLogoImgView)
             }
         }
+
     }
 }
