@@ -6,6 +6,12 @@
     android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.ProfileFragment">
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/profile_shimmer_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <include layout="@layout/profile_shimmer_layout" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constrain_lay_1"
         android:layout_width="match_parent"
@@ -115,11 +121,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
+        android:id="@+id/constrain_lay_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/constrain_lay_1">
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constrain_lay_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

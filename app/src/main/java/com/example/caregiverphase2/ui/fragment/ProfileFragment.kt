@@ -77,7 +77,6 @@ class ProfileFragment : Fragment(), UploadDocListener {
 
     private val mGetProfileViewModel: GetProfileViewModel by viewModels()
     private val mChangeProfilePicViewModel: ChangeProfilePicViewModel by viewModels()
-    private lateinit var loader: androidx.appcompat.app.AlertDialog
     private lateinit var accessToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,11 +98,20 @@ class ProfileFragment : Fragment(), UploadDocListener {
 
         //get token
         accessToken = "Bearer "+ PrefManager.getKeyAuthToken()
-        loader = requireActivity().loadingDialog()
 
         //observer
         getProfileObserve()
         changeProfilePicObserve()
+        binding.constrainLay1.gone()
+        binding.constrainLay2.gone()
+        binding.profileShimmerView.visible()
+        binding.profileShimmerView.startShimmer()
+        if(requireActivity().isConnectedToInternet()){
+            mGetProfileViewModel.getProfile(accessToken)
+        }else{
+            Toast.makeText(requireActivity(),"No internet connection.",Toast.LENGTH_SHORT).show()
+        }
+
 
         binding.addBioBtn.setOnClickListener {
             val intent = Intent(requireActivity(), AddBioActivity::class.java)
@@ -136,13 +144,6 @@ class ProfileFragment : Fragment(), UploadDocListener {
     }
 
     override fun onResume() {
-        if(requireActivity().isConnectedToInternet()){
-            mGetProfileViewModel.getProfile(accessToken)
-            loader.show()
-        }else{
-            Toast.makeText(requireActivity(),"No internet connection.",Toast.LENGTH_SHORT).show()
-        }
-
         super.onResume()
     }
 
@@ -150,10 +151,14 @@ class ProfileFragment : Fragment(), UploadDocListener {
         mGetProfileViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-                    loader.dismiss()
                     if(outcome.data?.success == true){
-                        val data = outcome.data?.data
 
+                        binding.constrainLay1.visible()
+                        binding.constrainLay2.visible()
+                        binding.profileShimmerView.gone()
+                        binding.profileShimmerView.stopShimmer()
+
+                        val data = outcome.data?.data
                         data?.basic_info?.photo?.let {
                             Glide.with(this)
                                 .load(Constants.PUBLIC_URL+it) // image url
@@ -262,7 +267,6 @@ class ProfileFragment : Fragment(), UploadDocListener {
         mChangeProfilePicViewModel.response.observe(viewLifecycleOwner, androidx.lifecycle.Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-                    loader.dismiss()
                     if(outcome.data?.success == true){
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         outcome.data?.data?.let {
@@ -299,7 +303,6 @@ class ProfileFragment : Fragment(), UploadDocListener {
                             imagePart,
                             accessToken
                         )
-                        loader.show()
                     }else{
                         Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
                     }
