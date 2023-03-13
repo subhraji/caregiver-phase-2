@@ -492,6 +492,29 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         }
     }
 
+    private fun requestDocPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager())
+            {
+                try {
+                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                    intent.addCategory("android.intent.category.DEFAULT")
+                    intent.data =
+                        Uri.parse(String.format("package:%s", applicationContext.packageName))
+                    startActivityForResult(intent, 2297)
+                } catch (e: java.lang.Exception) {
+                    val intent = Intent()
+                    intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                    startActivityForResult(intent, 2297)
+                }
+            }else{
+                dispatchDocGalleryIntent()
+            }
+        } else {
+            requestStoragePermission()
+        }
+    }
+
     private fun dispatchGalleryIntent() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(gallery, PICK_IMAGE)
@@ -645,6 +668,17 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 if (Environment.isExternalStorageManager()) {
                     // perform action when allow permission success
                     dispatchGalleryIntent()
+                } else {
+                    Toast.makeText(this, "Allow permission for storage access!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+        if (requestCode == 2297) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    // perform action when allow permission success
+                    dispatchDocGalleryIntent()
                 } else {
                     Toast.makeText(this, "Allow permission for storage access!", Toast.LENGTH_SHORT).show();
                 }
@@ -908,10 +942,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchDocGalleryIntent()
                 }else{
-                    requestPermission()
+                    requestDocPermission()
                 }
             }else{
-                requestPermission()
+                requestDocPermission()
             }
         }
         binding.covidBtn.setOnClickListener {
@@ -920,10 +954,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchDocGalleryIntent()
                 }else{
-                    requestPermission()
+                    requestDocPermission()
                 }
             }else{
-                requestPermission()
+                requestDocPermission()
             }
         }
         binding.criminalBtn.setOnClickListener {
@@ -932,10 +966,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchDocGalleryIntent()
                 }else{
-                    requestPermission()
+                    requestDocPermission()
                 }
             }else{
-                requestPermission()
+                requestDocPermission()
             }
         }
         binding.childAbuseBtn.setOnClickListener {
@@ -944,10 +978,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchDocGalleryIntent()
                 }else{
-                    requestPermission()
+                    requestDocPermission()
                 }
             }else{
-                requestPermission()
+                requestDocPermission()
             }
         }
         binding.w4Btn.setOnClickListener {
@@ -956,10 +990,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchDocGalleryIntent()
                 }else{
-                    requestPermission()
+                    requestDocPermission()
                 }
             }else{
-                requestPermission()
+                requestDocPermission()
             }
         }
         binding.employmentBtn.setOnClickListener {
@@ -968,10 +1002,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchDocGalleryIntent()
                 }else{
-                    requestPermission()
+                    requestDocPermission()
                 }
             }else{
-                requestPermission()
+                requestDocPermission()
             }
         }
         binding.drivingBtn.setOnClickListener {
@@ -980,10 +1014,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchDocGalleryIntent()
                 }else{
-                    requestPermission()
+                    requestDocPermission()
                 }
             }else{
-                requestPermission()
+                requestDocPermission()
             }
         }
         binding.identityBtn.setOnClickListener {
@@ -992,10 +1026,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchDocGalleryIntent()
                 }else{
-                    requestPermission()
+                    requestDocPermission()
                 }
             }else{
-                requestPermission()
+                requestDocPermission()
             }
         }
     }
@@ -1080,7 +1114,8 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             }
         } catch (e: Exception) {
             e.printStackTrace()
-        }    }
+        }
+    }
 
     override fun deleteDoc(id: Int, category: String) {
         deleteAlertDialog(id, category)
