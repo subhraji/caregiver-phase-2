@@ -74,6 +74,11 @@ class SettingsFragment : Fragment() {
             val intent = Intent(requireActivity(), EarningsActivity::class.java)
             startActivity(intent)
         }
+
+        binding.strikeBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), StrikeListActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun showLogoutPopUp(){
