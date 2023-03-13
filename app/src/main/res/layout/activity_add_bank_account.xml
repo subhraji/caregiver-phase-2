@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.AddBankAccountActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_bank_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        app:cardCornerRadius="5dp"
+        app:cardBackgroundColor="@color/theme_blue">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="Add Bank Account"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/bank_account_htv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bank Account"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"/>
+        <ImageView
+            android:id="@+id/clear_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_clear_24"
+            app:tint="@color/black"
+            app:layout_constraintTop_toTopOf="@+id/bank_account_htv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/routing_number_txt_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/transparent"
+            android:padding="5dp"
+            android:textColorHint="@color/text_grey"
+            app:boxBackgroundColor="@color/transparent"
+            app:boxStrokeColor="@color/text_grey"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:helperTextTextColor="@color/error_red"
+            app:layout_constraintTop_toBottomOf="@+id/clear_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/routing_number_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:hint="Routing Number *"
+                android:inputType="number"
+                android:maxLength="9"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/dark_grey_1"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/color_grey"
+                android:visibility="visible" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/account_number_txt_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/transparent"
+            android:padding="5dp"
+            android:textColorHint="@color/text_grey"
+            app:boxBackgroundColor="@color/transparent"
+            app:boxStrokeColor="@color/text_grey"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/black"
+            app:helperTextTextColor="@color/error_red"
+            app:layout_constraintTop_toBottomOf="@+id/routing_number_txt_lay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/account_number_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:hint="Account Number *"
+                android:inputType="numberPassword"
+                android:maxLength="15"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/dark_grey_1"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/color_grey"
+                android:visibility="visible" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/con_account_number_txt_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/transparent"
+            android:padding="5dp"
+            android:textColorHint="@color/text_grey"
+            app:boxBackgroundColor="@color/transparent"
+            app:boxStrokeColor="@color/text_grey"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/black"
+            app:helperTextTextColor="@color/error_red"
+            app:layout_constraintTop_toBottomOf="@+id/account_number_txt_lay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/con_account_number_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:hint="Confirm Account Number *"
+                android:inputType="numberPassword"
+                android:maxLength="15"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/dark_grey_1"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/color_grey"
+                android:visibility="visible" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bank_name_txt_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/transparent"
+            android:padding="5dp"
+            android:textColorHint="@color/text_grey"
+            app:boxBackgroundColor="@color/transparent"
+            app:boxStrokeColor="@color/text_grey"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:helperTextTextColor="@color/error_red"
+            app:layout_constraintTop_toBottomOf="@+id/con_account_number_txt_lay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bank_name_number_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:hint="Bank Name *"
+                android:inputType="text"
+                android:maxLength="15"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/dark_grey_1"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/color_grey"
+                android:visibility="visible" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

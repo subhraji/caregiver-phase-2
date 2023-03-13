@@ -69,6 +69,11 @@ class SettingsFragment : Fragment() {
             val intent = Intent(requireActivity(), DocumentManagementActivity::class.java)
             startActivity(intent)
         }
+
+        binding.walletBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), EarningsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun showLogoutPopUp(){
