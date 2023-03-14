@@ -1,9 +1,13 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -78,6 +82,12 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         }
         binding.backBtn.setOnClickListener {
             finish()
+        }
+
+
+        binding.cancelLayout.gone()
+        binding.cancelTv.setOnClickListener {
+            showCancelDialog()
         }
 
         //swipe
@@ -305,4 +315,24 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         startActivity(mapIntent)
     }
 
+    private fun showCancelDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.cancel_job_layout)
+
+        val yes = dialog.findViewById<TextView>(R.id.yes_btn)
+        val no = dialog.findViewById<TextView>(R.id.no_btn)
+
+        yes.setOnClickListener {
+            dialog.dismiss()
+        }
+        no.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show()
+    }
 }

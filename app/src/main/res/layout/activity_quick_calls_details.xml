@@ -392,11 +392,12 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/medical_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/medical_his_htv"/>
+                        android:layout_below="@+id/medical_his_htv" />
 
                     <TextView
                         android:id="@+id/job_exp_htv"

@@ -126,7 +126,7 @@
                         android:id="@+id/person_img"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_baseline_person_24"
+                        android:src="@drawable/ic_outline_person_24"
                         app:tint="@color/text_grey"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -165,7 +165,7 @@
                         android:id="@+id/job_bag_img"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_anagcy_logo_18"
+                        android:src="@drawable/calendar_month"
                         app:tint="@color/text_grey"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -179,6 +179,7 @@
                         app:layout_constraintStart_toEndOf="@+id/job_bag_img"
                         app:layout_constraintBottom_toBottomOf="@+id/job_bag_img"
                         android:textColor="@color/black"
+                        app:layout_constraintEnd_toStartOf="@+id/loc_img"
                         android:layout_marginStart="10dp"
                         android:textStyle="bold"
                         />
@@ -186,7 +187,7 @@
                         android:id="@+id/loc_img"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_loction_18"
+                        android:src="@drawable/home_pin"
                         app:tint="@color/text_grey"
                         app:layout_constraintEnd_toStartOf="@+id/loc_tv"
                         app:layout_constraintTop_toTopOf="parent"
@@ -215,12 +216,13 @@
                         android:layout_marginTop="4dp"/>
                     <TextView
                         android:id="@+id/time_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="13sp"
                         android:layout_marginStart="10dp"
+                        app:layout_constraintEnd_toStartOf="@+id/loc_img"
                         app:layout_constraintTop_toTopOf="@+id/hour_img"
                         app:layout_constraintStart_toEndOf="@+id/hour_img" />
 
@@ -478,7 +480,47 @@
                 </RelativeLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cancel_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:cardCornerRadius="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/bid_time_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/dash_yellow"
+                    android:backgroundTint="@color/theme_blue"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:text="04:34:09"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/cancel_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/error_red"
+                    android:text="Cancel Job"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
 
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
         <com.ncorti.slidetoact.SlideToActView
             android:id="@+id/slide_to_start_btn"
             android:layout_width="match_parent"
