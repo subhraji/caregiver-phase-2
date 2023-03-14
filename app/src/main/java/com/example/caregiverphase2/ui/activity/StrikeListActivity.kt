@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,11 @@ class StrikeListActivity : AppCompatActivity() {
 
         binding.backArrow.setOnClickListener {
             finish()
+        }
+
+        binding.supportBtn.setOnClickListener {
+            val intent = Intent(this, StrikeSystemActivity::class.java)
+            startActivity(intent)
         }
 
         val list: MutableList<TestModel> = mutableListOf()

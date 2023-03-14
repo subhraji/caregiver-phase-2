@@ -23,11 +23,12 @@
         android:layout_marginEnd="10dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/settings_item_background">
+
         <ImageView
             android:id="@+id/lock_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_logout_24"/>
+            android:src="@drawable/ic_outline_lock_24" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -206,11 +207,12 @@
         android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/settings_item_background">
+
         <ImageView
             android:id="@+id/logout_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_outline_lock_24"/>
+            android:src="@drawable/ic_baseline_logout_24" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
