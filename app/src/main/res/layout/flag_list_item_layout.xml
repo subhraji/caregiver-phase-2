@@ -2,12 +2,8 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="2dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,7 +23,7 @@
             android:id="@+id/strike_htv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Strike"
+            android:text="Flag"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/error_red"
@@ -44,6 +40,21 @@
             android:text="Reason: Due to cancel job."
             app:layout_constraintTop_toBottomOf="@+id/strike_htv"
             app:layout_constraintStart_toStartOf="@+id/strike_htv"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:background="@drawable/job_details_strike_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/view_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"
+            android:text="Job Details"
+            android:textSize="13sp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
         <View
             android:id="@+id/view_1"
             android:layout_width="match_parent"
@@ -193,4 +204,6 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.cardview.widget.CardView>

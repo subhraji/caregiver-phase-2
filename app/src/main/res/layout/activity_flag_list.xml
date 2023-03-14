@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.StrikeListActivity">
-
+    tools:context=".ui.activity.FlagListActivity">
     <ImageView
         android:id="@+id/back_arrow"
         android:layout_width="30dp"
@@ -17,7 +16,7 @@
         android:id="@+id/strike_htv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Strike"
+        android:text="Flag"
         android:textStyle="bold"
         android:textSize="18sp"
         android:textColor="@color/black"
@@ -36,7 +35,7 @@
         android:layout_marginEnd="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/strike_recycler"
+        android:id="@+id/flag_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/back_arrow"

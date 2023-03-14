@@ -136,6 +136,37 @@
             android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/flag_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/settings_item_background">
+
+        <ImageView
+            android:id="@+id/flag_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_outline_flag_circle_24" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Flag"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/flag_icon"
+            android:layout_marginStart="10dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/privacy_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
