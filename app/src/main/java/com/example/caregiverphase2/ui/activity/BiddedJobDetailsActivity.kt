@@ -142,10 +142,12 @@ class BiddedJobDetailsActivity : AppCompatActivity() {
                             binding.medicalHisHtv.visible()
                             medicalHistoryFillRecycler(outcome.data!!.data[0].medicalHistory.toMutableList())
                         }
-                        if(outcome.data!!.data[0].experties.isNotEmpty()){
-                            binding.jobExpRecycler.visible()
-                            binding.jobExpHtv.visible()
-                            jobExpFillRecycler(outcome.data!!.data[0].experties.toMutableList())
+                        outcome.data!!.data[0].expertise?.let {
+                            if(outcome.data!!.data[0].expertise.isNotEmpty()){
+                                binding.jobExpRecycler.visible()
+                                binding.jobExpHtv.visible()
+                                jobExpFillRecycler(outcome.data!!.data[0].expertise.toMutableList())
+                            }
                         }
                         if(outcome.data!!.data[0].otherRequirements.isNotEmpty()){
                             binding.otherReqRecycler.visible()

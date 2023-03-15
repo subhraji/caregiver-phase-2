@@ -156,11 +156,14 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
                             binding.medicalHisHtv.visible()
                             medicalHistoryFillRecycler(outcome.data!!.data[0].medical_history.toMutableList())
                         }
-                        if(outcome.data!!.data[0].experties.isNotEmpty()){
-                            binding.jobExpRecycler.visible()
-                            binding.jobExpHtv.visible()
-                            jobExpFillRecycler(outcome.data!!.data[0].experties.toMutableList())
+                        outcome.data!!.data[0].expertise?.let {
+                            if(outcome.data!!.data[0].expertise.isNotEmpty()){
+                                binding.jobExpRecycler.visible()
+                                binding.jobExpHtv.visible()
+                                jobExpFillRecycler(outcome.data!!.data[0].expertise.toMutableList())
+                            }
                         }
+
                         if(outcome.data!!.data[0].other_requirements.isNotEmpty()){
                             binding.otherReqRecycler.visible()
                             binding.otherReqHtv.visible()
@@ -230,7 +233,7 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         binding.acceptLayout.gone()
                         showAcceptDialog()
-                        mGetQuickCallViewModel.navigationComplete()
+                        mAcceptJobViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }
@@ -250,7 +253,6 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Accept")
         builder.setMessage("Do you want to accept this job ?")
-        builder.setIcon(R.drawable.ic_baseline_logout_24)
         builder.setPositiveButton("Yes"){dialogInterface, which ->
             if(isConnectedToInternet()){
                 mAcceptJobViewModel.acceptJob(job_id,accessToken)

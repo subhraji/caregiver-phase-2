@@ -7,7 +7,7 @@ data class CareItem(
     @SerializedName("age")
     val age: String,
     @SerializedName("careType")
-    val careType: String,
+    val careType: String? = null,
     @SerializedName("gender")
     val gender: String,
     @SerializedName("patient_name")

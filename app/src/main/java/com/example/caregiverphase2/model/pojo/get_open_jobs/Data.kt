@@ -12,7 +12,7 @@ data class Data(
     val date: String,
     val description: String,
     val end_time: String,
-    val experties: List<String>,
+    val expertise: List<String>,
     val job_id: Int,
     val job_title: String,
     val lat: String,

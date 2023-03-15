@@ -33,8 +33,8 @@ data class Data(
     val job_id: Int,
     val agency_address: String,
     val description: String?,
-    @SerializedName("experties")
-    val experties: List<String>,
+    @SerializedName("expertise")
+    val expertise: List<String>,
     @SerializedName("medical_history")
     val medicalHistory: List<String>,
     @SerializedName("other_requirements")

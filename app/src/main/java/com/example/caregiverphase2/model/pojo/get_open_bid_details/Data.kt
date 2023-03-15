@@ -30,8 +30,8 @@ data class Data(
     val description: String,
     @SerializedName("end_time")
     val endTime: String,
-    @SerializedName("experties")
-    val experties: List<String>,
+    @SerializedName("expertise")
+    val expertise: List<String>,
     @SerializedName("job_id")
     val jobId: Int,
     @SerializedName("job_title")
