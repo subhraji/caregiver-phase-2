@@ -52,8 +52,8 @@ class SearchLocationActivity : AppCompatActivity() {
         loader = this.loadingDialog()
 
         Places.initialize(applicationContext, getString(R.string.api_key));
-
         autocomplete()
+
         binding.backArrow.setOnClickListener {
             finish()
         }

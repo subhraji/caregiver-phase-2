@@ -1,13 +1,10 @@
 package com.example.caregiverphase2.adapter
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.CertificateItemLayBinding
-import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_profile.Certificate
 
 class ShowCertificateAdapter (private val itemList: List<Certificate>, private val context: Context):

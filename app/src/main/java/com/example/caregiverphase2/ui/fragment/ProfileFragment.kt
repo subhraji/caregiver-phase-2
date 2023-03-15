@@ -21,7 +21,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.PermissionChecker.checkSelfPermission
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,23 +28,18 @@ import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.adapter.ProfileEducationAdapter
 import com.example.caregiverphase2.adapter.ShowCertificateAdapter
-import com.example.caregiverphase2.adapter.UpcommingJobsAdapter
-import com.example.caregiverphase2.databinding.FragmentLoginBinding
 import com.example.caregiverphase2.databinding.FragmentProfileBinding
-import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_profile.Certificate
 import com.example.caregiverphase2.model.pojo.get_profile.Education
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.activity.AddBioActivity
 import com.example.caregiverphase2.ui.activity.AddCertificateActivity
 import com.example.caregiverphase2.ui.activity.AddEducationActivity
-import com.example.caregiverphase2.ui.activity.ChooseLoginRegActivity
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.UploadDocListener
 import com.example.caregiverphase2.viewmodel.ChangeProfilePicViewModel
 import com.example.caregiverphase2.viewmodel.GetProfileViewModel
-import com.example.caregiverphase2.viewmodel.LogoutViewModel
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -60,7 +54,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import loadingDialog
 import visible
 import java.io.File
 
@@ -78,6 +71,7 @@ class ProfileFragment : Fragment(), UploadDocListener {
     private val mGetProfileViewModel: GetProfileViewModel by viewModels()
     private val mChangeProfilePicViewModel: ChangeProfilePicViewModel by viewModels()
     private lateinit var accessToken: String
+    private var isEdit: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,6 +93,8 @@ class ProfileFragment : Fragment(), UploadDocListener {
         //get token
         accessToken = "Bearer "+ PrefManager.getKeyAuthToken()
 
+        binding.changePicBtn.gone()
+
         //observer
         getProfileObserve()
         changeProfilePicObserve()
@@ -111,7 +107,6 @@ class ProfileFragment : Fragment(), UploadDocListener {
         }else{
             Toast.makeText(requireActivity(),"No internet connection.",Toast.LENGTH_SHORT).show()
         }
-
 
         binding.addBioBtn.setOnClickListener {
             val intent = Intent(requireActivity(), AddBioActivity::class.java)
@@ -128,7 +123,7 @@ class ProfileFragment : Fragment(), UploadDocListener {
             startActivity(intent)
         }
 
-        /*binding.userImgRelay.setOnClickListener {
+        binding.changePicBtn.setOnClickListener {
             if (checkSelfPermission(requireActivity(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 if(checkSelfPermission(requireActivity(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchGalleryIntent()
@@ -138,9 +133,21 @@ class ProfileFragment : Fragment(), UploadDocListener {
             }else{
                 requestPermission()
             }
-        }*/
+        }
 
         binding.nameTv.text = PrefManager.getUserFullName()
+
+        binding.editBtn.setOnClickListener {
+            if(isEdit == true){
+                binding.editBtn.text = "Edit"
+                binding.changePicBtn.gone()
+                isEdit = false
+            }else{
+                binding.editBtn.text = "Save"
+                binding.changePicBtn.visible()
+                isEdit = true
+            }
+        }
     }
 
     override fun onResume() {
@@ -168,6 +175,15 @@ class ProfileFragment : Fragment(), UploadDocListener {
                         }
                         data?.basic_info?.care_completed?.let {
                             binding.careCompletedTv.text = it.toString()
+                        }
+                        data?.strikes?.let {
+                            binding.strikeTv.text = it.toString()
+                        }
+                        data?.flags?.let {
+                            binding.flagTv.text = it.toString()
+                        }
+                        data?.rewards?.let {
+                            binding.rewardTv.text = it.toString()
                         }
                         data?.basic_info?.user?.email?.let {
                             binding.emailTv.text = it.toString()

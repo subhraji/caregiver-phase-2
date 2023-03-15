@@ -2,7 +2,7 @@ package com.example.caregiverphase2.model.pojo.get_profile
 
 data class BasicInfo(
     val bio: String,
-    val care_completed: Int,
+    val care_completed: String,
     val dob: String,
     val experience: Int,
     val gender: String,
