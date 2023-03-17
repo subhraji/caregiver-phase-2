@@ -2,6 +2,7 @@ package com.example.caregiverphase2.ui.fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,10 +15,10 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.PermissionChecker.checkSelfPermission
@@ -35,6 +36,7 @@ import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.activity.AddBioActivity
 import com.example.caregiverphase2.ui.activity.AddCertificateActivity
 import com.example.caregiverphase2.ui.activity.AddEducationActivity
+import com.example.caregiverphase2.ui.activity.BasicAndHomeAddressActivity
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.UploadDocListener
@@ -98,15 +100,6 @@ class ProfileFragment : Fragment(), UploadDocListener {
         //observer
         getProfileObserve()
         changeProfilePicObserve()
-        binding.constrainLay1.gone()
-        binding.constrainLay2.gone()
-        binding.profileShimmerView.visible()
-        binding.profileShimmerView.startShimmer()
-        if(requireActivity().isConnectedToInternet()){
-            mGetProfileViewModel.getProfile(accessToken)
-        }else{
-            Toast.makeText(requireActivity(),"No internet connection.",Toast.LENGTH_SHORT).show()
-        }
 
         binding.addBioBtn.setOnClickListener {
             val intent = Intent(requireActivity(), AddBioActivity::class.java)
@@ -121,6 +114,14 @@ class ProfileFragment : Fragment(), UploadDocListener {
         binding.addCertificateBtn.setOnClickListener {
             val intent = Intent(requireActivity(), AddCertificateActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.eduMenuBtn.setOnClickListener {
+            showEduPopup(it)
+        }
+
+        binding.certificateMenuBtn.setOnClickListener {
+            showCertificatePopup(it)
         }
 
         binding.changePicBtn.setOnClickListener {
@@ -152,6 +153,53 @@ class ProfileFragment : Fragment(), UploadDocListener {
 
     override fun onResume() {
         super.onResume()
+        binding.constrainLay1.gone()
+        binding.constrainLay2.gone()
+        binding.profileShimmerView.visible()
+        binding.profileShimmerView.startShimmer()
+        if(requireActivity().isConnectedToInternet()){
+            mGetProfileViewModel.getProfile(accessToken)
+        }else{
+            Toast.makeText(requireActivity(),"No internet connection.",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showEduPopup(v : View){
+        val popup = PopupMenu(requireActivity(), v)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.education_menu, popup.menu)
+        popup.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId){
+                R.id.add_edu-> {
+                    val intent = Intent(requireActivity(), AddEducationActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.edit_edu-> {
+
+                }
+            }
+            true
+        }
+        popup.show()
+    }
+
+    private fun showCertificatePopup(v : View){
+        val popup = PopupMenu(requireActivity(), v)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.certificate_menu, popup.menu)
+        popup.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId){
+                R.id.certificate_add-> {
+                    val intent = Intent(requireActivity(), AddCertificateActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.certificate_edit-> {
+
+                }
+            }
+            true
+        }
+        popup.show()
     }
 
     private fun getProfileObserve(){
@@ -222,6 +270,7 @@ class ProfileFragment : Fragment(), UploadDocListener {
                         if(data?.education != null && data.education.isNotEmpty()){
                             binding.educationRecycler.visible()
                             binding.showEducationHtv.visible()
+                            binding.eduMenuBtn.visible()
                             binding.eduImg.gone()
                             binding.eduHtv.gone()
                             binding.addEduBtn.gone()
@@ -229,6 +278,7 @@ class ProfileFragment : Fragment(), UploadDocListener {
                         }else{
                             binding.educationRecycler.gone()
                             binding.showEducationHtv.gone()
+                            binding.eduMenuBtn.gone()
                             binding.eduImg.visible()
                             binding.eduHtv.visible()
                             binding.addEduBtn.visible()
@@ -237,6 +287,7 @@ class ProfileFragment : Fragment(), UploadDocListener {
                         if(data?.certificate != null && data.certificate.isNotEmpty()){
                             binding.certificateRecycler.visible()
                             binding.showCertificateHtv.visible()
+                            binding.certificateMenuBtn.visible()
                             binding.addCertificateBtn.gone()
                             binding.certificateHtv.gone()
                             binding.certificateImg.gone()
@@ -244,11 +295,24 @@ class ProfileFragment : Fragment(), UploadDocListener {
                         }else{
                             binding.certificateRecycler.gone()
                             binding.showCertificateHtv.gone()
+                            binding.certificateMenuBtn.gone()
                             binding.addCertificateBtn.visible()
                             binding.certificateHtv.visible()
                             binding.certificateImg.visible()
                         }
 
+                        //profile status
+                        if(outcome.data?.data?.profile_completion_status?.is_basic_info_added == 0){
+                            showCompleteDialog("Please add your basic details to complete your profile","Complete now", 1)
+                        }
+                        else if(outcome.data?.data?.profile_completion_status?.is_documents_uploaded == 0){
+
+                            if(outcome.data?.data?.profile_completion_status?.is_optional_info_added == 0){
+                                showCompleteDialog("Please complete your profile","Complete now", 2)
+                            }else{
+                                showCompleteDialog("Please add your documents to complete your profile","Complete now", 3)
+                            }
+                        }
                         mGetProfileViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
@@ -459,4 +523,33 @@ class ProfileFragment : Fragment(), UploadDocListener {
             }
         }
     }
+
+    private fun showCompleteDialog(title: String, btn_txt: String, step: Int) {
+        val dialog = Dialog(requireActivity())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.setContentView(R.layout.profile_completion_dialog_layout)
+
+        val msg_tv = dialog.findViewById<TextView>(R.id.text_view_1)
+        val complete = dialog.findViewById<TextView>(R.id.complete_btn)
+
+        msg_tv.text = title
+        complete.text = btn_txt
+
+        complete.setOnClickListener {
+            if(step != 4){
+                dialog.dismiss()
+                val intent = Intent(requireActivity(), BasicAndHomeAddressActivity::class.java)
+                intent.putExtra("step", step.toString())
+                startActivity(intent)
+            }else{
+                dialog.dismiss()
+            }
+
+        }
+        dialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.show()
+    }
+
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Add"
+        android:id="@+id/certificate_add"
+        android:iconTint="@color/black"
+        android:icon="@drawable/ic_outline_add_circle_outline_24"/>
+    <item
+        android:id="@+id/certificate_edit"
+        android:title="Edit"
+        android:icon="@drawable/ic_outline_edit_24"
+        android:iconTint="@color/black"/>
+</menu>

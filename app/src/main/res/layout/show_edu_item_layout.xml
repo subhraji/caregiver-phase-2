@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/edu_img"
         app:layout_constraintTop_toTopOf="@+id/edu_img"
+        app:layout_constraintEnd_toStartOf="@+id/edit_btn"
         android:layout_marginStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="dwbbjd wqf dfe"
@@ -33,7 +34,7 @@
         android:text="jhvsav"
         app:layout_constraintTop_toBottomOf="@+id/institute_name_tv"
         app:layout_constraintStart_toStartOf="@+id/institute_name_tv"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/edit_btn"
         android:layout_marginEnd="10dp"/>
     <TextView
         android:id="@+id/duration_tv"
@@ -44,5 +45,13 @@
         app:layout_constraintStart_toStartOf="@+id/institute_name_tv"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="10dp"/>
-
+    <ImageView
+        android:id="@+id/edit_btn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edu_img"
+        android:src="@drawable/ic_outline_edit_24"
+        app:tint="@color/black"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

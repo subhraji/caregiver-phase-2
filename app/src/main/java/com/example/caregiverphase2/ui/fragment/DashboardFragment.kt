@@ -307,6 +307,7 @@ class DashboardFragment : Fragment() {
             }
 
         }
+        dialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.show()
     }
 
