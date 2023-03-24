@@ -27,5 +27,6 @@
     <color name="light_grey">#F1F1F1</color>
 
     <color name="error_red">#FF2222</color>
+    <color name="address_view_grey">#979797</color>
 
 </resources>

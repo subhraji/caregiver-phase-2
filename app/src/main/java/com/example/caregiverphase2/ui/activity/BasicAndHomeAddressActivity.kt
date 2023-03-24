@@ -21,11 +21,10 @@ import android.telephony.TelephonyManager
 import android.text.Editable
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +38,7 @@ import com.example.caregiverphase2.ui.fragment.DocImagePreviewFragment
 import com.example.caregiverphase2.ui.fragment.ImagePreviewFragment
 import com.example.caregiverphase2.utils.*
 import com.example.caregiverphase2.viewmodel.*
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -46,7 +46,10 @@ import com.google.android.libraries.places.api.model.RectangularBounds
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -100,6 +103,19 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
     private var job_type: String = ""
     private lateinit var doc_type: String
 
+
+    var job_address: String = ""
+    var place_name: String = ""
+    var lat: String = ""
+    var lang: String = ""
+
+    var street_n = ""
+    var city_n = ""
+    var state_n = ""
+    var zipcode_n = ""
+    var building_n = ""
+    var floor_n = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityBasicAndHomeAddressBinding.inflate(layoutInflater)
@@ -114,6 +130,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 binding.relativeLay2.gone()
                 binding.relativeLay3.gone()
                 binding.skipBtn.gone()
+                binding.addressCard.gone()
             }else if(step == "2"){
                 binding.relativeLay1.gone()
                 binding.relativeLay2.visible()
@@ -128,6 +145,8 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         }
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
+
+        autocomplete()
 
         binding.dobTv.gone()
 
@@ -220,7 +239,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                     if(!dob.isEmpty()){
                         if(!gender.isEmpty()){
                             if(validSsn){
-                                if(full_address.isNotEmpty()){
+                                if(binding.fullAddressTv.text.toString().isNotEmpty()){
                                     try {
                                         CoroutineScope(Dispatchers.IO).launch {
                                             withContext(Dispatchers.Main) {
@@ -234,7 +253,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                                                         binding.dobTv.text.toString(),
                                                         gender,
                                                         binding.ssnNumberTxt.text.toString(),
-                                                        full_address,
+                                                        binding.fullAddressTv.text.toString(),
                                                         short_address,
                                                         accessToken
                                                     )
@@ -295,10 +314,6 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             }else{
                 requestPermission()
             }
-        }
-
-        binding.addLocBtn.setOnClickListener {
-            autocompleteWithIntent()
         }
 
         binding.skipBtn.setOnClickListener {
@@ -441,22 +456,180 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         }
     }
 
-    private fun autocompleteWithIntent(){
-        val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
 
-        // Start the autocomplete intent.
-        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-            .setTypeFilter(TypeFilter.ESTABLISHMENT)
-            .setLocationBias(
-                RectangularBounds.newInstance(
-                    LatLng(37.0902,95.7129),
-                    LatLng(37.0902,95.7129)
-                )
-            )
-            .setCountry("USA")
-            .build(this)
-        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+    private fun autocomplete(){
+        val autocompleteFragment =
+            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+
+        val etTextInput: EditText = findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
+        etTextInput.setTextColor(R.color.black)
+        etTextInput.setTextSize(14.5f)
+        etTextInput.setHint(R.string.search_loc)
+        etTextInput.setHintTextColor(R.color.black)
+
+        val ivSearch: ImageView = findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button)
+        ivSearch.setImageResource(R.drawable.ic_gps_19)
+
+        autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT)
+        autocompleteFragment.setCountries("US")
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.ADDRESS_COMPONENTS))
+
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+
+                job_address = place.address
+                place_name = place.name
+
+                val latLangList = place.latLng.toString().split("(").toTypedArray()
+                val final_latLangList = latLangList[1].toString().split(",").toTypedArray()
+                lat = final_latLangList[0].toString()
+                lang = final_latLangList[1].toString().substring(0, final_latLangList[1].length - 1)
+
+                var streetName = ""
+                var streetNumber = ""
+                var city = ""
+                var state = ""
+                var zipcode = ""
+
+                for (i in place.addressComponents.asList()){
+                    if(i.types[0] == "locality"){
+                        city = i.name
+                    }
+                    if(i.types[0] == "route"){
+                        streetName = i.name.toString()
+                    }
+                    if(i.types[0] == "street_number"){
+                        streetNumber = i.name.toString()
+                    }
+                    if(i.types[0] == "administrative_area_level_1"){
+                        state = i.name.toString()
+                    }
+                    if(i.types[0] == "postal_code"){
+                        zipcode = i.name.toString()
+                    }
+                }
+
+                showAddressBottomSheet(place_name, streetName, streetNumber, city, state, zipcode)
+
+            }
+
+            override fun onError(status: Status) {
+                Log.i("place2", "An error occurred: $status")
+            }
+        })
     }
+
+
+    private fun showAddressBottomSheet(
+        subLocality: String,
+        streetName: String = "",
+        streetNumber: String = "",
+        city: String? = null,
+        state: String? = null,
+        zipcode: String? = null,
+        building: String? = null,
+        floor: String? = null
+    ){
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.address_fill_bottomsheet_layout, null)
+
+        val btnSave = view.findViewById<CardView>(R.id.save_address_btn)
+        val btnClear = view.findViewById<ImageView>(R.id.clear_btn)
+        val streetTxt = view.findViewById<EditText>(R.id.street_txt)
+        val cityTxt = view.findViewById<EditText>(R.id.city_txt)
+        val stateTxt = view.findViewById<EditText>(R.id.state_txt)
+        val zipcodeTxt = view.findViewById<EditText>(R.id.zipcode_txt)
+        val buildingTxt = view.findViewById<EditText>(R.id.building_txt)
+        val floorTxt = view.findViewById<EditText>(R.id.floor_txt)
+
+        var streetVar = ""
+        if(streetName.isEmpty() && streetNumber.isEmpty()){
+            streetVar = " "
+        }else if(streetName.isEmpty() && streetNumber.isNotEmpty()){
+            streetVar = streetNumber
+        }else if(streetName.isNotEmpty() && streetNumber.isEmpty()){
+            streetVar = streetName
+        }else if(streetName.isNotEmpty() && streetNumber.isNotEmpty()){
+            streetVar = streetNumber+", "+streetName
+        }
+
+        streetTxt.text = Editable.Factory.getInstance().newEditable(streetVar)
+
+        city?.let{
+            cityTxt.text = Editable.Factory.getInstance().newEditable(city)
+        }
+        state?.let {
+            stateTxt.text = Editable.Factory.getInstance().newEditable(state)
+        }
+        zipcode?.let {
+            zipcodeTxt.text = Editable.Factory.getInstance().newEditable(zipcode)
+        }
+        building?.let {
+            buildingTxt.text = Editable.Factory.getInstance().newEditable(building)
+        }
+        floor?.let {
+            floorTxt.text = Editable.Factory.getInstance().newEditable(floor)
+        }
+
+        btnClear.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnSave.setOnClickListener {
+            street_n = streetTxt.text.toString()
+            city_n = cityTxt.text.toString()
+            state_n = stateTxt.text.toString()
+            zipcode_n = zipcodeTxt.text.toString()
+            building_n = buildingTxt.text.toString()
+            floor_n = floorTxt.text.toString()
+            if(!street_n.isEmpty()){
+                if(!city_n.isEmpty()){
+                    if(!state_n.isEmpty()){
+                        if(!zipcode_n.isEmpty()){
+                            if(zipcode_n.length == 5){
+                                if(!building_n.isEmpty()){
+                                    binding.addressCard.visible()
+
+                                    binding.fullAddressTv.text = subLocality+", "+street_n+", "+city_n+", "+state_n+", "+zipcode
+                                    binding.cityNameTv.text = city_n
+                                    binding.streetTv.text = street_n
+                                    binding.buildingTv.text = building_n
+
+                                    if(!floor_n.isEmpty()){
+                                        binding.buildingTv.text = building_n+", "+floor_n
+                                    }
+                                    dialog.dismiss()
+                                }else{
+                                    Toast.makeText(this,"provide building name or number", Toast.LENGTH_SHORT).show()
+                                    buildingTxt.showKeyboard()
+                                }
+                            }else{
+                                Toast.makeText(this,"provide a valid zipcode", Toast.LENGTH_SHORT).show()
+                                zipcodeTxt.showKeyboard()
+                            }
+                        }else{
+                            Toast.makeText(this,"provide zipcode", Toast.LENGTH_SHORT).show()
+                            zipcodeTxt.showKeyboard()
+                        }
+                    }else{
+                        Toast.makeText(this,"provide state name", Toast.LENGTH_SHORT).show()
+                        stateTxt.showKeyboard()
+                    }
+                }else{
+                    Toast.makeText(this,"provide city name", Toast.LENGTH_SHORT).show()
+                    cityTxt.showKeyboard()
+                }
+            }else{
+                Toast.makeText(this,"provide street name", Toast.LENGTH_SHORT).show()
+                streetTxt.showKeyboard()
+            }
+        }
+
+        dialog.setCancelable(false)
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
 
     override fun uploadFile(path: String) {
         val uri = imageUri
@@ -636,31 +809,6 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }
-
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    data?.let {
-                        val place = Autocomplete.getPlaceFromIntent(data)
-                        Log.i("place", "Place: ${place.name}, ${place.id}, ${place.latLng}")
-                        binding.locTv.text = place.address
-                        full_address = place.address
-                        short_address = place.name
-                    }
-                }
-                AutocompleteActivity.RESULT_ERROR -> {
-                    // TODO: Handle the error.
-                    data?.let {
-                        val status = Autocomplete.getStatusFromIntent(data)
-                        Log.i("place", status.statusMessage ?: "")
-                    }
-                }
-                Activity.RESULT_CANCELED -> {
-                    // The user canceled the operation.
-                }
-            }
-            return
         }
 
         if (requestCode == 2296) {
@@ -877,7 +1025,8 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                             short_address = outcome.data?.data!!.short_address
                         }
                         outcome.data?.data!!.full_address?.let {
-                            binding.locTv.text = outcome.data?.data!!.full_address.toString()
+                            binding.addressCard.visible()
+                            binding.fullAddressTv.text = outcome.data?.data!!.full_address.toString()
                             full_address = outcome.data?.data!!.full_address.toString()
                         }
                         outcome.data?.data!!.gender?.let {

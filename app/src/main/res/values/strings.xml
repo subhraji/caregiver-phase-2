@@ -11,4 +11,6 @@
     <string name="w_4_form">W-4 Form</string>
     <string name="employment_eligibility_verification_form_i_9_form">Employment Eligibility Verification Form(i-9 Form)</string>
     <string name="driving_license">Driving License</string>
+    <string name="search_loc">Search address</string>
+
 </resources>

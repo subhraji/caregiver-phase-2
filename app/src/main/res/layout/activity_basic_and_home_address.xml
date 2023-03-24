@@ -345,53 +345,128 @@
                             android:visibility="visible" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/add_loc_btn"
+                    <LinearLayout
+                        android:id="@+id/place_search_linear_lay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="15dp"
-                        android:background="@drawable/doc_upload_grey_bg"
-                        android:orientation="horizontal"
-                        android:paddingTop="15dp"
-                        android:paddingBottom="15dp">
+                        android:layout_marginEnd="10dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/settings_item_background">
 
-                        <ImageView
-                            android:id="@+id/loc_img"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginStart="10dp"
-                            android:src="@drawable/ic_gps_19"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+<!--
+                        <fragment
+                            android:id="@+id/autocomplete_fragment"
+                            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+-->
+                    </LinearLayout>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/address_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardBackgroundColor="@color/color_grey"
+                        app:cardCornerRadius="7dp">
 
-                        <TextView
-                            android:id="@+id/loc_tv"
-                            android:layout_width="0dp"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:text="Add Location"
-                            android:textColor="@color/black"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/arrow_img"
-                            app:layout_constraintStart_toEndOf="@+id/loc_img"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:padding="10dp">
 
-                        <ImageView
-                            android:id="@+id/arrow_img"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="10dp"
-                            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            <TextView
+                                android:id="@+id/city_name_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="Guwahati"
+                                android:textColor="@color/black"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toStartOf="@+id/address_delete_icon"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/full_address_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="123 street, la, guwahati, assam,897353"
+                                android:textColor="@color/black"
+                                android:textSize="13sp"
+                                android:textStyle="normal"
+                                app:layout_constraintEnd_toStartOf="@+id/address_delete_icon"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/city_name_tv" />
+
+                            <ImageView
+                                android:id="@+id/address_delete_icon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_baseline_delete_outline_24"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:id="@+id/address_view_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:layout_marginTop="15dp"
+                                android:background="@color/address_view_grey"
+                                app:layout_constraintTop_toBottomOf="@+id/full_address_tv" />
+
+                            <TextView
+                                android:id="@+id/street_htv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:text="Street name/number"
+                                android:textColor="@color/text_grey"
+                                android:textSize="13sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/address_view_1" />
+
+                            <TextView
+                                android:id="@+id/street_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/street_htv" />
+
+                            <TextView
+                                android:id="@+id/building_htv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="Building name/number"
+                                android:textColor="@color/text_grey"
+                                android:textSize="13sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/street_tv" />
+
+                            <TextView
+                                android:id="@+id/building_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/building_htv" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
