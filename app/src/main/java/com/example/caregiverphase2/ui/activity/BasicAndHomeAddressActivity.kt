@@ -2,7 +2,6 @@ package com.example.caregiverphase2.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
@@ -28,7 +27,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.adapter.*
 import com.example.caregiverphase2.databinding.ActivityBasicAndHomeAddressBinding
@@ -39,16 +37,11 @@ import com.example.caregiverphase2.ui.fragment.ImagePreviewFragment
 import com.example.caregiverphase2.utils.*
 import com.example.caregiverphase2.viewmodel.*
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.model.RectangularBounds
 import com.google.android.libraries.places.api.model.TypeFilter
-import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -226,7 +219,18 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 binding.dobTv.setText("" +month + "-" + day+ "-" + year)
                 dob = binding.dobTv.text.toString()
             }, year, month, day)
-            dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+            val currentYear: Int = c.get(Calendar.YEAR)
+            val currentMonth: Int = c.get(Calendar.MONTH)
+            val currentDay: Int = c.get(Calendar.DAY_OF_MONTH)
+
+            val minYear = currentYear - 18
+
+            c.set(minYear, currentMonth, currentDay)
+            val minDateInMilliSeconds: Long = c.getTimeInMillis()
+            dpd.getDatePicker().setMaxDate(minDateInMilliSeconds)
+
+
             dpd.show()
         }
 
@@ -304,7 +308,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             finish()
         }
 
-        binding.imageAddBtn.setOnClickListener {
+        binding.addImageBtn.setOnClickListener {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                     dispatchGalleryIntent()
@@ -458,8 +462,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
 
 
     private fun autocomplete(){
-        val autocompleteFragment =
-            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+        val autocompleteFragment = supportFragmentManager?.findFragmentById(R.id.basic_autocomplete_fragment) as AutocompleteSupportFragment
 
         val etTextInput: EditText = findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
         etTextInput.setTextColor(R.color.black)
@@ -470,11 +473,11 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         val ivSearch: ImageView = findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button)
         ivSearch.setImageResource(R.drawable.ic_gps_19)
 
-        autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT)
-        autocompleteFragment.setCountries("US")
-        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.ADDRESS_COMPONENTS))
+        autocompleteFragment?.setTypeFilter(TypeFilter.ESTABLISHMENT)
+        autocompleteFragment?.setCountries("US")
+        autocompleteFragment?.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.ADDRESS_COMPONENTS))
 
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+        autocompleteFragment?.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
 
                 job_address = place.address
@@ -518,7 +521,6 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             }
         })
     }
-
 
     private fun showAddressBottomSheet(
         subLocality: String,
@@ -586,12 +588,13 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 if(!city_n.isEmpty()){
                     if(!state_n.isEmpty()){
                         if(!zipcode_n.isEmpty()){
-                            if(zipcode_n.length == 5){
+                            if(zipcode_n.length >= 5){
                                 if(!building_n.isEmpty()){
                                     binding.addressCard.visible()
 
                                     binding.fullAddressTv.text = subLocality+", "+street_n+", "+city_n+", "+state_n+", "+zipcode
                                     binding.cityNameTv.text = city_n
+                                    short_address = city_n
                                     binding.streetTv.text = street_n
                                     binding.buildingTv.text = building_n
 
@@ -600,7 +603,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                                     }
                                     dialog.dismiss()
                                 }else{
-                                    Toast.makeText(this,"provide building name or number", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this,"provide apartment name or number", Toast.LENGTH_SHORT).show()
                                     buildingTxt.showKeyboard()
                                 }
                             }else{

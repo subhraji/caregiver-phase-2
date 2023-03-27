@@ -64,7 +64,8 @@
                 android:id="@+id/user_img_view"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@color/color_grey" />
+                android:src="@drawable/avatar_user_2" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,21 +77,23 @@
                 android:paddingTop="3dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="3dp"
-                android:text="   4.5"
+                android:text="   0.0"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 android:textStyle="bold" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/change_pic_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="100dp"
-                android:layout_alignParentEnd="true">
+                android:layout_alignParentEnd="true"
+                app:cardCornerRadius="100dp">
+
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="10dp"
-                    android:src="@drawable/ic_outline_camera_alt_24"/>
+                    android:src="@drawable/ic_outline_camera_alt_24" />
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
         <TextView
@@ -134,9 +137,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Total Care"
+                    android:text="Jobs Completed"
                     android:textColor="@color/light_white"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp"
+                    android:textAlignment="center"/>
                 <TextView
                     android:id="@+id/care_completed_tv"
                     android:layout_width="wrap_content"
@@ -167,7 +171,8 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Rewards"
                     android:textColor="@color/light_white"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp"
+                    android:textAlignment="center"/>
                 <TextView
                     android:id="@+id/reward_tv"
                     android:layout_width="wrap_content"
@@ -175,9 +180,9 @@
                     android:layout_gravity="center_horizontal"
                     android:textColor="@color/white"
                     android:textSize="17sp"
-                    android:text=" 0"
+                    android:text="0"
                     android:textStyle="bold"
-                    android:drawableStart="@drawable/ic_baseline_star_24"
+                    android:drawableEnd="@drawable/ic_baseline_star_24"
                     android:drawableTint="@color/dash_yellow"/>
             </LinearLayout>
             <View
@@ -199,9 +204,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Total Strike"
+                    android:text="Total Strikes"
                     android:textColor="@color/light_white"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp"
+                    android:textAlignment="center"/>
                 <TextView
                     android:id="@+id/strike_tv"
                     android:layout_width="wrap_content"
@@ -231,9 +237,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Total Flag"
+                    android:text="Total Flags"
                     android:textColor="@color/light_white"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp"
+                    android:textAlignment="center"/>
                 <TextView
                     android:id="@+id/flag_tv"
                     android:layout_width="wrap_content"
@@ -337,7 +344,7 @@
                 android:id="@+id/age_htv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dob (MM-DD-YYYY)"
+                android:text="Dob"
                 android:textColor="@color/text_grey"
                 android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="@+id/age_tv"

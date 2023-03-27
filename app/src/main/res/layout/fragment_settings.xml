@@ -90,14 +90,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_outline_account_balance_wallet_24"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Earning"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:layout_marginStart="10dp"
             android:layout_toRightOf="@+id/wallet_icon"
-            android:layout_marginStart="10dp"/>
+            android:text="Earnings"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -124,11 +125,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Strike"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:layout_marginStart="10dp"
             android:layout_toRightOf="@+id/block_icon"
-            android:layout_marginStart="10dp"/>
+            android:text="Strikes"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -155,11 +156,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Flag"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:layout_marginStart="10dp"
             android:layout_toRightOf="@+id/flag_icon"
-            android:layout_marginStart="10dp"/>
+            android:text="Flags"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <ImageView
             android:layout_width="wrap_content"

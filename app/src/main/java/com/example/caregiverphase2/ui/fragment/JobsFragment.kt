@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class JobsFragment : Fragment() {
     private var _binding: FragmentJobsBinding? = null
     private val binding get() = _binding!!
-    private val tabTitles = arrayListOf("  Bidded jobs  ","     Upcoming     ","    Completed    ", " Closed ")
+    private val tabTitles = arrayListOf("  My Bids  ","  Awarded Jobs  ","    Completed    ")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

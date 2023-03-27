@@ -16,8 +16,7 @@ class HomeViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) 
         return when (position) {
             0 -> BidedJobFragment()
             1 -> UpcommingJobFragment()
-            2 -> CompleteJobFragment()
-            else -> ClosedJobFragment()
+            else -> CompleteJobFragment()
         }
     }
 }

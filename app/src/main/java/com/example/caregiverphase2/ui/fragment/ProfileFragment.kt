@@ -302,7 +302,10 @@ class ProfileFragment : Fragment(), UploadDocListener {
                         }
 
                         //profile status
-                        if(outcome.data?.data?.profile_completion_status?.is_basic_info_added == 0){
+                        if(outcome.data?.data?.profile_completion_status == null){
+                            showCompleteDialog("Please add your basic details to complete your profile","Complete now", 1)
+                        }
+                        else if(outcome.data?.data?.profile_completion_status?.is_basic_info_added == 0){
                             showCompleteDialog("Please add your basic details to complete your profile","Complete now", 1)
                         }
                         else if(outcome.data?.data?.profile_completion_status?.is_documents_uploaded == 0){
