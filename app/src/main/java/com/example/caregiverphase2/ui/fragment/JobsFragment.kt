@@ -46,7 +46,7 @@ class JobsFragment : Fragment() {
             tab.text = tabTitles[position]
         }.attach()
 
-        for (i in 0..3) {
+        for (i in 0..2) {
             val textView = LayoutInflater.from(requireContext())
                 .inflate(R.layout.tab_title_layout, null) as TextView
             binding.tabLayout.getTabAt(i)?.customView = textView

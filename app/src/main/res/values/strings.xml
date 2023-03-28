@@ -12,5 +12,6 @@
     <string name="employment_eligibility_verification_form_i_9_form">Employment Eligibility Verification Form(i-9 Form)</string>
     <string name="driving_license">Driving License</string>
     <string name="search_loc">Search address</string>
+    <string name="under_review">Your profile is under review. It will take 24 to 48 hours to get the approval.</string>
 
 </resources>

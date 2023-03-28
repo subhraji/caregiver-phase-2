@@ -9,7 +9,7 @@ import com.example.caregiverphase2.ui.fragment.UpcommingJobFragment
 
 class HomeViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int {
-        return 4
+        return 3
     }
 
     override fun createFragment(position: Int): Fragment {

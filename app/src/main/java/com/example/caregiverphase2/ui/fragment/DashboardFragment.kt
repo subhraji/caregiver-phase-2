@@ -329,7 +329,7 @@ class DashboardFragment : Fragment() {
                                 showCompleteDialog("Please add your documents to complete your profile","Complete now", 3)
                             }
                         }else if(outcome.data?.data!!.isProfileApproved == 0){
-                            showCompleteDialog("Your profile is under approval process.","Ok", 4)
+                            showCompleteDialog("Your profile is under review. It will take 24 to 48 hours to get the approval.","Ok", 4)
                         }
                         mGetProfileStatusViewModel.navigationComplete()
                     }else{
