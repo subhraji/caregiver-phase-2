@@ -91,6 +91,8 @@ class AskLocationActivity : AppCompatActivity() {
             if(currentLocation==null)
                 fusedLocationClient?.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
         }
+
+        binding.helloHtv.text = "Hello, ${PrefManager.getUserFullName()} I am happy to assist you"
     }
 
     override fun onResume() {

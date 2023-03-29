@@ -31,10 +31,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".EditCertificateActivity"
+            android:name=".ui.activity.DocumentSubmitSuccessActivity"
             android:exported="false" />
         <activity
-            android:name=".EditEducationActivity"
+            android:name=".ui.activity.EditCertificateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.EditEducationActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.StrikeSystemActivity"

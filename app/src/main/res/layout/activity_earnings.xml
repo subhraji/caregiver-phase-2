@@ -38,7 +38,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:text="Earnings"
+                    android:text="DIRECT DEPOSIT"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/back_btn_1"
@@ -80,6 +80,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent">
                 <FrameLayout
                         android:id="@+id/frame_lay_1"

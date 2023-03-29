@@ -1001,8 +1001,10 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                     loader.dismiss()
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
-                        mUpdateDocumentStatusViewModel.navigationComplete()
+                        val intent = Intent(this, DocumentSubmitSuccessActivity::class.java)
+                        startActivity(intent)
                         finish()
+                        mUpdateDocumentStatusViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }

@@ -37,12 +37,12 @@
             app:layout_constraintTop_toBottomOf="@+id/peaceworc_htv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Find Caregiver Jobs near you"
-            android:textSize="28sp"
+            android:text="Land your next Caregiver job within your preferred location"
+            android:textSize="25sp"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_marginStart="60dp"
-            android:layout_marginEnd="60dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:textAlignment="center"
             android:layout_marginTop="100dp"/>
         <TextView
