@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Client was not home"
+        android:id="@+id/client_not_home"/>
+    <item
+        android:id="@+id/client_at_hospital"
+        android:title="Client admitted into hospital"/>
+    <item android:title="Contact Confirmed (UPLOAD BUTTON) RECEIPTS/SCREEN SHOTS"
+        android:id="@+id/contact_confirm"/>
+    <item
+        android:id="@+id/shift_completed"
+        android:title="Shift Completed"/>
+    <item
+        android:id="@+id/checklist_completed"
+        android:title="Check list Items Completed"/>
+    <item
+        android:id="@+id/other_reason"
+        android:title="Other Reason"/>
+</menu>

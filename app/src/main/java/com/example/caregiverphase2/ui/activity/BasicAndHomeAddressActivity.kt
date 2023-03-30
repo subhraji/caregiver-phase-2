@@ -470,8 +470,8 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         etTextInput.setHint(R.string.search_loc)
         etTextInput.setHintTextColor(R.color.black)
 
-        val ivSearch: ImageView = findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button)
-        ivSearch.setImageResource(R.drawable.ic_gps_19)
+        /*val ivSearch: ImageView = findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button)
+        ivSearch.setImageResource(R.drawable.ic_gps_19)*/
 
         autocompleteFragment?.setTypeFilter(TypeFilter.ESTABLISHMENT)
         autocompleteFragment?.setCountries("US")
@@ -589,23 +589,18 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                     if(!state_n.isEmpty()){
                         if(!zipcode_n.isEmpty()){
                             if(zipcode_n.length >= 5){
-                                if(!building_n.isEmpty()){
-                                    binding.addressCard.visible()
+                                binding.addressCard.visible()
 
-                                    binding.fullAddressTv.text = subLocality+", "+street_n+", "+city_n+", "+state_n+", "+zipcode
-                                    binding.cityNameTv.text = city_n
-                                    short_address = city_n
-                                    binding.streetTv.text = street_n
-                                    binding.buildingTv.text = building_n
+                                binding.fullAddressTv.text = subLocality+", "+street_n+", "+city_n+", "+state_n+", "+zipcode
+                                binding.cityNameTv.text = city_n
+                                short_address = city_n
+                                binding.streetTv.text = street_n
+                                binding.buildingTv.text = building_n
 
-                                    if(!floor_n.isEmpty()){
-                                        binding.buildingTv.text = building_n+", "+floor_n
-                                    }
-                                    dialog.dismiss()
-                                }else{
-                                    Toast.makeText(this,"provide apartment name or number", Toast.LENGTH_SHORT).show()
-                                    buildingTxt.showKeyboard()
+                                if(!floor_n.isEmpty()){
+                                    binding.buildingTv.text = building_n+", "+floor_n
                                 }
+                                dialog.dismiss()
                             }else{
                                 Toast.makeText(this,"provide a valid zipcode", Toast.LENGTH_SHORT).show()
                                 zipcodeTxt.showKeyboard()

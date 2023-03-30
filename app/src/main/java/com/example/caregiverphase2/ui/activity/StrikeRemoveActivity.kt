@@ -1,10 +1,13 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.PopupMenu
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityStrikeListBinding
 import com.example.caregiverphase2.databinding.ActivityStrikeRemoveBinding
@@ -20,6 +23,11 @@ class StrikeRemoveActivity : AppCompatActivity() {
         binding= ActivityStrikeRemoveBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.reasonTxt.gone()
+        binding.proofHtv.gone()
+        binding.uploadImgBtn.gone()
+        binding.reasonHtv.gone()
+
         binding.backArrow.setOnClickListener {
             finish()
         }
@@ -28,32 +36,57 @@ class StrikeRemoveActivity : AppCompatActivity() {
             finish()
         }
 
-        //spinner
-        setUpDisputeSpinner()
+        binding.disputeBtn.setOnClickListener {
+            showDisputePopup(it)
+        }
+
     }
 
-    private fun setUpDisputeSpinner(){
-        val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,disputeList)
-        binding.disputeSpinner.adapter = arrayAdapter
-        binding.disputeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener,
-            AdapterView.OnItemClickListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if(p2 == 6){
+    private fun showDisputePopup(v : View){
+        val popup = PopupMenu(this, v)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.dispute_menu, popup.menu)
+        popup.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId){
+                R.id.client_not_home-> {
+                    binding.proofHtv.visible()
+                    binding.uploadImgBtn.visible()
+                    binding.reasonHtv.visible()
+                    binding.reasonHtv.text = "Client was not home"
+                }
+                R.id.client_at_hospital-> {
+                    binding.proofHtv.visible()
+                    binding.uploadImgBtn.visible()
+                    binding.reasonHtv.visible()
+                    binding.reasonHtv.text = "Client admitted into hospital"
+                }
+                R.id.contact_confirm-> {
+                    binding.proofHtv.visible()
+                    binding.uploadImgBtn.visible()
+                    binding.reasonHtv.visible()
+                    binding.reasonHtv.text = "Contact Confirmed (UPLOAD BUTTON) RECEIPTS/SCREEN SHOTS"
+                }
+                R.id.shift_completed-> {
+                    binding.proofHtv.visible()
+                    binding.uploadImgBtn.visible()
+                    binding.reasonHtv.visible()
+                    binding.reasonHtv.text = "Shift Completed"
+                }
+                R.id.checklist_completed-> {
+                    binding.proofHtv.visible()
+                    binding.uploadImgBtn.visible()
+                    binding.reasonHtv.visible()
+                    binding.reasonHtv.text = "Check list Items Completed"
+                }
+                R.id.other_reason-> {
                     binding.reasonTxt.visible()
-                }else{
-                    binding.reasonTxt.gone()
+                    binding.proofHtv.visible()
+                    binding.uploadImgBtn.visible()
+                    binding.reasonHtv.gone()
                 }
             }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-            }
-
+            true
         }
+        popup.show()
     }
-
 }

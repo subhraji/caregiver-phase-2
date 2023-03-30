@@ -33,10 +33,7 @@ import com.example.caregiverphase2.databinding.FragmentProfileBinding
 import com.example.caregiverphase2.model.pojo.get_profile.Certificate
 import com.example.caregiverphase2.model.pojo.get_profile.Education
 import com.example.caregiverphase2.model.repository.Outcome
-import com.example.caregiverphase2.ui.activity.AddBioActivity
-import com.example.caregiverphase2.ui.activity.AddCertificateActivity
-import com.example.caregiverphase2.ui.activity.AddEducationActivity
-import com.example.caregiverphase2.ui.activity.BasicAndHomeAddressActivity
+import com.example.caregiverphase2.ui.activity.*
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.UploadDocListener
@@ -113,6 +110,16 @@ class ProfileFragment : Fragment(), UploadDocListener {
 
         binding.addCertificateBtn.setOnClickListener {
             val intent = Intent(requireActivity(), AddCertificateActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.stikeLay.setOnClickListener {
+            val intent = Intent(requireActivity(), StrikeListActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.flagLay.setOnClickListener {
+            val intent = Intent(requireActivity(), FlagListActivity::class.java)
             startActivity(intent)
         }
 
