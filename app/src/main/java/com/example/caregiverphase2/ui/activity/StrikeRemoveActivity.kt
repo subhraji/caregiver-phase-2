@@ -49,30 +49,35 @@ class StrikeRemoveActivity : AppCompatActivity() {
         popup.setOnMenuItemClickListener { menuItem ->
             when(menuItem.itemId){
                 R.id.client_not_home-> {
+                    binding.reasonTxt.gone()
                     binding.proofHtv.visible()
                     binding.uploadImgBtn.visible()
                     binding.reasonHtv.visible()
                     binding.reasonHtv.text = "Client was not home"
                 }
                 R.id.client_at_hospital-> {
+                    binding.reasonTxt.gone()
                     binding.proofHtv.visible()
                     binding.uploadImgBtn.visible()
                     binding.reasonHtv.visible()
                     binding.reasonHtv.text = "Client admitted into hospital"
                 }
                 R.id.contact_confirm-> {
+                    binding.reasonTxt.gone()
                     binding.proofHtv.visible()
                     binding.uploadImgBtn.visible()
                     binding.reasonHtv.visible()
                     binding.reasonHtv.text = "Contact Confirmed (UPLOAD BUTTON) RECEIPTS/SCREEN SHOTS"
                 }
                 R.id.shift_completed-> {
+                    binding.reasonTxt.gone()
                     binding.proofHtv.visible()
                     binding.uploadImgBtn.visible()
                     binding.reasonHtv.visible()
                     binding.reasonHtv.text = "Shift Completed"
                 }
                 R.id.checklist_completed-> {
+                    binding.reasonTxt.gone()
                     binding.proofHtv.visible()
                     binding.uploadImgBtn.visible()
                     binding.reasonHtv.visible()
