@@ -17,11 +17,12 @@ class SignUpEmailVerificationViewModel @Inject constructor(private val repositor
     private var _response = MutableLiveData<Outcome<SignUpEmailVerificationResponse?>?>()
     val response: MutableLiveData<Outcome<SignUpEmailVerificationResponse?>?> = _response
 
-    fun getOtp(
-        email: String
+    fun verifyOtp(
+        email: String,
+        otp: String
     ) = viewModelScope.launch {
         repository.getEmailVerificationOtp(
-            email
+            email, otp
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

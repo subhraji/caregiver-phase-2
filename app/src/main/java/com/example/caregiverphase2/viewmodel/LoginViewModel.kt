@@ -20,9 +20,10 @@ class LoginViewModel @Inject constructor(private val repository: LoginRepository
     fun login(
         email: String,
         password: String,
+        token: String
     ) = viewModelScope.launch {
         repository.login(
-            email, password
+            email, password, token
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

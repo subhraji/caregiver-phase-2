@@ -39,7 +39,6 @@ class EmailVerificationActivity : AppCompatActivity() {
     private lateinit var accessToken: String
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private val mSignUpEmailVerificationViewModel: SignUpEmailVerificationViewModel by viewModels()
-    private val signUpViewModel: SignUpViewModel by viewModels()
     private lateinit var token: String
     private var CHANNEL_ID = "101"
 
@@ -57,10 +56,7 @@ class EmailVerificationActivity : AppCompatActivity() {
 
         val extras = intent.extras
         if (extras != null) {
-            name = extras.getString("name").toString()
             email = extras.getString("email").toString()
-            password = extras.getString("password").toString()
-            con_password = extras.getString("con_password").toString()
         }
 
         createNotificationChannel()
@@ -151,13 +147,9 @@ class EmailVerificationActivity : AppCompatActivity() {
             hideSoftKeyboard()
             if(otp.length == 6){
                 if(isConnectedToInternet()){
-                    signUpViewModel.signup(
-                        otp.toString().toInt(),
-                        name,
+                    mSignUpEmailVerificationViewModel.verifyOtp(
                         email,
-                        password,
-                        con_password,
-                        token
+                        otp
                     )
                     loader.show()
 
@@ -170,20 +162,25 @@ class EmailVerificationActivity : AppCompatActivity() {
         }
 
         binding.resendTv.setOnClickListener {
-            if(isConnectedToInternet()){
-                mSignUpEmailVerificationViewModel.getOtp(
-                    email
-                )
-                loader = this.loadingDialog()
-                loader.show()
-            }else{
-                Toast.makeText(this,"No internet connection.", Toast.LENGTH_SHORT).show()
-            }
+            val otp = "${binding.edTxt1.text}${binding.edTxt2.text}${binding.edTxt3.text}${binding.edTxt4.text}${binding.edTxt5.text}${binding.edTxt6.text}"
+            hideSoftKeyboard()
+            if(otp.length == 6){
+                if(isConnectedToInternet()){
+                    mSignUpEmailVerificationViewModel.verifyOtp(
+                        email,
+                        otp
+                    )
+                    loader.show()
 
+                }else{
+                    Toast.makeText(this,"No internet connection.", Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                Toast.makeText(this,"Invalid OTP.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         //observer
-        signObserver()
         getOtpObserver()
     }
 
@@ -223,6 +220,19 @@ class EmailVerificationActivity : AppCompatActivity() {
                         binding.edTxt6.text = null
                         binding.edTxt1.showKeyboard()
 
+                        if (outcome.data!!.token != null) {
+                            outcome.data!!.token?.let {
+                                PrefManager.setKeyAuthToken(it)
+                                PrefManager.setUserFullName(name)
+                                PrefManager.setLogInStatus(true)
+                                val intent = Intent(this, AskLocationActivity::class.java)
+                                intent.putExtra("from","login")
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(intent)
+                                finishAffinity()
+                            }
+                        }
+
                         mSignUpEmailVerificationViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
@@ -231,40 +241,6 @@ class EmailVerificationActivity : AppCompatActivity() {
                 is Outcome.Failure<*> -> {
                     Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
                     loader.dismiss()
-                    outcome.e.printStackTrace()
-                    Log.i("status",outcome.e.cause.toString())
-                }
-            }
-        })
-    }
-
-    private fun signObserver(){
-        signUpViewModel.response.observe(this, Observer { outcome ->
-            when(outcome){
-                is Outcome.Success ->{
-                    loader.dismiss()
-                    if(outcome.data?.success == true){
-                        if (outcome.data!!.token != null) {
-                            outcome.data!!.token?.let {
-                                PrefManager.setKeyAuthToken(it)
-                                PrefManager.setUserFullName(name)
-                                val intent = Intent(this, AskLocationActivity::class.java)
-                                intent.putExtra("from","login")
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                startActivity(intent)
-                                finish()
-                            }
-                        }
-                        PrefManager.setLogInStatus(true)
-
-                        signUpViewModel.navigationComplete()
-                    }else{
-                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
-                    }
-                }
-                is Outcome.Failure<*> -> {
-                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
-
                     outcome.e.printStackTrace()
                     Log.i("status",outcome.e.cause.toString())
                 }

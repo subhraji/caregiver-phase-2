@@ -11,8 +11,9 @@ import javax.inject.Inject
 
 class SignUpEmailVerifyRepository @Inject constructor(private val apiInterface: ApiInterface)  {
     fun getEmailVerificationOtp(
-        email: String
+        email: String,
+        otp: String
     ): Flow<SignUpEmailVerificationResponse?> = flow{
-        emit(apiInterface.getEmailVerificationOtp(SignUpEmailVerificationRequest(email)))
+        emit(apiInterface.getEmailVerificationOtp(SignUpEmailVerificationRequest(email, otp)))
     }.flowOn(Dispatchers.IO)
 }

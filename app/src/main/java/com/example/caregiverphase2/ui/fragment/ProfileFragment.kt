@@ -182,7 +182,8 @@ class ProfileFragment : Fragment(), UploadDocListener {
                     startActivity(intent)
                 }
                 R.id.edit_edu-> {
-
+                    val intent = Intent(requireActivity(), EditEducationActivity::class.java)
+                    startActivity(intent)
                 }
             }
             true
@@ -201,7 +202,8 @@ class ProfileFragment : Fragment(), UploadDocListener {
                     startActivity(intent)
                 }
                 R.id.certificate_edit-> {
-
+                    val intent = Intent(requireActivity(), EditCertificateActivity::class.java)
+                    startActivity(intent)
                 }
             }
             true

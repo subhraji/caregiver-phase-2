@@ -12,8 +12,9 @@ import javax.inject.Inject
 class LoginRepository @Inject constructor(private val apiInterface: ApiInterface)  {
     fun login(
         email: String,
-        password: String
+        password: String,
+        token: String
     ): Flow<LoginResponse?> = flow{
-        emit(apiInterface.login(LoginRequest(email,password)))
+        emit(apiInterface.login(LoginRequest(email,password, token)))
     }.flowOn(Dispatchers.IO)
 }

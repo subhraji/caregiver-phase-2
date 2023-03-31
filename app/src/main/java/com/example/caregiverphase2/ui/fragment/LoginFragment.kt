@@ -1,11 +1,14 @@
 package com.example.caregiverphase2.ui.fragment
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -17,6 +20,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -32,6 +36,8 @@ import com.example.caregiverphase2.viewmodel.LoginViewModel
 import com.example.caregiverphase2.viewmodel.SignUpViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import hideSoftKeyboard
 import isConnectedToInternet
@@ -45,6 +51,8 @@ class LoginFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var loader: androidx.appcompat.app.AlertDialog
+    private lateinit var token: String
+    private var CHANNEL_ID = "101"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +70,10 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        createNotificationChannel()
+        getToken()
+        subscribeToTopic()
 
         //observer
         loginObserve()
@@ -81,7 +93,8 @@ class LoginFragment : Fragment() {
                     if(requireActivity().isConnectedToInternet()){
                         loginViewModel.login(
                             binding.emailTxt.text.toString(),
-                            binding.passwordTxt.text.toString()
+                            binding.passwordTxt.text.toString(),
+                            token
                         )
                         loader = requireActivity().loadingDialog()
                         loader.show()
@@ -162,9 +175,9 @@ class LoginFragment : Fragment() {
                         PrefManager.setLogInStatus(true)
                         val intent = Intent(requireActivity(), AskLocationActivity::class.java)
                         intent.putExtra("from","login")
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
-                        requireActivity().finish()
+                        requireActivity().finishAffinity()
 
                         loginViewModel.navigationComplete()
                     }else{
@@ -181,5 +194,58 @@ class LoginFragment : Fragment() {
                 }
             }
         })
+    }
+
+    //notification subscribe
+    private fun subscribeToTopic(){
+        FirebaseMessaging.getInstance().subscribeToTopic("cloud")
+            .addOnCompleteListener { task ->
+                var msg = "Done"
+                if (!task.isSuccessful) {
+                    msg = "Failed"
+                }
+            }
+    }
+
+    //get token
+    private fun getToken(){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("Token", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            token = task.result
+
+            // Log and toast
+            //val msg = getString(R.string.msg_token_fmt, token)
+            Log.e("Token", token)
+            //Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    private fun createNotificationChannel() {
+
+        NotificationCompat.Builder(requireActivity(), CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setContentTitle("textTitle")
+            .setContentText("textContent")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "firebaseNotifChannel"
+            val descriptionText = "this is a channel to receive firebase notification."
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                requireActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+        }
     }
 }

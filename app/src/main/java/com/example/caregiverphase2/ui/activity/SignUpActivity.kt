@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -9,6 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.ViewGroup
+import android.view.Window
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.NotificationCompat
@@ -24,15 +31,22 @@ import com.example.caregiverphase2.viewmodel.SignUpViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import gone
 import hideSoftKeyboard
 import loadingDialog
 import showKeyboard
+import visible
 
 @AndroidEntryPoint
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var loader: androidx.appcompat.app.AlertDialog
-    private val mSignUpEmailVerificationViewModel: SignUpEmailVerificationViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by viewModels()
+
+    private lateinit var token: String
+    private var CHANNEL_ID = "101"
+
+    private var isAgree = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +59,15 @@ class SignUpActivity : AppCompatActivity() {
         passwordFocusListener()
         conPasswordFocusListener()
 
+        binding.privacyTv1.gone()
+        binding.checkBox1.gone()
+
         //observer
         getOtpObserver()
 
-        /*binding.backBtn.setOnClickListener {
-            finish()
-        }*/
+        createNotificationChannel()
+        getToken()
+        subscribeToTopic()
 
         binding.loginBtn.setOnClickListener {
             val intent = Intent(this, AuthActivity::class.java)
@@ -71,11 +88,20 @@ class SignUpActivity : AppCompatActivity() {
                 if(validEmail){
                     if(validPassword){
                         if(validConPassword){
-                            mSignUpEmailVerificationViewModel.getOtp(
-                                binding.emailAddressTxt.text.toString(),
-                            )
-                            loader = this.loadingDialog()
-                            loader.show()
+                            if(isAgree){
+                                signUpViewModel.signup(
+                                    binding.fullNameTxt.text.toString(),
+                                    binding.emailAddressTxt.text.toString(),
+                                    binding.passwordTxt.text.toString(),
+                                    binding.conPasswordTxt.text.toString(),
+                                    token
+                                )
+                                loader = this.loadingDialog()
+                                loader.show()
+                            }else{
+                                showPrivacyPolicyDialog()
+                            }
+
                             hideSoftKeyboard()
                         }else{
                             if(binding.conPasswordTxtLay.helperText == null) binding.conPasswordTxtLay.helperText = "required"
@@ -174,20 +200,16 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun getOtpObserver(){
-        mSignUpEmailVerificationViewModel.response.observe(this, Observer { outcome ->
+        signUpViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
                     loader.dismiss()
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message.toString(), Toast.LENGTH_LONG).show()
                         val intent = Intent(this, EmailVerificationActivity::class.java)
-                        intent.putExtra("name",binding.fullNameTxt.text.toString())
                         intent.putExtra("email",binding.emailAddressTxt.text.toString())
-                        intent.putExtra("password",binding.passwordTxt.text.toString())
-                        intent.putExtra("con_password",binding.conPasswordTxt.text.toString())
                         startActivity(intent)
-
-                        mSignUpEmailVerificationViewModel.navigationComplete()
+                        signUpViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }
@@ -202,4 +224,97 @@ class SignUpActivity : AppCompatActivity() {
         })
     }
 
+
+    private fun showPrivacyPolicyDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.setContentView(R.layout.privacy_policy_dialog)
+
+        val webview = dialog.findViewById<WebView>(R.id.privacy_webview)
+        val agree_btn = dialog.findViewById<TextView>(R.id.check_agree)
+        val progressBar = dialog.findViewById<ProgressBar>(R.id.progress_bar)
+
+        agree_btn.setOnClickListener {
+            isAgree = true
+            binding.privacyTv1.visible()
+            binding.checkBox1.visible()
+            dialog.dismiss()
+        }
+
+        webview.loadUrl("https://www.google.com/")
+        webview.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                view.loadUrl(url)
+
+                progressBar.visible()
+                return true
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+            }
+            override fun onPageCommitVisible(view: WebView?, url: String?) {
+                super.onPageCommitVisible(view, url)
+                progressBar.gone()
+            }
+        }
+
+        dialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.show()
+    }
+
+    //notification subscribe
+    private fun subscribeToTopic(){
+        FirebaseMessaging.getInstance().subscribeToTopic("cloud")
+            .addOnCompleteListener { task ->
+                var msg = "Done"
+                if (!task.isSuccessful) {
+                    msg = "Failed"
+                }
+            }
+    }
+
+    //get token
+    private fun getToken(){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("Token", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            token = task.result
+
+            // Log and toast
+            //val msg = getString(R.string.msg_token_fmt, token)
+            Log.e("Token", token)
+            //Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    private fun createNotificationChannel() {
+
+        NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setContentTitle("textTitle")
+            .setContentText("textContent")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "firebaseNotifChannel"
+            val descriptionText = "this is a channel to receive firebase notification."
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+        }
+    }
 }

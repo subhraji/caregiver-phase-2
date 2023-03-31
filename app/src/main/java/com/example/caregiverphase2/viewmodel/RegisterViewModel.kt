@@ -27,10 +27,17 @@ class RegisterViewModel @Inject constructor(private val repository: RegisterRepo
         ssn: String,
         full_address: String,
         short_address: String,
+        street: String,
+        city: String,
+        state: String,
+        zipcode: String,
+        appartment_or_unit: String? = null,
+        floor_no: String? = null,
+        country: String,
         token: String
     ) = viewModelScope.launch {
         repository.register(
-            photo, phone, dob, gender, ssn, full_address, short_address, token
+            photo, phone, dob, gender, ssn, full_address, short_address, street, city, state, zipcode, appartment_or_unit, floor_no, country, token
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

@@ -19,6 +19,13 @@ class RegisterRepository @Inject constructor(private val apiInterface: ApiInterf
         ssn: String,
         full_address: String,
         short_address: String,
+        street: String,
+        city: String,
+        state: String,
+        zipcode: String,
+        appartment_or_unit: String? = null,
+        floor_no: String? = null,
+        country: String,
         token: String
     ): Flow<RegisterResponse?> = flow{
         emit(apiInterface.registration(
@@ -29,6 +36,13 @@ class RegisterRepository @Inject constructor(private val apiInterface: ApiInterf
             ssn.toMultipartFormString(),
             full_address.toMultipartFormString(),
             short_address.toMultipartFormString(),
+            street.toMultipartFormString(),
+            city.toMultipartFormString(),
+            state.toMultipartFormString(),
+            zipcode.toMultipartFormString(),
+            appartment_or_unit!!.toMultipartFormString(),
+            floor_no!!.toMultipartFormString(),
+            country.toMultipartFormString(),
             token = token
         ))
     }.flowOn(Dispatchers.IO)

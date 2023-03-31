@@ -78,6 +78,13 @@ interface ApiInterface {
         @Part("ssn") ssn: RequestBody,
         @Part("full_address") full_address: RequestBody,
         @Part("short_address") short_address: RequestBody,
+        @Part("street") street: RequestBody,
+        @Part("city_or_district") city: RequestBody,
+        @Part("state") state: RequestBody,
+        @Part("zip_code") zip_code: RequestBody,
+        @Part("appartment_or_unit") appartment_or_unit: RequestBody,
+        @Part("floor_no") floor_no: RequestBody,
+        @Part("country") country: RequestBody,
         @Header("Authorization") token: String
     ): RegisterResponse?
 
@@ -105,7 +112,7 @@ interface ApiInterface {
         @Header("Authorization") token: String,
     ): ChangePasswordResponse?
 
-    @POST("check-email-exist")
+    @POST("verify-otp")
     suspend fun getEmailVerificationOtp(
         @Body body: SignUpEmailVerificationRequest?
     ): SignUpEmailVerificationResponse?

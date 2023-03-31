@@ -259,6 +259,13 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                                                         binding.ssnNumberTxt.text.toString(),
                                                         binding.fullAddressTv.text.toString(),
                                                         short_address,
+                                                        street_n,
+                                                        city_n,
+                                                        state_n,
+                                                        zipcode_n,
+                                                        building_n,
+                                                        floor_n,
+                                                        "USA",
                                                         accessToken
                                                     )
                                                     hideSoftKeyboard()
