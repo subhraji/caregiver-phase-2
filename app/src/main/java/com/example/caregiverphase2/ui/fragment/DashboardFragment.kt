@@ -95,9 +95,8 @@ class DashboardFragment : Fragment() {
         }
 
         binding.userImageView.setOnClickListener {
-            /*val intent = Intent(requireActivity(), AskLocationActivity::class.java)
-            intent.putExtra("from","dash")
-            startActivity(intent)*/
+            val intent = Intent(requireActivity(), ProfileActivity::class.java)
+            startActivity(intent)
         }
 
         binding.locBtn.setOnClickListener {

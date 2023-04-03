@@ -56,8 +56,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:textAlignment="center"
-            android:layout_marginTop="20dp"
-            android:text="Discover the best caregiver job you want by your location or neighborhood"/>
+            android:layout_marginTop="20dp"/>
         <FrameLayout
             android:id="@+id/slider_frame_lay"
             android:layout_width="wrap_content"
@@ -65,7 +64,7 @@
             app:layout_constraintTop_toBottomOf="@+id/text_view_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="25dp">
+            android:layout_marginTop="10dp">
             <androidx.cardview.widget.CardView
                 android:layout_width="80dp"
                 android:layout_height="6dp"

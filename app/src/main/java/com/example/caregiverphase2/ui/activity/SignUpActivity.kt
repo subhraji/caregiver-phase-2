@@ -5,6 +5,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -232,6 +234,8 @@ class SignUpActivity : AppCompatActivity() {
         dialog.setCanceledOnTouchOutside(true)
         dialog.setContentView(R.layout.privacy_policy_dialog)
 
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         val webview = dialog.findViewById<WebView>(R.id.privacy_webview)
         val agree_btn = dialog.findViewById<TextView>(R.id.check_agree)
         val progressBar = dialog.findViewById<ProgressBar>(R.id.progress_bar)
@@ -243,7 +247,7 @@ class SignUpActivity : AppCompatActivity() {
             dialog.dismiss()
         }
 
-        webview.loadUrl("https://www.google.com/")
+        webview.loadUrl("https://www.peaceworc.ekodusproject.tech")
         webview.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 view.loadUrl(url)

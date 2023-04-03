@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:hint="Full Name *"
-                    android:inputType="textPersonName"
+                    android:inputType="textPersonName|textCapWords"
                     android:singleLine="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
@@ -230,23 +230,22 @@
             android:id="@+id/privacy_tv_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/check_box_1"
             app:layout_constraintTop_toBottomOf="@+id/register_btn"
-            app:layout_constraintStart_toStartOf="@+id/register_btn"
-            app:layout_constraintEnd_toStartOf="@+id/check_box_1"
+            app:layout_constraintEnd_toEndOf="@+id/register_btn"
             android:text="I Agree with the Privacy Policy and Terms &amp; Conditons."
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
             android:textColor="@color/white"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
         <CheckBox
             android:id="@+id/check_box_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="10dp"
             android:checked="true"
             android:enabled="false"
+            android:layout_marginStart="10dp"
             android:buttonTint="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/privacy_tv_1"
             app:layout_constraintBottom_toBottomOf="@+id/privacy_tv_1"/>
         <TextView
