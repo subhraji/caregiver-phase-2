@@ -41,7 +41,10 @@ class EditCertificateActivity : AppCompatActivity() {
 
         //observe
         getCertificateObserver()
+    }
 
+    override fun onResume() {
+        super.onResume()
         binding.certificateRecycler.gone()
         binding.educationShimmerView.visible()
         binding.educationShimmerView.startShimmer()

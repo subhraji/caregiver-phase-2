@@ -45,7 +45,7 @@
         android:id="@+id/text_view_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thank you for accepting the job. You can find the job on upcoming job section."
+        android:text="Thank you for accepting the job. You can find the job on awarded job section."
         android:textColor="@color/black"
         android:textSize="16sp"
         android:paddingStart="10dp"

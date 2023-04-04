@@ -1,11 +1,13 @@
 package com.example.caregiverphase2.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caregiverphase2.databinding.EditEducationItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_profile.Education
+import com.example.caregiverphase2.ui.activity.EditEducationFormActivity
 
 class EditEducationItemAdapter (private val itemList: List<Education>, private val context: Context):
     RecyclerView.Adapter<EditEducationItemAdapter.ViewHolder>() {
@@ -36,6 +38,15 @@ class EditEducationItemAdapter (private val itemList: List<Education>, private v
                 courseNameTv.text = data?.degree
                 durationTv.text = data?.start_year+"-"+data?.end_year
 
+                editBtn.setOnClickListener {
+                    val intent = Intent(context, EditEducationFormActivity::class.java)
+                    intent.putExtra("institute", data?.school_or_university)
+                    intent.putExtra("subject", data?.degree)
+                    intent.putExtra("start", data?.start_year)
+                    intent.putExtra("end", data?.end_year)
+                    intent.putExtra("id", data?.id.toString())
+                    context.startActivity(intent)
+                }
             }
         }
 

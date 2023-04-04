@@ -2,6 +2,7 @@ package com.example.caregiverphase2.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,11 @@ import com.example.caregiverphase2.databinding.OpenJobsItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_jobs.Data
 import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalTime
+import java.util.*
 
 class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
                                 private val context: Context):
@@ -61,9 +67,9 @@ class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
                 gen = ""
                 for(i in data?.careItems){
                     if(gen.isEmpty()){
-                        gen = i.gender+" : "+i.age
+                        gen = i.gender+" : "+i.age+" Yrs"
                     }else{
-                        gen = gen+", "+i.gender+" : "+i.age
+                        gen = gen+", "+i.gender+" : "+i.age+" Yrs"
                     }
                 }
                 ageTv.text = gen

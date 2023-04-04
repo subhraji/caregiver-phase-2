@@ -14,6 +14,7 @@ import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_complete_job.Data
 import com.example.caregiverphase2.ui.activity.BiddedJobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
+import gone
 
 class CompletedJobsAdapter (private val itemList: List<Data>, private val context: Context):
     RecyclerView.Adapter<CompletedJobsAdapter.ViewHolder>() {
@@ -56,9 +57,9 @@ class CompletedJobsAdapter (private val itemList: List<Data>, private val contex
                 gen = ""
                 for(i in data?.care_items){
                     if(gen.isEmpty()){
-                        gen = i.gender+": "+i.age
+                        gen = i.gender+": "+i.age+" Yrs"
                     }else{
-                        gen = gen+", "+i.gender+": "+i.age
+                        gen = gen+", "+i.gender+": "+i.age+" Yrs"
                     }
                 }
                 ageTv.text = gen
@@ -75,6 +76,8 @@ class CompletedJobsAdapter (private val itemList: List<Data>, private val contex
                     .placeholder(R.color.dash_yellow) // any placeholder to load at start
                     .centerCrop()
                     .into(agencyLogoImgView)
+
+                timeLeftTv.gone()
             }
         }
 

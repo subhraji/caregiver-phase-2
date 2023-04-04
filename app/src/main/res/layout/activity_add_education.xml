@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:hint="High school/college/university"
-            android:inputType="text"
+            android:inputType="text|textCapWords"
             android:singleLine="true"
             android:textColorHint="@color/text_grey"
             android:textCursorDrawable="@null"

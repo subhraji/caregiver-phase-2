@@ -28,7 +28,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="30dp"
         android:textSize="18sp"
-        android:text="Your profile registration has been submitted successfully! Notice of approval will be send to your registered email id."
+        android:text="Your profile registration has been submitted successfully! Notice of approval will be sent to your registered email id."
         android:textStyle="bold"
         android:textAlignment="center"
         android:textColor="@color/black"/>

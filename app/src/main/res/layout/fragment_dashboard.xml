@@ -199,6 +199,7 @@
                     android:id="@+id/quick_call_shimmer_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <include layout="@layout/open_jobs_shimmer_layout" />
                 </com.facebook.shimmer.ShimmerFrameLayout>
 

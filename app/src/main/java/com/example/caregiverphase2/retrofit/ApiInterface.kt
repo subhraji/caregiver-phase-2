@@ -14,6 +14,11 @@ import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobR
 import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobResponse
 import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentRequest
 import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentResponse
+import com.example.caregiverphase2.model.pojo.edit_basic_info.EditBasicInfoRequest
+import com.example.caregiverphase2.model.pojo.edit_basic_info.EditBasicInfoResponse
+import com.example.caregiverphase2.model.pojo.edit_certificate.EditCertificateResponse
+import com.example.caregiverphase2.model.pojo.edit_education.EditEducationRequest
+import com.example.caregiverphase2.model.pojo.edit_education.EditEducationResonse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
@@ -32,6 +37,8 @@ import com.example.caregiverphase2.model.pojo.logout.LogoutResponse
 import com.example.caregiverphase2.model.pojo.register.RegisterResponse
 import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRegRequest
 import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRegResponse
+import com.example.caregiverphase2.model.pojo.resend_otp.ResendOtpRequest
+import com.example.caregiverphase2.model.pojo.resend_otp.ResendOtpResponse
 import com.example.caregiverphase2.model.pojo.signup.SignUpRequest
 import com.example.caregiverphase2.model.pojo.signup.SignUpResponse
 import com.example.caregiverphase2.model.pojo.start_job.JobStartRequest
@@ -243,4 +250,32 @@ interface ApiInterface {
     suspend fun getRegDetails(
         @Header("Authorization") token: String,
     ): GetRegistrationDetailsResponse?
+
+    @POST("resend-otp")
+    suspend fun resendOtp(
+        @Body body: ResendOtpRequest?,
+    ): ResendOtpResponse?
+
+    @POST("profile/education/edit")
+    suspend fun editEducation(
+        @Body body: EditEducationRequest?,
+        @Header("Authorization") token: String,
+    ): EditEducationResonse?
+
+    @Multipart
+    @POST("profile/certificate/edit")
+    suspend fun editCertificate(
+        @Part document: MultipartBody.Part? = null,
+        @Part("certificate_or_course") certificate_or_course: RequestBody? = null,
+        @Part("start_year") start_year: RequestBody? = null,
+        @Part("end_year") end_year: RequestBody? = null,
+        @Part("cert_id") cert_id: RequestBody,
+        @Header("Authorization") token: String,
+    ): EditCertificateResponse?
+
+    @POST("profile/edit-phone-or-experience")
+    suspend fun editBasicInfo(
+        @Body body: EditBasicInfoRequest?,
+        @Header("Authorization") token: String,
+    ): EditBasicInfoResponse?
 }

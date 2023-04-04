@@ -21,6 +21,7 @@ import com.example.caregiverphase2.databinding.ActivityEmailVerificationBinding
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.ChangePasswordViewModel
+import com.example.caregiverphase2.viewmodel.ResendOtpViewModel
 import com.example.caregiverphase2.viewmodel.SignUpEmailVerificationViewModel
 import com.example.caregiverphase2.viewmodel.SignUpViewModel
 import com.google.android.gms.tasks.OnCompleteListener
@@ -39,6 +40,8 @@ class EmailVerificationActivity : AppCompatActivity() {
     private lateinit var accessToken: String
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private val mSignUpEmailVerificationViewModel: SignUpEmailVerificationViewModel by viewModels()
+    private val mResendOtpViewModel: ResendOtpViewModel by viewModels()
+
     private lateinit var token: String
     private var CHANNEL_ID = "101"
 
@@ -162,26 +165,19 @@ class EmailVerificationActivity : AppCompatActivity() {
         }
 
         binding.resendTv.setOnClickListener {
-            val otp = "${binding.edTxt1.text}${binding.edTxt2.text}${binding.edTxt3.text}${binding.edTxt4.text}${binding.edTxt5.text}${binding.edTxt6.text}"
             hideSoftKeyboard()
-            if(otp.length == 6){
-                if(isConnectedToInternet()){
-                    mSignUpEmailVerificationViewModel.verifyOtp(
-                        email,
-                        otp
-                    )
-                    loader.show()
+            if(isConnectedToInternet()){
+                mResendOtpViewModel.resendOtp(email)
+                loader.show()
 
-                }else{
-                    Toast.makeText(this,"No internet connection.", Toast.LENGTH_SHORT).show()
-                }
             }else{
-                Toast.makeText(this,"Invalid OTP.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"No internet connection.", Toast.LENGTH_SHORT).show()
             }
         }
 
         //observer
         getOtpObserver()
+        resendOtpObserve()
     }
 
 
@@ -234,6 +230,39 @@ class EmailVerificationActivity : AppCompatActivity() {
                         }
 
                         mSignUpEmailVerificationViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun resendOtpObserve(){
+        mResendOtpViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message.toString(), Toast.LENGTH_LONG).show()
+                        startTimer()
+                        binding.resendTv.gone()
+
+                        binding.edTxt1.text = null
+                        binding.edTxt2.text = null
+                        binding.edTxt3.text = null
+                        binding.edTxt4.text = null
+                        binding.edTxt5.text = null
+                        binding.edTxt6.text = null
+                        binding.edTxt1.showKeyboard()
+
+                        mResendOtpViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }

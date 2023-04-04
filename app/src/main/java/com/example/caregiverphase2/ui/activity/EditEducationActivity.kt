@@ -44,7 +44,10 @@ class EditEducationActivity : AppCompatActivity() {
 
         //observe
         getEducationObserver()
+    }
 
+    override fun onResume() {
+        super.onResume()
         binding.educationRecycler.gone()
         binding.educationShimmerView.visible()
         binding.educationShimmerView.startShimmer()
