@@ -4,6 +4,7 @@ plugins {
     id "kotlin-kapt"
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -107,5 +108,8 @@ dependencies {
 
     //swipe
     implementation "com.ncorti:slidetoact:0.9.0"
+
+    //s+ error
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
 }

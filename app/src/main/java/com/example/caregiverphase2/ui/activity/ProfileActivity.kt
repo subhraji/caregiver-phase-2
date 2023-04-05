@@ -74,6 +74,8 @@ class ProfileActivity : AppCompatActivity(), UploadDocListener {
     private val mChangeProfilePicViewModel: ChangeProfilePicViewModel by viewModels()
     private lateinit var accessToken: String
     private var isEdit: Boolean = false
+    private var phone: String? = null
+    private var experience: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,6 +122,15 @@ class ProfileActivity : AppCompatActivity(), UploadDocListener {
 
         binding.eduMenuBtn.setOnClickListener {
             showEduPopup(it)
+        }
+
+        binding.editBasicInfoBtn.setOnClickListener {
+            phone?.let {
+                val intent = Intent(this, EditBasicInfoActivity::class.java)
+                intent.putExtra("phone", phone)
+                intent.putExtra("experience", experience)
+                startActivity(intent)
+            }
         }
 
         binding.certificateMenuBtn.setOnClickListener {
@@ -248,9 +259,11 @@ class ProfileActivity : AppCompatActivity(), UploadDocListener {
                         }
                         data?.basic_info?.phone?.let {
                             binding.phoneTv.text = it.toString()
+                            phone = it.toString()
                         }
                         data?.basic_info?.experience?.let {
                             binding.expTv.text = it.toString()+" Years"
+                            experience = it.toString()
                         }
                         data?.basic_info?.gender?.let {
                             binding.genderTv.text = it.toString()

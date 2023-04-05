@@ -5,13 +5,10 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +18,6 @@ import com.example.caregiverphase2.adapter.DashBoardOpenJobsAdapter
 import com.example.caregiverphase2.adapter.DashOpenBidAdapter
 import com.example.caregiverphase2.adapter.DashQuickCallsAdapter
 import com.example.caregiverphase2.databinding.FragmentDashboardBinding
-import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.activity.*
@@ -31,9 +27,9 @@ import com.example.caregiverphase2.viewmodel.*
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
+import lightStatusBar
 import loadingDialog
 import visible
-import java.util.ArrayList
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
@@ -121,6 +117,26 @@ class DashboardFragment : Fragment() {
 
         binding.seeAll3Htv.setOnClickListener {
             val intent = Intent(requireActivity(), OpenJobListActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.dashEarningLay.setOnClickListener {
+            val intent = Intent(requireActivity(), EarningsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.dashStrikeLay.setOnClickListener {
+            val intent = Intent(requireActivity(), StrikeListActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.dashJobLay.setOnClickListener {
+            val intent = Intent(requireActivity(), JobsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.dashRewardLay.setOnClickListener {
+            val intent = Intent(requireActivity(), ProfileActivity::class.java)
             startActivity(intent)
         }
     }

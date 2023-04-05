@@ -25,4 +25,9 @@
         android:name="com.example.caregiverphase2.ui.fragment.JobsFragment"
         android:label="fragment_jobs"
         tools:layout="@layout/fragment_jobs" />
+    <fragment
+        android:id="@+id/dashMapsFragment"
+        android:name="com.example.caregiverphase2.ui.fragment.DashMapsFragment"
+        android:label="fragment_dash_maps"
+        tools:layout="@layout/fragment_dash_maps" />
 </navigation>

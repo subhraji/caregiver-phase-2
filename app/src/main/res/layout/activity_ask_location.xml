@@ -29,7 +29,7 @@
         android:textSize="24sp"/>
     <TextView
         android:id="@+id/hello_htv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Hello, nice to meet you"
         android:textSize="20sp"

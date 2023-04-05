@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/jobs_nav"
+    app:startDestination="@id/jobsFragment2">
+
+    <fragment
+        android:id="@+id/jobsFragment2"
+        android:name="com.example.caregiverphase2.ui.fragment.JobsFragment"
+        android:label="fragment_jobs"
+        tools:layout="@layout/fragment_jobs" />
+</navigation>

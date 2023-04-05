@@ -87,7 +87,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent
-            .getActivity(this, 0, intent, 0)
+            .getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val channelId = "Default"
         var builder: NotificationCompat.Builder = NotificationCompat.Builder(this, channelId)
