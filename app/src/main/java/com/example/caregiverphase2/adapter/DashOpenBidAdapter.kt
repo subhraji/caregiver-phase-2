@@ -44,6 +44,14 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
         RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var gen:String
         fun bind(data: Data, context: Context) {
+
+            val width = context.resources.displayMetrics?.widthPixels
+            if (width != null) {
+                val params = RecyclerView.LayoutParams((width * 0.9).toInt(),ViewGroup.LayoutParams.MATCH_PARENT)
+                params.setMargins(10, 10, 10, 0)
+                itemView.layoutParams = params
+            }
+
             itemBinding.apply {
                 jobTitleTv.text = data?.job_title.toString()
                 priceTv.text = "$"+data?.amount.toString()
