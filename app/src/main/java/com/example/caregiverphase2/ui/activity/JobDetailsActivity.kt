@@ -300,7 +300,7 @@ class JobDetailsActivity : AppCompatActivity() {
                         binding.titleTv.text = outcome.data!!.data[0].jobTitle
                         binding.careTypeTv.text = outcome.data!!.data[0].careType
                         binding.locTv.text = outcome.data!!.data[0].shortAddress
-                        binding.dateTv.text = outcome.data!!.data[0].date.toString()
+                        binding.dateTv.text = outcome.data!!.data[0].startDate.toString()+"-"+outcome.data!!.data[0].endDate.toString()
                         binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" - "+outcome.data!!.data[0].endTime.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data[0].companyName.toString()
@@ -373,7 +373,7 @@ class JobDetailsActivity : AppCompatActivity() {
                         binding.titleTv.text = outcome.data!!.data.jobTitle
                         binding.careTypeTv.text = outcome.data!!.data.careType
                         binding.locTv.text = outcome.data!!.data.shortAddress
-                        binding.dateTv.text = outcome.data!!.data.date.toString()
+                        binding.dateTv.text = outcome.data!!.data.startDate.toString()+"-"+outcome.data!!.data.endDate.toString()
                         binding.timeTv.text = outcome.data!!.data.startTime.toString()+" - "+outcome.data!!.data.endTime.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data.amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data.companyName.toString()

@@ -61,7 +61,7 @@ class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
                 careTypeTv.text = data?.careItems.size.toString()+" "+data?.careType
                 addressTv.text = data?.shortAddress.toString()
                 hourHtv.text = data?.startTime+" - "+data?.endTime
-                dateHtv.text = data?.date
+                dateHtv.text = data?.startDate+"-"+data?.endDate
                 priceTv.text = data?.amount.toString()
                 agencyNameTv.text = data?.companyName.toString()
                 gen = ""

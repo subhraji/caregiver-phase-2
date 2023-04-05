@@ -49,7 +49,7 @@ class OpenBidListAdapter (private val itemList: MutableList<Data>, private val c
                 careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
                 addressTv.text = data?.short_address.toString()
                 hourHtv.text = data?.start_time+" - "+data?.end_time
-                dateHtv.text = data?.date
+                dateHtv.text = data?.start_date+"-"+data?.end_date
                 priceTv.text = data?.amount.toString()
                 agencyNameTv.text = data?.company_name.toString()
                 gen = ""

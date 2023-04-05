@@ -50,7 +50,7 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
                 careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
                 addressTv.text = data?.short_address.toString()
                 hourHtv.text = data?.start_time+" - "+data?.end_time
-                dateHtv.text = data?.date
+                dateHtv.text = data?.start_date+"-"+data?.end_date
                 priceTv.text = data?.amount.toString()
                 agencyNameTv.text = data?.company_name.toString()
                 gen = ""
@@ -79,7 +79,7 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
                 timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
                     Duration.ofMinutes( getDurationHour(
                         getCurrentDate(),
-                        parseDateToddMMyyyy("${data.date} ${data?.start_time}")!!
+                        parseDateToddMMyyyy("${data.start_date} ${data?.start_time}")!!
                     ) )
                 ).toString()
             }

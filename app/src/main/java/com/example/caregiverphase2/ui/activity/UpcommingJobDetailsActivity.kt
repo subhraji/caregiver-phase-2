@@ -189,7 +189,7 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
                             binding.titleTv.text = outcome.data!!.data[0].title
                             binding.careTypeTv.text = outcome.data!!.data[0].careType
                             binding.locTv.text = outcome.data!!.data[0].agency_address
-                            binding.dateTv.text = outcome.data!!.data[0].date.toString()
+                            binding.dateTv.text = outcome.data!!.data[0].startDate.toString()+"-"+outcome.data!!.data[0].endDate.toString()
                             binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" - "+outcome.data!!.data[0].endTime.toString()
                             binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                             binding.agencyNameTv.text = outcome.data!!.data[0].agencyName.toString()

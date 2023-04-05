@@ -20,8 +20,10 @@ data class Data(
     val companyPhoto: String,
     @SerializedName("created_at")
     val createdAt: String,
-    @SerializedName("date")
-    val date: String,
+    @SerializedName("start_date")
+    val startDate: String,
+    @SerializedName("end_date")
+    val endDate: String,
     @SerializedName("description")
     val description: String,
     @SerializedName("end_time")

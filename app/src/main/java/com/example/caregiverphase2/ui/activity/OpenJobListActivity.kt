@@ -121,13 +121,4 @@ class OpenJobListActivity : AppCompatActivity() {
             }
         })
     }
-
-    private fun fillOpenJobsRecycler(list: List<com.example.caregiverphase2.model.pojo.get_jobs.Data>) {
-        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.openJobRecycler.apply {
-            layoutManager = gridLayoutManager
-            adapter = DashBoardOpenJobsAdapter(list.toMutableList(),this@OpenJobListActivity)
-        }
-    }
-
 }

@@ -56,7 +56,7 @@ class UpcommingJobsAdapter (private val itemList: List<Data>, private val contex
                 careTypeTv.text = data?.careItems.size.toString()+" "+data?.careType
                 addressTv.text = data?.agency_address.toString()
                 hourHtv.text = data?.startTime+" - "+data?.endTime
-                dateHtv.text = data?.date
+                dateHtv.text = data?.startDate+"-"+data?.endDate
                 priceTv.text = "$"+data?.amount.toString()
                 agencyNameTv.text = data?.agencyName.toString()
                 gen = ""
@@ -84,7 +84,7 @@ class UpcommingJobsAdapter (private val itemList: List<Data>, private val contex
                 timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
                     Duration.ofMinutes( getDurationHour(
                         getCurrentDate(),
-                        parseDateToddMMyyyy("${data.date} ${data?.startTime}")!!
+                        parseDateToddMMyyyy("${data.startDate} ${data?.startTime}")!!
                     ) )
                 ).toString()
             }

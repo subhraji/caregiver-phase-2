@@ -14,8 +14,10 @@ data class Data(
     val careItems: List<CareItem>,
     @SerializedName("care_type")
     val careType: String,
-    @SerializedName("date")
-    val date: String,
+    @SerializedName("start_date")
+    val startDate: String,
+    @SerializedName("end_date")
+    val endDate: String,
     @SerializedName("end_time")
     val endTime: String,
     @SerializedName("job_starts_in")

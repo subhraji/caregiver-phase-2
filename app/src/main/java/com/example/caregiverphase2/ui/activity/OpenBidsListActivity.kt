@@ -119,12 +119,4 @@ class OpenBidsListActivity : AppCompatActivity() {
             }
         })
     }
-
-    private fun fillOpenBidsRecycler(list: List<Data>) {
-        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.openBidRecycler.apply {
-            layoutManager = gridLayoutManager
-            adapter = OpenBidListAdapter(list.toMutableList(),this@OpenBidsListActivity)
-        }
-    }
 }

@@ -158,7 +158,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                             binding.titleTv.text = outcome.data!!.data[0].title
                             binding.careTypeTv.text = outcome.data!!.data[0].care_type
                             binding.locTv.text = outcome.data!!.data[0].short_address
-                            binding.dateTv.text = outcome.data!!.data[0].date.toString()
+                            binding.dateTv.text = outcome.data!!.data[0].start_date.toString()+"-"+outcome.data!!.data[0].end_date.toString()
                             binding.timeTv.text = outcome.data!!.data[0].start_time.toString()+" - "+outcome.data!!.data[0].end_time.toString()
                             binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                             binding.agencyNameTv.text = outcome.data!!.data[0].agency_name.toString()
