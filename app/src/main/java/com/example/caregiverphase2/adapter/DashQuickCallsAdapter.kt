@@ -58,7 +58,7 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                 careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
                 addressTv.text = data?.short_address.toString()
                 hourTv.text = data?.start_time+" - "+data?.end_time
-                dateHtv.text = data?.start_date+"-"+data?.end_date
+                dateHtv.text = data?.start_date
                 priceTv.text = "$"+data?.amount.toString()
                 agencyNameTv.text = data?.company_name.toString()
                 gen = ""
@@ -151,6 +151,22 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
         private fun parseDateToddMMyyyy(time: String): String? {
             val inputPattern = "yyyy-MM-dd h:mm a"
             val outputPattern = "dd-MM-yyyy HH:mm:ss"
+            val inputFormat = SimpleDateFormat(inputPattern)
+            val outputFormat = SimpleDateFormat(outputPattern)
+            var date: Date? = null
+            var str: String? = null
+            try {
+                date = inputFormat.parse(time)
+                str = outputFormat.format(date)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            return str
+        }
+
+        private fun parseDateToText(time: String): String? {
+            val inputPattern = "yyyy-MM-dd"
+            val outputPattern = "M-d, YYYY"
             val inputFormat = SimpleDateFormat(inputPattern)
             val outputFormat = SimpleDateFormat(outputPattern)
             var date: Date? = null
