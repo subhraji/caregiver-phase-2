@@ -74,7 +74,6 @@ class JobDetailsActivity : AppCompatActivity() {
         binding.noCheckListTv.gone()
         binding.checkListRecycler.gone()
 
-        //startTimer()
         //observer
         submitBidObserver()
         getOpenJobsDetailsObserver()
@@ -291,9 +290,9 @@ class JobDetailsActivity : AppCompatActivity() {
                         var gen = ""
                         for(i in outcome.data!!.data[0].careItems){
                             if(gen.isEmpty()){
-                                gen = i.gender+": "+i.age
+                                gen = i.gender+": "+i.age+" Yrs"
                             }else{
-                                gen = gen+", "+i.gender+": "+i.age
+                                gen = gen+", "+i.gender+": "+i.age+" Yrs"
                             }
                         }
                         binding.ageTv.text = gen
@@ -364,9 +363,9 @@ class JobDetailsActivity : AppCompatActivity() {
                         var gen = ""
                         for(i in outcome.data!!.data.careItems){
                             if(gen.isEmpty()){
-                                gen = i.gender+": "+i.age
+                                gen = i.gender+": "+i.age+" Yrs"
                             }else{
-                                gen = gen+", "+i.gender+": "+i.age
+                                gen = gen+", "+i.gender+": "+i.age+" Yrs"
                             }
                         }
                         binding.ageTv.text = gen

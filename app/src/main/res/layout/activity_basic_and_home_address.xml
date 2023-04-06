@@ -359,8 +359,8 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
-                        android:orientation="vertical"
-                        android:background="@drawable/settings_item_background">
+                        android:background="@drawable/settings_item_background"
+                        android:orientation="vertical">
 
                         <fragment
                             android:id="@+id/basic_autocomplete_fragment"
@@ -368,6 +368,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/address_card"
                         android:layout_width="match_parent"
@@ -411,8 +412,8 @@
                                 android:id="@+id/address_delete_icon"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:visibility="invisible"
                                 android:src="@drawable/ic_baseline_delete_outline_24"
+                                android:visibility="invisible"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 

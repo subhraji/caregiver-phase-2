@@ -61,14 +61,13 @@ class CompleteJobFragment : Fragment() {
 
 
         if(requireActivity().isConnectedToInternet()){
-            mGetCompleteJobsViewModel.getCompleteJob(accessToken)
+            mGetCompleteJobsViewModel.getCompleteJob(accessToken,0)
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onResume() {
-
         super.onResume()
     }
 

@@ -60,7 +60,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Job"
+                        android:text="Jobs"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -177,7 +177,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_toLeftOf="@+id/chevron_right_img"
                     android:layout_toRightOf="@+id/job_bag_image_view"
-                    android:text="Please complete your caregiver profile to accept job."
+                    android:text="Please complete your caregiver profile to accept jobs."
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="18sp"

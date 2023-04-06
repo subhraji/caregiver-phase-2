@@ -219,6 +219,7 @@ interface ApiInterface {
     @GET("job/complete-job/get")
     suspend fun getCompleteJobs(
         @Header("Authorization") token: String,
+        @Query("job_id") id: Int?,
     ): GetCompleteJobsResponse?
 
     @Multipart

@@ -19,9 +19,10 @@ class GetCompleteJobsViewModel @Inject constructor(private val repository: GetCo
 
     fun getCompleteJob(
         token: String,
+        id: Int?
     ) = viewModelScope.launch {
         repository.getCompleteJob(
-            token
+            token, id
         ).onStart {
             _response.value = Outcome.loading(true)
         }.catch {

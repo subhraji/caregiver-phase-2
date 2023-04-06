@@ -95,11 +95,6 @@ class AskLocationActivity : AppCompatActivity() {
         binding.helloHtv.text = "Hello, ${PrefManager.getUserFullName()} I am happy to assist you"
     }
 
-    override fun onResume() {
-        /*fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        getCurrentLocation()*/
-        super.onResume()
-    }
 
     private fun isLocationEnabled():Boolean{
         val locationManager: LocationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -255,10 +250,12 @@ class AskLocationActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if(requestCode == REQUEST_GRANT_PERMISSION){
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this,"Granted", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this,"Granted", Toast.LENGTH_SHORT).show()
                 getCurrentLocation()
             }else{
-                Toast.makeText(this,"Denied", Toast.LENGTH_SHORT).show()
+                PrefManager.setLocationStatus(false)
+                Toast.makeText(this,"Location is required to access the app", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
     }
@@ -280,6 +277,7 @@ class AskLocationActivity : AppCompatActivity() {
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         if(from == "login"){
+                            PrefManager.setLocationStatus(true)
                             PrefManager.setLatitude(latitude)
                             PrefManager.setLongitude(longitude)
                             PrefManager.setShortAddress(shortAddress)

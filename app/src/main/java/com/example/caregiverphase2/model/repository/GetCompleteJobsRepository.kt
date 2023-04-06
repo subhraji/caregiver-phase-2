@@ -11,7 +11,8 @@ import javax.inject.Inject
 class GetCompleteJobsRepository @Inject constructor(private val apiInterface: ApiInterface)  {
     fun getCompleteJob(
         token: String,
+        id: Int?
     ): Flow<GetCompleteJobsResponse?> = flow{
-        emit(apiInterface.getCompleteJobs(token))
+        emit(apiInterface.getCompleteJobs(token, id))
     }.flowOn(Dispatchers.IO)
 }
