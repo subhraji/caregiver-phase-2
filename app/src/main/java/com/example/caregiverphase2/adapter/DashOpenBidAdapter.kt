@@ -48,7 +48,7 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
             val width = context.resources.displayMetrics?.widthPixels
             if (width != null) {
                 val params = RecyclerView.LayoutParams((width * 0.9).toInt(),ViewGroup.LayoutParams.MATCH_PARENT)
-                params.setMargins(10, 10, 10, 0)
+                params.setMargins(10, 10, 10, 10)
                 itemView.layoutParams = params
             }
 

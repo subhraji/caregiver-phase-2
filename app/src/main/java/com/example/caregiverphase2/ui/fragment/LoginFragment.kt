@@ -173,6 +173,7 @@ class LoginFragment : Fragment() {
                         PrefManager.setShortAddress(null)
                         PrefManager.setFullAddress(null)
                         PrefManager.setLogInStatus(true)
+                        PrefManager.setUserFullName(outcome.data?.data?.name.toString())
                         val intent = Intent(requireActivity(), AskLocationActivity::class.java)
                         intent.putExtra("from","login")
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)

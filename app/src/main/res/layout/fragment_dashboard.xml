@@ -269,7 +269,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/open_bids_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"/>
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/open_bids_shimmer_view"
@@ -341,13 +342,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/dash_search_card"
-            android:background="@drawable/dash_top_background_bg" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
 
         <ImageView
             android:id="@+id/image_view_1"
