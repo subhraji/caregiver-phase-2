@@ -53,6 +53,8 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
 
             itemBinding.apply {
 
+                timerTvShimmer.startShimmer()
+
                 jobTitleTv.text = data?.job_title.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type

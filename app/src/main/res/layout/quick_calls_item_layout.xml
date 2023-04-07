@@ -218,25 +218,30 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginTop="15dp"/>
-        <TextView
-            android:id="@+id/time_left_tv"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/timer_tv_shimmer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             app:layout_constraintStart_toEndOf="@+id/price_tv"
             app:layout_constraintTop_toTopOf="@+id/price_tv"
-            app:layout_constraintBottom_toBottomOf="@+id/price_tv"
-            android:layout_marginStart="10dp"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:background="@drawable/time_left_bg"
-            android:text="TIME LEFT: 30 mins"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:paddingStart="7dp"
-            android:paddingEnd="7dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="5dp"
-            />
+            app:layout_constraintBottom_toBottomOf="@+id/price_tv">
+            <TextView
+                android:id="@+id/time_left_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:background="@drawable/time_left_bg"
+                android:text="TIME LEFT: 30 mins"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="5dp"
+                />
+        </com.facebook.shimmer.ShimmerFrameLayout>
         <TextView
             android:id="@+id/accept_btn"
             android:layout_width="wrap_content"
