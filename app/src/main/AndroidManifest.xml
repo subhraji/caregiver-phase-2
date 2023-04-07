@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.EditBioActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.CompletedJobDetailsActivity"
             android:exported="false" />
         <activity

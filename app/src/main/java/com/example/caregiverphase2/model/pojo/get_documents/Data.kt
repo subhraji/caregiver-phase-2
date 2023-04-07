@@ -20,5 +20,6 @@ data class Data(
     val status: Int,
     val tuberculosis: List<Tuberculosi>,
     val updated_at: String,
-    val w4_form: List<W4Form>
+    val w4_form: List<W4Form>,
+    val caregiver_profile_status: CaregiverProfileStatus,
 )

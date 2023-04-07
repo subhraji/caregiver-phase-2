@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.Window
 import android.widget.TextView
@@ -145,18 +146,18 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
                         binding.titleTv.text = outcome.data!!.data[0].job_title
                         binding.careTypeTv.text = outcome.data!!.data[0].care_type
                         binding.locTv.text = outcome.data!!.data[0].short_address
-                        binding.dateTv.text = outcome.data!!.data[0].start_date.toString()+"-"+outcome.data!!.data[0].end_date.toString()
+                        binding.dateTv.text = outcome.data!!.data[0].start_date.toString()+" to "+outcome.data!!.data[0].end_date.toString()
                         binding.timeTv.text = outcome.data!!.data[0].start_time.toString()+" - "+outcome.data!!.data[0].end_time.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data[0].company_name.toString()
                         binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
 
-                        binding.bidTimeTv.text = LocalTime.MIN.plus(
-                            Duration.ofMinutes( getDurationHour(
+                        setTimer(
+                            getDurationHour(
                                 getCurrentDate(),
                                 parseDateToddMMyyyy("${outcome.data!!.data[0].start_date} ${outcome.data!!.data[0].start_time}")!!
-                            ) )
-                        ).toString()
+                            )
+                        )
 
                         Glide.with(this)
                             .load(Constants.PUBLIC_URL+outcome.data!!.data[0].company_photo) // image url
@@ -327,21 +328,6 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
             val durationHour = difference_In_Hours.toInt()
 
             durationTotalMin = (durationHour*60)+difference_In_Minutes.toInt()
-
-
-            Log.d("dateTime","duration => "+
-                    difference_In_Years.toString()+
-                    " years, "
-                    + difference_In_Days
-                    + " days, "
-                    + difference_In_Hours
-                    + " hours, "
-                    + difference_In_Minutes
-                    + " minutes, "
-                    + difference_In_Seconds
-                    + " seconds"
-            )
-
         }
 
         // Catch the Exception
@@ -349,7 +335,7 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        return durationTotalMin.toLong()
+        return durationTotalMin.toLong()*60*1000
     }
 
     private fun getCurrentDate(): String {
@@ -371,5 +357,27 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         return str
+    }
+
+    private fun setTimer(duration: Long){
+        object : CountDownTimer(duration, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                var millisUntilFinished = millisUntilFinished
+                val secondsInMilli: Long = 1000
+                val minutesInMilli = secondsInMilli * 60
+                val hoursInMilli = minutesInMilli * 60
+                val elapsedHours = millisUntilFinished / hoursInMilli
+                millisUntilFinished = millisUntilFinished % hoursInMilli
+                val elapsedMinutes = millisUntilFinished / minutesInMilli
+                millisUntilFinished = millisUntilFinished % minutesInMilli
+                val elapsedSeconds = millisUntilFinished / secondsInMilli
+                val yy = String.format("%02d:%02d:%2d", elapsedHours, elapsedMinutes, elapsedSeconds)
+                binding.bidTimeTv.setText(yy)
+            }
+
+            override fun onFinish() {
+                binding.bidTimeTv.setText("00:00:00")
+            }
+        }.start()
     }
 }

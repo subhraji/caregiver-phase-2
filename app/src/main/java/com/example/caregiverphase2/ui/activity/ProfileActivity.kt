@@ -79,6 +79,7 @@ class ProfileActivity : AppCompatActivity(), UploadDocListener {
     private var isEdit: Boolean = false
     private var phone: String? = null
     private var experience: String? = null
+    private var bio: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,6 +135,12 @@ class ProfileActivity : AppCompatActivity(), UploadDocListener {
                 intent.putExtra("experience", experience)
                 startActivity(intent)
             }
+        }
+
+        binding.editBioBtn.setOnClickListener {
+            val intent = Intent(this, EditBioActivity::class.java)
+            intent.putExtra("bio", bio)
+            startActivity(intent)
         }
 
         binding.certificateMenuBtn.setOnClickListener {
@@ -266,6 +273,7 @@ class ProfileActivity : AppCompatActivity(), UploadDocListener {
                         }
                         data?.basic_info?.bio?.let {
                             binding.showBioTv.text = it.toString()
+                            bio = it.toString()
                         }
                         data?.basic_info?.dob?.let {
                             binding.ageTv.text = it.toString()

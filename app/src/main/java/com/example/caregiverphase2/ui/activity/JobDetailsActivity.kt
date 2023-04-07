@@ -31,8 +31,6 @@ import loadingDialog
 import visible
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.Duration
-import java.time.LocalTime
 import java.util.*
 
 @AndroidEntryPoint
@@ -301,18 +299,18 @@ class JobDetailsActivity : AppCompatActivity() {
                         binding.titleTv.text = outcome.data!!.data[0].jobTitle
                         binding.careTypeTv.text = outcome.data!!.data[0].careType
                         binding.locTv.text = outcome.data!!.data[0].shortAddress
-                        binding.dateTv.text = outcome.data!!.data[0].startDate.toString()+"-"+outcome.data!!.data[0].endDate.toString()
+                        binding.dateTv.text = outcome.data!!.data[0].startDate.toString()+" to "+outcome.data!!.data[0].endDate.toString()
                         binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" - "+outcome.data!!.data[0].endTime.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data[0].companyName.toString()
                         binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
 
-                        binding.bidTimeTv.text = LocalTime.MIN.plus(
-                            Duration.ofMinutes( getDurationHour(
+                        setTimer(
+                            getDurationHour(
                                 getCurrentDate(),
                                 parseDateToddMMyyyy("${outcome.data!!.data[0].startDate} ${outcome.data!!.data[0].startTime}")!!
-                            ) )
-                        ).toString()
+                            )
+                        )
 
                         Glide.with(this)
                             .load(Constants.PUBLIC_URL+outcome.data!!.data[0].companyPhoto) // image url
@@ -382,18 +380,18 @@ class JobDetailsActivity : AppCompatActivity() {
                         binding.titleTv.text = outcome.data!!.data.jobTitle
                         binding.careTypeTv.text = outcome.data!!.data.careType
                         binding.locTv.text = outcome.data!!.data.shortAddress
-                        binding.dateTv.text = outcome.data!!.data.startDate.toString()+"-"+outcome.data!!.data.endDate.toString()
+                        binding.dateTv.text = outcome.data!!.data.startDate.toString()+" to "+outcome.data!!.data.endDate.toString()
                         binding.timeTv.text = outcome.data!!.data.startTime.toString()+" - "+outcome.data!!.data.endTime.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data.amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data.companyName.toString()
                         binding.jobDescTv.text = outcome.data!!.data.description.toString()
 
-                        binding.bidTimeTv.text = LocalTime.MIN.plus(
-                            Duration.ofMinutes( getDurationHour(
+                        setTimer(
+                            getDurationHour(
                                 getCurrentDate(),
                                 parseDateToddMMyyyy("${outcome.data!!.data.startDate} ${outcome.data!!.data.startTime}")!!
-                            ) )
-                        ).toString()
+                            )
+                        )
 
                         Glide.with(this)
                             .load(Constants.PUBLIC_URL+outcome.data!!.data.companyPhoto) // image url
@@ -499,21 +497,6 @@ class JobDetailsActivity : AppCompatActivity() {
             val durationHour = difference_In_Hours.toInt()
 
             durationTotalMin = (durationHour*60)+difference_In_Minutes.toInt()
-
-
-            Log.d("dateTime","duration => "+
-                    difference_In_Years.toString()+
-                    " years, "
-                    + difference_In_Days
-                    + " days, "
-                    + difference_In_Hours
-                    + " hours, "
-                    + difference_In_Minutes
-                    + " minutes, "
-                    + difference_In_Seconds
-                    + " seconds"
-            )
-
         }
 
         // Catch the Exception
@@ -521,7 +504,7 @@ class JobDetailsActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        return durationTotalMin.toLong()
+        return durationTotalMin.toLong()*60*1000
     }
 
     private fun getCurrentDate(): String {
@@ -543,5 +526,27 @@ class JobDetailsActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         return str
+    }
+
+    private fun setTimer(duration: Long){
+        object : CountDownTimer(duration, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                var millisUntilFinished = millisUntilFinished
+                val secondsInMilli: Long = 1000
+                val minutesInMilli = secondsInMilli * 60
+                val hoursInMilli = minutesInMilli * 60
+                val elapsedHours = millisUntilFinished / hoursInMilli
+                millisUntilFinished = millisUntilFinished % hoursInMilli
+                val elapsedMinutes = millisUntilFinished / minutesInMilli
+                millisUntilFinished = millisUntilFinished % minutesInMilli
+                val elapsedSeconds = millisUntilFinished / secondsInMilli
+                val yy = String.format("%02d:%02d:%2d", elapsedHours, elapsedMinutes, elapsedSeconds)
+                binding.bidTimeTv.setText(yy)
+            }
+
+            override fun onFinish() {
+                binding.bidTimeTv.setText("00:00:00")
+            }
+        }.start()
     }
 }

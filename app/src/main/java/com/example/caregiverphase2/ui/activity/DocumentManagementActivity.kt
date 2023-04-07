@@ -84,6 +84,8 @@ class DocumentManagementActivity : AppCompatActivity(), UploadDocListener, Uploa
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
         loader = this.loadingDialog()
 
+        binding.submitDocument.gone()
+
         binding.backArrow.setOnClickListener {
             finish()
         }
@@ -411,15 +413,22 @@ class DocumentManagementActivity : AppCompatActivity(), UploadDocListener, Uploa
                         outcome.data?.data!!.identification?.let {
                             fillIdentityRecycler(outcome.data?.data!!.identification.toMutableList())
                         }
+                        outcome.data?.data!!.caregiver_profile_status?.let {
+                            if(it.is_documents_uploaded == 1){
+                                binding.submitDocument.gone()
+                            }else{
+                                binding.submitDocument.visible()
+                            }
+                        }
 
-                        val data = outcome.data?.data!!
+                        /*val data = outcome.data?.data!!
                         if(!data.tuberculosis.isEmpty() && !data.covid.isEmpty() && !data.criminal.isEmpty() &&
                                 !data.child_abuse.isEmpty() && !data.w4_form.isEmpty() && !data.employment.isEmpty() &&
                                 !data.driving.isEmpty() && !data.identification.isEmpty()){
                             binding.submitDocument.visible()
                         }else{
                             binding.submitDocument.gone()
-                        }
+                        }*/
 
                         mGetDocumentsViewModel.navigationComplete()
                     }else{

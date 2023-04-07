@@ -76,6 +76,7 @@ class ProfileFragment : Fragment(), UploadDocListener {
     private var isEdit: Boolean = false
     private var phone: String? = null
     private var experience: String? = null
+    private var bio: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,6 +140,12 @@ class ProfileFragment : Fragment(), UploadDocListener {
                 intent.putExtra("experience", experience)
                 startActivity(intent)
             }
+        }
+
+        binding.editBioBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), EditBioActivity::class.java)
+            intent.putExtra("bio", bio)
+            startActivity(intent)
         }
 
         binding.certificateMenuBtn.setOnClickListener {
@@ -268,6 +275,7 @@ class ProfileFragment : Fragment(), UploadDocListener {
                         }
                         data?.basic_info?.bio?.let {
                             binding.showBioTv.text = it.toString()
+                            bio = it.toString()
                         }
                         data?.basic_info?.dob?.let {
                             binding.ageTv.text = it.toString()

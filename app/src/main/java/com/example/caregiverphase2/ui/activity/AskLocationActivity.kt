@@ -215,7 +215,8 @@ class AskLocationActivity : AppCompatActivity() {
                     dialog.dismiss()
                 }else{
                     dialog.dismiss()
-                    showSettingsDialog()
+                    //showSettingsDialog()
+                    finish()
                 }
 
             })

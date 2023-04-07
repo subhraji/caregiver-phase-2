@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.*
 import android.widget.TextView
@@ -377,12 +378,17 @@ class DashboardFragment : Fragment() {
                             binding.ongoingCard.visible()
                             binding.ongoingAdjustView.visible()
 
-                            binding.timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
-                                Duration.ofMinutes( getDurationHour(
+                            setTimer(
+                                getDurationHour(
                                     getCurrentDate(),
-                                    parseDateToddMMyyyy("${outcome.data!!.data[0].start_date} ${outcome.data!!.data[0].start_time}")!!
-                                ) )
-                            ).toString()
+                                    parseDateToddMMyyyy("${outcome.data!!.data[0].start_date} ${outcome.data!!.data[0].start_time}")!!,
+                                )
+                            )
+
+                            /*binding.timeLeftTv.text = getDurationHour(
+                                getCurrentDate(),
+                                parseDateToddMMyyyy("${outcome.data!!.data[0].start_date} ${outcome.data!!.data[0].start_time}")!!,
+                            ).toString()*/
 
                             Glide.with(this)
                                 .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agency_photo) // image url
@@ -467,21 +473,6 @@ class DashboardFragment : Fragment() {
             val durationHour = difference_In_Hours.toInt()
 
             durationTotalMin = (durationHour*60)+difference_In_Minutes.toInt()
-
-
-            Log.d("dateTime","duration => "+
-                    difference_In_Years.toString()+
-                    " years, "
-                    + difference_In_Days
-                    + " days, "
-                    + difference_In_Hours
-                    + " hours, "
-                    + difference_In_Minutes
-                    + " minutes, "
-                    + difference_In_Seconds
-                    + " seconds"
-            )
-
         }
 
         // Catch the Exception
@@ -489,7 +480,7 @@ class DashboardFragment : Fragment() {
             e.printStackTrace()
         }
 
-        return durationTotalMin.toLong()
+        return durationTotalMin.toLong()*60*1000
     }
 
     private fun getCurrentDate(): String {
@@ -497,7 +488,7 @@ class DashboardFragment : Fragment() {
         return sdf.format(Date())
     }
 
-    private fun parseDateToddMMyyyy(time: String): String? {
+    fun parseDateToddMMyyyy(time: String): String? {
         val inputPattern = "yyyy-MM-dd h:mm a"
         val outputPattern = "dd-MM-yyyy HH:mm:ss"
         val inputFormat = SimpleDateFormat(inputPattern)
@@ -511,5 +502,27 @@ class DashboardFragment : Fragment() {
             e.printStackTrace()
         }
         return str
+    }
+
+    private fun setTimer(duration: Long){
+        object : CountDownTimer(duration, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                var millisUntilFinished = millisUntilFinished
+                val secondsInMilli: Long = 1000
+                val minutesInMilli = secondsInMilli * 60
+                val hoursInMilli = minutesInMilli * 60
+                val elapsedHours = millisUntilFinished / hoursInMilli
+                millisUntilFinished = millisUntilFinished % hoursInMilli
+                val elapsedMinutes = millisUntilFinished / minutesInMilli
+                millisUntilFinished = millisUntilFinished % minutesInMilli
+                val elapsedSeconds = millisUntilFinished / secondsInMilli
+                val yy = String.format("%02d:%02d", elapsedHours, elapsedMinutes)
+                binding.timeLeftTv.text = "TIME LEFT : "+yy
+            }
+
+            override fun onFinish() {
+                binding.timeLeftTv.text = "TIME LEFT : 00:00"
+            }
+        }.start()
     }
 }
