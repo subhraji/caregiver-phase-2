@@ -31,6 +31,11 @@ import gone
 import isConnectedToInternet
 import loadingDialog
 import visible
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalTime
+import java.util.*
 
 @AndroidEntryPoint
 class OnGoingJobDetailsActivity : AppCompatActivity() {
@@ -163,6 +168,14 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                             binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                             binding.agencyNameTv.text = outcome.data!!.data[0].agency_name.toString()
                             binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
+
+                            /*binding.timeTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
+                                Duration.ofMinutes( getDurationHour(
+                                    getCurrentDate(),
+                                    parseDateToddMMyyyy("${outcome.data!!.data[0].start_date} ${outcome.data!!.data[0].start_time}")!!
+                                ) )
+                            ).toString()*/
+
                             Glide.with(this)
                                 .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agency_photo) // image url
                                 .placeholder(R.color.dash_yellow) // any placeholder to load at start
@@ -351,5 +364,76 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         startActivity(mapIntent)
+    }
+
+    private fun getDurationHour(startDateTime: String, endDateTime: String): Long {
+
+        val sdf: SimpleDateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        var durationTotalMin = 0
+
+        try {
+            val d1: Date = sdf.parse(startDateTime)
+            val d2: Date = sdf.parse(endDateTime)
+
+            val difference_In_Time = d2.time - d1.time
+
+            val difference_In_Seconds = (difference_In_Time / 1000)% 60
+
+            val difference_In_Minutes = (difference_In_Time / (1000 * 60))% 60
+
+            val difference_In_Hours = (difference_In_Time / (1000 * 60 * 60))% 24
+
+            val difference_In_Years = (difference_In_Time / (1000 * 60 * 60 * 24 * 365))
+
+            var difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24))% 365
+
+            val durationDay = difference_In_Days.toInt()
+            val durationHour = difference_In_Hours.toInt()
+
+            durationTotalMin = (durationHour*60)+difference_In_Minutes.toInt()
+
+
+            Log.d("dateTime","duration => "+
+                    difference_In_Years.toString()+
+                    " years, "
+                    + difference_In_Days
+                    + " days, "
+                    + difference_In_Hours
+                    + " hours, "
+                    + difference_In_Minutes
+                    + " minutes, "
+                    + difference_In_Seconds
+                    + " seconds"
+            )
+
+        }
+
+        // Catch the Exception
+        catch (e: ParseException) {
+            e.printStackTrace()
+        }
+
+        return durationTotalMin.toLong()
+    }
+
+    private fun getCurrentDate(): String {
+        val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        return sdf.format(Date())
+    }
+
+    private fun parseDateToddMMyyyy(time: String): String? {
+        val inputPattern = "yyyy-MM-dd h:mm a"
+        val outputPattern = "dd-MM-yyyy HH:mm:ss"
+        val inputFormat = SimpleDateFormat(inputPattern)
+        val outputFormat = SimpleDateFormat(outputPattern)
+        var date: Date? = null
+        var str: String? = null
+        try {
+            date = inputFormat.parse(time)
+            str = outputFormat.format(date)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return str
     }
 }

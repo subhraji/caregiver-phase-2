@@ -488,7 +488,6 @@
                     android:background="@color/dash_yellow"
                     android:textColor="@color/white"
                     android:textSize="13sp"
-                    android:text="04:34:09"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:paddingStart="10dp"

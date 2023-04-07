@@ -206,7 +206,19 @@ class AskLocationActivity : AppCompatActivity() {
                 openSettings()
             })
         builder.setNegativeButton("Cancel",
-            DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+            DialogInterface.OnClickListener { dialog, which ->
+
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                    dialog.dismiss()
+                }else{
+                    dialog.dismiss()
+                    showSettingsDialog()
+                }
+
+            })
         builder.show()
     }
 
