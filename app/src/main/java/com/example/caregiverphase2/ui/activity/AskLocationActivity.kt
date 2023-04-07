@@ -1,7 +1,9 @@
 package com.example.caregiverphase2.ui.activity
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.content.pm.PackageManager
@@ -9,6 +11,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -17,6 +20,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.caregiverphase2.databinding.ActivityAskLocationBinding
 import com.example.caregiverphase2.model.repository.Outcome
@@ -27,6 +31,11 @@ import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import loadingDialog
@@ -79,20 +88,34 @@ class AskLocationActivity : AppCompatActivity() {
         //observer
         updateLocationObserver()
 
+        binding.retryBtn.setOnClickListener {
+            if(checkPermission()){
+                if(isLocationEnabled()){
+                    binding.retryBtn.gone()
+                    if(locationCallback==null)
+                        buildLocationCallback()
+                    if(currentLocation==null)
+                        fusedLocationClient?.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+                }else{
+                    Toast.makeText(this,"Turn on the location", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(intent)
+                }
+            }else{
+                requestPermission()
+            }
+
+        }
+
+        binding.helloHtv.text = "Hello, ${PrefManager.getUserFullName()} I am happy to assist you"
+    }
+
+    override fun onResume() {
+        super.onResume()
         //new location code
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         createLocationRequest()
         settingsCheck()
-
-        binding.retryBtn.setOnClickListener {
-            binding.retryBtn.gone()
-            if(locationCallback==null)
-                buildLocationCallback()
-            if(currentLocation==null)
-                fusedLocationClient?.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
-        }
-
-        binding.helloHtv.text = "Hello, ${PrefManager.getUserFullName()} I am happy to assist you"
     }
 
 
@@ -112,13 +135,87 @@ class AskLocationActivity : AppCompatActivity() {
         return false
     }
 
-    private fun requestPermission(){
+    private fun makePermissionRequest(){
         ActivityCompat.requestPermissions(
             this, arrayOf(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ), REQUEST_GRANT_PERMISSION
         )
+    }
+
+    private fun requestPermission(){
+
+        /*Dexter.withContext(this)
+            .withPermissions(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ).withListener(object: MultiplePermissionsListener{
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                    report.let {
+
+                        if (report!!.areAllPermissionsGranted()) {
+                            Toast.makeText(this@AskLocationActivity, "Permission Granted", Toast.LENGTH_SHORT).show()
+                        }else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                            showSettingsDialog()
+                        } else {
+                            requestPermission()
+                        }
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    p0: MutableList<PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+                    token?.cancelPermissionRequest()
+                }
+
+            }).withErrorListener {
+                Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+            }
+            .onSameThread()
+            .check()*/
+
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED
+            && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+            PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation()
+        } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) && shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            showSettingsDialog()
+        } else {
+            makePermissionRequest()
+        }
+
+    }
+
+    private fun showSettingsDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setCancelable(false)
+        builder.setOnCancelListener {
+            showSettingsDialog()
+            Toast.makeText(this,"You must have to allow the permission to use the app.",Toast.LENGTH_LONG).show()
+        }
+        builder.setTitle("Need Permissions")
+        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.")
+        builder.setPositiveButton("GOTO SETTINGS",
+            DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+                openSettings()
+            })
+        builder.setNegativeButton("Cancel",
+            DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+        builder.show()
+    }
+
+    // navigating user to app settings
+    private fun openSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri: Uri = Uri.fromParts("package", this.packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, 101)
     }
 
     protected fun createLocationRequest() {
@@ -254,8 +351,9 @@ class AskLocationActivity : AppCompatActivity() {
                 getCurrentLocation()
             }else{
                 PrefManager.setLocationStatus(false)
-                Toast.makeText(this,"Location is required to access the app", Toast.LENGTH_SHORT).show()
-                finish()
+                Toast.makeText(this,"Location Is Required To Access The App", Toast.LENGTH_SHORT).show()
+                binding.retryBtn.visible()
+                requestPermission()
             }
         }
     }
