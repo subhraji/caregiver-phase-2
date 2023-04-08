@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.ui.fragment
 
+import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -143,6 +144,11 @@ class DashboardFragment : Fragment() {
 
         binding.dashRewardLay.setOnClickListener {
             val intent = Intent(requireActivity(), ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.dashSearchLay.setOnClickListener {
+            val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
         }
     }
@@ -432,6 +438,17 @@ class DashboardFragment : Fragment() {
                                 .placeholder(R.color.color_grey) // any placeholder to load at start
                                 .centerCrop()
                                 .into(binding.userImageView)
+                        }
+                        data?.profile_completion_status?.let {
+                            val percent = ((it.is_profile_approved+it.is_basic_info_added+it.is_optional_info_added+it.is_documents_uploaded)*100)/4
+                            //binding.profileProgressBar.progress = percent
+
+
+                            binding.profileProgressBar.progress = percent
+
+                            val progressAnimator = ObjectAnimator.ofInt(binding.profileProgressBar, "progress", 0, percent)
+                            progressAnimator.setDuration(2000)
+                            progressAnimator.start()
                         }
                         mGetProfileViewModel.navigationComplete()
                     }else{

@@ -194,16 +194,17 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        app:cardCornerRadius="7dp"
         app:cardBackgroundColor="@color/theme_blue"
+        app:cardCornerRadius="7dp"
         app:cardElevation="3dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Update"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

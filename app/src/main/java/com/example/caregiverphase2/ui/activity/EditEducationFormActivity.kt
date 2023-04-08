@@ -107,6 +107,10 @@ class EditEducationFormActivity : AppCompatActivity() {
 
         }
 
+        binding.clearBtn.setOnClickListener {
+            finish()
+        }
+
     }
 
     private fun schoolNameFocusListener(){
