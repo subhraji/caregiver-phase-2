@@ -29,7 +29,7 @@ class SearchActivity : AppCompatActivity() {
             val from = binding.fromTxt.text.toString()
             val to = binding.toTxt.text.toString()
 
-            if(!job_type.isEmpty()){
+            if(!job_type.isEmpty() && from.isEmpty() && to.isEmpty()){
                 val intent = Intent(this, JobSearchResultActivity::class.java)
                 intent.putExtra("job_type",job_type)
                 intent.putExtra("from",from)
@@ -37,7 +37,61 @@ class SearchActivity : AppCompatActivity() {
                 startActivity(intent)
             }else if(job_type.isEmpty() && from.isEmpty() && to.isEmpty()){
                 Toast.makeText(this, "please provide something to search the job.", Toast.LENGTH_SHORT).show()
-            }else{
+            }else if(!job_type.isEmpty() && !from.isEmpty() && to.isEmpty()){
+                if(!from.isEmpty()){
+                    if(!to.isEmpty()){
+                        val intent = Intent(this, JobSearchResultActivity::class.java)
+                        intent.putExtra("job_type",job_type)
+                        intent.putExtra("from",from)
+                        intent.putExtra("to", to)
+                        startActivity(intent)
+                    }else{
+                        Toast.makeText(this, "please provide the amount range ends upto.", Toast.LENGTH_SHORT).show()
+                    }
+                }else{
+                    Toast.makeText(this, "please provide the amount range starts from.", Toast.LENGTH_SHORT).show()
+                }
+            }else if(!job_type.isEmpty() && from.isEmpty() && !to.isEmpty()){
+                if(!from.isEmpty()){
+                    if(!to.isEmpty()){
+                        val intent = Intent(this, JobSearchResultActivity::class.java)
+                        intent.putExtra("job_type",job_type)
+                        intent.putExtra("from",from)
+                        intent.putExtra("to", to)
+                        startActivity(intent)
+                    }else{
+                        Toast.makeText(this, "please provide the amount range ends upto.", Toast.LENGTH_SHORT).show()
+                    }
+                }else{
+                    Toast.makeText(this, "please provide the amount range starts from.", Toast.LENGTH_SHORT).show()
+                }
+            }else if(!job_type.isEmpty() && !from.isEmpty() && !to.isEmpty()){
+                val intent = Intent(this, JobSearchResultActivity::class.java)
+                intent.putExtra("job_type",job_type)
+                intent.putExtra("from",from)
+                intent.putExtra("to", to)
+                startActivity(intent)
+            }else if (job_type.isEmpty() && !from.isEmpty() && !to.isEmpty()){
+                val intent = Intent(this, JobSearchResultActivity::class.java)
+                intent.putExtra("job_type",job_type)
+                intent.putExtra("from",from)
+                intent.putExtra("to", to)
+                startActivity(intent)
+            }else if(job_type.isEmpty() && from.isEmpty() && !to.isEmpty()){
+                if(!from.isEmpty()){
+                    if(!to.isEmpty()){
+                        val intent = Intent(this, JobSearchResultActivity::class.java)
+                        intent.putExtra("job_type",job_type)
+                        intent.putExtra("from",from)
+                        intent.putExtra("to", to)
+                        startActivity(intent)
+                    }else{
+                        Toast.makeText(this, "please provide the amount range ends upto.", Toast.LENGTH_SHORT).show()
+                    }
+                }else{
+                    Toast.makeText(this, "please provide the amount range starts from.", Toast.LENGTH_SHORT).show()
+                }
+            }else if(job_type.isEmpty() && !from.isEmpty() && to.isEmpty()){
                 if(!from.isEmpty()){
                     if(!to.isEmpty()){
                         val intent = Intent(this, JobSearchResultActivity::class.java)

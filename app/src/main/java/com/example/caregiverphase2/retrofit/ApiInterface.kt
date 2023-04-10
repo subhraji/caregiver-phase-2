@@ -39,6 +39,8 @@ import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRe
 import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRegResponse
 import com.example.caregiverphase2.model.pojo.resend_otp.ResendOtpRequest
 import com.example.caregiverphase2.model.pojo.resend_otp.ResendOtpResponse
+import com.example.caregiverphase2.model.pojo.search_job.GetSearchResultResponse
+import com.example.caregiverphase2.model.pojo.search_job.SearchJobRequest
 import com.example.caregiverphase2.model.pojo.signup.SignUpRequest
 import com.example.caregiverphase2.model.pojo.signup.SignUpResponse
 import com.example.caregiverphase2.model.pojo.start_job.JobStartRequest
@@ -51,6 +53,7 @@ import com.example.caregiverphase2.model.pojo.update_doc_status.UpdateDocStatusR
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationRequest
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationResponse
 import com.example.caregiverphase2.model.pojo.upload_documents.UploadDocumentsResponse
+import com.example.caregiverphase2.ui.activity.JobSearchResultActivity
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -279,4 +282,10 @@ interface ApiInterface {
         @Body body: EditBasicInfoRequest?,
         @Header("Authorization") token: String,
     ): EditBasicInfoResponse?
+
+    @POST("job/search")
+    suspend fun searchJob(
+        @Body body: SearchJobRequest?,
+        @Header("Authorization") token: String,
+    ): GetSearchResultResponse?
 }
