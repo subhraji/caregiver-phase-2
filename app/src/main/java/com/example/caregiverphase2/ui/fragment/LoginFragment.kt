@@ -24,6 +24,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.FragmentLoginBinding
 import com.example.caregiverphase2.model.repository.Outcome
@@ -119,6 +120,10 @@ class LoginFragment : Fragment() {
             val intent = Intent(requireActivity(), SignUpActivity::class.java)
             startActivity(intent)
             requireActivity().finish()
+        }
+
+        binding.forgotPassword.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_forgotPassEmailFragment)
         }
     }
 

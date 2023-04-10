@@ -29,6 +29,7 @@ import com.example.caregiverphase2.viewmodel.*
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
+import kotlinx.coroutines.*
 import lightStatusBar
 import loadingDialog
 import visible
@@ -440,7 +441,7 @@ class DashboardFragment : Fragment() {
                                 .into(binding.userImageView)
                         }
                         data?.profile_completion_status?.let {
-                            val percent = ((it.is_profile_approved+it.is_basic_info_added+it.is_optional_info_added+it.is_documents_uploaded)*100)/4
+                            var percent = ((it.is_profile_approved+it.is_basic_info_added+it.is_optional_info_added+it.is_documents_uploaded)*100)/4
                             //binding.profileProgressBar.progress = percent
 
 
@@ -449,6 +450,18 @@ class DashboardFragment : Fragment() {
                             val progressAnimator = ObjectAnimator.ofInt(binding.profileProgressBar, "progress", 0, percent)
                             progressAnimator.setDuration(2000)
                             progressAnimator.start()
+
+                            CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO){
+                                //asyncOperation
+                                withContext(Dispatchers.Main){
+                                    //ui operation
+                                    for (i in 0..percent){
+                                        delay(18)
+                                        binding.percentTv.text = i.toString()+"%"
+                                    }
+                                }
+
+                            }
                         }
                         mGetProfileViewModel.navigationComplete()
                     }else{

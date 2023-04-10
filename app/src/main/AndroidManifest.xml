@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.JobSearchResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.SearchActivity"
             android:exported="false" />
         <activity

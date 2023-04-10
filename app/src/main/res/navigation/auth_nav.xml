@@ -9,5 +9,23 @@
         android:id="@+id/loginFragment"
         android:name="com.example.caregiverphase2.ui.fragment.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPassEmailFragment"
+            app:destination="@id/forgotPassEmailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPassEmailFragment"
+        android:name="com.example.caregiverphase2.ui.fragment.ForgotPassEmailFragment"
+        android:label="fragment_forgot_pass_email"
+        tools:layout="@layout/fragment_forgot_pass_email" >
+        <action
+            android:id="@+id/action_forgotPassEmailFragment_to_forgotPassOTPFragment"
+            app:destination="@id/forgotPassOTPFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPassOTPFragment"
+        android:name="com.example.caregiverphase2.ui.fragment.ForgotPassOTPFragment"
+        android:label="fragment_forgot_pass_o_t_p"
+        tools:layout="@layout/fragment_forgot_pass_o_t_p" />
 </navigation>

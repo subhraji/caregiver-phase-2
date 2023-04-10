@@ -188,18 +188,36 @@
                         android:textStyle="bold"
                         android:textSize="18sp"
                         android:lineSpacingExtra="4sp"/>
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:id="@+id/profile_progress_bar"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:scaleY="2"
-                        app:trackColor="#E0E0E0"
-                        android:progress="2"
-                        app:indicatorColor="@color/theme_blue"
+                        android:orientation="horizontal"
                         android:layout_marginStart="9dp"
-                        android:layout_marginEnd="20dp"
-                        />
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="10">
+                        <com.google.android.material.progressindicator.LinearProgressIndicator
+                            android:id="@+id/profile_progress_bar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleY="2"
+                            app:trackColor="#E0E0E0"
+                            android:progress="2"
+                            app:indicatorColor="@color/theme_blue"
+                            android:layout_weight="2"
+                            android:layout_gravity="center_vertical"/>
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="1dp"/>
+                        <TextView
+                            android:id="@+id/percent_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="0%"
+                            android:textStyle="bold"
+                            android:textSize="12sp"
+                            android:textColor="@color/black"
+                            android:layout_weight="8"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
