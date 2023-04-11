@@ -345,6 +345,11 @@ class ProfileFragment : Fragment(), UploadDocListener {
                                 showCompleteDialog("Please add your documents to complete your profile","Complete now", 3)
                             }
                         }
+
+
+
+
+
                         mGetProfileViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
