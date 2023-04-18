@@ -254,7 +254,6 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <ScrollView
         android:id="@+id/constrain_lay_2"
         android:layout_width="match_parent"

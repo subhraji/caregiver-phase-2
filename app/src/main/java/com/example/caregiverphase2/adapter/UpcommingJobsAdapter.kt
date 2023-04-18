@@ -54,7 +54,7 @@ class UpcommingJobsAdapter (private val itemList: List<Data>, private val contex
                 jobTitleTv.text = data?.title.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.careItems.size.toString()+" "+data?.careType
-                addressTv.text = data?.agency_address.toString()
+                addressTv.text = data?.address.toString()
                 hourHtv.text = data?.startTime+" - "+data?.endTime
                 dateHtv.text = data?.startDate+"-"+data?.endDate
                 priceTv.text = "$"+data?.amount.toString()

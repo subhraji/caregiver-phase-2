@@ -43,4 +43,6 @@ data class Data(
     val otherRequirements: List<String>,
     @SerializedName("check_list")
     val checkList: List<String>,
+    @SerializedName("address")
+    val address: String,
 )

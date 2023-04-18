@@ -123,7 +123,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
                         binding.ageTv.text = gen
                         binding.titleTv.text = outcome.data!!.data[0].title
                         binding.careTypeTv.text = outcome.data!!.data[0].care_type
-                        binding.locTv.text = outcome.data!!.data[0].short_address
+                        binding.locTv.text = outcome.data!!.data[0].address
                         binding.dateTv.text = outcome.data!!.data[0].start_date.toString()+" - "+outcome.data!!.data[0].end_date.toString()
                         binding.timeTv.text = outcome.data!!.data[0].start_time.toString()+" - "+outcome.data!!.data[0].end_time.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
