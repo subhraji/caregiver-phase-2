@@ -21,6 +21,7 @@ import com.example.caregiverphase2.model.pojo.edit_education.EditEducationReques
 import com.example.caregiverphase2.model.pojo.edit_education.EditEducationResonse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
+import com.example.caregiverphase2.model.pojo.get_agency_profile.GetAgencyProfileResponse
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
 import com.example.caregiverphase2.model.pojo.get_complete_job.GetCompleteJobsResponse
 import com.example.caregiverphase2.model.pojo.get_documents.GetDocumentsResponse
@@ -288,4 +289,10 @@ interface ApiInterface {
         @Body body: SearchJobRequest?,
         @Header("Authorization") token: String,
     ): GetSearchResultResponse?
+
+    @GET("job/agency-profile")
+    suspend fun getAgencyProfile(
+        @Header("Authorization") token: String,
+        @Query("job_id") job_id: String?,
+    ): GetAgencyProfileResponse?
 }
