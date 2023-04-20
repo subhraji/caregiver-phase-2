@@ -84,6 +84,11 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.viewProfileHtv.setOnClickListener {
+            val intent = Intent(this,AgencyProfileActivity::class.java)
+            intent.putExtra("id",job_id.toString())
+            startActivity(intent)
+        }
 
         binding.cancelLayout.gone()
         binding.cancelTv.setOnClickListener {

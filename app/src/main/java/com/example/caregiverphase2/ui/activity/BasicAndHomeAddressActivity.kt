@@ -402,7 +402,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             return "Please provide a valid tax number."
         }
 
-        return  null
+        return null
     }
 
     private fun setUpGenderSpinner(value: String? = null){

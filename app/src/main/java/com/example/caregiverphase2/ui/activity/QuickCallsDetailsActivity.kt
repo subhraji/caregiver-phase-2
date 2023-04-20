@@ -2,6 +2,7 @@ package com.example.caregiverphase2.ui.activity
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -87,6 +88,12 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
 
         binding.acceptTv.setOnClickListener {
             acceptPopUp()
+        }
+
+        binding.viewProfileHtv.setOnClickListener {
+            val intent = Intent(this,AgencyProfileActivity::class.java)
+            intent.putExtra("id",job_id.toString())
+            startActivity(intent)
         }
 
         //observer

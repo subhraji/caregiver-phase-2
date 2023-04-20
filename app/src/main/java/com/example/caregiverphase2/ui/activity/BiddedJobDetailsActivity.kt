@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -74,6 +75,12 @@ class BiddedJobDetailsActivity : AppCompatActivity() {
 
         binding.checklistCard.setOnClickListener {
             clickCheckList()
+        }
+
+        binding.viewProfileHtv.setOnClickListener {
+            val intent = Intent(this,AgencyProfileActivity::class.java)
+            intent.putExtra("id",job_id.toString())
+            startActivity(intent)
         }
 
         binding.mainLay.gone()

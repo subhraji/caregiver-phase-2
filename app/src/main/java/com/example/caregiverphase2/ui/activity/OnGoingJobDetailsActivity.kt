@@ -70,7 +70,6 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
         binding.checkListRecycler.gone()
         binding.getDirectionBtn.gone()
 
-
         clickJobOverview()
 
         binding.jobOverviewCard.setOnClickListener {
@@ -82,6 +81,12 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
 
         binding.backBtn.setOnClickListener {
             finish()
+        }
+
+        binding.viewProfileHtv.setOnClickListener {
+            val intent = Intent(this,AgencyProfileActivity::class.java)
+            intent.putExtra("id",job_id.toString())
+            startActivity(intent)
         }
 
         //swipe
