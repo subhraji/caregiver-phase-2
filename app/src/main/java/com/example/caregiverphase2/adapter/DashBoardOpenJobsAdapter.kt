@@ -59,11 +59,16 @@ class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
                 jobTitleTv.text = data?.jobTitle.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.careItems.size.toString()+" "+data?.careType
-                addressTv.text = data?.shortAddress.toString()
+                if(data?.shortAddress.toString().length > 20){
+                    addressTv.text = data?.shortAddress.toString().substring(0,19)+"..."
+                }else{
+                    addressTv.text = data?.shortAddress.toString()
+                }
                 hourHtv.text = data?.startTime+" - "+data?.endTime
                 dateHtv.text = data?.startDate
                 priceTv.text = data?.amount.toString()
                 agencyNameTv.text = data?.companyName.toString()
+                distTv.text = data?.distance.toString()
                 gen = ""
                 for(i in data?.careItems){
                     if(gen.isEmpty()){

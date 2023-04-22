@@ -58,11 +58,17 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                 jobTitleTv.text = data?.job_title.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
-                addressTv.text = data?.short_address.toString()
+                if(data?.short_address.toString().length > 20){
+                    addressTv.text = data?.short_address.toString().substring(0,19)+"..."
+                }else{
+                    addressTv.text = data?.short_address.toString()
+                }
                 hourTv.text = data?.start_time+" - "+data?.end_time
                 dateHtv.text = data?.start_date
                 priceTv.text = "$"+data?.amount.toString()
                 agencyNameTv.text = data?.company_name.toString()
+                distTv.text = data?.distance.toString()
+
                 gen = ""
                 for(i in data?.care_items){
                     if(gen.isEmpty()){

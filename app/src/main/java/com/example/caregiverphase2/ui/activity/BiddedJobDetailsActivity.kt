@@ -17,6 +17,7 @@ import com.example.caregiverphase2.adapter.BulletPointAdapter
 import com.example.caregiverphase2.databinding.ActivityBasicAndHomeAddressBinding
 import com.example.caregiverphase2.databinding.ActivityBiddedJobDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.ui.fragment.AgencyFragment
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetBiddedJobsViewModel
@@ -78,9 +79,19 @@ class BiddedJobDetailsActivity : AppCompatActivity() {
         }
 
         binding.viewProfileHtv.setOnClickListener {
-            val intent = Intent(this,AgencyProfileActivity::class.java)
+            /*val intent = Intent(this,AgencyProfileActivity::class.java)
             intent.putExtra("id",job_id.toString())
-            startActivity(intent)
+            startActivity(intent)*/
+
+            val addPhotoBottomDialogFragment: AgencyFragment =
+                AgencyFragment.newInstance()
+            val bundle = Bundle()
+            bundle.putString("id", job_id.toString())
+            addPhotoBottomDialogFragment.arguments = bundle
+            addPhotoBottomDialogFragment.show(
+                supportFragmentManager,
+                "agency_profile_fragment"
+            )
         }
 
         binding.mainLay.gone()

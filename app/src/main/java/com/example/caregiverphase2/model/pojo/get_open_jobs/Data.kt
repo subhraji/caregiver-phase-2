@@ -22,5 +22,6 @@ data class Data(
     val other_requirements: List<String>,
     val short_address: String,
     val start_time: String,
-    val status: String
+    val status: String,
+    val distance: String
 )
