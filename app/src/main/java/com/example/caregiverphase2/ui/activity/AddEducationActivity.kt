@@ -51,17 +51,21 @@ class AddEducationActivity : AppCompatActivity() {
                 if(validDegreeName){
                     if(validStartYear){
                         if(validEndYear){
-                            if(isConnectedToInternet()){
-                                mAddEducationViewModel.addEducation(
-                                    binding.schoolNameTxt.text.toString(),
-                                    binding.subjectTxt.text.toString(),
-                                    binding.startYearTxt.text.toString(),
-                                    binding.endYearTxt.text.toString(),
-                                    accessToken
-                                )
-                                loader.show()
+                            if(binding.endYearTxt.text.toString().toInt() - binding.startYearTxt.text.toString().toInt() >= 0){
+                                if(isConnectedToInternet()){
+                                    mAddEducationViewModel.addEducation(
+                                        binding.schoolNameTxt.text.toString(),
+                                        binding.subjectTxt.text.toString(),
+                                        binding.startYearTxt.text.toString(),
+                                        binding.endYearTxt.text.toString(),
+                                        accessToken
+                                    )
+                                    loader.show()
+                                }else{
+                                    Toast.makeText(this,"Oops!! No internet connection.",Toast.LENGTH_SHORT).show()
+                                }
                             }else{
-                                Toast.makeText(this,"Oops!! No internet connection.",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this,"please provide a valid start year and end year",Toast.LENGTH_SHORT).show()
                             }
                         }else{
                             if(binding.endYearTxtLay.helperText == null) binding.endYearTxtLay.helperText = "required"

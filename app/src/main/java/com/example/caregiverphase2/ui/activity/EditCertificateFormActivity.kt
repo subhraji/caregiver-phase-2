@@ -20,6 +20,7 @@ import android.text.Editable
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.PermissionChecker
 import androidx.core.widget.doOnTextChanged
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
@@ -35,8 +36,11 @@ import com.example.caregiverphase2.viewmodel.EditCertificateViewModel
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.karumi.dexter.listener.single.PermissionListener
 import createMultiPart
 import dagger.hilt.android.AndroidEntryPoint
 import hideSoftKeyboard
@@ -99,14 +103,13 @@ class EditCertificateFormActivity : AppCompatActivity(), UploadDocListener {
         }
 
         binding.imageFrame.setOnClickListener {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    dispatchGalleryIntent()
-                }else{
-                    requestPermission()
-                }
+            if(PermissionChecker.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED){
+                dispatchGalleryIntent()
             }else{
-                requestPermission()
+                requestStoragePermission()
             }
         }
 
@@ -240,29 +243,6 @@ class EditCertificateFormActivity : AppCompatActivity(), UploadDocListener {
         binding.certificateImg.setImageBitmap(selectedImage)
     }
 
-    private fun requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!Environment.isExternalStorageManager())
-            {
-                try {
-                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-                    intent.addCategory("android.intent.category.DEFAULT")
-                    intent.data =
-                        Uri.parse(String.format("package:%s", applicationContext.packageName))
-                    startActivityForResult(intent, 2296)
-                } catch (e: java.lang.Exception) {
-                    val intent = Intent()
-                    intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-                    startActivityForResult(intent, 2296)
-                }
-            }else{
-                dispatchGalleryIntent()
-            }
-        } else {
-            requestStoragePermission()
-        }
-    }
-
     private fun dispatchGalleryIntent() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(gallery, PICK_IMAGE)
@@ -295,49 +275,27 @@ class EditCertificateFormActivity : AppCompatActivity(), UploadDocListener {
     }
 
     private fun requestStoragePermission() {
-        Dexter.withActivity(this)
-            .withPermissions(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.MANAGE_EXTERNAL_STORAGE
+        Dexter.withContext(this)
+            .withPermission(
+                Manifest.permission.READ_EXTERNAL_STORAGE
             )
-            .withListener(object : MultiplePermissionsListener {
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+                    dispatchGalleryIntent()
+                }
 
-                @SuppressLint("MissingPermission")
-                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                    // check if all permissions are granted
-                    if (report.areAllPermissionsGranted()) {
-                        // info("onPermissionsChecked: All permissions are granted!")
-                        val telephonyManager =
-                            getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                        mImeiId =
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                                try {
-                                    telephonyManager.imei
-                                } catch (e: SecurityException) {
-                                    e.printStackTrace()
-                                    "mxmxmxmxmxmxmxm"
-                                }
-                            } else {
-                                "mxmxmxmxmxmxmxm"
-                            }
-
-                        grantedOtherPermissions = true
-                    }
-
-                    // check for permanent denial of any permission
-                    /* if (report.isAnyPermissionPermanentlyDenied) {
-                         // show alert dialog navigating to Settings
-                         showSettingsDialog()
-                     }*/
+                override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
+                    requestStoragePermission()
                 }
 
                 override fun onPermissionRationaleShouldBeShown(
-                    permissions: List<PermissionRequest>,
-                    token: PermissionToken
+                    p0: PermissionRequest?,
+                    p1: PermissionToken?
                 ) {
-                    token.continuePermissionRequest()
+                    p1?.continuePermissionRequest()
                 }
+
+
             })
             .onSameThread()
             .check()

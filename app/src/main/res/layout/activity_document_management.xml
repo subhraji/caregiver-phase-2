@@ -309,69 +309,6 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/w4_bg_relay"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/doc_upload_grey_bg"
-                    android:paddingBottom="20dp">
-
-                    <TextView
-                        android:id="@+id/w4_bg_htv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:text="@string/w_4_form"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/download_1099"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="( Download )"
-                        android:textColor="@color/theme_blue"
-                        android:layout_toRightOf="@+id/w4_bg_htv"
-                        android:layout_alignTop="@+id/w4_bg_htv"
-                        android:layout_marginStart="10dp"/>
-
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/w4_bg_htv"
-                        android:fillViewport="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/w4_bg_recycler_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="10dp" />
-
-                            <ImageView
-                                android:id="@+id/w4_btn"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="@drawable/upload_doc_btn_bg"
-                                android:padding="30dp"
-                                android:src="@drawable/ic_baseline_cloud_upload_24"
-                                app:tint="@color/black" />
-                        </LinearLayout>
-                    </HorizontalScrollView>
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/employment_bg_relay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

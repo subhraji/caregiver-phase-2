@@ -346,10 +346,6 @@ class ProfileFragment : Fragment(), UploadDocListener {
                             }
                         }
 
-
-
-
-
                         mGetProfileViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()

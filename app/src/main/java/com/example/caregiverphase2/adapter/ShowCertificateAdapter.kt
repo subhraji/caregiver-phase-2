@@ -35,7 +35,7 @@ class ShowCertificateAdapter (private val itemList: List<Certificate>, private v
             itemBinding.apply {
                 editBtn.gone()
                 certificateNameTv.text = data?.certificate_or_course
-                durationTv.text = data?.start_year+"-"+data?.end_year
+                durationTv.text = data?.start_year+" to "+data?.end_year
             }
         }
 

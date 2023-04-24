@@ -40,8 +40,11 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.karumi.dexter.listener.single.PermissionListener
 import createMultiPart
 import dagger.hilt.android.AndroidEntryPoint
 import gone
@@ -114,72 +117,26 @@ class DocumentManagementActivity : AppCompatActivity(), UploadDocListener, Uploa
         }
     }
 
-    private fun requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!Environment.isExternalStorageManager())
-            {
-                try {
-                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-                    intent.addCategory("android.intent.category.DEFAULT")
-                    intent.data =
-                        Uri.parse(String.format("package:%s", applicationContext.packageName))
-                    startActivityForResult(intent, 2296)
-                } catch (e: java.lang.Exception) {
-                    val intent = Intent()
-                    intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-                    startActivityForResult(intent, 2296)
-                }
-            }else{
-                dispatchDocGalleryIntent()
-            }
-        } else {
-            requestStoragePermission()
-        }
-    }
-
     private fun requestStoragePermission() {
-        Dexter.withActivity(this)
-            .withPermissions(
+        Dexter.withContext(this)
+            .withPermission(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.MANAGE_EXTERNAL_STORAGE
             )
-            .withListener(object : MultiplePermissionsListener {
+            .withListener(object : PermissionListener {
 
-                @SuppressLint("MissingPermission")
-                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                    // check if all permissions are granted
-                    if (report.areAllPermissionsGranted()) {
-                        // info("onPermissionsChecked: All permissions are granted!")
-                        val telephonyManager =
-                            getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                        mImeiId =
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                                try {
-                                    telephonyManager.imei
-                                } catch (e: SecurityException) {
-                                    e.printStackTrace()
-                                    "mxmxmxmxmxmxmxm"
-                                }
-                            } else {
-                                "mxmxmxmxmxmxmxm"
-                            }
+                override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+                    dispatchDocGalleryIntent()
+                }
 
-                        grantedOtherPermissions = true
-                    }
-
-                    // check for permanent denial of any permission
-                    /* if (report.isAnyPermissionPermanentlyDenied) {
-                         // show alert dialog navigating to Settings
-                         showSettingsDialog()
-                     }*/
+                override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
+                    requestStoragePermission()
                 }
 
                 override fun onPermissionRationaleShouldBeShown(
-                    permissions: List<PermissionRequest>,
-                    token: PermissionToken
+                    permissions: PermissionRequest?,
+                    token: PermissionToken?
                 ) {
-                    token.continuePermissionRequest()
+                    token?.continuePermissionRequest()
                 }
             })
             .onSameThread()
@@ -198,98 +155,58 @@ class DocumentManagementActivity : AppCompatActivity(), UploadDocListener, Uploa
 
         binding.tuberculosisBtn.setOnClickListener {
             doc_type = "tuberculosis"
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    dispatchDocGalleryIntent()
-                }else{
-                    requestPermission()
-                }
+            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                dispatchDocGalleryIntent()
             }else{
-                requestPermission()
+                requestStoragePermission()
             }
         }
         binding.covidBtn.setOnClickListener {
             doc_type = "covid"
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    dispatchDocGalleryIntent()
-                }else{
-                    requestPermission()
-                }
+            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                dispatchDocGalleryIntent()
             }else{
-                requestPermission()
+                requestStoragePermission()
             }
         }
         binding.criminalBtn.setOnClickListener {
             doc_type = "criminal"
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    dispatchDocGalleryIntent()
-                }else{
-                    requestPermission()
-                }
+            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                dispatchDocGalleryIntent()
             }else{
-                requestPermission()
+                requestStoragePermission()
             }
         }
         binding.childAbuseBtn.setOnClickListener {
             doc_type = "childAbuse"
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    dispatchDocGalleryIntent()
-                }else{
-                    requestPermission()
-                }
+            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                dispatchDocGalleryIntent()
             }else{
-                requestPermission()
-            }
-        }
-        binding.w4Btn.setOnClickListener {
-            doc_type = "w4_form"
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    dispatchDocGalleryIntent()
-                }else{
-                    requestPermission()
-                }
-            }else{
-                requestPermission()
+                requestStoragePermission()
             }
         }
         binding.employmentBtn.setOnClickListener {
             doc_type = "employment"
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    dispatchDocGalleryIntent()
-                }else{
-                    requestPermission()
-                }
+            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                dispatchDocGalleryIntent()
             }else{
-                requestPermission()
+                requestStoragePermission()
             }
         }
         binding.drivingBtn.setOnClickListener {
             doc_type = "driving"
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    dispatchDocGalleryIntent()
-                }else{
-                    requestPermission()
-                }
+            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                dispatchDocGalleryIntent()
             }else{
-                requestPermission()
+                requestStoragePermission()
             }
         }
         binding.identityBtn.setOnClickListener {
             doc_type = "identification"
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    dispatchDocGalleryIntent()
-                }else{
-                    requestPermission()
-                }
+            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                dispatchDocGalleryIntent()
             }else{
-                requestPermission()
+                requestStoragePermission()
             }
         }
     }
@@ -352,13 +269,6 @@ class DocumentManagementActivity : AppCompatActivity(), UploadDocListener, Uploa
             adapter = ChildAbuseListAdapter(list,this@DocumentManagementActivity, this@DocumentManagementActivity)
         }
     }
-    private fun fillW4Recycler(list: MutableList<W4Form>) {
-        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.w4BgRecyclerView.apply {
-            layoutManager = gridLayoutManager
-            adapter = W4ListAdapter(list,this@DocumentManagementActivity, this@DocumentManagementActivity)
-        }
-    }
     private fun fillEmploymentRecycler(list: MutableList<Employment>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.employmentBgRecyclerView.apply {
@@ -400,9 +310,6 @@ class DocumentManagementActivity : AppCompatActivity(), UploadDocListener, Uploa
                         }
                         outcome.data?.data!!.child_abuse?.let {
                             fillChildAbuseRecycler(outcome.data?.data!!.child_abuse.toMutableList())
-                        }
-                        outcome.data?.data!!.w4_form?.let {
-                            fillW4Recycler(outcome.data?.data!!.w4_form.toMutableList())
                         }
                         outcome.data?.data!!.employment?.let {
                             fillEmploymentRecycler(outcome.data?.data!!.employment.toMutableList())

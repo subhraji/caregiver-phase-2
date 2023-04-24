@@ -874,9 +874,6 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                         outcome.data?.data!!.child_abuse?.let {
                             fillChildAbuseRecycler(outcome.data?.data!!.child_abuse.toMutableList())
                         }
-                        outcome.data?.data!!.w4_form?.let {
-                            fillW4Recycler(outcome.data?.data!!.w4_form.toMutableList())
-                        }
                         outcome.data?.data!!.employment?.let {
                             fillEmploymentRecycler(outcome.data?.data!!.employment.toMutableList())
                         }
@@ -1058,14 +1055,6 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
                 requestStoragePermission(true)
             }
         }
-        binding.w4Btn.setOnClickListener {
-            doc_type = "w4_form"
-            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                dispatchDocGalleryIntent()
-            }else{
-                requestStoragePermission(true)
-            }
-        }
         binding.employmentBtn.setOnClickListener {
             doc_type = "employment"
             if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
@@ -1118,13 +1107,6 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
         binding.childAbuseBgRecyclerView.apply {
             layoutManager = gridLayoutManager
             adapter = ChildAbuseListAdapter(list,this@BasicAndHomeAddressActivity, this@BasicAndHomeAddressActivity)
-        }
-    }
-    private fun fillW4Recycler(list: MutableList<W4Form>) {
-        val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.w4BgRecyclerView.apply {
-            layoutManager = gridLayoutManager
-            adapter = W4ListAdapter(list,this@BasicAndHomeAddressActivity, this@BasicAndHomeAddressActivity)
         }
     }
     private fun fillEmploymentRecycler(list: MutableList<Employment>) {

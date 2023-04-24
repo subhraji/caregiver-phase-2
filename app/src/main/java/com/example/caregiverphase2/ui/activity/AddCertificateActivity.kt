@@ -101,40 +101,50 @@ class AddCertificateActivity : AppCompatActivity(), UploadDocListener {
             if(validCertificateName){
                 if(validStartYear){
                     if(validEndYear){
-                        if(imageUri != null){
-                            try {
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    withContext(Dispatchers.Main) {
-                                        val file = File(absolutePath)
-                                        val compressedImageFile = Compressor.compress(this@AddCertificateActivity, file)
-                                        val imagePart = createMultiPart("document", compressedImageFile)
-                                        if(isConnectedToInternet()){
-                                            mAddCertificateViewModel.addCertificate(
-                                                imagePart,
-                                                binding.certificateNameTxt.text.toString(),
-                                                binding.startYearTxt.text.toString(),
-                                                binding.endYearTxt.text.toString(),
-                                                accessToken
-                                            )
-                                            hideSoftKeyboard()
-                                            loader.show()
-                                        }else{
-                                            Toast.makeText(this@AddCertificateActivity,"No internet connection.", Toast.LENGTH_SHORT).show()
-                                        }
+                        if(binding.endYearTxt.text.toString().toInt() - binding.startYearTxt.text.toString().toInt() >= 0){
+                            if(imageUri != null){
+                                try {
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        withContext(Dispatchers.Main) {
+                                            val file = File(absolutePath)
+                                            val compressedImageFile = Compressor.compress(this@AddCertificateActivity, file)
+                                            val imagePart = createMultiPart("document", compressedImageFile)
+                                            if(isConnectedToInternet()){
+                                                mAddCertificateViewModel.addCertificate(
+                                                    imagePart,
+                                                    binding.certificateNameTxt.text.toString(),
+                                                    binding.startYearTxt.text.toString(),
+                                                    binding.endYearTxt.text.toString(),
+                                                    accessToken
+                                                )
+                                                hideSoftKeyboard()
+                                                loader.show()
+                                            }else{
+                                                Toast.makeText(this@AddCertificateActivity,"No internet connection.", Toast.LENGTH_SHORT).show()
+                                            }
 
+                                        }
                                     }
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
                                 }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
+                            }else{
+                                if(isConnectedToInternet()){
+                                    mAddCertificateViewModel.addCertificate(
+                                        null,
+                                        binding.certificateNameTxt.text.toString(),
+                                        binding.startYearTxt.text.toString(),
+                                        binding.endYearTxt.text.toString(),
+                                        accessToken
+                                    )
+                                    hideSoftKeyboard()
+                                    loader.show()
+                                }else{
+                                    Toast.makeText(this@AddCertificateActivity,"No internet connection.", Toast.LENGTH_SHORT).show()
+                                }
                             }
                         }else{
-                            Toast.makeText(this,"Please select a certificate image.",Toast.LENGTH_SHORT).show()
-                        }
-                        if(isConnectedToInternet()){
-
-                            loader.show()
-                        }else{
-                            Toast.makeText(this,"Oops!! No internet connection.",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,"please provide a valid start year and end year",Toast.LENGTH_SHORT).show()
                         }
                     }else{
                         if(binding.endYearTxtLay.helperText == null) binding.endYearTxtLay.helperText = "required"

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.caregiverphase2.R
+import com.example.caregiverphase2.utils.PrefManager
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -27,9 +28,14 @@ class DashMapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(26.1367721,91.7831068)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in US"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12f))
+
+        PrefManager.getLatitude()?.let {
+            PrefManager.getLongitude()?.let {
+                val sydney = LatLng(PrefManager.getLatitude()!!.toDouble(),PrefManager.getLongitude()!!.toDouble())
+                googleMap.addMarker(MarkerOptions().position(sydney).title("Current location"))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12f))
+            }
+        }
     }
 
     override fun onCreateView(
@@ -42,6 +48,10 @@ class DashMapsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }
