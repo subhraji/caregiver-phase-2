@@ -24,6 +24,7 @@ import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.fragment.AgencyFragment
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.AddReviewViewModel
 import com.example.caregiverphase2.viewmodel.CompleteJobViewModel
 import com.example.caregiverphase2.viewmodel.GetOngoingJobViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -44,6 +45,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnGoingJobDetailsBinding
     private val mGetOngoingJobViewModel: GetOngoingJobViewModel by viewModels()
     private val mCompleteJobViewModel: CompleteJobViewModel by viewModels()
+    private val mAddReviewViewModel: AddReviewViewModel by viewModels()
 
     private lateinit var accessToken: String
     private lateinit var loader: androidx.appcompat.app.AlertDialog
@@ -100,6 +102,10 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
             )
         }
 
+        /*binding.rewardsRelay.setOnClickListener {
+            showReviewDialog()
+        }*/
+
         //swipe
         binding.slideToCompleteBtn.onSlideCompleteListener = (object : SlideToActView.OnSlideCompleteListener{
             override fun onSlideComplete(view: SlideToActView) {
@@ -136,6 +142,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
         //observer
         getOngoingJobObserver()
         completeJobObserver()
+        addReviewObserver()
 
         if(isConnectedToInternet()){
             binding.mainLay.gone()
@@ -185,13 +192,6 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                             binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                             binding.agencyNameTv.text = outcome.data!!.data[0].agency_name.toString()
                             binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
-
-                            /*setTimer(
-                                getDurationHour(
-                                    getCurrentDate(),
-                                    parseDateToddMMyyyy("${outcome.data!!.data[0].start_date} ${outcome.data!!.data[0].start_time}")!!
-                                )
-                            )*/
 
                             Glide.with(this)
                                 .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agency_photo) // image url
@@ -323,8 +323,9 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
 
         }, 2500)*/
         okay.setOnClickListener {
+            showReviewDialog()
             dialog.dismiss()
-            finish()
+            //finish()
         }
 
         dialog.show()
@@ -369,6 +370,29 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                 is Outcome.Failure<*> -> {
                     Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
 
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun addReviewObserver(){
+        mAddReviewViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        mCompleteJobViewModel.navigationComplete()
+                        finish()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
                     outcome.e.printStackTrace()
                     Log.i("status",outcome.e.cause.toString())
                 }
@@ -460,4 +484,38 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
             }
         }.start()
     }
+
+    private fun showReviewDialog(){
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.add_review_bottomsheet_layout, null)
+
+        val submit = view.findViewById<TextView>(R.id.submit_btn)
+        val reviewTxt = view.findViewById<EditText>(R.id.review_txt)
+        val ratingBar = view.findViewById<RatingBar>(R.id.rating_bar)
+
+        submit.setOnClickListener {
+            val rating = ratingBar.rating.toString()
+            val review = reviewTxt.text.toString()
+            if(!rating.isEmpty()){
+                if(!review.isEmpty()){
+                    mAddReviewViewModel.addReview(
+                        job_id.toString(),
+                        rating.toString(),
+                        review.toString(),
+                        accessToken
+                    )
+                    loader.show()
+                    dialog.dismiss()
+                }else{
+                    Toast.makeText(this,"Please provide your review.",Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                Toast.makeText(this,"Rating is missing.",Toast.LENGTH_SHORT).show()
+            }
+        }
+        dialog.setCancelable(false)
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
 }

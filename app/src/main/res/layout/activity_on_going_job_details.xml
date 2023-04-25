@@ -266,15 +266,16 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:src="@drawable/ic_star_19" />
+
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:textColor="@color/white"
-                            android:text="12"
+                            android:layout_marginTop="3dp"
                             android:gravity="center"
-                            android:textStyle="bold"
+                            android:text="12"
+                            android:textColor="@color/white"
                             android:textSize="12sp"
-                            android:layout_marginTop="3dp" />
+                            android:textStyle="bold" />
 
                     </RelativeLayout>
                     <TextView

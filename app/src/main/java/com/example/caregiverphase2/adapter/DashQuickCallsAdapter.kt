@@ -67,7 +67,7 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                 dateHtv.text = data?.start_date
                 priceTv.text = "$"+data?.amount.toString()
                 agencyNameTv.text = data?.company_name.toString()
-                distTv.text = data?.distance.toString()
+                distTv.text = data?.distance
 
                 gen = ""
                 for(i in data?.care_items){
