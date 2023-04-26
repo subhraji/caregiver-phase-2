@@ -384,7 +384,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                     loader.dismiss()
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
-                        mCompleteJobViewModel.navigationComplete()
+                        mAddReviewViewModel.navigationComplete()
                         finish()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
