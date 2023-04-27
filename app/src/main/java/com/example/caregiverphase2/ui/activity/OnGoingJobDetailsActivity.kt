@@ -359,6 +359,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
         mCompleteJobViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
+                    loader.dismiss()
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         showCompleteDialog("Your job has been completed successfully, You can find this on the completed job section.")
@@ -369,7 +370,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                 }
                 is Outcome.Failure<*> -> {
                     Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
-
+                    loader.dismiss()
                     outcome.e.printStackTrace()
                     Log.i("status",outcome.e.cause.toString())
                 }

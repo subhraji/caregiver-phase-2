@@ -305,7 +305,7 @@ class AskLocationActivity : AppCompatActivity() {
                                 geocoder.getFromLocation(location.latitude, location.longitude, 1)
                             latitude = list[0].latitude.toString()
                             longitude = list[0].longitude.toString()
-                            shortAddress = "${list[0].subLocality},${list[0].locality}"
+                            shortAddress = "${list[0].locality}"
                             fullAddress = list[0].getAddressLine(0)
 
                         } else {
@@ -342,7 +342,7 @@ class AskLocationActivity : AppCompatActivity() {
                         geocoder.getFromLocation(location.latitude, location.longitude, 1)
                     latitude = list[0].latitude.toString()
                     longitude = list[0].longitude.toString()
-                    shortAddress = "${list[0].subLocality},${list[0].locality}"
+                    shortAddress = "${list[0].locality}"
                     fullAddress = list[0].getAddressLine(0)
 
                     binding.retryBtn.gone()
@@ -407,11 +407,15 @@ class AskLocationActivity : AppCompatActivity() {
                         mUpdateLocationViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        if(outcome.data!!.http_status_code == 401){
+                            PrefManager.clearPref()
+                            startActivity(Intent(this, ChooseLoginRegActivity::class.java))
+                            finish()
+                        }
                     }
                 }
                 is Outcome.Failure<*> -> {
                     Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
-
                     outcome.e.printStackTrace()
                     Log.i("status",outcome.e.cause.toString())
                 }
