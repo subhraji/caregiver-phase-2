@@ -57,10 +57,9 @@ class SplashActivity : AppCompatActivity() {
                     finish()
                 }
             }else{
-                /*val intent = Intent(this, NoInternetActivity::class.java)
+                val intent = Intent(this, NoInternetActivity::class.java)
                 startActivity(intent)
-                finish()*/
-                Toast.makeText(this,"No internet connection",Toast.LENGTH_SHORT).show()
+                finish()
             } }, 3000)
 
     }

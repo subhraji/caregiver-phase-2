@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.NoInternetActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.AgencyProfileActivity"
             android:exported="false" />
         <activity
