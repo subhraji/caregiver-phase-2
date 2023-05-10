@@ -35,7 +35,6 @@ class JobStartAlertActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mp?.release();
-        mp = null;
+         mp = null;
     }
 }
