@@ -521,23 +521,43 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
         <com.ncorti.slidetoact.SlideToActView
             android:id="@+id/slide_to_start_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:elevation="10dp"
-            app:area_margin="5dp"
             app:animation_duration="250"
-            app:outer_color="@color/theme_blue"
-            app:inner_color="@color/color_grey"
+            app:area_margin="5dp"
             app:border_radius="80dp"
-            app:text="Swipe to start the job."
-            app:text_size="12sp"
+            app:inner_color="@color/color_grey"
+            app:outer_color="@color/theme_blue"
             app:slider_height="60dp"
             app:slider_locked="false"
+            app:text="Swipe to start the job."
+            app:text_size="12sp" />
+        <com.ncorti.slidetoact.SlideToActView
+            android:id="@+id/slide_to_check_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:elevation="10dp"
+            app:animation_duration="250"
+            app:area_margin="5dp"
+            app:border_radius="80dp"
+            app:inner_color="@color/color_grey"
+            app:outer_color="@color/deep_orange"
+            app:slider_height="60dp"
+            app:slider_locked="false"
+            app:text="Swipe to check in."
+            app:text_size="12sp" />
+
     </RelativeLayout>
 </RelativeLayout>

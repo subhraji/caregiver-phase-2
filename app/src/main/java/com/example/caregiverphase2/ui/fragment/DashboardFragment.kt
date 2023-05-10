@@ -89,6 +89,11 @@ class DashboardFragment : Fragment() {
         getOngoingJobObserver()
         getProfileObserve()
 
+        binding.imageView1.setOnClickListener {
+            val intent = Intent(requireActivity(), JobStartAlertActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.profilePendingCart.setOnClickListener {
             if(requireActivity().isConnectedToInternet()){
                 mGetProfileStatusViewModel.getProfileStatus(accessToken)

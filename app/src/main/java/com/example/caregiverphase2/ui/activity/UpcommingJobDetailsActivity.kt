@@ -106,6 +106,38 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         }
 
         //swipe
+        binding.slideToStartBtn.gone()
+        binding.slideToCheckBtn.visible()
+
+
+        binding.slideToCheckBtn.onSlideCompleteListener = (object : SlideToActView.OnSlideCompleteListener{
+            override fun onSlideComplete(view: SlideToActView) {
+                binding.slideToCheckBtn.resetSlider()
+            }
+        })
+
+        binding.slideToCheckBtn.onSlideToActAnimationEventListener = (object : SlideToActView.OnSlideToActAnimationEventListener{
+            override fun onSlideCompleteAnimationEnded(view: SlideToActView) {
+                //Toast.makeText(this@UpcommingJobDetailsActivity,"onSlideCompleteAnimationEnded",Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onSlideCompleteAnimationStarted(view: SlideToActView, threshold: Float) {
+                //Toast.makeText(this@UpcommingJobDetailsActivity,"onSlideCompleteAnimationStarted",Toast.LENGTH_SHORT).show()
+
+            }
+
+            override fun onSlideResetAnimationEnded(view: SlideToActView) {
+                //Toast.makeText(this@UpcommingJobDetailsActivity,"onSlideResetAnimationEnded",Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onSlideResetAnimationStarted(view: SlideToActView) {
+
+                binding.slideToStartBtn.visible()
+                binding.slideToCheckBtn.gone()
+            }
+
+        })
+
         binding.slideToStartBtn.onSlideCompleteListener = (object : SlideToActView.OnSlideCompleteListener{
             override fun onSlideComplete(view: SlideToActView) {
                 binding.slideToStartBtn.resetSlider()
