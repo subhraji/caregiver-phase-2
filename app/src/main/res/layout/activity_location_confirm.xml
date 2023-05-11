@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.LocationConfirmActivity">
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loc_lottie"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:lottie_rawRes="@raw/location"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="200dp"/>
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/loc_lottie"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="Confirm your location"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"/>
+    <com.ncorti.slidetoact.SlideToActView
+        android:id="@+id/slide_to_conf_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_1"
+        android:elevation="10dp"
+        app:animation_duration="250"
+        app:area_margin="5dp"
+        app:border_radius="80dp"
+        app:inner_color="@color/color_grey"
+        app:outer_color="@color/theme_blue"
+        app:slider_height="60dp"
+        app:slider_locked="false"
+        app:text="Swipe to confirm location."
+        app:text_size="12sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

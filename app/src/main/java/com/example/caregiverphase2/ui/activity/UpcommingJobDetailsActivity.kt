@@ -75,6 +75,11 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
 
         clickJobOverview()
 
+        binding.agencyImgView.setOnClickListener {
+            val intent = Intent(this, LocationConfirmActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.jobOverviewCard.setOnClickListener {
             clickJobOverview()
         }

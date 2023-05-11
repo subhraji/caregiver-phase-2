@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.LocationConfirmActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.JobStartAlertActivity"
             android:exported="false" />
         <activity
