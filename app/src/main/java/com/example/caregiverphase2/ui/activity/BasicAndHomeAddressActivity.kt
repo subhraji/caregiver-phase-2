@@ -233,7 +233,6 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
             val minDateInMilliSeconds: Long = c.getTimeInMillis()
             dpd.getDatePicker().setMaxDate(minDateInMilliSeconds)
 
-
             dpd.show()
         }
 

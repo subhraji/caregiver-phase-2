@@ -188,7 +188,6 @@ class AskLocationActivity : AppCompatActivity() {
         } else {
             makePermissionRequest()
         }
-
     }
 
     private fun showSettingsDialog() {
