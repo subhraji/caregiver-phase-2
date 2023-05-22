@@ -22,6 +22,7 @@ import com.example.caregiverphase2.adapter.DashQuickCallsAdapter
 import com.example.caregiverphase2.databinding.FragmentDashboardBinding
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.service.BackgroundLocationService
 import com.example.caregiverphase2.ui.activity.*
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
@@ -154,6 +155,8 @@ class DashboardFragment : Fragment() {
         }
 
         binding.dashSearchLay.setOnClickListener {
+            requireActivity().stopService(Intent(activity?.baseContext, BackgroundLocationService::class.java))
+
             val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
         }

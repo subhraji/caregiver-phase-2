@@ -85,7 +85,6 @@ class LoginFragment : Fragment() {
 
         binding.loginBtn.setOnClickListener {
 
-
             val validEmail = binding.emailTxtLay.helperText == null && binding.emailTxt.text.toString().isNotEmpty()
             val validPassword = binding.passwordTxtLay.helperText == null && binding.passwordTxt.text.toString().isNotEmpty()
 

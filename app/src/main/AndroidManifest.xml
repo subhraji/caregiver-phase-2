@@ -213,7 +213,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <service android:name=".service.BackgroundLocationService"
+            android:exported="true"/>
         <service
             android:name=".utils.MyFirebaseMessagingService"
             android:exported="true">

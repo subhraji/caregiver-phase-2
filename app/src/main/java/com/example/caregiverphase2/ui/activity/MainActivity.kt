@@ -4,6 +4,7 @@ import android.app.ActionBar
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityMainBinding
+import com.example.caregiverphase2.service.BackgroundLocationService
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         getToken()
         createNotificationChannel()
 
+        //service test
+        startService(Intent(baseContext, BackgroundLocationService::class.java))
     }
 
 
