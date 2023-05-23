@@ -1,13 +1,19 @@
 package com.example.caregiverphase2.ui.fragment
 
 import android.animation.ObjectAnimator
+import android.app.Activity
+import android.app.ActivityManager
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -22,7 +28,7 @@ import com.example.caregiverphase2.adapter.DashQuickCallsAdapter
 import com.example.caregiverphase2.databinding.FragmentDashboardBinding
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.model.repository.Outcome
-import com.example.caregiverphase2.service.BackgroundLocationService
+import com.example.caregiverphase2.service.ForegroundLocationService
 import com.example.caregiverphase2.ui.activity.*
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
@@ -31,14 +37,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
 import kotlinx.coroutines.*
-import lightStatusBar
 import loadingDialog
 import visible
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.Duration
-import java.time.LocalTime
 import java.util.*
+
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
@@ -91,8 +95,9 @@ class DashboardFragment : Fragment() {
         getProfileObserve()
 
         binding.imageView1.setOnClickListener {
-            val intent = Intent(requireActivity(), JobStartAlertActivity::class.java)
-            startActivity(intent)
+            /*val intent = Intent(requireActivity(), JobStartAlertActivity::class.java)
+            startActivity(intent)*/
+            startStopService()
         }
 
         binding.profilePendingCart.setOnClickListener {
@@ -145,6 +150,8 @@ class DashboardFragment : Fragment() {
         }
 
         binding.dashJobLay.setOnClickListener {
+            //requireActivity().startService(Intent(activity?.baseContext, BackgroundLocationService::class.java))
+
             val intent = Intent(requireActivity(), JobsActivity::class.java)
             startActivity(intent)
         }
@@ -155,7 +162,7 @@ class DashboardFragment : Fragment() {
         }
 
         binding.dashSearchLay.setOnClickListener {
-            requireActivity().stopService(Intent(activity?.baseContext, BackgroundLocationService::class.java))
+            //requireActivity().stopService(Intent(activity?.baseContext, BackgroundLocationService::class.java))
 
             val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
@@ -562,5 +569,28 @@ class DashboardFragment : Fragment() {
                 binding.timeLeftTv.text = "TIME LEFT : 00:00"
             }
         }.start()
+    }
+
+    private fun startStopService(){
+        if(isMyServiceRunning(ForegroundLocationService::class.java)){
+            Toast.makeText(requireActivity(),"Service Stopped", Toast.LENGTH_SHORT).show()
+            activity?.stopService(Intent(activity, ForegroundLocationService::class.java))
+        }else{
+            Toast.makeText(requireActivity(),"Service Started", Toast.LENGTH_SHORT).show()
+            activity?.startService(Intent(activity, ForegroundLocationService::class.java))
+        }
+    }
+
+    private fun isMyServiceRunning(mClass: Class<ForegroundLocationService>): Boolean{
+
+        val manager = requireContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+        for(service: ActivityManager.RunningServiceInfo in manager.getRunningServices(Integer.MAX_VALUE)){
+
+            if(mClass.name.equals(service.service.className)){
+                return true
+            }
+        }
+        return false
     }
 }

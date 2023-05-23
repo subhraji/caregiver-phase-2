@@ -9,4 +9,7 @@ object Constants {
     //Live
     /*const val BASE_URL = "http://134.122.119.7/api/caregiver/"
     const val PUBLIC_URL = "http://134.122.119.7/"*/
+
+    const val CHANNEL_ID = "your_id"
+    const val MUSIC_NOTIFICATION_ID = 123
 }

@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -214,6 +216,8 @@
             </intent-filter>
         </activity>
         <service android:name=".service.BackgroundLocationService"
+            android:exported="true"/>
+        <service android:name=".service.ForegroundLocationService"
             android:exported="true"/>
         <service
             android:name=".utils.MyFirebaseMessagingService"

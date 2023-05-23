@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
+import com.example.caregiverphase2.ui.activity.AskLocationActivity
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -22,7 +23,11 @@ class BackgroundLocationService: Service() {
     private fun doSomethingRepeatedly() {
         timer?.scheduleAtFixedRate(timerTask {
             Log.e("NIlu_TAG","${counter++} Hello World")
-        },0,10000)
+            val intent = Intent(baseContext, AskLocationActivity::class.java)
+            intent.putExtra("from","other")
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        },0,35000)
     }
 
     override fun onDestroy() {

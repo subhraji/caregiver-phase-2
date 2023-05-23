@@ -31,6 +31,37 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:gravity="center"/>
+    <LinearLayout
+        android:id="@+id/retry_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tv_1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Could not load !! Please try again"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/retry_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retry"
+            android:textColor="@color/theme_blue"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/new_border_bg"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"/>
+    </LinearLayout>
     <com.ncorti.slidetoact.SlideToActView
         android:id="@+id/slide_to_conf_btn"
         android:layout_width="match_parent"
@@ -48,6 +79,7 @@
         app:slider_height="60dp"
         app:slider_locked="false"
         app:text="Swipe to confirm location."
-        app:text_size="12sp" />
+        app:text_size="12sp"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

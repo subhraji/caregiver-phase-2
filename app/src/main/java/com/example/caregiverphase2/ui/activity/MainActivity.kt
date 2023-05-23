@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
 
         //service test
-        startService(Intent(baseContext, BackgroundLocationService::class.java))
     }
 
 
