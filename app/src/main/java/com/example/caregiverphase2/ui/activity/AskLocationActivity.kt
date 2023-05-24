@@ -38,6 +38,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import dagger.hilt.android.AndroidEntryPoint
 import gone
+import isConnectedToInternet
 import loadingDialog
 import visible
 import java.util.*
@@ -80,9 +81,13 @@ class AskLocationActivity : AppCompatActivity() {
         binding.useLocBtn.gone()
         binding.retryBtn.gone()
         binding.useLocBtn.setOnClickListener {
-            mUpdateLocationViewModel.updateLocation(latitude,longitude,accessToken)
-            loader = this.loadingDialog()
-            loader.show()
+            if(isConnectedToInternet()){
+                mUpdateLocationViewModel.updateLocation(latitude,longitude,accessToken)
+                loader = this.loadingDialog()
+                loader.show()
+            }else{
+                Toast.makeText(this,"Oops!! No internet connection.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         //observer

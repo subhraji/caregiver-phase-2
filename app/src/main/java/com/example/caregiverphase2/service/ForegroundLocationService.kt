@@ -12,6 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.PackageManagerCompat
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.ui.activity.AskLocationActivity
+import com.example.caregiverphase2.ui.activity.FullScreenNotifyActivity
+import com.example.caregiverphase2.ui.activity.LocationConfirmActivity
 import com.example.caregiverphase2.ui.activity.MainActivity
 import com.example.caregiverphase2.utils.Constants.CHANNEL_ID
 import com.example.caregiverphase2.utils.Constants.MUSIC_NOTIFICATION_ID
@@ -56,15 +58,23 @@ class ForegroundLocationService: Service() {
         timer?.scheduleAtFixedRate(timerTask {
             Log.e("NIlu_TAG","${counter++} Hello World")
             musicPlayer.start()
-            val intent = Intent(baseContext, AskLocationActivity::class.java)
-            intent.putExtra("from","other")
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            val intent = Intent(baseContext, LocationConfirmActivity::class.java)
+            /*intent.putExtra("from","timer") */
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NO_USER_ACTION
             startActivity(intent)
         },0,20000)
     }
 
     private fun showNotification(){
-        val notificationIntent = Intent(this, MainActivity::class.java)
+        val notificationIntent = Intent(this, LocationConfirmActivity::class.java)
+        notificationIntent.putExtra("from","notification")
+
+        /*val intent = Intent(this, LocationConfirmActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NO_USER_ACTION)
+        intent.putExtra("from","notification")
+        startActivity(intent)
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)*/
 
         val pendingIntent = PendingIntent.getActivity(
             this, 0, notificationIntent, 0
