@@ -62,7 +62,7 @@ class ForegroundLocationService: Service() {
             /*intent.putExtra("from","timer") */
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NO_USER_ACTION
             startActivity(intent)
-        },0,20000)
+        },50000,50000)
     }
 
     private fun showNotification(){

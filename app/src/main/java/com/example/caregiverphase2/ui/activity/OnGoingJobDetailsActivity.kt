@@ -1,6 +1,8 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.app.ActivityManager
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +23,7 @@ import com.example.caregiverphase2.adapter.BulletPointAdapter
 import com.example.caregiverphase2.adapter.CheckListAdapter
 import com.example.caregiverphase2.databinding.ActivityOnGoingJobDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.service.ForegroundLocationService
 import com.example.caregiverphase2.ui.fragment.AgencyFragment
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
@@ -362,6 +365,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                     loader.dismiss()
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        stopService()
                         showCompleteDialog("Your job has been completed successfully, You can find this on the completed job section.")
                         mCompleteJobViewModel.navigationComplete()
                     }else{
@@ -376,6 +380,26 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun stopService(){
+        if(isMyServiceRunning(ForegroundLocationService::class.java)){
+            Toast.makeText(this,"Location tracking stopped.", Toast.LENGTH_SHORT).show()
+            stopService(Intent(this, ForegroundLocationService::class.java))
+        }
+    }
+
+    private fun isMyServiceRunning(mClass: Class<ForegroundLocationService>): Boolean{
+
+        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+        for(service: ActivityManager.RunningServiceInfo in manager.getRunningServices(Integer.MAX_VALUE)){
+
+            if(mClass.name.equals(service.service.className)){
+                return true
+            }
+        }
+        return false
     }
 
     private fun addReviewObserver(){

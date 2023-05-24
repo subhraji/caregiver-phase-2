@@ -1,6 +1,8 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.app.ActivityManager
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -20,6 +22,7 @@ import com.example.caregiverphase2.R
 import com.example.caregiverphase2.adapter.BulletPointAdapter
 import com.example.caregiverphase2.databinding.ActivityUpcommingJobDetailsBinding
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.service.ForegroundLocationService
 import com.example.caregiverphase2.ui.fragment.AgencyFragment
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
@@ -76,8 +79,8 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
         clickJobOverview()
 
         binding.agencyImgView.setOnClickListener {
-            val intent = Intent(this, LocationConfirmActivity::class.java)
-            startActivity(intent)
+            /*val intent = Intent(this, LocationConfirmActivity::class.java)
+            startActivity(intent)*/
         }
 
         binding.jobOverviewCard.setOnClickListener {
@@ -345,6 +348,8 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         binding.slideToStartBtn.gone()
+
+                        startService()
                         val intent = Intent(this, OnGoingJobDetailsActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -362,6 +367,26 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun startService(){
+        if(!isMyServiceRunning(ForegroundLocationService::class.java)){
+            Toast.makeText(this,"During the job, your location will be tracked.", Toast.LENGTH_LONG).show()
+            startService(Intent(this, ForegroundLocationService::class.java))
+        }
+    }
+
+    private fun isMyServiceRunning(mClass: Class<ForegroundLocationService>): Boolean{
+
+        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+        for(service: ActivityManager.RunningServiceInfo in manager.getRunningServices(Integer.MAX_VALUE)){
+
+            if(mClass.name.equals(service.service.className)){
+                return true
+            }
+        }
+        return false
     }
 
     private fun getDirection(lat: String, long: String){
