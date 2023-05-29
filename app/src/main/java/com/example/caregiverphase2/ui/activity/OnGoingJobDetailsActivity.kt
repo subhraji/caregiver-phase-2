@@ -105,10 +105,6 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
             )
         }
 
-        /*binding.rewardsRelay.setOnClickListener {
-            showReviewDialog()
-        }*/
-
         //swipe
         binding.slideToCompleteBtn.onSlideCompleteListener = (object : SlideToActView.OnSlideCompleteListener{
             override fun onSlideComplete(view: SlideToActView) {
@@ -322,9 +318,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
         val title_tv = dialog.findViewById<TextView>(R.id.text_view_2)
 
         title_tv.text = title
-        /*Handler(Looper.getMainLooper()).postDelayed({
 
-        }, 2500)*/
         okay.setOnClickListener {
             showReviewDialog()
             dialog.dismiss()

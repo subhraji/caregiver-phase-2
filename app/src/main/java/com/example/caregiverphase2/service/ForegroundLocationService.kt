@@ -17,6 +17,10 @@ import com.example.caregiverphase2.ui.activity.LocationConfirmActivity
 import com.example.caregiverphase2.ui.activity.MainActivity
 import com.example.caregiverphase2.utils.Constants.CHANNEL_ID
 import com.example.caregiverphase2.utils.Constants.MUSIC_NOTIFICATION_ID
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -26,6 +30,8 @@ class ForegroundLocationService: Service() {
 
     var counter = 0
     private val timer: Timer? = Timer()
+    private val job = SupervisorJob()
+    private val scope = CoroutineScope(Dispatchers.IO + job)
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
@@ -41,7 +47,9 @@ class ForegroundLocationService: Service() {
         showNotification()
 
         //playPauseMusic()
-        doSomethingRepeatedly()
+        scope.launch {
+            doSomethingRepeatedly()
+        }
 
         return START_STICKY
     }
@@ -62,7 +70,7 @@ class ForegroundLocationService: Service() {
             /*intent.putExtra("from","timer") */
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NO_USER_ACTION
             startActivity(intent)
-        },50000,50000)
+        },900000,900000)
     }
 
     private fun showNotification(){
@@ -119,9 +127,9 @@ class ForegroundLocationService: Service() {
         if(musicPlayer.isPlaying){
             musicPlayer.stop()
         }
-
         timer?.let {
             it.cancel()
         }
+        job.cancel()
     }
 }

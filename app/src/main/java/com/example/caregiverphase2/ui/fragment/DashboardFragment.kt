@@ -94,12 +94,6 @@ class DashboardFragment : Fragment() {
         getOngoingJobObserver()
         getProfileObserve()
 
-        binding.imageView1.setOnClickListener {
-            /*val intent = Intent(requireActivity(), JobStartAlertActivity::class.java)
-            startActivity(intent)*/
-            startStopService()
-        }
-
         binding.profilePendingCart.setOnClickListener {
             if(requireActivity().isConnectedToInternet()){
                 mGetProfileStatusViewModel.getProfileStatus(accessToken)
@@ -163,7 +157,6 @@ class DashboardFragment : Fragment() {
 
         binding.dashSearchLay.setOnClickListener {
             //requireActivity().stopService(Intent(activity?.baseContext, BackgroundLocationService::class.java))
-
             val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
         }
@@ -569,28 +562,5 @@ class DashboardFragment : Fragment() {
                 binding.timeLeftTv.text = "TIME LEFT : 00:00"
             }
         }.start()
-    }
-
-    private fun startStopService(){
-        if(isMyServiceRunning(ForegroundLocationService::class.java)){
-            Toast.makeText(requireActivity(),"Service Stopped", Toast.LENGTH_SHORT).show()
-            activity?.stopService(Intent(activity, ForegroundLocationService::class.java))
-        }else{
-            Toast.makeText(requireActivity(),"Service Started", Toast.LENGTH_SHORT).show()
-            activity?.startService(Intent(activity, ForegroundLocationService::class.java))
-        }
-    }
-
-    private fun isMyServiceRunning(mClass: Class<ForegroundLocationService>): Boolean{
-
-        val manager = requireContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-
-        for(service: ActivityManager.RunningServiceInfo in manager.getRunningServices(Integer.MAX_VALUE)){
-
-            if(mClass.name.equals(service.service.className)){
-                return true
-            }
-        }
-        return false
     }
 }
