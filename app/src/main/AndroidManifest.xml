@@ -12,8 +12,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".MyApplication"
@@ -28,7 +27,9 @@
         android:theme="@style/Theme.CaregiverPhase2"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.activity.ChatActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.JobStartAlertActivity"
             android:exported="false" />
@@ -213,16 +214,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.LocationConfirmActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
 
-        <service android:name=".service.BackgroundLocationService"
-            android:exported="true"/>
-        <service android:name=".service.ForegroundLocationService"
-            android:exported="true"/>
+        <service
+            android:name=".service.BackgroundLocationService"
+            android:exported="true" />
+        <service
+            android:name=".service.ForegroundLocationService"
+            android:exported="true" />
         <service
             android:name=".utils.MyFirebaseMessagingService"
             android:exported="true">

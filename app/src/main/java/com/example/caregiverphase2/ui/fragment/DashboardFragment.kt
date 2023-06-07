@@ -144,8 +144,6 @@ class DashboardFragment : Fragment() {
         }
 
         binding.dashJobLay.setOnClickListener {
-            //requireActivity().startService(Intent(activity?.baseContext, BackgroundLocationService::class.java))
-
             val intent = Intent(requireActivity(), JobsActivity::class.java)
             startActivity(intent)
         }
@@ -156,8 +154,12 @@ class DashboardFragment : Fragment() {
         }
 
         binding.dashSearchLay.setOnClickListener {
-            //requireActivity().stopService(Intent(activity?.baseContext, BackgroundLocationService::class.java))
             val intent = Intent(requireActivity(), SearchActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.imageView1.setOnClickListener {
+            val intent = Intent(requireActivity(), ChatActivity::class.java)
             startActivity(intent)
         }
     }
