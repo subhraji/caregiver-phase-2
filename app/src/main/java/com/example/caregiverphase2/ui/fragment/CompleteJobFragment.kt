@@ -52,23 +52,22 @@ class CompleteJobFragment : Fragment() {
 
         //get token
         accessToken = "Bearer "+ PrefManager.getKeyAuthToken()
-        binding.completedJobsRecycler.gone()
-        binding.noDataLottie.gone()
-        binding.jobsShimmerView.startShimmer()
 
         //observe
         getCompleteJobJobsObserver()
 
+    }
 
+    override fun onResume() {
+        super.onResume()
+        binding.completedJobsRecycler.gone()
+        binding.noDataLottie.gone()
+        binding.jobsShimmerView.startShimmer()
         if(requireActivity().isConnectedToInternet()){
             mGetCompleteJobsViewModel.getCompleteJob(accessToken,0)
         }else{
             Toast.makeText(requireActivity(),"No internet connection.", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     private fun getCompleteJobJobsObserver(){

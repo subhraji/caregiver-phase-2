@@ -401,11 +401,12 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/medical_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/medical_his_htv"/>
+                        android:layout_below="@+id/medical_his_htv" />
 
                     <TextView
                         android:id="@+id/job_exp_htv"
@@ -483,19 +484,21 @@
             android:id="@+id/slide_to_complete_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:elevation="10dp"
-            app:area_margin="5dp"
             app:animation_duration="250"
-            app:outer_color="@color/dash_green"
-            app:inner_color="@color/color_grey"
+            app:area_margin="5dp"
             app:border_radius="80dp"
-            app:text="Swipe to complete the job."
-            app:text_size="12sp"
+            app:inner_color="@color/color_grey"
+            app:outer_color="@color/dash_green"
             app:slider_height="60dp"
             app:slider_locked="false"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"/>
+            app:text_color="@color/white"
+            app:text_style="bold"
+            app:text="Swipe to complete the job."
+            app:text_size="12sp" />
     </RelativeLayout>
 </RelativeLayout>
