@@ -55,7 +55,7 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
             itemBinding.apply {
                 jobTitleTv.text = data?.job_title.toString()
                 priceTv.text = "$"+data?.amount.toString()
-                careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
+                careTypeTv.text = data?.care_type
                 if(data?.short_address.toString().length > 20){
                     addressTv.text = data?.short_address.toString().substring(0,19)+"..."
                 }else{

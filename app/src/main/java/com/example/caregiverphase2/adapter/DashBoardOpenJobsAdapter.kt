@@ -58,7 +58,7 @@ class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
             itemBinding.apply {
                 jobTitleTv.text = data?.jobTitle.toString()
                 priceTv.text = "$"+data?.amount.toString()
-                careTypeTv.text = data?.careItems.size.toString()+" "+data?.careType
+                careTypeTv.text = data?.careType
                 if(data?.shortAddress.toString().length > 20){
                     addressTv.text = data?.shortAddress.toString().substring(0,19)+"..."
                 }else{

@@ -159,7 +159,6 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                 Toast.makeText(this,"Could not fetch the location ${lat}...${long}",Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun getOngoingJobObserver(){
@@ -505,7 +504,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
     }
 
     private fun showReviewDialog(){
-        val dialog = BottomSheetDialog(this)
+        val dialog = BottomSheetDialog(this, R.style.DialogStyle)
         val view = layoutInflater.inflate(R.layout.add_review_bottomsheet_layout, null)
 
         val submit = view.findViewById<TextView>(R.id.submit_btn)

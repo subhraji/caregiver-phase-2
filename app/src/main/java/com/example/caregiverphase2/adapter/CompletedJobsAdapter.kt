@@ -49,7 +49,7 @@ class CompletedJobsAdapter (private val itemList: List<Data>, private val contex
 
                 jobTitleTv.text = data?.title.toString()
                 priceTv.text = "$"+data?.amount.toString()
-                careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
+                careTypeTv.text = data?.care_type
                 addressTv.text = data?.short_address.toString()
                 hourHtv.text = data?.start_time+" - "+data?.end_time
                 dateHtv.text = data?.start_date+"-"+data?.end_date
