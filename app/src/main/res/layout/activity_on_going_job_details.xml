@@ -480,6 +480,26 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/chat_card"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:cardCornerRadius="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_above="@+id/slide_to_complete_btn"
+            app:cardBackgroundColor="@color/theme_blue">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/chat_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_sms_fill0_wght400_grad0_opsz48"
+                android:tint="@color/white"
+                android:layout_margin="10dp"/>
+        </androidx.cardview.widget.CardView>
+
+
         <com.ncorti.slidetoact.SlideToActView
             android:id="@+id/slide_to_complete_btn"
             android:layout_width="match_parent"

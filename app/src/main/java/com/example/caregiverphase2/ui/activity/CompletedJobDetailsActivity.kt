@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -66,6 +67,11 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
 
         binding.checklistCard.setOnClickListener {
             clickCheckList()
+        }
+
+        binding.chatCard.setOnClickListener {
+            val intent = Intent(this, ChatActivity::class.java)
+            startActivity(intent)
         }
 
         binding.viewProfileHtv.setOnClickListener {

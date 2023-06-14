@@ -555,126 +555,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-<!--
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="20dp">
-
-        <ImageView
-            android:id="@+id/image_view_1"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/new_logo_white"
-            app:tint="@color/theme_blue" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/image_view_1"
-            android:layout_alignBottom="@+id/image_view_1"
-            android:layout_marginStart="5dp"
-            android:layout_toRightOf="@+id/image_view_1"
-            android:gravity="center"
-            android:text="Peaceworc"
-            android:textColor="@color/theme_blue"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/user_image_view"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignTop="@+id/image_view_1"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="15dp"
-            android:src="@color/color_grey"
-            app:civ_border_color="@color/theme_blue"
-            app:civ_border_width="1dp" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/dash_search_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/user_image_view"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="8dp">
-
-            <RelativeLayout
-                android:id="@+id/dash_search_lay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/dash_search_bg"
-                android:backgroundTint="@color/white"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
-
-                <ImageView
-                    android:id="@+id/search_icon_image_view"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/ic_search_36"
-                    app:tint="#808080" />
-
-                <TextView
-                    android:id="@+id/test_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="15dp"
-                    android:layout_toRightOf="@+id/search_icon_image_view"
-                    android:text="Search job"
-                    android:textSize="13sp" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/loc_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="15dp"
-                    app:cardBackgroundColor="@color/light_grey"
-                    app:cardCornerRadius="10dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingStart="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingEnd="15dp"
-                        android:paddingBottom="5dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/home_pin"
-                            app:tint="@color/black" />
-
-                        <TextView
-                            android:id="@+id/short_address_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:textColor="@color/black"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
--->
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/ongoing_card"
@@ -682,7 +562,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
         app:cardBackgroundColor="@color/theme_blue"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"

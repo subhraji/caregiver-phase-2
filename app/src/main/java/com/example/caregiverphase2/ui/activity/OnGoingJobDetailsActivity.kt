@@ -89,6 +89,11 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.chatCard.setOnClickListener {
+            val intent = Intent(this, ChatActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.viewProfileHtv.setOnClickListener {
             /*val intent = Intent(this,AgencyProfileActivity::class.java)
             intent.putExtra("id",job_id.toString())
