@@ -108,6 +108,11 @@ class DashboardFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.userPhoto.setOnClickListener {
+            val intent = Intent(requireActivity(), ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.locBtn.setOnClickListener {
             val intent = Intent(requireActivity(), SearchLocationActivity::class.java)
             startActivity(intent)
@@ -449,6 +454,12 @@ class DashboardFragment : Fragment() {
                                 .placeholder(R.color.color_grey) // any placeholder to load at start
                                 .centerCrop()
                                 .into(binding.userImageView)
+
+                            Glide.with(this)
+                                .load(Constants.PUBLIC_URL+it) // image url
+                                .placeholder(R.color.color_grey) // any placeholder to load at start
+                                .centerCrop()
+                                .into(binding.userPhoto)
                         }
                         data?.profile_completion_status?.let {
                             var percent = ((it.is_basic_info_added+it.is_optional_info_added+it.is_documents_uploaded)*100)/3

@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.DashboardFragment">
-
-    <ScrollView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:contentScrim="@color/white"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:title="@string/app_name">
 
             <RelativeLayout
                 android:id="@+id/map_frame"
@@ -21,7 +24,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_collapseMode="parallax">
 
                 <fragment
                     android:id="@+id/fragment"
@@ -33,11 +37,187 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                app:layout_collapseMode="parallax" >
+
+                <ImageView
+                    android:id="@+id/image_view_1"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/new_logo_white"
+                    app:tint="@color/theme_blue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/image_view_1"
+                    android:layout_alignBottom="@+id/image_view_1"
+                    android:layout_marginStart="5dp"
+                    android:layout_toRightOf="@+id/image_view_1"
+                    android:gravity="center"
+                    android:text="Peaceworc"
+                    android:textColor="@color/theme_blue"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_image_view"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignTop="@+id/image_view_1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="15dp"
+                    android:src="@color/color_grey"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/dash_search_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_image_view"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="8dp">
+
+                    <RelativeLayout
+                        android:id="@+id/dash_search_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/dash_search_bg"
+                        android:backgroundTint="@color/white"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
+
+                        <ImageView
+                            android:id="@+id/search_icon_image_view"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="15dp"
+                            android:src="@drawable/ic_search_36"
+                            app:tint="#808080" />
+
+                        <TextView
+                            android:id="@+id/test_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="15dp"
+                            android:layout_toRightOf="@+id/search_icon_image_view"
+                            android:text="Search job"
+                            android:textSize="13sp" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/loc_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="15dp"
+                            app:cardBackgroundColor="@color/light_grey"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingStart="10dp"
+                                android:paddingTop="5dp"
+                                android:paddingEnd="15dp"
+                                android:paddingBottom="5dp">
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:src="@drawable/home_pin"
+                                    app:tint="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/short_address_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="pin"
+                android:paddingBottom="10dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/logo_img"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/new_logo_white"
+                        app:tint="@color/theme_blue" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/logo_img"
+                        android:layout_alignBottom="@+id/logo_img"
+                        android:layout_marginStart="5dp"
+                        android:layout_toRightOf="@+id/logo_img"
+                        android:gravity="center"
+                        android:text="Peaceworc"
+                        android:textColor="@color/theme_blue"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/user_photo"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignTop="@+id/logo_img"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="15dp"
+                        android:src="@color/color_grey" />
+
+                </RelativeLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:id="@+id/dash_linear_lay_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/map_frame"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="20dp"
@@ -373,8 +553,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/open_jobs_relative_lay" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
+<!--
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -492,18 +673,20 @@
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
+-->
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/ongoing_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         app:cardBackgroundColor="@color/theme_blue"
         app:cardCornerRadius="10dp"
-        app:cardElevation="10dp">
+        app:cardElevation="10dp"
+        android:layout_gravity="bottom">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -585,4 +768,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
