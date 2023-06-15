@@ -27,6 +27,7 @@ import com.example.caregiverphase2.model.pojo.get_agency_profile.GetAgencyProfil
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
 import com.example.caregiverphase2.model.pojo.get_complete_job.GetCompleteJobsResponse
 import com.example.caregiverphase2.model.pojo.get_documents.GetDocumentsResponse
+import com.example.caregiverphase2.model.pojo.get_job_locations.GetJobLocationResponse
 import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
 import com.example.caregiverphase2.model.pojo.get_ongoing_job.GetOngoingJobResponse
 import com.example.caregiverphase2.model.pojo.get_open_bid_details.GetOpenBidDetailsResponse
@@ -304,4 +305,10 @@ interface ApiInterface {
         @Header("Authorization") token: String,
     ): AddReviewResponse?
 
+    @GET("map-locations/get-locations")
+    suspend fun getJobLocation(
+        @Header("Authorization") token: String,
+        @Query("current_lat") current_lat: String?,
+        @Query("current_long") current_long: String?,
+    ): GetJobLocationResponse?
 }

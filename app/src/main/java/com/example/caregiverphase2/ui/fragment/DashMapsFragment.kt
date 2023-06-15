@@ -4,13 +4,20 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.caregiverphase2.R
+import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.GetBiddedJobsViewModel
+import com.example.caregiverphase2.viewmodel.GetJobLocationViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,17 +26,17 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import dagger.hilt.android.AndroidEntryPoint
+import isConnectedToInternet
 
-
+@AndroidEntryPoint
 class DashMapsFragment : Fragment() {
     private var mMap: GoogleMap? = null
     private val locationArrayList: MutableList<LatLng>? = mutableListOf()
-    val ganeshguri = LatLng(26.1468844,91.700288)
-    val ulubari = LatLng(26.1468844,91.700288)
-    val khanapara = LatLng(26.1552477,91.7682784)
-    val jalukbari = LatLng(26.1686385,91.7683804)
-    val sixmile = LatLng(26.1329432,91.8109494)
-    val locationA = LatLng(26.1233264,91.7941119)
+
+    private val mGetJobLocationViewModel: GetJobLocationViewModel by viewModels()
+    private lateinit var accessToken: String
+
     private val callback = OnMapReadyCallback { googleMap ->
 
         PrefManager.getLatitude()?.let {
@@ -45,14 +52,7 @@ class DashMapsFragment : Fragment() {
         }
 
         for (i in locationArrayList!!.indices) {
-
-            // below line is use to add marker to each location of our array list.
             googleMap.addMarker(MarkerOptions().position(locationArrayList[i]).title("Marker"))
-
-            /*// below line is use to zoom our camera on map.
-            googleMap.animateCamera(CameraUpdateFactory.zoomTo(18.0f))*/
-
-            // below line is use to move our camera to the specific location.
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationArrayList[i], 12f))
         }
     }
@@ -105,13 +105,53 @@ class DashMapsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        locationArrayList?.add(ganeshguri)
-        locationArrayList?.add(ulubari)
-        locationArrayList?.add(khanapara)
-        locationArrayList?.add(jalukbari)
-        locationArrayList?.add(sixmile)
-        locationArrayList?.add(locationA)
+        //observe
+        getJobLocationObserve()
+
+        //get token
+        accessToken = "Bearer "+PrefManager.getKeyAuthToken()
+
+        if(requireActivity().isConnectedToInternet()){
+            PrefManager.getLatitude()?.let {
+                PrefManager.getLongitude()?.let {
+                    mGetJobLocationViewModel.getJobLocation(
+                        accessToken,
+                        PrefManager.getLatitude().toString(),
+                        PrefManager.getLongitude().toString()
+                    )
+                }
+            }
+        }else{
+            Toast.makeText(requireActivity(),"Oops!! No internet connection", Toast.LENGTH_SHORT).show()
+        }
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }
+
+    private fun getJobLocationObserve(){
+        mGetJobLocationViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    if(outcome.data?.success == true){
+                        if(outcome.data?.data != null && outcome.data?.data?.size != 0){
+                            for (i in outcome.data?.data!!){
+                                locationArrayList?.add(LatLng(i.latitude.toDouble(), i.longitude.toDouble()))
+                            }
+                        }
+                        mGetJobLocationViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
 }
