@@ -166,6 +166,7 @@ class LoginFragment : Fragment() {
                 is Outcome.Success ->{
                     loader.dismiss()
                     if(outcome.data?.success == true){
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         if (outcome.data!!.token != null) {
                             outcome.data!!.token?.let {
                                 PrefManager.setKeyAuthToken(it)
