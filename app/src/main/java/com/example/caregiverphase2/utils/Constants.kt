@@ -12,4 +12,6 @@ object Constants {
 
     const val CHANNEL_ID = "your_id"
     const val MUSIC_NOTIFICATION_ID = 123
+
+    const val NODE_URL = "https://cea9-2405-201-a805-1a07-c5f4-1c85-cff4-b44f.ngrok-free.app"
 }

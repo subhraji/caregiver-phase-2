@@ -112,4 +112,8 @@ dependencies {
     //s+ error
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
+    //socket
+    implementation ('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 }

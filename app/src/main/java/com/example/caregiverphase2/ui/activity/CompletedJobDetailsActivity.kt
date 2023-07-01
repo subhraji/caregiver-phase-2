@@ -71,6 +71,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
 
         binding.chatCard.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("agency_id", "")
             startActivity(intent)
         }
 
