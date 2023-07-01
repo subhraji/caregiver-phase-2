@@ -48,9 +48,9 @@ class ChatActivity : AppCompatActivity() {
         /*val list: MutableList<ChatModel> = mutableListOf()
         list.add(ChatModel("hello how are you?", true))
         list.add(ChatModel("Hey long time no see, i am fine, what about you?", false))
-        list.add(ChatModel("Are you ok?", true))
+        list.add(ChatModel("Are you ok?", true))*/
         fillChatRecycler()
-        mMessageAdapter.addAllMessages(list)*/
+        //mMessageAdapter.addAllMessages(list)
 
         Glide.with(this).load("https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60")
             .placeholder(R.color.color_grey)
