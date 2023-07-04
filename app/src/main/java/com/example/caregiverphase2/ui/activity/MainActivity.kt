@@ -18,9 +18,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityMainBinding
 import com.example.caregiverphase2.service.BackgroundLocationService
+import com.example.caregiverphase2.utils.SocketHelper
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import lightStatusBar
 
 @AndroidEntryPoint
@@ -43,7 +48,10 @@ class MainActivity : AppCompatActivity() {
         getToken()
         createNotificationChannel()
 
-        //service test
+        //socket connect
+        /*CoroutineScope(Dispatchers.IO).launch {
+            SocketHelper.initSocket()
+        }*/
     }
 
 
@@ -98,5 +106,10 @@ class MainActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(channel)
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //SocketHelper.mSocket!!.disconnect()
     }
 }

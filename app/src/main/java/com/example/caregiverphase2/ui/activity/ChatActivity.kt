@@ -14,11 +14,13 @@ import com.example.caregiverphase2.model.pojo.chat.ChatModel
 import com.example.caregiverphase2.model.pojo.chat.ChatRequest
 import com.example.caregiverphase2.model.pojo.chat.Data
 import com.example.caregiverphase2.utils.Constants
+import com.example.caregiverphase2.utils.PrefManager
 import com.google.gson.Gson
 import hideSoftKeyboard
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import kotlinx.coroutines.delay
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URISyntaxException
@@ -70,7 +72,8 @@ class ChatActivity : AppCompatActivity() {
                 val currentThreadTimeMillis = System.currentTimeMillis()
                 val sendMsg = ChatRequest(
                     messageText,
-                    "dd",
+                    PrefManager.getUserId().toString(),
+                    agency_id.toString(),
                     currentThreadTimeMillis.toString(),
                     "",
                 )
@@ -93,7 +96,9 @@ class ChatActivity : AppCompatActivity() {
         mSocket?.on("receiveMessage", onNewMessage);
         mSocket?.connect()
 
-        //attemptSend()
+        //delay(10L)
+        val userId = PrefManager.getUserId().toString()
+        mSocket!!.emit("signin", userId)
     }
 
     private fun attemptSend(message: ChatRequest) {

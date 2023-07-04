@@ -28,12 +28,6 @@ object PrefManager {
     const val USER_ID = "user_id"
     const val IS_LOGIN = "login"
     const val IS_LOCATION = "location"
-    const val IS_WHATS = "whatsOnTut"
-    const val IS_HOW = "howTut"
-    const val IS_CIRCLE = "circleTut"
-    const val IS_ON_BOARDING = "on_boardingTut"
-    const val IS_HOME = "homeTut"
-    const val CIRCLE_ID = "circle_id"
 
 
 
@@ -128,8 +122,8 @@ object PrefManager {
     fun getLocationStatus(): Boolean? {
         return getBoolean(IS_LOCATION)
     }
-    fun getUserId(): Int? {
-        return getInt(USER_ID)
+    fun getUserId(): String? {
+        return getString(USER_ID)
     }
 
 
@@ -162,5 +156,8 @@ object PrefManager {
     }
     fun setLocationStatus(locationStatus: Boolean) {
         putBoolean(IS_LOCATION, locationStatus)
+    }
+    fun setUserId(user_id: String) {
+        putString(USER_ID, user_id)
     }
 }

@@ -5,5 +5,6 @@ data class SignUpEmailVerificationResponse(
     val http_status_code: Int,
     val message: String,
     val success: Boolean,
-    val token: String
+    val token: String,
+    val verified_user_id: String
 )

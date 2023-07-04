@@ -32,6 +32,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
     private val mGetCompleteJobsViewModel: GetCompleteJobsViewModel by viewModels()
     private lateinit var accessToken: String
     private var id = 0
+    private lateinit var agency_id: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +72,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
 
         binding.chatCard.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("agency_id", "")
+            intent.putExtra("agency_id", agency_id)
             startActivity(intent)
         }
 
@@ -152,6 +153,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data[0].agency_name.toString()
                         binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
+                        agency_id = outcome.data!!.data[0].agency_id.toString()
                         Glide.with(this)
                             .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agency_photo) // image url
                             .placeholder(R.color.dash_yellow) // any placeholder to load at start

@@ -394,7 +394,7 @@
                             android:layout_height="wrap_content"
                             android:text="0%"
                             android:textStyle="bold"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textColor="@color/black"
                             android:layout_weight="8"/>
                     </LinearLayout>
@@ -445,7 +445,7 @@
                     android:id="@+id/quick_call_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="10dp"/>
+                    android:paddingStart="10dp" />
             </RelativeLayout>
 
 
