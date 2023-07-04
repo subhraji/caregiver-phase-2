@@ -30,6 +30,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var mMessageAdapter: MessageListAdapter
     private var mSocket: Socket? = null
     private var agency_id: String? = null
+    private lateinit var accessToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +40,17 @@ class ChatActivity : AppCompatActivity() {
         val extras = intent.extras
         if (extras != null) {
             agency_id = intent?.getStringExtra("agency_id")
+            val name = intent?.getStringExtra("name")
+            val photo = intent?.getStringExtra("photo")
+
+            binding.chatFrgPhoneNoTxt.text = name
+            Glide.with(this).load(Constants.PUBLIC_URL+photo)
+                .placeholder(R.color.color_grey)
+                .into(binding.userImg)
         }
+
+        //get token
+        accessToken = "Bearer "+PrefManager.getKeyAuthToken()
 
         binding.chatFrgBackArrow.setOnClickListener {
             finish()
@@ -53,10 +64,6 @@ class ChatActivity : AppCompatActivity() {
         list.add(ChatModel("Are you ok?", true))*/
         fillChatRecycler()
         //mMessageAdapter.addAllMessages(list)
-
-        Glide.with(this).load("https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60")
-            .placeholder(R.color.color_grey)
-            .into(binding.userImg)
 
         binding.chatBtnSend.setOnClickListener {
             hideSoftKeyboard()
@@ -76,6 +83,7 @@ class ChatActivity : AppCompatActivity() {
                     agency_id.toString(),
                     currentThreadTimeMillis.toString(),
                     "",
+                    accessToken
                 )
                 attemptSend(sendMsg)
 

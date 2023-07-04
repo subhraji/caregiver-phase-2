@@ -57,6 +57,10 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
     private var lat: String = ""
     private var long: String = ""
 
+    private lateinit var agency_id: String
+    private lateinit var agency_name: String
+    private lateinit var agency_photo: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityOnGoingJobDetailsBinding.inflate(layoutInflater)

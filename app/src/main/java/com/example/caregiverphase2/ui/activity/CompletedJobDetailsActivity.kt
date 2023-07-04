@@ -33,6 +33,8 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
     private lateinit var accessToken: String
     private var id = 0
     private lateinit var agency_id: String
+    private lateinit var agency_name: String
+    private lateinit var agency_photo: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +75,8 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
         binding.chatCard.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("agency_id", agency_id)
+            intent.putExtra("name", agency_name)
+            intent.putExtra("photo", agency_photo)
             startActivity(intent)
         }
 
@@ -154,6 +158,9 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
                         binding.agencyNameTv.text = outcome.data!!.data[0].agency_name.toString()
                         binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
                         agency_id = outcome.data!!.data[0].agency_id.toString()
+                        agency_name = outcome.data!!.data[0].agency_name.toString()
+                        agency_photo = outcome.data!!.data[0].agency_photo.toString()
+
                         Glide.with(this)
                             .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agency_photo) // image url
                             .placeholder(R.color.dash_yellow) // any placeholder to load at start

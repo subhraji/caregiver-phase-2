@@ -5,5 +5,6 @@ data class ChatRequest(
     val userId: String,
     val targetId: String,
     val time: String,
-    val image: String
+    val image: String,
+    val token: String
 )
