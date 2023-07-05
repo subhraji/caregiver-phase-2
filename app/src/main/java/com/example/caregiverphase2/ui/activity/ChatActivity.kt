@@ -1,36 +1,75 @@
 package com.example.caregiverphase2.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.text.format.DateFormat.format
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.adapter.MessageListAdapter
-import com.example.caregiverphase2.databinding.ActivityChangePasswordBinding
 import com.example.caregiverphase2.databinding.ActivityChatBinding
 import com.example.caregiverphase2.model.pojo.chat.ChatModel
 import com.example.caregiverphase2.model.pojo.chat.ChatRequest
 import com.example.caregiverphase2.model.pojo.chat.Data
+import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.ui.fragment.ChatDocPreviewFragment
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.utils.UploadDocumentListener
+import com.example.caregiverphase2.viewmodel.UploadChatImageViewModel
 import com.google.gson.Gson
+import com.google.gson.internal.bind.util.ISO8601Utils.format
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
+import createMultiPart
+import dagger.hilt.android.AndroidEntryPoint
 import hideSoftKeyboard
+import id.zelory.compressor.Compressor
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
-import kotlinx.coroutines.delay
+import isConnectedToInternet
+import kotlinx.coroutines.*
+import loadingDialog
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
+import java.lang.Runnable
+import java.lang.String.format
 import java.net.URISyntaxException
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
-class ChatActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class ChatActivity : AppCompatActivity(), UploadDocumentListener {
     private lateinit var binding: ActivityChatBinding
     private lateinit var mMessageAdapter: MessageListAdapter
     private var mSocket: Socket? = null
     private var agency_id: String? = null
     private lateinit var accessToken: String
+    private var imageUri: Uri? = null
+    private var absolutePath: String? = null
+    private val PICK_IMAGE_DOC = 101
+    private var caption: String? = null
+
+    private val mUploadChatImageViewModel: UploadChatImageViewModel by viewModels()
+    private lateinit var loader: androidx.appcompat.app.AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +90,10 @@ class ChatActivity : AppCompatActivity() {
 
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
+        loader = this.loadingDialog(true)
+
+        //observer
+        uploadChatImageObserve()
 
         binding.chatFrgBackArrow.setOnClickListener {
             finish()
@@ -65,6 +108,14 @@ class ChatActivity : AppCompatActivity() {
         fillChatRecycler()
         //mMessageAdapter.addAllMessages(list)
 
+        binding.cameraBtn.setOnClickListener {
+            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                dispatchDocGalleryIntent()
+            }else{
+                requestStoragePermission()
+            }
+        }
+
         binding.chatBtnSend.setOnClickListener {
             hideSoftKeyboard()
             val messageText = binding.textInput.text.toString().trim()
@@ -73,6 +124,8 @@ class ChatActivity : AppCompatActivity() {
             }else{
                 val message = ChatModel(
                     messageText,
+                    "",
+                    getCurrentTime(),
                     true
                 )
 
@@ -81,7 +134,7 @@ class ChatActivity : AppCompatActivity() {
                     messageText,
                     PrefManager.getUserId().toString(),
                     agency_id.toString(),
-                    currentThreadTimeMillis.toString(),
+                    getCurrentTime(),
                     "",
                     accessToken
                 )
@@ -125,6 +178,8 @@ class ChatActivity : AppCompatActivity() {
                 val data = args[0] as JSONObject
                 val username: String
                 val msg: String
+                var image: String? = null
+                var time: String
                 val gson = Gson()
 
                 try {
@@ -132,12 +187,26 @@ class ChatActivity : AppCompatActivity() {
                     val messageData = data.getJSONObject("chatResponse")
                     val message = Gson().fromJson(messageData.toString(), Data::class.java)
                     msg = message.msg
+                    image = message.image
+                    time = message.time
 
-                    val chat = ChatModel(
-                        msg,
-                        false
-                    )
-                    mMessageAdapter.addMessage(chat)
+                    if (!image.isEmpty() && image != null){
+                        val chat = ChatModel(
+                            msg,
+                            message.image,
+                            time,
+                            false
+                        )
+                        mMessageAdapter.addMessage(chat)
+                    }else{
+                        val chat = ChatModel(
+                            msg,
+                            "",
+                            time,
+                            false
+                        )
+                        mMessageAdapter.addMessage(chat)
+                    }
 
                 } catch (e: JSONException) {
                     return@Runnable
@@ -156,4 +225,169 @@ class ChatActivity : AppCompatActivity() {
             adapter = mMessageAdapter
         }
     }
+
+    private fun getCurrentTime(): String{
+        val sdf = SimpleDateFormat("hh:mm a")
+        return sdf.format(Date())
+    }
+
+    //upload image
+    private fun dispatchDocGalleryIntent() {
+        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        startActivityForResult(gallery, PICK_IMAGE_DOC)
+    }
+
+    fun getRealPathFromUri(contentUri: Uri?): String? {
+        var cursor: Cursor? = null
+        return try {
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
+            cursor = this.contentResolver.query(contentUri!!, proj, null, null, null)
+            assert(cursor != null)
+            val columnIndex: Int = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor.moveToFirst()
+            cursor.getString(columnIndex)
+        } finally {
+            if (cursor != null) {
+                cursor.close()
+            }
+        }
+    }
+
+    private fun showDocImageDialog(absolutePath: String,uri: String) {
+        val bundle = Bundle()
+        bundle.putString("path", absolutePath)
+        bundle.putString("uri",uri)
+        val dialogFragment = ChatDocPreviewFragment(this)
+        dialogFragment.arguments = bundle
+        dialogFragment.show(this.supportFragmentManager, "signature")
+    }
+
+    private fun requestStoragePermission() {
+        Dexter.withContext(this)
+            .withPermission(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+            )
+            .withListener(object : PermissionListener {
+
+                override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+                    dispatchDocGalleryIntent()
+                }
+
+                override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
+                    requestStoragePermission()
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: PermissionRequest?,
+                    token: PermissionToken?
+                ) {
+                    token?.continuePermissionRequest()
+                }
+            })
+            .onSameThread()
+            .check()
+    }
+
+    override fun uploadDoc(path: String, expiry: String?) {
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Dispatchers.Main) {
+                    caption = expiry
+                    val file = File(path)
+                    val compressedImageFile = Compressor.compress(this@ChatActivity, file)
+                    val imagePart = createMultiPart("image", compressedImageFile)
+                    if(isConnectedToInternet()){
+                        mUploadChatImageViewModel.uploadChatImage(
+                            imagePart,
+                            PrefManager.getUserId().toString(),
+                            accessToken
+                        )
+                        loader.show()
+                    }else{
+                        Toast.makeText(this@ChatActivity,"No internet connection.", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun uploadChatImageObserve(){
+        mUploadChatImageViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        //Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+
+                        outcome.data?.data?.let {
+
+                            val currentThreadTimeMillis = System.currentTimeMillis()
+                            val sendMsg = ChatRequest(
+                                caption,
+                                PrefManager.getUserId().toString(),
+                                agency_id.toString(),
+                                getCurrentTime(),
+                                it,
+                                accessToken
+                            )
+                            attemptSend(sendMsg)
+
+                            val message = ChatModel(
+                                caption,
+                                it,
+                                getCurrentTime(),
+                                true
+                            )
+                            mMessageAdapter.addMessage(message)
+                        }
+
+
+                        mUploadChatImageViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        loader.dismiss()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == PICK_IMAGE_DOC) {
+            try {
+                imageUri = data?.data
+                val path = getRealPathFromUri(imageUri)
+                val imageFile = File(path!!)
+                absolutePath = imageFile.absolutePath
+                showDocImageDialog(imageFile.absolutePath,imageUri.toString())
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        if (requestCode == 2296) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    // perform action when allow permission success
+                    dispatchDocGalleryIntent()
+                } else {
+                    Toast.makeText(this, "Allow permission for storage access!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+    }
+
 }

@@ -89,7 +89,6 @@
                 android:id="@+id/text_gchat_timestamp_other"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8:00"
                 android:textColor="@color/black"
                 android:textSize="10sp"/>
 

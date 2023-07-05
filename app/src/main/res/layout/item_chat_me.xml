@@ -84,7 +84,6 @@
                     android:id="@+id/text_chat_timestamp_me"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="10:00"
                     android:textColor="#C0C0C0"
                     android:gravity="center"
                     android:textSize="10sp" />

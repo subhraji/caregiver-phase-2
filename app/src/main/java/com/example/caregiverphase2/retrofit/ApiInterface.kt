@@ -56,6 +56,7 @@ import com.example.caregiverphase2.model.pojo.upcomming_job.GetUpcommingJobsResp
 import com.example.caregiverphase2.model.pojo.update_doc_status.UpdateDocStatusResponse
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationRequest
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationResponse
+import com.example.caregiverphase2.model.pojo.upload_chat_image.UploadChatImageResponse
 import com.example.caregiverphase2.model.pojo.upload_documents.UploadDocumentsResponse
 import com.example.caregiverphase2.ui.activity.JobSearchResultActivity
 import okhttp3.MultipartBody
@@ -311,4 +312,12 @@ interface ApiInterface {
         @Query("current_lat") current_lat: String?,
         @Query("current_long") current_long: String?,
     ): GetJobLocationResponse?
+
+    @Multipart
+    @POST("chatting/upload-image")
+    suspend fun uploadChatImage(
+        @Part image: MultipartBody.Part? = null,
+        @Part("sent_by") sent_by: RequestBody? = null,
+        @Header("Authorization") token: String,
+    ): UploadChatImageResponse?
 }

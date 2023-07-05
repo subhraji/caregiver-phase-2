@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide
+import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ItemChatMeBinding
 import com.example.caregiverphase2.databinding.ItemChatOtherBinding
 import com.example.caregiverphase2.model.pojo.chat.ChatModel
+import com.example.caregiverphase2.utils.Constants
 import gone
+import visible
 
 class MessageListAdapter (private val messageList: MutableList<ChatModel>,
                           private val context: Context
@@ -90,9 +94,19 @@ class MessageListAdapter (private val messageList: MutableList<ChatModel>,
     private class SentMessageHolder(private val itemBinding: ItemChatMeBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(data: ChatModel, context: Context, holder: RecyclerView.ViewHolder, position: Int) {
             itemBinding.apply {
-                chatImgViewMe.gone()
                 imageProgressMe.gone()
+                if(!data.image.isEmpty() && data.image != null){
+                    chatImgViewMe.visible()
+                    Glide.with(context)
+                        .load(Constants.PUBLIC_URL+data?.image) // image url
+                        .placeholder(R.color.color_grey) // any placeholder to load at start
+                        .centerCrop()
+                        .into(chatImgViewMe)
+                }else{
+                    chatImgViewMe.gone()
+                }
                 textChatMessageMe.text = data.msg
+                textChatTimestampMe.text = data.time
             }
         }
     }
@@ -100,9 +114,20 @@ class MessageListAdapter (private val messageList: MutableList<ChatModel>,
     private class ReceivedMessageHolder(private val itemBinding: ItemChatOtherBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(data: ChatModel, context: Context, holder: RecyclerView.ViewHolder, position: Int) {
             itemBinding.apply {
-                chatImgViewOther.gone()
                 imageProgressOther.gone()
+                if(!data.image.isEmpty() && data.image != null){
+                    chatImgViewOther.visible()
+                    Glide.with(context)
+                        .load(Constants.PUBLIC_URL+data?.image) // image url
+                        .placeholder(R.color.color_grey) // any placeholder to load at start
+                        .centerCrop()
+                        .into(chatImgViewOther)
+                }else{
+                    chatImgViewOther.gone()
+                }
+
                 textChatMessageOther.text = data.msg
+                textGchatTimestampOther.text = data.time
             }
         }
     }
