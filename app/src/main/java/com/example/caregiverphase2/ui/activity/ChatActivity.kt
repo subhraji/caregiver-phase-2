@@ -9,6 +9,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.format.DateFormat.format
 import android.util.Log
 import android.widget.Toast
@@ -100,13 +102,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         }
 
         mMessageAdapter = MessageListAdapter(mutableListOf(), this)
-
-        /*val list: MutableList<ChatModel> = mutableListOf()
-        list.add(ChatModel("hello how are you?", true))
-        list.add(ChatModel("Hey long time no see, i am fine, what about you?", false))
-        list.add(ChatModel("Are you ok?", true))*/
         fillChatRecycler()
-        //mMessageAdapter.addAllMessages(list)
 
         binding.cameraBtn.setOnClickListener {
             if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
@@ -142,10 +138,22 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
                 mMessageAdapter.addMessage(message)
                 binding.textInput.text = null
+                scrollToLast()
             }
         }
-
         initSocket()
+
+        binding.textInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                mSocket!!.emit("typing", true)
+            }
+        })
     }
 
     private fun initSocket(){
@@ -198,6 +206,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                             false
                         )
                         mMessageAdapter.addMessage(chat)
+                        scrollToLast()
                     }else{
                         val chat = ChatModel(
                             msg,
@@ -206,6 +215,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                             false
                         )
                         mMessageAdapter.addMessage(chat)
+                        scrollToLast()
                     }
 
                 } catch (e: JSONException) {
@@ -224,6 +234,10 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             layoutManager = gridLayoutManager
             adapter = mMessageAdapter
         }
+    }
+
+    private fun scrollToLast(){
+        binding.chatRecycler.scrollToPosition((binding.chatRecycler.adapter?.itemCount ?: 1) - 1)
     }
 
     private fun getCurrentTime(): String{
@@ -342,8 +356,8 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                                 true
                             )
                             mMessageAdapter.addMessage(message)
+                            scrollToLast()
                         }
-
 
                         mUploadChatImageViewModel.navigationComplete()
                     }else{
