@@ -1,6 +1,8 @@
 package com.example.caregiverphase2.ui.activity
 
 import android.Manifest
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -16,6 +18,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
@@ -51,6 +54,7 @@ import loadingDialog
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
+import java.io.IOException
 import java.lang.Runnable
 import java.lang.String.format
 import java.net.URISyntaxException
@@ -69,6 +73,8 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
     private var absolutePath: String? = null
     private val PICK_IMAGE_DOC = 101
     private var caption: String? = null
+    private var image: String? = null
+    private val TAKE_PICTURE = 2
 
     private val mUploadChatImageViewModel: UploadChatImageViewModel by viewModels()
     private lateinit var loader: androidx.appcompat.app.AlertDialog
@@ -105,11 +111,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         fillChatRecycler()
 
         binding.cameraBtn.setOnClickListener {
-            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                dispatchDocGalleryIntent()
-            }else{
-                requestStoragePermission()
-            }
+            selectImage()
         }
 
         binding.chatBtnSend.setOnClickListener {
@@ -246,9 +248,67 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
     }
 
     //upload image
+
+    private fun selectImage() {
+        val options =
+            arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle("Add Photo!")
+        builder.setItems(options, DialogInterface.OnClickListener { dialog, item ->
+            when (options[item]) {
+                "Take Photo" -> {
+                    if(checkSelfPermission(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                        dispatchCameraIntent()
+                    }else{
+                        requestCameraPermission()
+                    }
+                }
+                "Choose from Gallery" -> {
+                    if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                        dispatchDocGalleryIntent()
+                    }else{
+                        requestStoragePermission()
+                    }
+                }
+                "Cancel" -> {
+                    dialog.dismiss()
+                }
+            }
+        })
+        builder.show()
+    }
+
     private fun dispatchDocGalleryIntent() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(gallery, PICK_IMAGE_DOC)
+    }
+
+    private fun dispatchCameraIntent() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (intent.resolveActivity(this.packageManager) != null) {
+            var photoFile: File? = null
+            try {
+                photoFile = createImage()
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            if (photoFile != null) {
+                imageUri =
+                    FileProvider.getUriForFile(this, Constants.FILE_PROVIDER, photoFile)
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+                startActivityForResult(intent, TAKE_PICTURE)
+            }
+        }
+    }
+
+    private fun createImage(): File? {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        var imageName = "JPEG_" + timeStamp + "_"
+        var storeDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        var tempImage = File.createTempFile(imageName, ".jpg", storeDir)
+        image = tempImage.absolutePath
+        return tempImage
     }
 
     fun getRealPathFromUri(contentUri: Uri?): String? {
@@ -274,6 +334,32 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         val dialogFragment = ChatDocPreviewFragment(this)
         dialogFragment.arguments = bundle
         dialogFragment.show(this.supportFragmentManager, "signature")
+    }
+
+    private fun requestCameraPermission() {
+        Dexter.withContext(this)
+            .withPermission(
+                Manifest.permission.CAMERA,
+            )
+            .withListener(object : PermissionListener {
+
+                override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+                    dispatchCameraIntent()
+                }
+
+                override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
+                    requestCameraPermission()
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: PermissionRequest?,
+                    token: PermissionToken?
+                ) {
+                    token?.continuePermissionRequest()
+                }
+            })
+            .onSameThread()
+            .check()
     }
 
     private fun requestStoragePermission() {
@@ -400,6 +486,21 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                     Toast.makeText(this, "Allow permission for storage access!", Toast.LENGTH_SHORT).show();
                 }
             }
+        }
+
+        if (requestCode == TAKE_PICTURE && resultCode == AppCompatActivity.RESULT_OK) {
+
+            try {
+                Log.i("pickPdf", image.toString())
+
+                image?.let {
+                    showDocImageDialog(image.toString(), imageUri.toString())
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
         }
 
     }
