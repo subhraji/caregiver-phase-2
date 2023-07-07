@@ -16,6 +16,6 @@ object Constants {
     //Node
     const val NODE_URL = "https://c7e2-2405-201-a805-1a07-d1a7-8ac0-e7b9-d030.ngrok-free.app"
 
-    const val FILE_PROVIDER = "com.example.chatapp.fileprovider"
+    const val FILE_PROVIDER = "com.example.caregiverphase2.fileprovider"
 
 }

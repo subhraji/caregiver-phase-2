@@ -1,7 +1,9 @@
 package com.example.caregiverphase2.ui.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,6 +13,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.Settings
+import android.telephony.TelephonyManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat.format
@@ -36,10 +40,12 @@ import com.example.caregiverphase2.viewmodel.UploadChatImageViewModel
 import com.google.gson.Gson
 import com.google.gson.internal.bind.util.ISO8601Utils.format
 import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import createMultiPart
 import dagger.hilt.android.AndroidEntryPoint
@@ -75,6 +81,10 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
     private var caption: String? = null
     private var image: String? = null
     private val TAKE_PICTURE = 2
+
+    private var mImeiId: String? = null
+    private var grantedOtherPermissions: Boolean = false
+    private var dialog: AlertDialog? = null
 
     private val mUploadChatImageViewModel: UploadChatImageViewModel by viewModels()
     private lateinit var loader: androidx.appcompat.app.AlertDialog
@@ -127,7 +137,6 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                     true
                 )
 
-                val currentThreadTimeMillis = System.currentTimeMillis()
                 val sendMsg = ChatRequest(
                     messageText,
                     PrefManager.getUserId().toString(),
@@ -388,6 +397,88 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             .check()
     }
 
+
+    /*private fun requestStoragePermission() {
+        Dexter.withActivity(this)
+            .withPermissions(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            )
+            .withListener(object : MultiplePermissionsListener {
+
+                @SuppressLint("MissingPermission")
+                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                    // check if all permissions are granted
+                    if (report.areAllPermissionsGranted()) {
+                        // info("onPermissionsChecked: All permissions are granted!")
+                        val telephonyManager =
+                            getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                        mImeiId =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                                try {
+                                    telephonyManager.imei
+                                } catch (e: SecurityException) {
+                                    e.printStackTrace()
+                                    "mxmxmxmxmxmxmxm"
+                                }
+                            } else {
+                                "mxmxmxmxmxmxmxm"
+                            }
+
+                        //info("askPermission: $mImeiId")
+
+                        //val registrationPref = RegistrationPref(this@MainActivity)
+
+                        *//*if (mImeiId != null) {
+                            Log.d("heri", registrationPref.toString())
+                            registrationPref.saveFormData(RegistrationPref.KEY_IEMI, mImeiId!!)
+
+                        } else {
+                            Log.d("heri", "imei is null")
+                        }*//*
+                        grantedOtherPermissions = true
+                    }
+
+                    // check for permanent denial of any permission
+                    if (report.isAnyPermissionPermanentlyDenied) {
+                        // show alert dialog navigating to Settings
+                        showSettingsDialog()
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: List<PermissionRequest>,
+                    token: PermissionToken
+                ) {
+                    token.continuePermissionRequest()
+                }
+            })
+            .onSameThread()
+            .check()
+    }
+
+    private fun showSettingsDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Need Permissions")
+        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.")
+        builder.setPositiveButton("GOTO SETTINGS") { dialog, _ ->
+            dialog.cancel()
+            openSettings()
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+        dialog = builder.show()
+    }
+
+    private fun openSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, 101)
+    }
+*/
+
+
     override fun uploadDoc(path: String, expiry: String?) {
         try {
             CoroutineScope(Dispatchers.IO).launch {
@@ -491,8 +582,6 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         if (requestCode == TAKE_PICTURE && resultCode == AppCompatActivity.RESULT_OK) {
 
             try {
-                Log.i("pickPdf", image.toString())
-
                 image?.let {
                     showDocImageDialog(image.toString(), imageUri.toString())
                 }
