@@ -49,6 +49,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import createMultiPart
 import dagger.hilt.android.AndroidEntryPoint
+import gone
 import hideSoftKeyboard
 import id.zelory.compressor.Compressor
 import io.socket.client.IO
@@ -59,6 +60,7 @@ import kotlinx.coroutines.*
 import loadingDialog
 import org.json.JSONException
 import org.json.JSONObject
+import visible
 import java.io.File
 import java.io.IOException
 import java.lang.Runnable
@@ -86,6 +88,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
     private var grantedOtherPermissions: Boolean = false
     private var dialog: AlertDialog? = null
 
+
     private val mUploadChatImageViewModel: UploadChatImageViewModel by viewModels()
     private lateinit var loader: androidx.appcompat.app.AlertDialog
 
@@ -104,6 +107,8 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             Glide.with(this).load(Constants.PUBLIC_URL+photo)
                 .placeholder(R.color.color_grey)
                 .into(binding.userImg)
+
+            binding.chatWithTv.text = "Chat with ${name}"
         }
 
         //get token
@@ -119,6 +124,8 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
         mMessageAdapter = MessageListAdapter(mutableListOf(), this)
         fillChatRecycler()
+
+        isMsgAvailAble()
 
         binding.cameraBtn.setOnClickListener {
             selectImage()
@@ -150,6 +157,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                 mMessageAdapter.addMessage(message)
                 binding.textInput.text = null
                 scrollToLast()
+                isMsgAvailAble()
             }
         }
         initSocket()
@@ -227,6 +235,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                         )
                         mMessageAdapter.addMessage(chat)
                         scrollToLast()
+                        isMsgAvailAble()
                     }
 
                 } catch (e: JSONException) {
@@ -249,6 +258,14 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
     private fun scrollToLast(){
         binding.chatRecycler.scrollToPosition((binding.chatRecycler.adapter?.itemCount ?: 1) - 1)
+    }
+
+    private fun isMsgAvailAble() {
+        if(mMessageAdapter.itemCount == 0){
+            binding.chatWithCard.visible()
+        }else{
+            binding.chatWithCard.gone()
+        }
     }
 
     private fun getCurrentTime(): String{
@@ -396,88 +413,6 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             .onSameThread()
             .check()
     }
-
-
-    /*private fun requestStoragePermission() {
-        Dexter.withActivity(this)
-            .withPermissions(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            )
-            .withListener(object : MultiplePermissionsListener {
-
-                @SuppressLint("MissingPermission")
-                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                    // check if all permissions are granted
-                    if (report.areAllPermissionsGranted()) {
-                        // info("onPermissionsChecked: All permissions are granted!")
-                        val telephonyManager =
-                            getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                        mImeiId =
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                                try {
-                                    telephonyManager.imei
-                                } catch (e: SecurityException) {
-                                    e.printStackTrace()
-                                    "mxmxmxmxmxmxmxm"
-                                }
-                            } else {
-                                "mxmxmxmxmxmxmxm"
-                            }
-
-                        //info("askPermission: $mImeiId")
-
-                        //val registrationPref = RegistrationPref(this@MainActivity)
-
-                        *//*if (mImeiId != null) {
-                            Log.d("heri", registrationPref.toString())
-                            registrationPref.saveFormData(RegistrationPref.KEY_IEMI, mImeiId!!)
-
-                        } else {
-                            Log.d("heri", "imei is null")
-                        }*//*
-                        grantedOtherPermissions = true
-                    }
-
-                    // check for permanent denial of any permission
-                    if (report.isAnyPermissionPermanentlyDenied) {
-                        // show alert dialog navigating to Settings
-                        showSettingsDialog()
-                    }
-                }
-
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: List<PermissionRequest>,
-                    token: PermissionToken
-                ) {
-                    token.continuePermissionRequest()
-                }
-            })
-            .onSameThread()
-            .check()
-    }
-
-    private fun showSettingsDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Need Permissions")
-        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.")
-        builder.setPositiveButton("GOTO SETTINGS") { dialog, _ ->
-            dialog.cancel()
-            openSettings()
-        }
-        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
-        dialog = builder.show()
-    }
-
-    private fun openSettings() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        val uri = Uri.fromParts("package", packageName, null)
-        intent.data = uri
-        startActivityForResult(intent, 101)
-    }
-*/
-
 
     override fun uploadDoc(path: String, expiry: String?) {
         try {

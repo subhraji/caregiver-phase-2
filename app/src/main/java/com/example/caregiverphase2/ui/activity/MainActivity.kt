@@ -11,27 +11,40 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityMainBinding
+import com.example.caregiverphase2.model.pojo.chat.ChatModel
+import com.example.caregiverphase2.model.pojo.chat.Data
 import com.example.caregiverphase2.service.BackgroundLocationService
+import com.example.caregiverphase2.utils.Constants
+import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.SocketHelper
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import io.socket.client.IO
+import io.socket.client.Socket
+import io.socket.emitter.Emitter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import lightStatusBar
+import org.json.JSONException
+import org.json.JSONObject
+import java.net.URISyntaxException
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var CHANNEL_ID = "101"
+    private var mSocket: Socket? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +65,8 @@ class MainActivity : AppCompatActivity() {
         /*CoroutineScope(Dispatchers.IO).launch {
             SocketHelper.initSocket()
         }*/
+
+        initSocket()
     }
 
 
@@ -105,6 +120,45 @@ class MainActivity : AppCompatActivity() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
 
+        }
+    }
+
+    private fun initSocket(){
+        try {
+            mSocket = IO.socket(Constants.NODE_URL)
+        } catch (e: URISyntaxException) {
+            e.printStackTrace()
+        }
+        mSocket?.on("receiveMessage", onNewMessage);
+        mSocket?.connect()
+    }
+
+    private val onNewMessage: Emitter.Listener = object : Emitter.Listener {
+        override fun call(vararg args: Any) {
+            this@MainActivity.runOnUiThread(Runnable {
+                val data = args[0] as JSONObject
+                val username: String
+                val msg: String
+                var image: String? = null
+                var time: String
+                val gson = Gson()
+
+                try {
+                    //msg = data.getString("msg")
+                    val messageData = data.getJSONObject("chatResponse")
+                    val message = Gson().fromJson(messageData.toString(), Data::class.java)
+                    msg = message.msg
+                    image = message.image
+                    time = message.time
+
+                    Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+                } catch (e: JSONException) {
+                    return@Runnable
+                }
+
+                // add the message to view
+                //addMessage(username, message)
+            })
         }
     }
 

@@ -33,12 +33,19 @@ import com.example.caregiverphase2.ui.activity.*
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.*
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import gone
+import io.socket.client.IO
+import io.socket.client.Socket
+import io.socket.emitter.Emitter
 import isConnectedToInternet
 import kotlinx.coroutines.*
 import loadingDialog
+import org.json.JSONException
+import org.json.JSONObject
 import visible
+import java.net.URISyntaxException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -163,10 +170,6 @@ class DashboardFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.imageView1.setOnClickListener {
-            /*val intent = Intent(requireActivity(), ChatActivity::class.java)
-            startActivity(intent)*/
-        }
     }
 
     override fun onResume() {
