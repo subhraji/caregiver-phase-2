@@ -465,7 +465,7 @@ class DashboardFragment : Fragment() {
                                 .into(binding.userPhoto)
                         }
                         data?.profile_completion_status?.let {
-                            var percent = ((it.is_basic_info_added+it.is_optional_info_added+it.is_documents_uploaded)*100)/3
+                            var percent = ((it.is_basic_info_added+it.is_documents_uploaded)*100)/2
                             //binding.profileProgressBar.progress = percent
 
 

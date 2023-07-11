@@ -65,6 +65,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/controlLayout"
         android:layout_below="@+id/header_card"
+        android:background="@drawable/chat_bg"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView

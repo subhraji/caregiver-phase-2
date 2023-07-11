@@ -95,6 +95,9 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
 
         binding.chatCard.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("agency_id", agency_id)
+            intent.putExtra("name", agency_name)
+            intent.putExtra("photo", agency_photo)
             startActivity(intent)
         }
 
@@ -199,6 +202,11 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                             binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                             binding.agencyNameTv.text = outcome.data!!.data[0].agency_name.toString()
                             binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
+
+                            agency_id = outcome.data!!.data[0].agency_id.toString()
+                            agency_name = outcome.data!!.data[0].agency_name.toString()
+                            agency_photo = outcome.data!!.data[0].agency_photo.toString()
+
 
                             Glide.with(this)
                                 .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agency_photo) // image url

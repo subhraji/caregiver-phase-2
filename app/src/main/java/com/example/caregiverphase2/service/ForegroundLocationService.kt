@@ -90,7 +90,7 @@ class ForegroundLocationService: Service() {
 
         val notification = Notification
             .Builder(this, CHANNEL_ID)
-            .setContentText("Music Player")
+            .setContentText("Location update reminder")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentIntent(pendingIntent)
             .build()

@@ -14,7 +14,8 @@ object Constants {
     const val MUSIC_NOTIFICATION_ID = 123
 
     //Node
-    const val NODE_URL = "https://42d8-2405-201-a805-1a07-19bb-cb2f-cef4-5c6f.ngrok-free.app"
+    const val NODE_URL = "http://134.209.119.88"
+    //const val NODE_URL = "https://df29-2405-201-a805-1a07-111d-916e-7e01-2a78.ngrok-free.app"
 
     const val FILE_PROVIDER = "com.example.caregiverphase2.fileprovider"
 

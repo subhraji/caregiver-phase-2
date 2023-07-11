@@ -450,7 +450,6 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
                         outcome.data?.data?.let {
 
-                            val currentThreadTimeMillis = System.currentTimeMillis()
                             val sendMsg = ChatRequest(
                                 caption,
                                 PrefManager.getUserId().toString(),

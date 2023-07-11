@@ -4,6 +4,7 @@ data class Data(
     val address: String,
     val agency_address: String,
     val agency_name: String,
+    val agency_id: String,
     val agency_photo: String,
     val amount: String,
     val care_items: List<CareItem>,
