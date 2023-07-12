@@ -1,7 +1,7 @@
 package com.example.caregiverphase2.model.pojo.email_verification
 
 data class SignUpEmailVerificationResponse(
-    val `data`: Any,
+    val `data`: String,
     val http_status_code: Int,
     val message: String,
     val success: Boolean,

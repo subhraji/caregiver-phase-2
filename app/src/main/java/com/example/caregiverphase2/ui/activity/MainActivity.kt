@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             SocketHelper.initSocket()
         }*/
 
-        initSocket()
+        //initSocket()
     }
 
 

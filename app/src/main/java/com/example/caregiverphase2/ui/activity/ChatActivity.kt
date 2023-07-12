@@ -187,6 +187,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         //delay(10L)
         val userId = PrefManager.getUserId().toString()
         mSocket!!.emit("signin", userId)
+
     }
 
     private fun attemptSend(message: ChatRequest) {
@@ -226,6 +227,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                         )
                         mMessageAdapter.addMessage(chat)
                         scrollToLast()
+                        isMsgAvailAble()
                     }else{
                         val chat = ChatModel(
                             msg,
@@ -306,6 +308,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
     private fun dispatchDocGalleryIntent() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        gallery.setType("image/*")
         startActivityForResult(gallery, PICK_IMAGE_DOC)
     }
 
@@ -528,4 +531,8 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mSocket!!.disconnect()
+    }
 }
