@@ -66,7 +66,12 @@ class MainActivity : AppCompatActivity() {
             SocketHelper.initSocket()
         }*/
 
-        //initSocket()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initSocket()
     }
 
 
@@ -131,39 +136,34 @@ class MainActivity : AppCompatActivity() {
         }
         mSocket?.on("receiveMessage", onNewMessage);
         mSocket?.connect()
+
+        //delay(10L)
+        val userId = PrefManager.getUserId().toString()
+        mSocket!!.emit("signin", userId)
+
     }
 
     private val onNewMessage: Emitter.Listener = object : Emitter.Listener {
         override fun call(vararg args: Any) {
             this@MainActivity.runOnUiThread(Runnable {
                 val data = args[0] as JSONObject
-                val username: String
-                val msg: String
-                var image: String? = null
-                var time: String
-                val gson = Gson()
 
+                val msg: String
                 try {
-                    //msg = data.getString("msg")
                     val messageData = data.getJSONObject("chatResponse")
                     val message = Gson().fromJson(messageData.toString(), Data::class.java)
                     msg = message.msg
-                    image = message.image
-                    time = message.time
+                    Toast.makeText(this@MainActivity, msg.toString(), Toast.LENGTH_SHORT).show()
 
-                    Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
                 } catch (e: JSONException) {
                     return@Runnable
                 }
-
-                // add the message to view
-                //addMessage(username, message)
             })
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        //SocketHelper.mSocket!!.disconnect()
+        mSocket!!.disconnect()
     }
 }

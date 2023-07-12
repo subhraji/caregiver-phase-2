@@ -30,6 +30,7 @@ import com.example.caregiverphase2.adapter.MessageListAdapter
 import com.example.caregiverphase2.databinding.ActivityChatBinding
 import com.example.caregiverphase2.model.pojo.chat.ChatModel
 import com.example.caregiverphase2.model.pojo.chat.ChatRequest
+import com.example.caregiverphase2.model.pojo.chat.ChatSeenRequested
 import com.example.caregiverphase2.model.pojo.chat.Data
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.fragment.ChatDocPreviewFragment
@@ -76,7 +77,9 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
     private lateinit var mMessageAdapter: MessageListAdapter
     private var mSocket: Socket? = null
     private var agency_id: String? = null
+    private var job_id: String? = null
     private lateinit var accessToken: String
+
     private var imageUri: Uri? = null
     private var absolutePath: String? = null
     private val PICK_IMAGE_DOC = 101
@@ -102,6 +105,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             agency_id = intent?.getStringExtra("agency_id")
             val name = intent?.getStringExtra("name")
             val photo = intent?.getStringExtra("photo")
+            job_id = intent?.getStringExtra("job_id")
 
             binding.chatFrgPhoneNoTxt.text = name
             Glide.with(this).load(Constants.PUBLIC_URL+photo)
@@ -144,12 +148,16 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                     true
                 )
 
+                val currentThreadTimeMillis = System.currentTimeMillis()
+                val msgUuid = currentThreadTimeMillis.toString()
                 val sendMsg = ChatRequest(
                     messageText,
                     PrefManager.getUserId().toString(),
                     agency_id.toString(),
                     getCurrentTime(),
                     "",
+                    msgUuid,
+                    job_id!!,
                     accessToken
                 )
                 attemptSend(sendMsg)
@@ -182,6 +190,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             e.printStackTrace()
         }
         mSocket?.on("receiveMessage", onNewMessage);
+        mSocket?.on("messageAck", ackStatusListener)
         mSocket?.connect()
 
         //delay(10L)
@@ -195,6 +204,16 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         try {
             val obj = JSONObject(gson.toJson(message))
             mSocket!!.emit("sendMessage", obj)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun attemptSendSeen(request: ChatSeenRequested) {
+        val gson = Gson()
+        try {
+            val obj = JSONObject(gson.toJson(request))
+            mSocket!!.emit("isMessageSeen", obj)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -240,6 +259,11 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                         isMsgAvailAble()
                     }
 
+                    val sendSeen = ChatSeenRequested(
+                        message.messageId,
+                        agency_id.toString()
+                    )
+                    attemptSendSeen(sendSeen)
                 } catch (e: JSONException) {
                     return@Runnable
                 }
@@ -249,6 +273,24 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             })
         }
     }
+
+    private val ackStatusListener: Emitter.Listener = object : Emitter.Listener {
+        override fun call(vararg args: Any) {
+            this@ChatActivity.runOnUiThread(Runnable {
+                val data = args[0] as JSONObject
+                try {
+                    /*val messageData = data.getJSONObject("chatResponse")
+                    val message = Gson().fromJson(messageData.toString(), Data::class.java)*/
+                    val msgId = data.getString("messageId")
+                    val seenStatus = data.getString("messageSeen")
+                    Toast.makeText(this@ChatActivity, "seen => ${msgId}", Toast.LENGTH_SHORT).show()
+                } catch (e: JSONException) {
+                    return@Runnable
+                }
+            })
+        }
+    }
+
 
     private fun fillChatRecycler() {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -453,12 +495,16 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
                         outcome.data?.data?.let {
 
+                            val currentThreadTimeMillis = System.currentTimeMillis()
+                            val msgUuid = currentThreadTimeMillis.toString()
                             val sendMsg = ChatRequest(
                                 caption,
                                 PrefManager.getUserId().toString(),
                                 agency_id.toString(),
                                 getCurrentTime(),
                                 it,
+                                msgUuid,
+                                job_id!!,
                                 accessToken
                             )
                             attemptSend(sendMsg)
@@ -533,6 +579,6 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        mSocket!!.disconnect()
+        //mSocket!!.disconnect()
     }
 }

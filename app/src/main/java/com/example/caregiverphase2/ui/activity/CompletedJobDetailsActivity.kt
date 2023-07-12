@@ -77,6 +77,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
             intent.putExtra("agency_id", agency_id)
             intent.putExtra("name", agency_name)
             intent.putExtra("photo", agency_photo)
+            intent.putExtra("job_id", id.toString())
             startActivity(intent)
         }
 
