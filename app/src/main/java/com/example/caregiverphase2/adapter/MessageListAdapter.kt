@@ -91,6 +91,11 @@ class MessageListAdapter (private val messageList: MutableList<ChatModel>,
         }
     }
 
+    fun updateSeen(msgUuid:String){
+        messageList?.find { it.msgUuid == msgUuid }?.isSeen = true
+        notifyDataSetChanged()
+    }
+
     private class SentMessageHolder(private val itemBinding: ItemChatMeBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(data: ChatModel, context: Context, holder: RecyclerView.ViewHolder, position: Int) {
             itemBinding.apply {
@@ -105,6 +110,13 @@ class MessageListAdapter (private val messageList: MutableList<ChatModel>,
                 }else{
                     chatImgViewMe.gone()
                 }
+
+                if(data.isSeen == false){
+                    sentMarkTv.text = "sent"
+                }else{
+                    sentMarkTv.text = "seen"
+                }
+
                 textChatMessageMe.text = data.msg
                 textChatTimestampMe.text = data.time
             }

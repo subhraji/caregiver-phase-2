@@ -141,15 +141,10 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             if (messageText.isEmpty()) {
                 binding.textInput.error = "message cannot be empty"
             }else{
-                val message = ChatModel(
-                    messageText,
-                    "",
-                    getCurrentTime(),
-                    true
-                )
-
                 val currentThreadTimeMillis = System.currentTimeMillis()
                 val msgUuid = currentThreadTimeMillis.toString()
+
+                //send chat message
                 val sendMsg = ChatRequest(
                     messageText,
                     PrefManager.getUserId().toString(),
@@ -162,6 +157,14 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                 )
                 attemptSend(sendMsg)
 
+                // add the message to view
+                val message = ChatModel(
+                    msgUuid,
+                    messageText,
+                    "",
+                    getCurrentTime(),
+                    true
+                )
                 mMessageAdapter.addMessage(message)
                 binding.textInput.text = null
                 scrollToLast()
@@ -238,7 +241,10 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                     time = message.time
 
                     if (!image.isEmpty() && image != null){
+
+                        // add the message to view
                         val chat = ChatModel(
+                            message.messageId,
                             msg,
                             message.image,
                             time,
@@ -248,7 +254,10 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                         scrollToLast()
                         isMsgAvailAble()
                     }else{
+
+                        // add the message to view
                         val chat = ChatModel(
+                            message.messageId,
                             msg,
                             "",
                             time,
@@ -259,17 +268,17 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                         isMsgAvailAble()
                     }
 
+                    //send seen ack
                     val sendSeen = ChatSeenRequested(
                         message.messageId,
                         agency_id.toString()
                     )
                     attemptSendSeen(sendSeen)
+
                 } catch (e: JSONException) {
                     return@Runnable
                 }
 
-                // add the message to view
-                //addMessage(username, message)
             })
         }
     }
@@ -279,10 +288,10 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             this@ChatActivity.runOnUiThread(Runnable {
                 val data = args[0] as JSONObject
                 try {
-                    /*val messageData = data.getJSONObject("chatResponse")
-                    val message = Gson().fromJson(messageData.toString(), Data::class.java)*/
                     val msgId = data.getString("messageId")
                     val seenStatus = data.getString("messageSeen")
+                    mMessageAdapter.updateSeen(msgId)
+
                     Toast.makeText(this@ChatActivity, "seen => ${msgId}", Toast.LENGTH_SHORT).show()
                 } catch (e: JSONException) {
                     return@Runnable
@@ -510,6 +519,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                             attemptSend(sendMsg)
 
                             val message = ChatModel(
+                                msgUuid,
                                 caption,
                                 it,
                                 getCurrentTime(),
