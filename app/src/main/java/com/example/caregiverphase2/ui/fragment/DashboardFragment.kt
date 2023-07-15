@@ -170,6 +170,10 @@ class DashboardFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.logoImg.setOnClickListener {
+            testListInsertion()
+        }
+
     }
 
     override fun onResume() {
@@ -579,4 +583,21 @@ class DashboardFragment : Fragment() {
             }
         }.start()
     }
+
+    //test shift and insert
+    private fun testListInsertion(){
+        var newList = mutableListOf<String>("a", "b", "c","d","e")
+        var testList = mutableListOf<String>("f", "g", "h", "i", "j")
+        //var index = testList.size
+        var index = 0
+        /*for (ele in newList){
+            testList.add(index, ele)
+            index++
+        }*/
+
+        testList.addAll(index, newList)
+
+        Log.e("testList", testList.toString())
+    }
+
 }
