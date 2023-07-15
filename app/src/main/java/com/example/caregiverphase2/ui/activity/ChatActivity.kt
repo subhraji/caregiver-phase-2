@@ -291,8 +291,6 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                     val msgId = data.getString("messageId")
                     val seenStatus = data.getString("messageSeen")
                     mMessageAdapter.updateSeen(msgId)
-
-                    Toast.makeText(this@ChatActivity, "seen => ${msgId}", Toast.LENGTH_SHORT).show()
                 } catch (e: JSONException) {
                     return@Runnable
                 }
@@ -584,11 +582,10 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             }
 
         }
-
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        //mSocket!!.disconnect()
+        mSocket?.disconnect()
     }
 }
