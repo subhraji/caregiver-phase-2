@@ -92,7 +92,7 @@ class MessageListAdapter (private val messageList: MutableList<ChatModel>,
     }
 
     fun updateSeen(msgUuid:String){
-        messageList?.find { it.msgUuid == msgUuid }?.isSeen = true
+        messageList?.find { it.messageId == msgUuid }?.isSeen = true
         notifyDataSetChanged()
     }
 

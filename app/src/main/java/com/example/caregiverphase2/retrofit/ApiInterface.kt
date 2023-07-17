@@ -12,6 +12,7 @@ import com.example.caregiverphase2.model.pojo.add_review.AddReviewResponse
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordRequest
 import com.example.caregiverphase2.model.pojo.change_password.ChangePasswordResponse
 import com.example.caregiverphase2.model.pojo.change_profile_pic.ChangeProfilePicResponse
+import com.example.caregiverphase2.model.pojo.chat.GetChatResponse
 import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobRequest
 import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobResponse
 import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentRequest
@@ -58,7 +59,6 @@ import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationRequ
 import com.example.caregiverphase2.model.pojo.update_location.UpdateLocationResponse
 import com.example.caregiverphase2.model.pojo.upload_chat_image.UploadChatImageResponse
 import com.example.caregiverphase2.model.pojo.upload_documents.UploadDocumentsResponse
-import com.example.caregiverphase2.ui.activity.JobSearchResultActivity
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -320,4 +320,11 @@ interface ApiInterface {
         @Part("sent_by") sent_by: RequestBody? = null,
         @Header("Authorization") token: String,
     ): UploadChatImageResponse?
+
+    @GET("chatting/get-chats")
+    suspend fun getAllChat(
+        @Header("Authorization") token: String,
+        @Query("job_id") id: Int?,
+        @Query("page") page: Int?,
+    ): GetChatResponse?
 }

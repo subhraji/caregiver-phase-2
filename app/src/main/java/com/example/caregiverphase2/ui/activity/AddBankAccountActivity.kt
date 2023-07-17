@@ -111,7 +111,7 @@ class AddBankAccountActivity : AppCompatActivity() {
         if(con_text != new_text){
             return "Account number mismatch."
         }
-        return  null
+        return null
     }
 
     private fun bankNameFocusListener(){

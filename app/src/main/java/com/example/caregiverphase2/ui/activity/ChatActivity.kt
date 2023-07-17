@@ -1,9 +1,7 @@
 package com.example.caregiverphase2.ui.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,11 +11,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.Settings
-import android.telephony.TelephonyManager
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.format.DateFormat.format
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -37,16 +32,14 @@ import com.example.caregiverphase2.ui.fragment.ChatDocPreviewFragment
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.utils.UploadDocumentListener
+import com.example.caregiverphase2.viewmodel.GetAllChatViewModel
 import com.example.caregiverphase2.viewmodel.UploadChatImageViewModel
 import com.google.gson.Gson
-import com.google.gson.internal.bind.util.ISO8601Utils.format
 import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import createMultiPart
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,9 +58,7 @@ import visible
 import java.io.File
 import java.io.IOException
 import java.lang.Runnable
-import java.lang.String.format
 import java.net.URISyntaxException
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -87,12 +78,10 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
     private var image: String? = null
     private val TAKE_PICTURE = 2
 
-    private var mImeiId: String? = null
-    private var grantedOtherPermissions: Boolean = false
-    private var dialog: AlertDialog? = null
-
+    private var page_no = 1
 
     private val mUploadChatImageViewModel: UploadChatImageViewModel by viewModels()
+    private val mGetAllChatViewModel: GetAllChatViewModel by viewModels()
     private lateinit var loader: androidx.appcompat.app.AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,8 +108,11 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
         loader = this.loadingDialog(true)
 
+        mGetAllChatViewModel.getAllChat(accessToken,job_id!!.toInt(),page_no)
+
         //observer
         uploadChatImageObserve()
+        getAllChatObserve()
 
         binding.chatFrgBackArrow.setOnClickListener {
             finish()
@@ -159,12 +151,15 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
                 // add the message to view
                 val message = ChatModel(
+                    "",
+                    0,
                     msgUuid,
                     messageText,
-                    "",
-                    getCurrentTime(),
-                    true
+                    PrefManager.getUserId().toString(),
+                    agency_id.toString(),
+                    getCurrentTime()
                 )
+                message.isSender = true
                 mMessageAdapter.addMessage(message)
                 binding.textInput.text = null
                 scrollToLast()
@@ -244,12 +239,15 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
                         // add the message to view
                         val chat = ChatModel(
+                            message.image,
+                            0,
                             message.messageId,
                             msg,
-                            message.image,
-                            time,
-                            false
+                            null,
+                            null,
+                            time
                         )
+                        chat.isSender = false
                         mMessageAdapter.addMessage(chat)
                         scrollToLast()
                         isMsgAvailAble()
@@ -257,12 +255,15 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
                         // add the message to view
                         val chat = ChatModel(
+                            "",
+                            0,
                             message.messageId,
                             msg,
-                            "",
-                            time,
-                            false
+                            null,
+                            null,
+                            time
                         )
+                        chat.isSender = false
                         mMessageAdapter.addMessage(chat)
                         scrollToLast()
                         isMsgAvailAble()
@@ -517,12 +518,15 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                             attemptSend(sendMsg)
 
                             val message = ChatModel(
+                                it,
+                                0,
                                 msgUuid,
                                 caption,
-                                it,
-                                getCurrentTime(),
-                                true
+                                agency_id.toString(),
+                                PrefManager.getUserId().toString(),
+                                getCurrentTime()
                             )
+                            message.isSender = true
                             mMessageAdapter.addMessage(message)
                             scrollToLast()
                         }
@@ -530,6 +534,42 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                         mUploadChatImageViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        loader.dismiss()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun getAllChatObserve(){
+        mGetAllChatViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        if(outcome.data?.chatModel != null && outcome.data?.chatModel?.size != 0){
+                            for (msg in outcome.data?.chatModel!!){
+                                if (msg.userId.toString() == PrefManager.getUserId().toString()){
+                                    msg.isSender = true
+                                }else{
+                                    msg.isSender = false
+                                }
+                            }
+                            Toast.makeText(this,"0 => "+outcome.data?.chatModel!![0].msg, Toast.LENGTH_SHORT).show()
+
+                            mMessageAdapter.addAllMessages(outcome.data?.chatModel!!)
+                        }else{
+                            Toast.makeText(this,"1 => "+outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        }
+                        mGetAllChatViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,"2 => "+outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         loader.dismiss()
                     }
                 }

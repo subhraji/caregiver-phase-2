@@ -1,16 +1,12 @@
 package com.example.caregiverphase2.ui.activity
 
-import android.app.ActionBar
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.Window
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -18,12 +14,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityMainBinding
-import com.example.caregiverphase2.model.pojo.chat.ChatModel
 import com.example.caregiverphase2.model.pojo.chat.Data
-import com.example.caregiverphase2.service.BackgroundLocationService
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
-import com.example.caregiverphase2.utils.SocketHelper
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
@@ -31,11 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import lightStatusBar
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URISyntaxException
