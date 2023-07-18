@@ -187,7 +187,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         } catch (e: URISyntaxException) {
             e.printStackTrace()
         }
-        mSocket?.on("receiveMessage", onNewMessage);
+        mSocket?.on("receiveMessage", onNewMessage)
         mSocket?.on("messageAck", ackStatusListener)
         mSocket?.connect()
 
@@ -358,7 +358,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
     private fun dispatchDocGalleryIntent() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        gallery.setType("image/*")
+        gallery.type = "image/*"
         startActivityForResult(gallery, PICK_IMAGE_DOC)
     }
 
@@ -554,18 +554,13 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                     loader.dismiss()
                     if(outcome.data?.success == true){
                         if(outcome.data?.chatModel != null && outcome.data?.chatModel?.size != 0){
-                            for (msg in outcome.data?.chatModel!!){
-                                if (msg.userId.toString() == PrefManager.getUserId().toString()){
-                                    msg.isSender = true
-                                }else{
-                                    msg.isSender = false
-                                }
+                            val revResult = outcome.data?.chatModel!!.reversed()
+                            for (msg in revResult){
+                                msg.isSender = msg.userId.toString() == PrefManager.getUserId().toString()
                             }
-                            Toast.makeText(this,"0 => "+outcome.data?.chatModel!![0].msg, Toast.LENGTH_SHORT).show()
-
-                            mMessageAdapter.addAllMessages(outcome.data?.chatModel!!)
-                        }else{
-                            Toast.makeText(this,"1 => "+outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                            mMessageAdapter.addAllMessages(revResult)
+                            binding.chatWithTv.gone()
+                            scrollToLast()
                         }
                         mGetAllChatViewModel.navigationComplete()
                     }else{
@@ -605,7 +600,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                     // perform action when allow permission success
                     dispatchDocGalleryIntent()
                 } else {
-                    Toast.makeText(this, "Allow permission for storage access!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Allow permission for storage access!", Toast.LENGTH_SHORT).show()
                 }
             }
         }
