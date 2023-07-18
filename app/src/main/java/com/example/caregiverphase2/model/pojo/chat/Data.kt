@@ -5,4 +5,6 @@ data class Data(
     val image: String,
     val time: String,
     val messageId: String,
+    val targetId: String?,
+    val userId: String?,
 )

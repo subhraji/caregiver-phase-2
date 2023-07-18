@@ -107,8 +107,18 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
         loader = this.loadingDialog(true)
+        binding.progressBar.gone()
+        binding.chatBtnSend.gone()
 
-        mGetAllChatViewModel.getAllChat(accessToken,job_id!!.toInt(),page_no)
+        if(isConnectedToInternet()){
+            binding.chatShimmerView.visible()
+            binding.chatShimmerView.startShimmer()
+            binding.chatRecycler.gone()
+            binding.progressBar.visible()
+            mGetAllChatViewModel.getAllChat(accessToken,job_id!!.toInt(),page_no)
+        }else{
+            Toast.makeText(this,"Oops!! No internet connection", Toast.LENGTH_SHORT).show()
+        }
 
         //observer
         uploadChatImageObserve()
@@ -243,8 +253,8 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                             0,
                             message.messageId,
                             msg,
-                            null,
-                            null,
+                            message.targetId,
+                            message.userId,
                             time
                         )
                         chat.isSender = false
@@ -259,8 +269,8 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                             0,
                             message.messageId,
                             msg,
-                            null,
-                            null,
+                            message.targetId,
+                            message.userId,
                             time
                         )
                         chat.isSender = false
@@ -551,26 +561,34 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         mGetAllChatViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-                    loader.dismiss()
+                    binding.progressBar.gone()
+                    binding.chatBtnSend.visible()
                     if(outcome.data?.success == true){
+                        binding.chatShimmerView.stopShimmer()
+                        binding.chatShimmerView.gone()
+
                         if(outcome.data?.chatModel != null && outcome.data?.chatModel?.size != 0){
+                            binding.chatRecycler.visible()
                             val revResult = outcome.data?.chatModel!!.reversed()
                             for (msg in revResult){
                                 msg.isSender = msg.userId.toString() == PrefManager.getUserId().toString()
+                                msg.isSeen = msg.is_message_seen == 1
                             }
                             mMessageAdapter.addAllMessages(revResult)
                             binding.chatWithTv.gone()
                             scrollToLast()
+                        }else{
+                            binding.chatRecycler.gone()
                         }
                         mGetAllChatViewModel.navigationComplete()
                     }else{
-                        Toast.makeText(this,"2 => "+outcome.data!!.message, Toast.LENGTH_SHORT).show()
-                        loader.dismiss()
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                     }
                 }
                 is Outcome.Failure<*> -> {
                     Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
-                    loader.dismiss()
+                    binding.progressBar.gone()
+                    binding.chatBtnSend.visible()
                     outcome.e.printStackTrace()
                     Log.i("status",outcome.e.cause.toString())
                 }

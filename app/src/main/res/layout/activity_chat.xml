@@ -80,7 +80,6 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/controlLayout"
         android:layout_below="@+id/header_card"
-        android:background="@drawable/chat_bg"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -88,7 +87,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             app:cardBackgroundColor="#D0D7FF"
             app:cardCornerRadius="10dp">
 
@@ -101,15 +102,27 @@
                 android:textColor="@color/black" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chat_recycler"
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:layout_height="match_parent">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/chat_shimmer_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <include layout="@layout/chat_shimmer_layout" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chat_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="11dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -166,6 +179,11 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_send_message"
                 app:tint="@color/theme_blue" />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"/>
         </RelativeLayout>
 
     </LinearLayout>
