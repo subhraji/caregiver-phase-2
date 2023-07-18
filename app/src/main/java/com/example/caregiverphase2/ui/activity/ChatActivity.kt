@@ -109,6 +109,14 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         loader = this.loadingDialog(true)
         binding.progressBar.gone()
         binding.chatBtnSend.gone()
+        binding.loadChatBtn.gone()
+
+        binding.loadChatBtn.setOnClickListener {
+            page_no++
+            binding.loadChatBtn.gone()
+            binding.loadChatProgressBar.visible()
+            mGetAllChatViewModel.getAllChat(accessToken,job_id!!.toInt(),page_no)
+        }
 
         if(isConnectedToInternet()){
             binding.chatShimmerView.visible()
@@ -563,11 +571,13 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                 is Outcome.Success ->{
                     binding.progressBar.gone()
                     binding.chatBtnSend.visible()
+                    binding.loadChatProgressBar.gone()
                     if(outcome.data?.success == true){
                         binding.chatShimmerView.stopShimmer()
                         binding.chatShimmerView.gone()
 
                         if(outcome.data?.chatModel != null && outcome.data?.chatModel?.size != 0){
+                            binding.loadChatBtn.visible()
                             binding.chatRecycler.visible()
                             val revResult = outcome.data?.chatModel!!.reversed()
                             for (msg in revResult){
@@ -578,7 +588,12 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                             binding.chatWithTv.gone()
                             scrollToLast()
                         }else{
-                            binding.chatRecycler.gone()
+                            if(page_no == 1){
+                                binding.chatRecycler.gone()
+                                binding.loadChatBtn.gone()
+                            }else{
+                                binding.loadChatBtn.gone()
+                            }
                         }
                         mGetAllChatViewModel.navigationComplete()
                     }else{
@@ -589,6 +604,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                     Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
                     binding.progressBar.gone()
                     binding.chatBtnSend.visible()
+                    binding.loadChatProgressBar.gone()
                     outcome.e.printStackTrace()
                     Log.i("status",outcome.e.cause.toString())
                 }
