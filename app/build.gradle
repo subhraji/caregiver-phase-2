@@ -116,4 +116,7 @@ dependencies {
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
+
+    //stripe
+    implementation 'com.stripe:stripe-android:17.2.0'
 }

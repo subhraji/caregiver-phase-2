@@ -107,7 +107,6 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
         loader = this.loadingDialog(true)
-        binding.progressBar.gone()
         binding.chatBtnSend.gone()
         binding.loadChatBtn.gone()
 
@@ -122,7 +121,6 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             binding.chatShimmerView.visible()
             binding.chatShimmerView.startShimmer()
             binding.chatRecycler.gone()
-            binding.progressBar.visible()
             mGetAllChatViewModel.getAllChat(accessToken,job_id!!.toInt(),page_no)
         }else{
             Toast.makeText(this,"Oops!! No internet connection", Toast.LENGTH_SHORT).show()
@@ -569,7 +567,6 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
         mGetAllChatViewModel.response.observe(this, androidx.lifecycle.Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-                    binding.progressBar.gone()
                     binding.chatBtnSend.visible()
                     binding.loadChatProgressBar.gone()
                     if(outcome.data?.success == true){
@@ -602,7 +599,6 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
                 }
                 is Outcome.Failure<*> -> {
                     Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
-                    binding.progressBar.gone()
                     binding.chatBtnSend.visible()
                     binding.loadChatProgressBar.gone()
                     outcome.e.printStackTrace()

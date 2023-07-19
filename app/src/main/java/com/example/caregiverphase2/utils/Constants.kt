@@ -19,4 +19,6 @@ object Constants {
 
     const val FILE_PROVIDER = "com.example.caregiverphase2.fileprovider"
 
+    const val STRIPE_PUBLISH_KEY = "pk_test_51MQJHfL8ZKWD5NB0rS94Ml3S51XA88c2Aw9GSkFmayOQM3P4ycRFE1NTKwZrhjNi9qodQCoPGe1UwQ1TpnzidFUz009qJ6u5Fj"
+
 }

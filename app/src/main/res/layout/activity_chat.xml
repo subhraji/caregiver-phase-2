@@ -80,43 +80,49 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/controlLayout"
         android:layout_below="@+id/header_card"
+        android:background="@drawable/chat_p_bg"
         android:orientation="vertical">
+
         <androidx.cardview.widget.CardView
             android:id="@+id/load_chat_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
             app:cardCornerRadius="7dp"
-            android:layout_marginTop="10dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:background="#34FF9800"
+                android:orientation="horizontal"
                 android:padding="7dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Load old chats"
                     android:textColor="@color/black"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_outline_refresh_24"
-                    android:layout_marginStart="10dp"/>
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_outline_refresh_24" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
         <ProgressBar
             android:id="@+id/load_chat_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/chat_with_card"
             android:layout_width="wrap_content"
@@ -143,14 +149,15 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chat_with_card"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/chat_with_card">
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/chat_shimmer_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <include layout="@layout/chat_shimmer_layout" />
             </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -219,11 +226,6 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_send_message"
                 app:tint="@color/theme_blue" />
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"/>
         </RelativeLayout>
 
     </LinearLayout>
