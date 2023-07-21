@@ -110,7 +110,7 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        binding.userImageView.setOnClickListener {
+        /*binding.userImageView.setOnClickListener {
             val intent = Intent(requireActivity(), ChatActivity::class.java)
             startActivity(intent)
         }
@@ -118,7 +118,7 @@ class DashboardFragment : Fragment() {
         binding.userPhoto.setOnClickListener {
             val intent = Intent(requireActivity(), ChatActivity::class.java)
             startActivity(intent)
-        }
+        }*/
 
         binding.locBtn.setOnClickListener {
             val intent = Intent(requireActivity(), SearchLocationActivity::class.java)

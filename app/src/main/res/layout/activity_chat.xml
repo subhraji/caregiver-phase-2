@@ -77,11 +77,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_above="@+id/controlLayout"
-        android:layout_below="@+id/header_card"
-        android:background="@drawable/chat_p_bg"
-        android:orientation="vertical">
+        android:layout_below="@+id/header_card">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/load_chat_btn"

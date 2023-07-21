@@ -1,20 +1,14 @@
 package com.example.caregiverphase2.service
 
 import android.app.*
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.core.content.PackageManagerCompat
 import com.example.caregiverphase2.R
-import com.example.caregiverphase2.ui.activity.AskLocationActivity
-import com.example.caregiverphase2.ui.activity.FullScreenNotifyActivity
 import com.example.caregiverphase2.ui.activity.LocationConfirmActivity
-import com.example.caregiverphase2.ui.activity.MainActivity
 import com.example.caregiverphase2.utils.Constants.CHANNEL_ID
 import com.example.caregiverphase2.utils.Constants.MUSIC_NOTIFICATION_ID
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +18,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 import kotlin.concurrent.timerTask
+
 
 class ForegroundLocationService: Service() {
     private lateinit var musicPlayer: MediaPlayer
@@ -81,12 +76,18 @@ class ForegroundLocationService: Service() {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NO_USER_ACTION)
         intent.putExtra("from","notification")
         startActivity(intent)
-
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)*/
 
-        val pendingIntent = PendingIntent.getActivity(
+        var pendingIntent: PendingIntent? = null
+        pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE)
+        } else {
+            PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT)
+        }
+
+        /*val pendingIntent = PendingIntent.getActivity(
             this, 0, notificationIntent, 0
-        )
+        )*/
 
         val notification = Notification
             .Builder(this, CHANNEL_ID)
