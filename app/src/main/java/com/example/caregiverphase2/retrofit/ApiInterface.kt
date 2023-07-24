@@ -2,6 +2,8 @@ package com.example.caregiverphase2.retrofit
 
 import com.example.caregiverphase2.model.pojo.accept_job.AcceptJobRequest
 import com.example.caregiverphase2.model.pojo.accept_job.AcceptJobResponse
+import com.example.caregiverphase2.model.pojo.add_bank.AddBankRequest
+import com.example.caregiverphase2.model.pojo.add_bank.AddBankResponse
 import com.example.caregiverphase2.model.pojo.add_bio.AddBioRequest
 import com.example.caregiverphase2.model.pojo.add_bio.AddBioResponse
 import com.example.caregiverphase2.model.pojo.add_certificate.AddCertificateResponse
@@ -327,4 +329,10 @@ interface ApiInterface {
         @Query("job_id") id: Int?,
         @Query("page") page: Int?,
     ): GetChatResponse?
+
+    @POST("stripe/create-connected-account")
+    suspend fun addBank(
+        @Body body: AddBankRequest?,
+        @Header("Authorization") token: String,
+    ): AddBankResponse?
 }

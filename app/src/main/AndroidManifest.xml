@@ -15,7 +15,6 @@
         android:maxSdkVersion="29" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -33,6 +32,9 @@
         android:theme="@style/Theme.CaregiverPhase2"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.activity.WebViewActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.JobActivitiesActivity"
             android:exported="false" />
