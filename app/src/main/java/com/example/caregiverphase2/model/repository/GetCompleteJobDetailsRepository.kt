@@ -1,0 +1,19 @@
+package com.example.caregiverphase2.model.repository
+
+import com.example.caregiverphase2.model.pojo.get_complete_job.GetCompleteJobsResponse
+import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
+import com.example.caregiverphase2.retrofit.ApiInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
+
+class GetCompleteJobDetailsRepository @Inject constructor(private val apiInterface: ApiInterface)  {
+    fun getCompleteJobDetails(
+        token: String,
+        id: Int?
+    ): Flow<GetJobsResponse?> = flow{
+        emit(apiInterface.getCompleteJobsDetails(token, id))
+    }.flowOn(Dispatchers.IO)
+}

@@ -232,6 +232,12 @@ interface ApiInterface {
         @Query("job_id") id: Int?,
     ): GetCompleteJobsResponse?
 
+    @GET(" job/complete-job/details")
+    suspend fun getCompleteJobsDetails(
+        @Header("Authorization") token: String,
+        @Query("id") id: Int?,
+    ): GetJobsResponse?
+
     @Multipart
     @POST("document/upload")
     suspend fun uploadDocuments(

@@ -95,8 +95,14 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             val name = intent?.getStringExtra("name")
             val photo = intent?.getStringExtra("photo")
             job_id = intent?.getStringExtra("job_id")
+            val owner_name = intent?.getStringExtra("owner")
 
-            binding.chatFrgPhoneNoTxt.text = name
+            binding.chatFrgPhoneNoTxt.text = owner_name
+            if(name?.length!! > 40){
+                binding.typingTv.text = name.toString().substring(0,39)+"..."
+            }else{
+                binding.typingTv.text = name
+            }
             Glide.with(this).load(Constants.PUBLIC_URL+photo)
                 .placeholder(R.color.color_grey)
                 .into(binding.userImg)

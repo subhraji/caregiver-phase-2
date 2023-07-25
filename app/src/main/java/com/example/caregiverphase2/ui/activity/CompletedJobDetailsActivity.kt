@@ -19,6 +19,7 @@ import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.ui.fragment.AgencyFragment
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.GetCompleteJobDetailsViewModel
 import com.example.caregiverphase2.viewmodel.GetCompleteJobsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import gone
@@ -29,12 +30,13 @@ import visible
 class CompletedJobDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCompletedJobDetailsBinding
 
-    private val mGetCompleteJobsViewModel: GetCompleteJobsViewModel by viewModels()
+    private val mGetCompleteJobsViewModel: GetCompleteJobDetailsViewModel by viewModels()
     private lateinit var accessToken: String
     private var id = 0
     private lateinit var agency_id: String
     private lateinit var agency_name: String
     private lateinit var agency_photo: String
+    private lateinit var owner_name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +78,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("agency_id", agency_id)
             intent.putExtra("name", agency_name)
+            intent.putExtra("owner", owner_name)
             intent.putExtra("photo", agency_photo)
             intent.putExtra("job_id", id.toString())
             startActivity(intent)
@@ -103,7 +106,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
             binding.mainLay.gone()
             binding.detailsShimmerView.visible()
             binding.detailsShimmerView.startShimmer()
-            mGetCompleteJobsViewModel.getCompleteJob(token = accessToken, id = id)
+            mGetCompleteJobsViewModel.getCompleteJobDetails(token = accessToken, id = id)
         }else{
             Toast.makeText(this,"No internet connection.",Toast.LENGTH_SHORT).show()
         }
@@ -142,7 +145,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
                     if(outcome.data?.success == true){
                         //Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         var gen = ""
-                        for(i in outcome.data!!.data[0].care_items){
+                        for(i in outcome.data!!.data[0].careItems){
                             if(gen.isEmpty()){
                                 gen = i.gender+": "+i.age+" Yrs"
                             }else{
@@ -150,28 +153,30 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
                             }
                         }
                         binding.ageTv.text = gen
-                        binding.titleTv.text = outcome.data!!.data[0].title
-                        binding.careTypeTv.text = outcome.data!!.data[0].care_type
+                        binding.titleTv.text = outcome.data!!.data[0].jobTitle
+                        binding.careTypeTv.text = outcome.data!!.data[0].careType
                         binding.locTv.text = outcome.data!!.data[0].address
-                        binding.dateTv.text = outcome.data!!.data[0].start_date.toString()+" to "+outcome.data!!.data[0].end_date.toString()
-                        binding.timeTv.text = outcome.data!!.data[0].start_time.toString()+" - "+outcome.data!!.data[0].end_time.toString()
+                        binding.dateTv.text = outcome.data!!.data[0].startDate.toString()+" to "+outcome.data!!.data[0].endDate.toString()
+                        binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" - "+outcome.data!!.data[0].endTime.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
-                        binding.agencyNameTv.text = outcome.data!!.data[0].agency_name.toString()
+                        binding.agencyNameTv.text = outcome.data!!.data[0].companyName.toString()
                         binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
-                        agency_id = outcome.data!!.data[0].agency_id.toString()
-                        agency_name = outcome.data!!.data[0].agency_name.toString()
-                        agency_photo = outcome.data!!.data[0].agency_photo.toString()
+                        agency_id = outcome.data!!.data[0].agencyId.toString()
+                        agency_name = outcome.data!!.data[0].companyName
+                        agency_photo = outcome.data!!.data[0].companyPhoto
+                        owner_name = outcome.data!!.data[0].ownerName!!
+
 
                         Glide.with(this)
-                            .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agency_photo) // image url
+                            .load(Constants.PUBLIC_URL+outcome.data!!.data[0].companyPhoto) // image url
                             .placeholder(R.color.dash_yellow) // any placeholder to load at start
                             .centerCrop()
                             .into(binding.agencyImgView)
 
-                        if(outcome.data!!.data[0].medical_history.isNotEmpty()){
+                        if(outcome.data!!.data[0].medicalHistory.isNotEmpty()){
                             binding.medicalRecycler.visible()
                             binding.medicalHisHtv.visible()
-                            medicalHistoryFillRecycler(outcome.data!!.data[0].medical_history.toMutableList())
+                            medicalHistoryFillRecycler(outcome.data!!.data[0].medicalHistory.toMutableList())
                         }
 
                         outcome.data!!.data[0].expertise?.let {
@@ -182,15 +187,15 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
                             }
                         }
 
-                        if(outcome.data!!.data[0].other_requirements.isNotEmpty()){
+                        if(outcome.data!!.data[0].otherRequirements.isNotEmpty()){
                             binding.otherReqRecycler.visible()
                             binding.otherReqHtv.visible()
-                            otherFillRecycler(outcome.data!!.data[0].other_requirements.toMutableList())
+                            otherFillRecycler(outcome.data!!.data[0].otherRequirements.toMutableList())
                         }
-                        if(outcome.data!!.data[0].check_list.isNotEmpty()){
+                        if(outcome.data!!.data[0].checkList.isNotEmpty()){
                             binding.checkListRecycler.visible()
                             binding.noCheckListTv.gone()
-                            checkListFillRecycler(outcome.data!!.data[0].check_list.toMutableList())
+                            checkListFillRecycler(outcome.data!!.data[0].checkList.toMutableList())
                         }else{
                             binding.noCheckListTv.visible()
                         }

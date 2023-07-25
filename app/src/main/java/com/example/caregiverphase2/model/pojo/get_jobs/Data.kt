@@ -50,4 +50,8 @@ data class Data(
     val status: String,
     @SerializedName("distance")
     val distance: String,
+    @SerializedName("agency_id")
+    val agencyId: Int?,
+    @SerializedName("owner_name")
+    val ownerName: String?,
 )

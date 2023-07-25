@@ -60,6 +60,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
     private lateinit var agency_id: String
     private lateinit var agency_name: String
     private lateinit var agency_photo: String
+    private lateinit var owner_name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +98,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("agency_id", agency_id)
             intent.putExtra("name", agency_name)
+            intent.putExtra("owner", owner_name)
             intent.putExtra("photo", agency_photo)
             intent.putExtra("job_id", job_id.toString())
             startActivity(intent)
@@ -207,7 +209,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
                             agency_id = outcome.data!!.data[0].agency_id.toString()
                             agency_name = outcome.data!!.data[0].agency_name.toString()
                             agency_photo = outcome.data!!.data[0].agency_photo.toString()
-
+                            owner_name = outcome.data!!.data[0].owner_name.toString()
 
                             Glide.with(this)
                                 .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agency_photo) // image url
