@@ -29,6 +29,7 @@ import com.example.caregiverphase2.model.pojo.edit_education.EditEducationResons
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
 import com.example.caregiverphase2.model.pojo.get_agency_profile.GetAgencyProfileResponse
+import com.example.caregiverphase2.model.pojo.get_bank_details.GetBankDetailsResponse
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
 import com.example.caregiverphase2.model.pojo.get_complete_job.GetCompleteJobsResponse
 import com.example.caregiverphase2.model.pojo.get_documents.GetDocumentsResponse
@@ -352,4 +353,9 @@ interface ApiInterface {
     suspend fun connectRefreshUrl(
         @Header("Authorization") token: String,
     ): ConnectRefreshUrlResponse?
+
+    @GET("stripe/get-my-account-details")
+    suspend fun getBankDetails(
+        @Header("Authorization") token: String,
+    ): GetBankDetailsResponse?
 }

@@ -22,10 +22,7 @@ import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_documents.Criminal
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.PrefManager
-import com.example.caregiverphase2.viewmodel.AddBankViewModel
-import com.example.caregiverphase2.viewmodel.ConnectAccountStatusViewModel
-import com.example.caregiverphase2.viewmodel.ConnectRefreshUrlViewModel
-import com.example.caregiverphase2.viewmodel.EditBasicInfoViewModel
+import com.example.caregiverphase2.viewmodel.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import gone
@@ -43,6 +40,7 @@ class EarningsActivity : AppCompatActivity() {
     private val mAddBankViewModel: AddBankViewModel by viewModels()
     private val mConnectAccountStatusViewModel: ConnectAccountStatusViewModel by viewModels()
     private val mConnectRefreshUrlViewModel: ConnectRefreshUrlViewModel by viewModels()
+    private val mGetBankDetailsViewModel: GetBankDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +93,7 @@ class EarningsActivity : AppCompatActivity() {
         addBankObserver()
         connectAccountStatusObserver()
         connectRefreshUrlObserver()
+        getBankDetailsObserver()
     }
 
     override fun onResume() {
@@ -171,6 +170,8 @@ class EarningsActivity : AppCompatActivity() {
                                 binding.addBankLay.gone()
                                 binding.showBankLay.visible()
                                 binding.warningLay.gone()
+                                loader.show()
+                                mGetBankDetailsViewModel.getBankDetails(accessToken)
                             }
                         }
                     }else{
@@ -224,5 +225,36 @@ class EarningsActivity : AppCompatActivity() {
             }
         })
     }
-
+    private fun getBankDetailsObserver(){
+        mGetBankDetailsViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        if(outcome.data?.data != null){
+                            val data = outcome.data?.data
+                            data?.routingNumber?.let {
+                                binding.routeNoTv.text = it
+                            }
+                            data?.accountNumber?.let {
+                                binding.accountNoTv.text = it
+                            }
+                            data?.bankName?.let {
+                                binding.bankNameTv.text = it
+                            }
+                        }
+                        mGetBankDetailsViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
 }
