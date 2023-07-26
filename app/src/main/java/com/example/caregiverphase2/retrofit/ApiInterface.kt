@@ -17,6 +17,8 @@ import com.example.caregiverphase2.model.pojo.change_profile_pic.ChangeProfilePi
 import com.example.caregiverphase2.model.pojo.chat.GetChatResponse
 import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobRequest
 import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobResponse
+import com.example.caregiverphase2.model.pojo.connect_account_status.ConnectAccountStatusResponse
+import com.example.caregiverphase2.model.pojo.connect_refresh_url.ConnectRefreshUrlResponse
 import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentRequest
 import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentResponse
 import com.example.caregiverphase2.model.pojo.edit_basic_info.EditBasicInfoRequest
@@ -338,7 +340,16 @@ interface ApiInterface {
 
     @POST("stripe/create-connected-account")
     suspend fun addBank(
-        @Body body: AddBankRequest?,
         @Header("Authorization") token: String,
     ): AddBankResponse?
+
+    @GET("stripe/check-connected-account-status")
+    suspend fun connectAccountStatus(
+        @Header("Authorization") token: String,
+    ): ConnectAccountStatusResponse?
+
+    @GET("stripe/refresh-url")
+    suspend fun connectRefreshUrl(
+        @Header("Authorization") token: String,
+    ): ConnectRefreshUrlResponse?
 }

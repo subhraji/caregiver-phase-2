@@ -23,11 +23,15 @@ import com.example.caregiverphase2.model.pojo.get_documents.Criminal
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.AddBankViewModel
+import com.example.caregiverphase2.viewmodel.ConnectAccountStatusViewModel
+import com.example.caregiverphase2.viewmodel.ConnectRefreshUrlViewModel
 import com.example.caregiverphase2.viewmodel.EditBasicInfoViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import gone
 import isConnectedToInternet
 import loadingDialog
+import visible
 
 @AndroidEntryPoint
 class EarningsActivity : AppCompatActivity() {
@@ -37,6 +41,8 @@ class EarningsActivity : AppCompatActivity() {
     private lateinit var accessToken: String
     private lateinit var loader: androidx.appcompat.app.AlertDialog
     private val mAddBankViewModel: AddBankViewModel by viewModels()
+    private val mConnectAccountStatusViewModel: ConnectAccountStatusViewModel by viewModels()
+    private val mConnectRefreshUrlViewModel: ConnectRefreshUrlViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +52,7 @@ class EarningsActivity : AppCompatActivity() {
         //get token
         accessToken = "Bearer "+PrefManager.getKeyAuthToken()
         loader = this.loadingDialog(true)
+        binding.warningLay.gone()
 
         binding.backBtn1.setOnClickListener {
             finish()
@@ -54,7 +61,16 @@ class EarningsActivity : AppCompatActivity() {
         binding.addBankBtn.setOnClickListener {
             if(isConnectedToInternet()){
                 loader.show()
-                mAddBankViewModel.addBank("test4@gmail.com",accessToken)
+                mAddBankViewModel.addBank(accessToken)
+            }else{
+                Snackbar.make(binding.rootView,"Oops!! No internet connection.", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.activeBankBtn.setOnClickListener {
+            if(isConnectedToInternet()){
+                loader.show()
+                mConnectRefreshUrlViewModel.connectRefreshUrl(accessToken)
             }else{
                 Snackbar.make(binding.rootView,"Oops!! No internet connection.", Snackbar.LENGTH_SHORT).show()
             }
@@ -77,6 +93,19 @@ class EarningsActivity : AppCompatActivity() {
 
         //observer
         addBankObserver()
+        connectAccountStatusObserver()
+        connectRefreshUrlObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(isConnectedToInternet()){
+            loader.show()
+            mConnectAccountStatusViewModel.connectAccountAccount(accessToken)
+        }else{
+            Snackbar.make(binding.rootView,"Oops!! No internet connection.", Snackbar.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun fillEarningsRecycler(list: MutableList<TestModel>) {
@@ -113,14 +142,9 @@ class EarningsActivity : AppCompatActivity() {
                 is Outcome.Success ->{
                     loader.dismiss()
                     if(outcome.data?.success == true){
-                        val intent = Intent(this, WebViewActivity::class.java)
-                        /*intent.putExtra("url", outcome.data!!.data.toString())
-                        startActivity(intent)*/
-
                         val url = outcome.data!!.data.toString()
                         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                         startActivity(browserIntent)
-
                         mAddBankViewModel.navigationComplete()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
@@ -135,4 +159,70 @@ class EarningsActivity : AppCompatActivity() {
             }
         })
     }
+    private fun connectAccountStatusObserver(){
+        mConnectAccountStatusViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        if(outcome.data?.data != null){
+                            val data = outcome.data?.data
+                            if (data?.is_charges_enabled == 1 && data?.is_payouts_enabled == 1){
+                                binding.addBankLay.gone()
+                                binding.showBankLay.visible()
+                                binding.warningLay.gone()
+                            }
+                        }
+                    }else{
+                        if(outcome.data?.data != null){
+                            val data = outcome.data?.data
+                            if (data?.is_charges_enabled == 0 && data?.is_payouts_enabled == 0){
+                                binding.showBankLay.gone()
+                                binding.addBankLay.visible()
+                                binding.addBankBtn.gone()
+                                binding.activeBankBtn.visible()
+                                binding.warningLay.visible()
+                            }
+                        }else{
+                            binding.showBankLay.gone()
+                            binding.addBankLay.visible()
+                            binding.activeBankBtn.gone()
+                            binding.addBankBtn.visible()
+                            binding.warningLay.gone()
+                        }
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+    private fun connectRefreshUrlObserver(){
+        mConnectRefreshUrlViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        val url = outcome.data!!.data.toString()
+                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        startActivity(browserIntent)
+                        mConnectRefreshUrlViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
 }

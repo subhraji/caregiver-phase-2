@@ -69,6 +69,8 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
     private var mSocket: Socket? = null
     private var agency_id: String? = null
     private var job_id: String? = null
+    private var job_status: String? = null
+
     private lateinit var accessToken: String
 
     private var imageUri: Uri? = null
@@ -96,6 +98,7 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
             val photo = intent?.getStringExtra("photo")
             job_id = intent?.getStringExtra("job_id")
             val owner_name = intent?.getStringExtra("owner")
+            job_status = intent?.getStringExtra("status")
 
             binding.chatFrgPhoneNoTxt.text = owner_name
             if(name?.length!! > 40){
@@ -142,6 +145,16 @@ class ChatActivity : AppCompatActivity(), UploadDocumentListener {
 
         isMsgAvailAble()
 
+        binding.infoBtn.setOnClickListener {
+            if(job_status == "completed"){
+                val intent = Intent(this, CompletedJobDetailsActivity::class.java)
+                intent.putExtra("id", job_id?.toInt())
+                startActivity(intent)
+            }else if(job_status == "ongoing"){
+                val intent = Intent(this, OnGoingJobDetailsActivity::class.java)
+                startActivity(intent)
+            }
+        }
         binding.cameraBtn.setOnClickListener {
             selectImage()
         }

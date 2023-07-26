@@ -3,8 +3,8 @@ package com.example.caregiverphase2.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.caregiverphase2.model.pojo.add_bank.AddBankResponse
-import com.example.caregiverphase2.model.repository.AddBankRepository
+import com.example.caregiverphase2.model.pojo.connect_account_status.ConnectAccountStatusResponse
+import com.example.caregiverphase2.model.repository.ConnectAccountRepository
 import com.example.caregiverphase2.model.repository.Outcome
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -13,14 +13,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddBankViewModel @Inject constructor(private val mAddBankRepository: AddBankRepository) : ViewModel() {
-    private var _response = MutableLiveData<Outcome<AddBankResponse?>?>()
-    val response: MutableLiveData<Outcome<AddBankResponse?>?> = _response
+class ConnectAccountStatusViewModel @Inject constructor(private val mAddBankRepository: ConnectAccountRepository) : ViewModel() {
+    private var _response = MutableLiveData<Outcome<ConnectAccountStatusResponse?>?>()
+    val response: MutableLiveData<Outcome<ConnectAccountStatusResponse?>?> = _response
 
-    fun addBank(
+    fun connectAccountAccount(
         token: String
     ) = viewModelScope.launch {
-        mAddBankRepository.addBank(
+        mAddBankRepository.connectAccountStatus(
             token
         ).onStart {
             _response.value = Outcome.loading(true)

@@ -8,7 +8,9 @@ import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.ViewGroup
 import android.view.Window
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +27,7 @@ import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetOpenBidDetailsViewModel
 import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
+import com.example.caregiverphase2.viewmodel.GetProfileViewModel
 import com.example.caregiverphase2.viewmodel.SubmitBidViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import gone
@@ -48,6 +51,7 @@ class JobDetailsActivity : AppCompatActivity() {
     private val mGetOpenJobsViewModel: GetOpenJobsViewModel by viewModels()
     private val mSubmitBidViewModel: SubmitBidViewModel by viewModels()
     private val mGetOpenBidDetailsViewModel: GetOpenBidDetailsViewModel by viewModels()
+    private val mGetProfileViewModel: GetProfileViewModel by viewModels()
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
 
@@ -97,7 +101,9 @@ class JobDetailsActivity : AppCompatActivity() {
 
         binding.bidNowTv.setOnClickListener {
             //showCompleteDialog()
-            showBidPopUp()
+
+            loader.show()
+            mGetProfileViewModel.getProfile(accessToken)
         }
 
         binding.viewProfileHtv.setOnClickListener {
@@ -565,4 +571,70 @@ class JobDetailsActivity : AppCompatActivity() {
             }
         }.start()
     }
+
+    private fun getProfileObserve(){
+        mGetProfileViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    if(outcome.data?.success == true){
+                        if(outcome.data?.data?.profile_completion_status == null){
+                            showCompleteDialog("Please add your basic details to complete your profile","Complete now", 1)
+                        }
+                        else if(outcome.data?.data?.profile_completion_status?.is_basic_info_added == 0){
+                            showCompleteDialog("Please add your basic details to complete your profile","Complete now", 1)
+                        }
+                        else if(outcome.data?.data?.profile_completion_status?.is_documents_uploaded == 0){
+
+                            if(outcome.data?.data?.profile_completion_status?.is_optional_info_added == 0){
+                                showCompleteDialog("Please complete your profile","Complete now", 2)
+                            }else{
+                                showCompleteDialog("Please add your documents to complete your profile","Complete now", 3)
+                            }
+                        }else if(outcome.data?.data?.profile_completion_status?.is_profile_approved == 0){
+                            showBidPopUp()
+                        }else{
+                            showBidPopUp()
+                        }
+                        mGetProfileViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun showCompleteDialog(title: String, btn_txt: String, step: Int) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.setContentView(R.layout.profile_completion_dialog_layout)
+
+        val msg_tv = dialog.findViewById<TextView>(R.id.text_view_1)
+        val complete = dialog.findViewById<TextView>(R.id.complete_btn)
+
+        msg_tv.text = title
+        complete.text = btn_txt
+
+        complete.setOnClickListener {
+            if(step != 4){
+                dialog.dismiss()
+                val intent = Intent(this, BasicAndHomeAddressActivity::class.java)
+                intent.putExtra("step", step.toString())
+                startActivity(intent)
+            }else{
+                dialog.dismiss()
+            }
+
+        }
+        dialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.show()
+    }
+
 }

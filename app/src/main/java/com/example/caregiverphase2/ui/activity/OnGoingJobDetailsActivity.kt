@@ -101,6 +101,7 @@ class OnGoingJobDetailsActivity : AppCompatActivity() {
             intent.putExtra("owner", owner_name)
             intent.putExtra("photo", agency_photo)
             intent.putExtra("job_id", job_id.toString())
+            intent.putExtra("status", "ongoing")
             startActivity(intent)
         }
 

@@ -129,19 +129,7 @@ class AddCertificateActivity : AppCompatActivity(), UploadDocListener {
                                     e.printStackTrace()
                                 }
                             }else{
-                                if(isConnectedToInternet()){
-                                    mAddCertificateViewModel.addCertificate(
-                                        null,
-                                        binding.certificateNameTxt.text.toString(),
-                                        binding.startYearTxt.text.toString(),
-                                        binding.endYearTxt.text.toString(),
-                                        accessToken
-                                    )
-                                    hideSoftKeyboard()
-                                    loader.show()
-                                }else{
-                                    Toast.makeText(this@AddCertificateActivity,"No internet connection.", Toast.LENGTH_SHORT).show()
-                                }
+                                Toast.makeText(this,"upload a certificate image.",Toast.LENGTH_SHORT).show()
                             }
                         }else{
                             Toast.makeText(this,"please provide a valid start year and end year",Toast.LENGTH_SHORT).show()
