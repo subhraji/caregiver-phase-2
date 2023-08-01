@@ -5,9 +5,11 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -41,6 +43,7 @@ class EarningsActivity : AppCompatActivity() {
     private val mConnectAccountStatusViewModel: ConnectAccountStatusViewModel by viewModels()
     private val mConnectRefreshUrlViewModel: ConnectRefreshUrlViewModel by viewModels()
     private val mGetBankDetailsViewModel: GetBankDetailsViewModel by viewModels()
+    private val mDeleteBankViewModel: DeleteBankViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +81,10 @@ class EarningsActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.threeDot.setOnClickListener {
+            showDeletePopup(it)
+        }
+
         //spinner
         setUpMonthSpinner()
 
@@ -94,6 +101,7 @@ class EarningsActivity : AppCompatActivity() {
         connectAccountStatusObserver()
         connectRefreshUrlObserver()
         getBankDetailsObserver()
+        deleteBankObserver()
     }
 
     override fun onResume() {
@@ -257,4 +265,66 @@ class EarningsActivity : AppCompatActivity() {
             }
         })
     }
+    private fun deleteBankObserver(){
+        mDeleteBankViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        binding.addBankLay.visible()
+                        binding.addBankBtn.visible()
+                        binding.activeBankBtn.gone()
+                        binding.showBankLay.gone()
+                        binding.warningLay.gone()
+                        mDeleteBankViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+    private fun showDeletePopup(v : View){
+        val popup = PopupMenu(this, v)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.bank_menu, popup.menu)
+        popup.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId){
+                R.id.delete_btn-> {
+                    showDeletePopUp()
+                }
+            }
+            true
+        }
+        popup.show()
+    }
+
+    private fun showDeletePopUp(){
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Delete")
+        builder.setMessage("Are you sure? \nwant to delete this bank account?")
+        builder.setIcon(R.drawable.ic_baseline_delete_outline_24)
+        builder.setPositiveButton("Yes"){dialogInterface, which ->
+            if(isConnectedToInternet()){
+                mDeleteBankViewModel.deleteBank(accessToken)
+                loader = this.loadingDialog()
+                loader.show()
+            }else{
+                Toast.makeText(this,"No internet connection.",Toast.LENGTH_LONG).show()
+            }
+        }
+        builder.setNegativeButton("No"){dialogInterface, which ->
+        }
+        val alertDialog: android.app.AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+    }
+
 }

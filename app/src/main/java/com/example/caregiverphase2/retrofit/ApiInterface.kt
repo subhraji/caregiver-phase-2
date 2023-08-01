@@ -19,6 +19,7 @@ import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobR
 import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobResponse
 import com.example.caregiverphase2.model.pojo.connect_account_status.ConnectAccountStatusResponse
 import com.example.caregiverphase2.model.pojo.connect_refresh_url.ConnectRefreshUrlResponse
+import com.example.caregiverphase2.model.pojo.delete_bank.DeleteBankResponse
 import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentRequest
 import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentResponse
 import com.example.caregiverphase2.model.pojo.edit_basic_info.EditBasicInfoRequest
@@ -358,4 +359,9 @@ interface ApiInterface {
     suspend fun getBankDetails(
         @Header("Authorization") token: String,
     ): GetBankDetailsResponse?
+
+    @POST("stripe/delete-accounts")
+    suspend fun deleteBank(
+        @Header("Authorization") token: String,
+    ): DeleteBankResponse?
 }
