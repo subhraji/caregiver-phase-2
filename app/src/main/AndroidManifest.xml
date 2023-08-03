@@ -236,6 +236,9 @@
             android:name=".service.ForegroundLocationService"
             android:exported="true" />
         <service
+            android:name=".service.OtpTimerService"
+            android:exported="true" />
+        <service
             android:name=".utils.MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>

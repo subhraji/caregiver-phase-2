@@ -1,5 +1,6 @@
 package com.example.caregiverphase2.ui.activity
 
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -19,6 +20,8 @@ import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityChangePasswordBinding
 import com.example.caregiverphase2.databinding.ActivityEmailVerificationBinding
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.service.ForegroundLocationService
+import com.example.caregiverphase2.service.OtpTimerService
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.ChangePasswordViewModel
 import com.example.caregiverphase2.viewmodel.ResendOtpViewModel
@@ -49,8 +52,6 @@ class EmailVerificationActivity : AppCompatActivity() {
     private var email: String = ""
     private var password: String = ""
     private var con_password: String = ""
-    var cTimer: CountDownTimer? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,10 +69,13 @@ class EmailVerificationActivity : AppCompatActivity() {
 
         loader = this.loadingDialog()
 
-        startTimer()
+        startService()
+        optTimerObserver()
+
         binding.resendTv.gone()
 
         binding.backBtn.setOnClickListener {
+            stopService()
             finish()
         }
 
@@ -180,24 +184,6 @@ class EmailVerificationActivity : AppCompatActivity() {
         resendOtpObserve()
     }
 
-
-    fun startTimer() {
-        cTimer = object : CountDownTimer(180000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                binding.timerTv.setText("OTP well be expired in: " + millisUntilFinished / 1000 +" sec");
-            }
-            override fun onFinish() {
-                cancelTimer()
-                binding.resendTv.visible()
-            }
-        }
-        (cTimer as CountDownTimer).start()
-    }
-
-    fun cancelTimer() {
-        if (cTimer != null) cTimer!!.cancel()
-    }
-
     private fun getOtpObserver(){
         mSignUpEmailVerificationViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
@@ -205,7 +191,8 @@ class EmailVerificationActivity : AppCompatActivity() {
                     loader.dismiss()
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message.toString(), Toast.LENGTH_LONG).show()
-                        startTimer()
+                        startService()
+
                         binding.resendTv.gone()
 
                         binding.edTxt1.text = null
@@ -222,6 +209,7 @@ class EmailVerificationActivity : AppCompatActivity() {
                                 PrefManager.setUserFullName(name)
                                 PrefManager.setLogInStatus(true)
                                 PrefManager.setUserId(outcome.data?.data.toString())
+                                stopService()
                                 val intent = Intent(this, AskLocationActivity::class.java)
                                 intent.putExtra("from","login")
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -252,7 +240,8 @@ class EmailVerificationActivity : AppCompatActivity() {
                     loader.dismiss()
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message.toString(), Toast.LENGTH_LONG).show()
-                        startTimer()
+                        startService()
+
                         binding.resendTv.gone()
 
                         binding.edTxt1.text = null
@@ -329,5 +318,46 @@ class EmailVerificationActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(channel)
 
         }
+    }
+
+    private fun startService(){
+        if(!isMyServiceRunning(OtpTimerService::class.java)){
+            startService(Intent(this, OtpTimerService::class.java))
+        }else{
+            Toast.makeText(this,"service is still running.", Toast.LENGTH_LONG).show()
+        }
+    }
+    private fun stopService(){
+        stopService(Intent(this, OtpTimerService::class.java))
+    }
+    private fun isMyServiceRunning(mClass: Class<OtpTimerService>): Boolean{
+
+        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+        for(service: ActivityManager.RunningServiceInfo in manager.getRunningServices(Integer.MAX_VALUE)){
+
+            if(mClass.name.equals(service.service.className)){
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun optTimerObserver(){
+        OtpTimerService.timeRunInMillis.observe(this, Observer {
+            if(it == 0L){
+                binding.timerTv.text = null
+                binding.resendTv.visible()
+                stopService()
+            }else{
+                binding.resendTv.gone()
+                binding.timerTv.text = "OTP well be expired in: ${it.toString()} sec"
+            }
+        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService()
     }
 }
