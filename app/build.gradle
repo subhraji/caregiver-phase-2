@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.caregiverphase2"
@@ -119,4 +119,7 @@ dependencies {
 
     //stripe
     implementation 'com.stripe:stripe-android:17.2.0'
+
+    //otp view
+    implementation 'com.github.mukeshsolanki.android-otpview-pinview:otpview:3.1.0'
 }

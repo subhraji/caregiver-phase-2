@@ -306,7 +306,7 @@ class AskLocationActivity : AppCompatActivity() {
 
                             val geocoder = Geocoder(this, Locale.getDefault())
                             val list: List<Address> =
-                                geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                                geocoder.getFromLocation(location.latitude, location.longitude, 1)!!
                             latitude = list[0].latitude.toString()
                             longitude = list[0].longitude.toString()
                             shortAddress = "${list[0].locality}"
@@ -343,7 +343,7 @@ class AskLocationActivity : AppCompatActivity() {
 
                     val geocoder = Geocoder(this@AskLocationActivity, Locale.getDefault())
                     val list: List<Address> =
-                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                        geocoder.getFromLocation(location.latitude, location.longitude, 1)!!
                     latitude = list[0].latitude.toString()
                     longitude = list[0].longitude.toString()
                     shortAddress = "${list[0].locality}"
