@@ -653,6 +653,7 @@ class BasicAndHomeAddressActivity : AppCompatActivity(), UploadDocListener, Uplo
 
     private fun dispatchDocGalleryIntent() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        gallery.setType("image/*")
         startActivityForResult(gallery, PICK_IMAGE_DOC)
     }
 

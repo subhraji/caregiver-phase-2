@@ -58,7 +58,7 @@ class CompletedJobsAdapter (private val itemList: List<Data>, private val contex
                 gen = ""
                 for(i in data?.care_items){
                     if(gen.isEmpty()){
-                        gen = i.gender+": "+i.age+" Yrs"
+                        gen = i.patientName+", "+i.gender+": "+i.age+" Yrs"
                     }else{
                         gen = gen+", "+i.gender+": "+i.age+" Yrs"
                     }

@@ -53,8 +53,6 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
 
             itemBinding.apply {
 
-                timerTvShimmer.startShimmer()
-
                 jobTitleTv.text = data?.job_title.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.care_type
@@ -72,7 +70,7 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                 gen = ""
                 for(i in data?.care_items){
                     if(gen.isEmpty()){
-                        gen = i.gender+" : "+i.age+" Yrs"
+                        gen = i.patient_name+", "+i.gender+" : "+i.age+" Yrs"
                     }else{
                         gen = gen+", "+i.gender+" : "+i.age+" Yrs"
                     }

@@ -148,7 +148,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
                         var gen = ""
                         for(i in outcome.data!!.data[0].careItems){
                             if(gen.isEmpty()){
-                                gen = i.gender+": "+i.age+" Yrs"
+                                gen = i.patientName+", "+i.gender+": "+i.age+" Yrs"
                             }else{
                                 gen = gen+", "+i.gender+": "+i.age+" Yrs"
                             }
