@@ -274,7 +274,7 @@ class EmailVerificationActivity : AppCompatActivity() {
                 stopService()
             }else{
                 binding.resendTv.gone()
-                binding.timerTv.text = "OTP well be expired in: ${it.toString()} sec"
+                binding.timerTv.text = "OTP will be expired in: ${it.toString()} sec"
             }
         })
     }

@@ -84,6 +84,7 @@ class JobDetailsActivity : AppCompatActivity() {
         submitBidObserver()
         getOpenJobsDetailsObserver()
         getOpenBidsDetailsObserver()
+        getProfileObserve()
 
         clickJobOverview()
 
@@ -574,6 +575,7 @@ class JobDetailsActivity : AppCompatActivity() {
 
     private fun getProfileObserve(){
         mGetProfileViewModel.response.observe(this, Observer { outcome ->
+            loader.dismiss()
             when(outcome){
                 is Outcome.Success ->{
                     if(outcome.data?.success == true){
