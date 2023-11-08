@@ -29,6 +29,10 @@ import com.example.caregiverphase2.model.pojo.edit_education.EditEducationReques
 import com.example.caregiverphase2.model.pojo.edit_education.EditEducationResonse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
+import com.example.caregiverphase2.model.pojo.forgot_pass_otp.ForgotPassOtpRequest
+import com.example.caregiverphase2.model.pojo.forgot_pass_otp.ForgotPassOtpResponse
+import com.example.caregiverphase2.model.pojo.forgot_pass_send_email.ForgotPassSendEmailRequest
+import com.example.caregiverphase2.model.pojo.forgot_pass_send_email.ForgotPassSendEmailResponse
 import com.example.caregiverphase2.model.pojo.get_agency_profile.GetAgencyProfileResponse
 import com.example.caregiverphase2.model.pojo.get_bank_details.GetBankDetailsResponse
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
@@ -364,4 +368,14 @@ interface ApiInterface {
     suspend fun deleteBank(
         @Header("Authorization") token: String,
     ): DeleteBankResponse?
+
+    @POST("forgot-password/send-otp-email")
+    suspend fun forgotPassSendEmail(
+        @Body body: ForgotPassSendEmailRequest?,
+    ): ForgotPassSendEmailResponse?
+
+    @POST("forgot-password/verify-otp")
+    suspend fun forgotPassOtp(
+        @Body body: ForgotPassOtpRequest?,
+    ): ForgotPassOtpResponse?
 }

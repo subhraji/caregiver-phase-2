@@ -116,6 +116,7 @@
             android:inputType="number"
             android:background="@drawable/otp_bg"/>
     </LinearLayout>
+
     <TextView
         android:id="@+id/timer_tv"
         android:layout_width="wrap_content"

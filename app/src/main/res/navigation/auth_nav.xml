@@ -27,5 +27,14 @@
         android:id="@+id/forgotPassOTPFragment"
         android:name="com.example.caregiverphase2.ui.fragment.ForgotPassOTPFragment"
         android:label="fragment_forgot_pass_o_t_p"
-        tools:layout="@layout/fragment_forgot_pass_o_t_p" />
+        tools:layout="@layout/fragment_forgot_pass_o_t_p" >
+        <action
+            android:id="@+id/action_forgotPassOTPFragment_to_forgotPassChangeFragment"
+            app:destination="@id/forgotPassChangeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPassChangeFragment"
+        android:name="com.example.caregiverphase2.ui.fragment.ForgotPassChangeFragment"
+        android:label="fragment_forgot_pass_change"
+        tools:layout="@layout/fragment_forgot_pass_change" />
 </navigation>
