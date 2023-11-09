@@ -29,6 +29,8 @@ import com.example.caregiverphase2.model.pojo.edit_education.EditEducationReques
 import com.example.caregiverphase2.model.pojo.edit_education.EditEducationResonse
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationRequest
 import com.example.caregiverphase2.model.pojo.email_verification.SignUpEmailVerificationResponse
+import com.example.caregiverphase2.model.pojo.forgot_pass_change_pass.ChangeForgotPassRequest
+import com.example.caregiverphase2.model.pojo.forgot_pass_change_pass.ChangeForgotPassResponse
 import com.example.caregiverphase2.model.pojo.forgot_pass_otp.ForgotPassOtpRequest
 import com.example.caregiverphase2.model.pojo.forgot_pass_otp.ForgotPassOtpResponse
 import com.example.caregiverphase2.model.pojo.forgot_pass_send_email.ForgotPassSendEmailRequest
@@ -378,4 +380,9 @@ interface ApiInterface {
     suspend fun forgotPassOtp(
         @Body body: ForgotPassOtpRequest?,
     ): ForgotPassOtpResponse?
+
+    @POST("forgot-password/send-otp-email")
+    suspend fun changeForgotPass(
+        @Body body: ChangeForgotPassRequest?,
+    ): ChangeForgotPassResponse?
 }
