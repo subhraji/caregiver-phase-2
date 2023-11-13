@@ -434,4 +434,11 @@ class AskLocationActivity : AppCompatActivity() {
             fusedLocationClient?.removeLocationUpdates(locationCallback);
     }
 
+    override fun onBackPressed() {
+        if (from == "login"){
+            PrefManager.setLocationStatus(false)
+        }
+        super.onBackPressed()
+    }
+
 }
