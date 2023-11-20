@@ -26,7 +26,18 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         if(message.notification != null){
 
             if(message.data["notification_type"] == "fullscreen"){
-                getFullScreenNotification(message.notification?.title.toString(), message.notification?.body, message.data["job_title"])
+                getFullScreenNotification(message.notification?.title.toString(),
+                    message.notification?.body,
+                    message.data["job_title"],
+                    message.data["job_amount"],
+                    message.data["job_start_date"],
+                    message.data["job_start_time"],
+                    message.data["job_end_date"],
+                    message.data["job_end_time"],
+                    message.data["care_type"],
+                    message.data["address"],
+                    message.data["rewards"],
+                    )
             }else{
                 getNotification(message.notification?.title.toString(), message.notification?.body)
             }
@@ -43,10 +54,29 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         return remoteview
     }
 
-    private fun getFullScreenNotification(title: String?, body: String?, job_title: String?){
+    private fun getFullScreenNotification(title: String?,
+                                          body: String?,
+                                          job_title: String?,
+                                          job_amount: String?,
+                                          job_start_date: String?,
+                                          job_start_time: String?,
+                                          job_end_date: String?,
+                                          job_end_time: String?,
+                                          care_type: String?,
+                                          address: String?,
+                                          rewards: String?
+                                          ){
         val intent = Intent(this, FullScreenNotifyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NO_USER_ACTION)
         intent.putExtra("title",job_title)
+        intent.putExtra("job_amount",job_amount)
+        intent.putExtra("job_start_date",job_start_date)
+        intent.putExtra("job_start_time",job_start_time)
+        intent.putExtra("job_end_date",job_end_date)
+        intent.putExtra("job_end_time",job_end_time)
+        intent.putExtra("care_type",care_type)
+        intent.putExtra("address",address)
+        intent.putExtra("rewards",rewards)
         startActivity(intent)
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

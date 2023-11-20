@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class AcceptJobResponse(
     @SerializedName("data")
-    val `data`: Any,
+    val `data`: Any?,
     @SerializedName("http_status_code")
     val httpStatusCode: Int,
     @SerializedName("message")

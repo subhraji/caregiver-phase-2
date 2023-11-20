@@ -60,7 +60,6 @@
             android:id="@+id/care_type_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2 Senior"
             android:layout_alignTop="@+id/person_img"
             android:layout_toRightOf="@+id/person_img"
             android:textSize="15sp"
@@ -100,7 +99,6 @@
             android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Today 26 th Sept"
             android:layout_alignTop="@+id/date_img"
             android:layout_toRightOf="@+id/date_img"
             android:textSize="15sp"
@@ -120,7 +118,6 @@
             android:id="@+id/time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8:00 AM - 10:30 AM"
             android:layout_alignTop="@+id/time_img"
             android:layout_toRightOf="@+id/time_img"
             android:textSize="15sp"
@@ -132,7 +129,6 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="London, \n2 Miles away"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:layout_centerVertical="true"/>
@@ -169,31 +165,42 @@
             android:id="@+id/price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$80"
             android:textSize="20sp"
             android:textColor="@color/color_blue"
             android:textStyle="bold"
             android:layout_below="@+id/price_htv"
             android:layout_alignStart="@+id/price_htv"/>
         <TextView
-            android:id="@+id/star_tv"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/dash_yellow"
-            android:background="@drawable/ic_baseline_star_24"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"/>
-        <TextView
+            android:id="@+id/rewards_htv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rewards"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:layout_toLeftOf="@+id/star_tv"
-            android:layout_centerVertical="true"
-            />
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@+id/rewards_htv">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_star_19"
+                android:layout_marginEnd="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
     </RelativeLayout>
 

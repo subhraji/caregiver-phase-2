@@ -33,7 +33,21 @@ class FullScreenNotifyActivity : AppCompatActivity() {
         val extras = intent.extras
         if (extras != null) {
             job_title = extras.getString("title").toString()
+            val job_amount = extras.getString("job_amount").toString()
+            val job_start_date = extras.getString("job_start_date").toString()
+            val job_start_time = extras.getString("job_start_time").toString()
+            val job_end_date = extras.getString("job_end_date").toString()
+            val job_end_time = extras.getString("job_end_time").toString()
+            val care_type = extras.getString("care_type").toString()
+            val address = extras.getString("address").toString()
+            //val care_items = extras.getString("care_items").toString()
+            val rewards = extras.getString("rewards").toString()
             binding.jobTitleTv.text = job_title
+            binding.dateTv.text = "$job_start_date to $job_end_date"
+            binding.timeTv.text = "$job_start_time to $job_end_time"
+            binding.careTypeTv.text = "$care_type"
+            binding.priceTv.text = "$job_amount"
+            binding.addressTv.text = "$address"
         }
 
         startTimer()
