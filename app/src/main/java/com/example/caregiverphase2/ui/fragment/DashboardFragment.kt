@@ -486,7 +486,11 @@ class DashboardFragment : Fragment() {
                                     for (i in 0..percent){
                                         delay(18)
                                         binding.percentTv.text = i.toString()+"%"
+                                        if(i == 100){
+                                            binding.profileStatusTv.text = "Your profile is completed, Please wait for profile review."
+                                        }
                                     }
+
                                 }
 
                             }
