@@ -194,6 +194,7 @@
                 android:src="@drawable/ic_star_19"
                 android:layout_marginEnd="5dp"/>
             <TextView
+                android:id="@+id/rewards_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"

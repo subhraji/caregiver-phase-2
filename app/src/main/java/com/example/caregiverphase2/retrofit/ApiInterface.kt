@@ -42,6 +42,7 @@ import com.example.caregiverphase2.model.pojo.get_complete_job.GetCompleteJobsRe
 import com.example.caregiverphase2.model.pojo.get_documents.GetDocumentsResponse
 import com.example.caregiverphase2.model.pojo.get_job_locations.GetJobLocationResponse
 import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
+import com.example.caregiverphase2.model.pojo.get_notifications.GetNotificationsResponse
 import com.example.caregiverphase2.model.pojo.get_ongoing_job.GetOngoingJobResponse
 import com.example.caregiverphase2.model.pojo.get_open_bid_details.GetOpenBidDetailsResponse
 import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
@@ -385,4 +386,9 @@ interface ApiInterface {
     suspend fun changeForgotPass(
         @Body body: ChangeForgotPassRequest?,
     ): ChangeForgotPassResponse?
+
+    @GET("notification/unread-notification")
+    suspend fun getNotifications(
+        @Header("Authorization") token: String,
+    ): GetNotificationsResponse?
 }

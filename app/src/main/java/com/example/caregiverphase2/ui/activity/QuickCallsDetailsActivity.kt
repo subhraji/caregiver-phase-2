@@ -253,8 +253,6 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
             adapter = BulletPointAdapter(list,this@QuickCallsDetailsActivity)
         }
     }
-
-
     private fun acceptJobObserver(){
         mAcceptJobViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
@@ -279,7 +277,6 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
             }
         })
     }
-
     private fun acceptPopUp(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Accept")
