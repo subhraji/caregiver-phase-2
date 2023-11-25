@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.caregiverphase2.databinding.EditCertificateItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_profile.Certificate
 import com.example.caregiverphase2.ui.activity.EditCertificateFormActivity
+import com.example.caregiverphase2.utils.DeleteDocClickListener
 
-class EditCertificateItemAdapter (private val itemList: List<Certificate>, private val context: Context):
+class EditCertificateItemAdapter (private val itemList: List<Certificate>, private val context: Context,
+                                  private val deleteDocClickListener: DeleteDocClickListener):
     RecyclerView.Adapter<EditCertificateItemAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditCertificateItemAdapter.ViewHolder {
@@ -27,16 +29,19 @@ class EditCertificateItemAdapter (private val itemList: List<Certificate>, priva
 
     override fun onBindViewHolder(holder: EditCertificateItemAdapter.ViewHolder, position: Int) {
         val rowData = itemList[position]
-        holder.bind(rowData, context)
+        holder.bind(rowData, context, deleteDocClickListener)
     }
 
     class ViewHolder(private val itemBinding: EditCertificateItemLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(data: Certificate, context: Context) {
+        fun bind(data: Certificate, context: Context, deleteDocClickListener: DeleteDocClickListener) {
             itemBinding.apply {
                 certificateNameTv.text = data?.certificate_or_course
                 durationTv.text = data?.start_year+"-"+data?.end_year
 
+                deleteBtn.setOnClickListener {
+                    deleteDocClickListener.deleteDoc(data?.id,"Certificate")
+                }
                 editBtn.setOnClickListener {
                     val intent = Intent(context, EditCertificateFormActivity::class.java)
                     intent.putExtra("certificate", data?.certificate_or_course)

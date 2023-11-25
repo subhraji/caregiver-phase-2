@@ -43,9 +43,19 @@
         android:id="@+id/edit_btn"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/delete_btn"
         app:layout_constraintTop_toTopOf="@+id/edu_img"
         android:src="@drawable/ic_outline_edit_24"
+        app:tint="@color/black"
+        android:layout_marginEnd="15dp"
+        />
+    <ImageView
+        android:id="@+id/delete_btn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edu_img"
+        android:src="@drawable/ic_baseline_delete_outline_24"
         app:tint="@color/black"
         />
 

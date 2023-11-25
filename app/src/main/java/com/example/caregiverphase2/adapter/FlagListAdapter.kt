@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caregiverphase2.databinding.FlagListItemLayoutBinding
 import com.example.caregiverphase2.model.TestModel
+import com.example.caregiverphase2.model.pojo.get_flags.Data
 
-class FlagListAdapter (private val itemList: List<TestModel>,
+class FlagListAdapter (private val itemList: List<Data>,
                        private val context: Context
 ):
     RecyclerView.Adapter<FlagListAdapter.ViewHolder>() {
@@ -34,7 +35,7 @@ class FlagListAdapter (private val itemList: List<TestModel>,
 
     class ViewHolder(private val itemBinding: FlagListItemLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(data: TestModel, context: Context) {
+        fun bind(data: Data, context: Context) {
             itemBinding.apply {
             }
         }

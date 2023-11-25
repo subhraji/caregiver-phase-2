@@ -1,5 +1,7 @@
 package com.example.caregiverphase2.retrofit
 
+import com.example.caregiverphase2.model.pojo.accept_bidded_job.AcceptBiddedJobRequest
+import com.example.caregiverphase2.model.pojo.accept_bidded_job.AcceptBiddedJobResponse
 import com.example.caregiverphase2.model.pojo.accept_job.AcceptJobRequest
 import com.example.caregiverphase2.model.pojo.accept_job.AcceptJobResponse
 import com.example.caregiverphase2.model.pojo.add_bank.AddBankRequest
@@ -20,8 +22,12 @@ import com.example.caregiverphase2.model.pojo.complete_job_response.CompleteJobR
 import com.example.caregiverphase2.model.pojo.connect_account_status.ConnectAccountStatusResponse
 import com.example.caregiverphase2.model.pojo.connect_refresh_url.ConnectRefreshUrlResponse
 import com.example.caregiverphase2.model.pojo.delete_bank.DeleteBankResponse
+import com.example.caregiverphase2.model.pojo.delete_certificate.DeleteCertificateRequest
+import com.example.caregiverphase2.model.pojo.delete_certificate.DeleteCertificateResponse
 import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentRequest
 import com.example.caregiverphase2.model.pojo.delete_document.DeleteDocumentResponse
+import com.example.caregiverphase2.model.pojo.delete_education.DeleteEducationRequest
+import com.example.caregiverphase2.model.pojo.delete_education.DeleteEducationResponse
 import com.example.caregiverphase2.model.pojo.edit_basic_info.EditBasicInfoRequest
 import com.example.caregiverphase2.model.pojo.edit_basic_info.EditBasicInfoResponse
 import com.example.caregiverphase2.model.pojo.edit_certificate.EditCertificateResponse
@@ -40,6 +46,7 @@ import com.example.caregiverphase2.model.pojo.get_bank_details.GetBankDetailsRes
 import com.example.caregiverphase2.model.pojo.get_bidded_jobs.GetBiddedJobsResponse
 import com.example.caregiverphase2.model.pojo.get_complete_job.GetCompleteJobsResponse
 import com.example.caregiverphase2.model.pojo.get_documents.GetDocumentsResponse
+import com.example.caregiverphase2.model.pojo.get_flags.GetFlagsReposnse
 import com.example.caregiverphase2.model.pojo.get_job_locations.GetJobLocationResponse
 import com.example.caregiverphase2.model.pojo.get_jobs.GetJobsResponse
 import com.example.caregiverphase2.model.pojo.get_notifications.GetNotificationsResponse
@@ -49,6 +56,7 @@ import com.example.caregiverphase2.model.pojo.get_open_jobs.GetOpenJobsResponse
 import com.example.caregiverphase2.model.pojo.get_profile.GetProfileResponse
 import com.example.caregiverphase2.model.pojo.get_profile_status.GetProfileStatusResponse
 import com.example.caregiverphase2.model.pojo.get_reg_details.GetRegistrationDetailsResponse
+import com.example.caregiverphase2.model.pojo.get_strikes.GetStrikesResonse
 import com.example.caregiverphase2.model.pojo.login.LoginRequest
 import com.example.caregiverphase2.model.pojo.login.LoginResponse
 import com.example.caregiverphase2.model.pojo.logout.LogoutResponse
@@ -391,4 +399,32 @@ interface ApiInterface {
     suspend fun getNotifications(
         @Header("Authorization") token: String,
     ): GetNotificationsResponse?
+
+    @GET("strike/get-active-strike")
+    suspend fun getStrikes(
+        @Header("Authorization") token: String,
+    ): GetStrikesResonse?
+
+    @GET("flag/get-active-flag")
+    suspend fun getFlags(
+        @Header("Authorization") token: String,
+    ): GetFlagsReposnse?
+
+    @POST("job/awarded-job/accept")
+    suspend fun acceptBiddedJob(
+        @Body body: AcceptBiddedJobRequest?,
+        @Header("Authorization") token: String,
+    ): AcceptBiddedJobResponse?
+
+    @POST("profile/education/delete")
+    suspend fun deleteEdu(
+        @Body body: DeleteEducationRequest?,
+        @Header("Authorization") token: String,
+    ): DeleteEducationResponse?
+
+    @POST("profile/certificate/delete")
+    suspend fun deleteCertificate(
+        @Body body: DeleteCertificateRequest?,
+        @Header("Authorization") token: String,
+    ): DeleteCertificateResponse?
 }

@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caregiverphase2.databinding.StrikeListItemLayoutBinding
 import com.example.caregiverphase2.model.TestModel
+import com.example.caregiverphase2.model.pojo.get_strikes.Data
 import com.example.caregiverphase2.ui.activity.StrikeRemoveActivity
 
-class StrikeListAdapter (private val itemList: List<TestModel>,
+class StrikeListAdapter (private val itemList: List<Data>,
                          private val context: Context
 ):
     RecyclerView.Adapter<StrikeListAdapter.ViewHolder>() {
@@ -36,7 +37,7 @@ class StrikeListAdapter (private val itemList: List<TestModel>,
 
     class ViewHolder(private val itemBinding: StrikeListItemLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(data: TestModel, context: Context) {
+        fun bind(data: Data, context: Context) {
             itemBinding.apply {
                 root.setOnClickListener {
                     val intent = Intent(context, StrikeRemoveActivity::class.java)

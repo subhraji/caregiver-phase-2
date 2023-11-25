@@ -17,17 +17,20 @@ import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.ActivityFullScreenNotifyBinding
 import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.PrefManager
+import com.example.caregiverphase2.viewmodel.AcceptBiddedJobViewModel
 import com.example.caregiverphase2.viewmodel.AcceptJobViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import isConnectedToInternet
 import loadingDialog
 
+@AndroidEntryPoint
 class FullScreenNotifyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFullScreenNotifyBinding
     var cTimer: CountDownTimer? = null
     private lateinit var job_title: String
     private var job_id: String? = null
 
-    private val mAcceptJobViewModel: AcceptJobViewModel by viewModels()
+    private val mAcceptJobViewModel: AcceptBiddedJobViewModel by viewModels()
     private lateinit var accessToken: String
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
@@ -132,7 +135,7 @@ class FullScreenNotifyActivity : AppCompatActivity() {
         builder.setPositiveButton("Yes"){dialogInterface, which ->
             if(isConnectedToInternet()){
                 job_id?.let {
-                    mAcceptJobViewModel.acceptJob(it,accessToken)
+                    mAcceptJobViewModel.acceptBiddedJob(it,accessToken)
                     loader.show()
                 }
             }else{

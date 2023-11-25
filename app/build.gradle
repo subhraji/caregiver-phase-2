@@ -36,6 +36,9 @@ android {
     buildFeatures {
         viewBinding true
     }
+    hilt {
+        enableExperimentalClasspathAggregation = true
+    }
 }
 
 dependencies {
@@ -63,6 +66,8 @@ dependencies {
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:2.38.1"
     kapt "com.google.dagger:hilt-compiler:2.38.1"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
