@@ -30,4 +30,9 @@
         android:name="com.example.caregiverphase2.ui.fragment.DashMapsFragment"
         android:label="fragment_dash_maps"
         tools:layout="@layout/fragment_dash_maps" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.example.caregiverphase2.ui.fragment.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
 </navigation>
