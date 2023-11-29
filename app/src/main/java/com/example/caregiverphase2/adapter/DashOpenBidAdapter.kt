@@ -12,6 +12,7 @@ import com.example.caregiverphase2.databinding.OpenBidsItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
+import convertDate
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.Duration
@@ -62,7 +63,7 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
                     addressTv.text = data?.short_address.toString()
                 }
                 hourHtv.text = data?.start_time+" - "+data?.end_time
-                dateHtv.text = data?.start_date
+                dateHtv.text = convertDate(data?.start_date)+" to "+convertDate(data?.end_date)
                 priceTv.text = data?.amount.toString()
                 agencyNameTv.text = data?.company_name.toString()
                 distTv.text = data?.distance.toString()

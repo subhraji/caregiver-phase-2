@@ -11,6 +11,7 @@ import com.example.caregiverphase2.databinding.OpenBidListItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
+import convertDate
 
 class OpenBidListAdapter (private val itemList: MutableList<Data>, private val context: Context):
     RecyclerView.Adapter<OpenBidListAdapter.DashQuickCallsViewHolder>() {
@@ -49,7 +50,7 @@ class OpenBidListAdapter (private val itemList: MutableList<Data>, private val c
                 careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
                 addressTv.text = data?.short_address.toString()
                 hourHtv.text = data?.start_time+" - "+data?.end_time
-                dateHtv.text = data?.start_date+"-"+data?.end_date
+                dateHtv.text = convertDate(data?.start_date)+" to "+convertDate(data?.end_date)
                 priceTv.text = data?.amount.toString()
                 agencyNameTv.text = data?.company_name.toString()
                 gen = ""

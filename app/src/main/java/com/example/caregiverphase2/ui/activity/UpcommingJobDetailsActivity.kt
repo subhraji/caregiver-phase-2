@@ -29,6 +29,7 @@ import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetUpcommingJobsViewModel
 import com.example.caregiverphase2.viewmodel.StartJobViewModel
 import com.ncorti.slidetoact.SlideToActView
+import convertDate
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
@@ -244,8 +245,8 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
                             binding.titleTv.text = outcome.data!!.data[0].title
                             binding.careTypeTv.text = outcome.data!!.data[0].careType
                             binding.locTv.text = outcome.data!!.data[0].address.toString()
-                            binding.dateTv.text = outcome.data!!.data[0].startDate.toString()+" to "+outcome.data!!.data[0].endDate.toString()
-                            binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" - "+outcome.data!!.data[0].endTime.toString()
+                            binding.dateTv.text = convertDate(outcome.data!!.data[0].startDate.toString())+" to "+convertDate(outcome.data!!.data[0].endDate.toString())
+                            binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" to "+outcome.data!!.data[0].endTime.toString()
                             binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                             binding.agencyNameTv.text = outcome.data!!.data[0].agencyName.toString()
                             binding.jobDescTv.text = outcome.data!!.data[0].description.toString()

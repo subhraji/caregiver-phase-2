@@ -21,6 +21,11 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 fun <A : Activity> Activity.startNewActivity(activity: Class<A>) {
     Intent(this, activity).also {
@@ -132,4 +137,20 @@ fun Context.createMultiPart(keyName: String, photoPath: File): MultipartBody.Par
     Log.i("xxx ",requestFile.toString())
     return MultipartBody.Part.createFormData(keyName, photoPath.name, requestFile)
 
+}
+
+fun convertDate(time: String): String? {
+    val inputPattern = "yyyy-MM-dd"
+    val outputPattern = "MM-dd-yyyy"
+    val inputFormat = SimpleDateFormat(inputPattern)
+    val outputFormat = SimpleDateFormat(outputPattern)
+    var date: Date? = null
+    var str: String? = null
+    try {
+        date = inputFormat.parse(time)
+        str = outputFormat.format(date)
+    } catch (e: ParseException) {
+        e.printStackTrace()
+    }
+    return str
 }

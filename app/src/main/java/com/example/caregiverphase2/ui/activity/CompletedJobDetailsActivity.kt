@@ -21,6 +21,7 @@ import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetCompleteJobDetailsViewModel
 import com.example.caregiverphase2.viewmodel.GetCompleteJobsViewModel
+import convertDate
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
@@ -157,7 +158,7 @@ class CompletedJobDetailsActivity : AppCompatActivity() {
                         binding.titleTv.text = outcome.data!!.data[0].jobTitle
                         binding.careTypeTv.text = outcome.data!!.data[0].careType
                         binding.locTv.text = outcome.data!!.data[0].address
-                        binding.dateTv.text = outcome.data!!.data[0].startDate.toString()+" to "+outcome.data!!.data[0].endDate.toString()
+                        binding.dateTv.text = convertDate(outcome.data!!.data[0].startDate.toString())+" to "+convertDate(outcome.data!!.data[0].endDate.toString())
                         binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" - "+outcome.data!!.data[0].endTime.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data[0].companyName.toString()

@@ -29,6 +29,7 @@ import com.example.caregiverphase2.viewmodel.GetOpenBidDetailsViewModel
 import com.example.caregiverphase2.viewmodel.GetOpenJobsViewModel
 import com.example.caregiverphase2.viewmodel.GetProfileViewModel
 import com.example.caregiverphase2.viewmodel.SubmitBidViewModel
+import convertDate
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
@@ -322,7 +323,7 @@ class JobDetailsActivity : AppCompatActivity() {
                         binding.titleTv.text = outcome.data!!.data[0].jobTitle
                         binding.careTypeTv.text = outcome.data!!.data[0].careType
                         binding.locTv.text = outcome.data!!.data[0].shortAddress
-                        binding.dateTv.text = outcome.data!!.data[0].startDate.toString()+" to "+outcome.data!!.data[0].endDate.toString()
+                        binding.dateTv.text = convertDate(outcome.data!!.data[0].startDate.toString())+" to "+convertDate(outcome.data!!.data[0].endDate.toString())
                         binding.timeTv.text = outcome.data!!.data[0].startTime.toString()+" - "+outcome.data!!.data[0].endTime.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data[0].companyName.toString()
@@ -403,7 +404,7 @@ class JobDetailsActivity : AppCompatActivity() {
                         binding.titleTv.text = outcome.data!!.data.jobTitle
                         binding.careTypeTv.text = outcome.data!!.data.careType
                         binding.locTv.text = outcome.data!!.data.shortAddress
-                        binding.dateTv.text = outcome.data!!.data.startDate.toString()+" to "+outcome.data!!.data.endDate.toString()
+                        binding.dateTv.text = convertDate(outcome.data!!.data.startDate.toString())+" to "+convertDate(outcome.data!!.data.endDate.toString())
                         binding.timeTv.text = outcome.data!!.data.startTime.toString()+" - "+outcome.data!!.data.endTime.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data.amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data.companyName.toString()

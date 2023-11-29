@@ -14,6 +14,7 @@ import com.example.caregiverphase2.model.pojo.upcomming_job.Data
 import com.example.caregiverphase2.ui.activity.BiddedJobDetailsActivity
 import com.example.caregiverphase2.ui.activity.UpcommingJobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
+import convertDate
 import gone
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -56,7 +57,7 @@ class UpcommingJobsAdapter (private val itemList: List<Data>, private val contex
                 careTypeTv.text = data?.careType
                 addressTv.text = data?.address.toString()
                 hourHtv.text = data?.startTime+" - "+data?.endTime
-                dateHtv.text = data?.startDate+"-"+data?.endDate
+                dateHtv.text = convertDate(data?.startDate)+" to "+convertDate(data?.endDate)
                 priceTv.text = "$"+data?.amount.toString()
                 agencyNameTv.text = data?.agencyName.toString()
                 gen = ""

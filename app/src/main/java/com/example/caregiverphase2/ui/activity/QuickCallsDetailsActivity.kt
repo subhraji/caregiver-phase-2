@@ -25,6 +25,7 @@ import com.example.caregiverphase2.ui.fragment.AgencyFragment
 import com.example.caregiverphase2.utils.Constants
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.*
+import convertDate
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
@@ -163,7 +164,7 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
                         binding.titleTv.text = outcome.data!!.data[0].job_title
                         binding.careTypeTv.text = outcome.data!!.data[0].care_type
                         binding.locTv.text = outcome.data!!.data[0].short_address
-                        binding.dateTv.text = outcome.data!!.data[0].start_date.toString()+" to "+outcome.data!!.data[0].end_date.toString()
+                        binding.dateTv.text = convertDate(outcome.data!!.data[0].start_date.toString())+" to "+convertDate(outcome.data!!.data[0].end_date.toString())
                         binding.timeTv.text = outcome.data!!.data[0].start_time.toString()+" - "+outcome.data!!.data[0].end_time.toString()
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data[0].company_name.toString()

@@ -12,10 +12,7 @@ import com.example.caregiverphase2.databinding.OpenJobsItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_jobs.Data
 import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.time.Duration
-import java.time.LocalTime
+import convertDate
 import java.util.*
 
 class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
@@ -65,7 +62,7 @@ class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
                     addressTv.text = data?.shortAddress.toString()
                 }
                 hourHtv.text = data?.startTime+" - "+data?.endTime
-                dateHtv.text = data?.startDate
+                dateHtv.text = convertDate(data?.startDate)+" to "+convertDate(data?.endDate)
                 priceTv.text = data?.amount.toString()
                 agencyNameTv.text = data?.companyName.toString()
                 distTv.text = data?.distance.toString()
@@ -91,6 +88,7 @@ class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
                     .placeholder(R.color.dash_yellow) // any placeholder to load at start
                     .centerCrop()
                     .into(agencyLogoImgView)
+
             }
         }
     }

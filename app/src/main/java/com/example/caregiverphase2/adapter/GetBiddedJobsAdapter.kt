@@ -13,6 +13,7 @@ import com.example.caregiverphase2.model.pojo.get_bidded_jobs.Data
 import com.example.caregiverphase2.ui.activity.BiddedJobDetailsActivity
 import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
+import convertDate
 import gone
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -53,7 +54,7 @@ class GetBiddedJobsAdapter (private val itemList: List<Data>, private val contex
                 careTypeTv.text = data?.careItems.size.toString()+" "+data?.careType
                 addressTv.text = data?.shortAddress.toString()
                 hourHtv.text = data?.startTime+" - "+data?.endTime
-                dateHtv.text = data?.startDate+"-"+data?.endDate
+                dateHtv.text = convertDate(data?.startDate)+" to "+convertDate(data?.endDate)
                 priceTv.text = "$"+data?.amount.toString()
                 agencyNameTv.text = data?.companyName.toString()
                 gen = ""

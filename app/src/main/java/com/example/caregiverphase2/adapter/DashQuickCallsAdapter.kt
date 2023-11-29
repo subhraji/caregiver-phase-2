@@ -12,6 +12,7 @@ import com.example.caregiverphase2.databinding.QuickCallsItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_open_jobs.Data
 import com.example.caregiverphase2.ui.activity.QuickCallsDetailsActivity
 import com.example.caregiverphase2.utils.Constants
+import convertDate
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.Duration
@@ -61,8 +62,8 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                 }else{
                     addressTv.text = data?.short_address.toString()
                 }
-                hourTv.text = data?.start_time+" - "+data?.end_time
-                dateHtv.text = data?.start_date
+                hourTv.text = convertDate(data?.start_date)+" to "+convertDate(data?.end_date)
+                dateHtv.text = data?.start_date+" to "+data?.end_date
                 priceTv.text = "$"+data?.amount.toString()
                 agencyNameTv.text = data?.company_name.toString()
                 distTv.text = data?.distance
