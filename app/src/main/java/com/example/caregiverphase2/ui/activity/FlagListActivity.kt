@@ -28,7 +28,6 @@ class FlagListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFlagListBinding
 
     private val mGetFlagsViewModel: GetFlagsViewModel by viewModels()
-    private lateinit var loader: androidx.appcompat.app.AlertDialog
     private lateinit var accessToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,14 +74,18 @@ class FlagListActivity : AppCompatActivity() {
         mGetFlagsViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-                    loader.dismiss()
                     if(outcome.data?.success == true){
                         binding.jobsShimmerView.stopShimmer()
                         binding.jobsShimmerView.gone()
-                        if(outcome.data?.data!!.isNotEmpty() && outcome.data?.data != null){
-                            binding.flagRecycler.visible()
-                            binding.noDataLottie.gone()
-                            fillFlagRecycler(outcome.data?.data!!)
+                        if(outcome.data?.data != null){
+                            if(outcome.data?.data!!.isNotEmpty()){
+                                binding.flagRecycler.visible()
+                                binding.noDataLottie.gone()
+                                fillFlagRecycler(outcome.data?.data!!)
+                            }else{
+                                binding.flagRecycler.gone()
+                                binding.noDataLottie.visible()
+                            }
                         }else{
                             binding.flagRecycler.gone()
                             binding.noDataLottie.visible()

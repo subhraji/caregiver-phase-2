@@ -2,9 +2,12 @@ package com.example.caregiverphase2.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.caregiverphase2.R
@@ -62,8 +65,8 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                 }else{
                     addressTv.text = data?.short_address.toString()
                 }
-                hourTv.text = convertDate(data?.start_date)+" to "+convertDate(data?.end_date)
-                dateHtv.text = data?.start_date+" to "+data?.end_date
+                hourTv.text = data?.start_time+" - "+data?.end_time
+                dateHtv.text = convertDate(data?.start_date)+" to "+convertDate(data?.end_date)
                 priceTv.text = "$"+data?.amount.toString()
                 agencyNameTv.text = data?.company_name.toString()
                 distTv.text = data?.distance
@@ -96,9 +99,34 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                         parseDateToddMMyyyy("${data.start_date} ${data?.start_time}")!!
                     ) )
                 ).toString()
+
+
+                /*object : CountDownTimer(
+                    getDurationHour(
+                        getCurrentDate(),
+                        parseDateToddMMyyyy("${data.start_date} ${data?.start_time}")!!
+                    ),
+                1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        var millisUntilFinished = millisUntilFinished
+                        val secondsInMilli: Long = 1000
+                        val minutesInMilli = secondsInMilli * 60
+                        val hoursInMilli = minutesInMilli * 60
+                        val elapsedHours = millisUntilFinished / hoursInMilli
+                        millisUntilFinished = millisUntilFinished % hoursInMilli
+                        val elapsedMinutes = millisUntilFinished / minutesInMilli
+                        millisUntilFinished = millisUntilFinished % minutesInMilli
+                        val elapsedSeconds = millisUntilFinished / secondsInMilli
+                        val yy = String.format("%02d:%02d:%2d", elapsedHours, elapsedMinutes, elapsedSeconds)
+                        timeLeftTv.setText(yy)
+                    }
+
+                    override fun onFinish() {
+                        timeLeftTv.setText("00:00:00")
+                    }
+                }.start()*/
             }
         }
-
 
         private fun getDurationHour(startDateTime: String, endDateTime: String): Long {
 
@@ -158,22 +186,6 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
         private fun parseDateToddMMyyyy(time: String): String? {
             val inputPattern = "yyyy-MM-dd h:mm a"
             val outputPattern = "dd-MM-yyyy HH:mm:ss"
-            val inputFormat = SimpleDateFormat(inputPattern)
-            val outputFormat = SimpleDateFormat(outputPattern)
-            var date: Date? = null
-            var str: String? = null
-            try {
-                date = inputFormat.parse(time)
-                str = outputFormat.format(date)
-            } catch (e: ParseException) {
-                e.printStackTrace()
-            }
-            return str
-        }
-
-        private fun parseDateToText(time: String): String? {
-            val inputPattern = "yyyy-MM-dd"
-            val outputPattern = "M-d, YYYY"
             val inputFormat = SimpleDateFormat(inputPattern)
             val outputFormat = SimpleDateFormat(outputPattern)
             var date: Date? = null

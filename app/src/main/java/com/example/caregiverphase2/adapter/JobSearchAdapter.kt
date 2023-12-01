@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.databinding.SearchJobItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.search_job.Data
+import convertDate
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.Duration
@@ -49,7 +50,7 @@ class JobSearchAdapter(private val itemList: List<Data>,
                 jobTitleTv.text = data?.title.toString()
                 careTypeTv.text = data?.care_items.size.toString()+" "+data?.care_type
                 addressTv.text = data?.short_address.toString()
-                dateHtv.text = data?.start_date.toString()
+                dateHtv.text = convertDate(data?.start_date.toString())+" to "+convertDate(data?.end_date.toString())
                 hourHtv.text = data?.start_time+" - "+data?.end_time
                 priceTv.text = "$"+data?.amount.toString()
                 rootLay.setOnClickListener {

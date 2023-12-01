@@ -22,6 +22,7 @@ import com.example.caregiverphase2.viewmodel.GetStrikesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
+import loadingDialog
 import visible
 
 @AndroidEntryPoint
@@ -29,7 +30,6 @@ class StrikeListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStrikeListBinding
 
     private val mGetStrikesViewModel: GetStrikesViewModel by viewModels()
-    private lateinit var loader: androidx.appcompat.app.AlertDialog
     private lateinit var accessToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +65,7 @@ class StrikeListActivity : AppCompatActivity() {
         }
     }
 
-    private fun fillStrikeRecycler(list: List<Data>) {
+    private fun fillStrikeRecycler(list: List<Data?>) {
         val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.strikeRecycler.apply {
             layoutManager = gridLayoutManager
@@ -77,14 +77,18 @@ class StrikeListActivity : AppCompatActivity() {
         mGetStrikesViewModel.response.observe(this, Observer { outcome ->
             when(outcome){
                 is Outcome.Success ->{
-                    loader.dismiss()
                     if(outcome.data?.success == true){
                         binding.jobsShimmerView.stopShimmer()
                         binding.jobsShimmerView.gone()
-                        if(outcome.data?.data!!.isNotEmpty() && outcome.data?.data != null){
-                            binding.strikeRecycler.visible()
-                            binding.emptyLottie.gone()
-                            fillStrikeRecycler(outcome.data?.data!!)
+                        if(outcome.data?.data != null){
+                            if(outcome.data?.data!!.isNotEmpty()){
+                                binding.strikeRecycler.visible()
+                                binding.emptyLottie.gone()
+                                fillStrikeRecycler(outcome.data?.data!!)
+                            }else{
+                                binding.strikeRecycler.gone()
+                                binding.emptyLottie.visible()
+                            }
                         }else{
                             binding.strikeRecycler.gone()
                             binding.emptyLottie.visible()

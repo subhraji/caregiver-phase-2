@@ -10,7 +10,7 @@ import com.example.caregiverphase2.model.TestModel
 import com.example.caregiverphase2.model.pojo.get_strikes.Data
 import com.example.caregiverphase2.ui.activity.StrikeRemoveActivity
 
-class StrikeListAdapter (private val itemList: List<Data>,
+class StrikeListAdapter (private val itemList: List<Data?>,
                          private val context: Context
 ):
     RecyclerView.Adapter<StrikeListAdapter.ViewHolder>() {
@@ -31,7 +31,9 @@ class StrikeListAdapter (private val itemList: List<Data>,
     override fun onBindViewHolder(holder: StrikeListAdapter.ViewHolder, position: Int) {
 
         val rowData = itemList[position]
-        holder.bind(rowData, context)
+        if (rowData != null) {
+            holder.bind(rowData, context)
+        }
 
     }
 
@@ -39,6 +41,12 @@ class StrikeListAdapter (private val itemList: List<Data>,
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(data: Data, context: Context) {
             itemBinding.apply {
+                reasonTv.text = data?.strike_reason
+                startDateTimeTv.text = data?.start_date_time.toString()
+                endDateTimeTv.text = data?.lift_date_time
+                bannedBidTv.text = data?.banned_from_bidding
+                bannedQuickCallTv.text = data?.banned_from_quick_call
+                rewardLooseTv.text = data?.rewards_loose.toString()
                 root.setOnClickListener {
                     val intent = Intent(context, StrikeRemoveActivity::class.java)
                     context.startActivity(intent)

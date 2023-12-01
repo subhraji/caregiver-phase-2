@@ -70,9 +70,9 @@
                 android:textColor="@color/black"
                 android:textSize="13sp"/>
             <TextView
+                android:id="@+id/start_date_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sept 26, 8:00 AM"
                 android:textSize="13sp"
                 android:textColor="@color/black"/>
         </LinearLayout>
@@ -90,13 +90,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start Date Time:"
+                android:text="End Date Time:"
                 android:textColor="@color/black"
                 android:textSize="13sp"/>
             <TextView
+                android:id="@+id/end_date_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sept 26, 8:00 AM"
                 android:textSize="13sp"
                 android:textColor="@color/black"/>
         </LinearLayout>
@@ -128,9 +128,9 @@
                     android:textSize="11sp"
                     android:textColor="@color/white"/>
                 <TextView
+                    android:id="@+id/banned_bid_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="96:00:20"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/white"/>
@@ -151,13 +151,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Banned from bidding"
+                    android:text="Banned quick call"
                     android:textSize="11sp"
                     android:textColor="@color/white"/>
                 <TextView
+                    android:id="@+id/banned_quick_call_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="96:00:20"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/white"/>
@@ -178,13 +178,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Banned from bidding"
+                    android:text="Reward loose"
                     android:textSize="11sp"
                     android:textColor="@color/white"/>
                 <TextView
+                    android:id="@+id/reward_loose_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="96:00:20"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/white"/>

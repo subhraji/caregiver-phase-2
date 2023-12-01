@@ -3,6 +3,7 @@ package com.example.caregiverphase2.adapter
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -57,7 +58,8 @@ class UpcommingJobsAdapter (private val itemList: List<Data>, private val contex
                 careTypeTv.text = data?.careType
                 addressTv.text = data?.address.toString()
                 hourHtv.text = data?.startTime+" - "+data?.endTime
-                dateHtv.text = convertDate(data?.startDate)+" to "+convertDate(data?.endDate)
+                //dateHtv.text = convertDate(data?.startDate)+" to "+convertDate(data?.endDate)
+                dateHtv.text = data?.startDate+" to "+data?.endDate
                 priceTv.text = "$"+data?.amount.toString()
                 agencyNameTv.text = data?.agencyName.toString()
                 gen = ""
