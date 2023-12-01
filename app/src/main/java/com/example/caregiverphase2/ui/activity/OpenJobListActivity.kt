@@ -66,7 +66,7 @@ class OpenJobListActivity : AppCompatActivity() {
     private fun onScrollLister(){
         val layoutManager = LinearLayoutManager(this)
         binding.openJobRecycler.layoutManager = layoutManager
-        binding.openJobRecycler?.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
+        binding.openJobRecycler.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
             override fun isLastPage(): Boolean {
                 return isLastPage
             }

@@ -13,6 +13,10 @@ import com.example.caregiverphase2.model.pojo.get_jobs.Data
 import com.example.caregiverphase2.ui.activity.JobDetailsActivity
 import com.example.caregiverphase2.utils.Constants
 import convertDate
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalTime
 import java.util.*
 
 class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,

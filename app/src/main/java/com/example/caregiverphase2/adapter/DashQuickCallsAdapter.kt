@@ -177,12 +177,10 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
 
             return durationTotalMin.toLong()
         }
-
         private fun getCurrentDate(): String {
             val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
             return sdf.format(Date())
         }
-
         private fun parseDateToddMMyyyy(time: String): String? {
             val inputPattern = "yyyy-MM-dd h:mm a"
             val outputPattern = "dd-MM-yyyy HH:mm:ss"
@@ -198,6 +196,5 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
             }
             return str
         }
-
     }
 }

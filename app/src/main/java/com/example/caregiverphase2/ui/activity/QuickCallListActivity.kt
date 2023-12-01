@@ -70,7 +70,7 @@ class QuickCallListActivity : AppCompatActivity() {
     private fun onScrollListener(){
         val layoutManager = LinearLayoutManager(this)
         binding.quickCallRecycler.layoutManager = layoutManager
-        binding.quickCallRecycler?.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
+        binding.quickCallRecycler.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
             override fun isLastPage(): Boolean {
                 return isLastPage
             }
