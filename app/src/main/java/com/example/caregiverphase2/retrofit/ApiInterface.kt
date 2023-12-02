@@ -63,6 +63,8 @@ import com.example.caregiverphase2.model.pojo.logout.LogoutResponse
 import com.example.caregiverphase2.model.pojo.register.RegisterResponse
 import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRegRequest
 import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRegResponse
+import com.example.caregiverphase2.model.pojo.reject_bidded_job.RejectBiddedJobRequest
+import com.example.caregiverphase2.model.pojo.reject_bidded_job.RejectBiddedJobResponse
 import com.example.caregiverphase2.model.pojo.resend_otp.ResendOtpRequest
 import com.example.caregiverphase2.model.pojo.resend_otp.ResendOtpResponse
 import com.example.caregiverphase2.model.pojo.search_job.GetSearchResultResponse
@@ -427,4 +429,10 @@ interface ApiInterface {
         @Body body: DeleteCertificateRequest?,
         @Header("Authorization") token: String,
     ): DeleteCertificateResponse?
+
+    @POST("job/awarded-job/reject")
+    suspend fun rejectBiddedJob(
+        @Body body: RejectBiddedJobRequest?,
+        @Header("Authorization") token: String,
+    ): RejectBiddedJobResponse?
 }

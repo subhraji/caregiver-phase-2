@@ -19,6 +19,7 @@ import com.example.caregiverphase2.model.repository.Outcome
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.AcceptBiddedJobViewModel
 import com.example.caregiverphase2.viewmodel.AcceptJobViewModel
+import com.example.caregiverphase2.viewmodel.RejectBiddedJobViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import isConnectedToInternet
 import loadingDialog
@@ -31,6 +32,7 @@ class FullScreenNotifyActivity : AppCompatActivity() {
     private var job_id: String? = null
 
     private val mAcceptJobViewModel: AcceptBiddedJobViewModel by viewModels()
+    private val mRejectBiddedJobViewModel: RejectBiddedJobViewModel by viewModels()
     private lateinit var accessToken: String
 
     private lateinit var loader: androidx.appcompat.app.AlertDialog
@@ -82,8 +84,17 @@ class FullScreenNotifyActivity : AppCompatActivity() {
             cancelTimer()
         }
 
+        binding.declineBtn.setOnClickListener {
+            if(isConnectedToInternet()){
+                mRejectBiddedJobViewModel.rejectBiddedJob(job_id.toString(), accessToken)
+            }else{
+                Toast.makeText(this,"Oops! No internet connection.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         //observer
         acceptJobObserver()
+        rejectJobObserver()
     }
 
 
@@ -112,6 +123,30 @@ class FullScreenNotifyActivity : AppCompatActivity() {
                     if(outcome.data?.success == true){
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
                         mAcceptJobViewModel.navigationComplete()
+                        finish()
+                    }else{
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(this,outcome.e.message, Toast.LENGTH_SHORT).show()
+                    loader.dismiss()
+
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    private fun rejectJobObserver(){
+        mRejectBiddedJobViewModel.response.observe(this, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    loader.dismiss()
+                    if(outcome.data?.success == true){
+                        Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                        mRejectBiddedJobViewModel.navigationComplete()
                         finish()
                     }else{
                         Toast.makeText(this,outcome.data!!.message, Toast.LENGTH_SHORT).show()
