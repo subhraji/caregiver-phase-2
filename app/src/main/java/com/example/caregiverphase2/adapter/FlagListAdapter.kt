@@ -37,7 +37,7 @@ class FlagListAdapter (private val itemList: List<Data>,
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(data: Data, context: Context) {
             itemBinding.apply {
-                reasonTv.text = data?.flag_reason
+                reasonTv.text = "Reason: "+data?.flag_reason
                 startDateTimeTv.text = data?.start_date_time.toString()
                 endDateTimeTv.text = data?.lift_date_time
                 bannedBidTv.text = data?.banned_from_bidding

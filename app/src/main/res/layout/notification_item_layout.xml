@@ -35,4 +35,14 @@
         android:layout_marginTop="5dp"
         android:maxLines="2"
         android:ellipsize="end"/>
+    <TextView
+        android:id="@+id/mark_read_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Merk Read"
+        android:textStyle="bold"
+        android:textColor="@color/dash_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_tv"
+        android:layout_marginTop="5dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
