@@ -81,12 +81,21 @@ class QuickCallListAdapter (private val itemList: MutableList<Data>, private val
                     .centerCrop()
                     .into(agencyLogoImgView)
 
-                timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
-                    Duration.ofMinutes( getDurationHour(
-                        getCurrentDate(),
-                        parseDateToddMMyyyy("${data.start_date} ${data?.start_time}")!!
-                    ) )
-                ).toString()
+
+                val duration = getDurationHour(
+                    getCurrentDate(),
+                    parseDateToddMMyyyy("${data.start_date} ${data?.start_time}")!!
+                )
+                if(duration > 0){
+                    timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
+                        Duration.ofMinutes( getDurationHour(
+                            getCurrentDate(),
+                            parseDateToddMMyyyy("${data.start_date} ${data?.start_time}")!!
+                        ) )
+                    ).toString()
+                }else{
+                    "TIME LEFT : 00:00"
+                }
             }
         }
         private fun getDurationHour(startDateTime: String, endDateTime: String): Long {

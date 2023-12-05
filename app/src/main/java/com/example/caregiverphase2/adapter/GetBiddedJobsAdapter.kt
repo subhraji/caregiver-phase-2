@@ -80,12 +80,21 @@ class GetBiddedJobsAdapter (private val itemList: List<Data>, private val contex
                     .centerCrop()
                     .into(agencyLogoImgView)
 
-                timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
-                    Duration.ofMinutes( getDurationHour(
-                        getCurrentDate(),
-                        parseDateToddMMyyyy("${data.startDate} ${data?.startTime}")!!
-                    ) )
-                ).toString()
+
+                val duration = getDurationHour(
+                    getCurrentDate(),
+                    parseDateToddMMyyyy("${data.startDate} ${data?.startTime}")!!
+                )
+                if(duration > 0){
+                    timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
+                        Duration.ofMinutes( getDurationHour(
+                            getCurrentDate(),
+                            parseDateToddMMyyyy("${data.startDate} ${data?.startTime}")!!
+                        ) )
+                    ).toString()
+                }else{
+                    "TIME LEFT : 00:00"
+                }
             }
         }
 

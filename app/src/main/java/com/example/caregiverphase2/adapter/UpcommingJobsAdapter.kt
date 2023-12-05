@@ -84,12 +84,21 @@ class UpcommingJobsAdapter (private val itemList: List<Data>, private val contex
                     .centerCrop()
                     .into(agencyLogoImgView)
 
-                timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
-                    Duration.ofMinutes( getDurationHour(
-                        getCurrentDate(),
-                        parseDateToddMMyyyy("${data.startDate} ${data?.startTime}")!!
-                    ) )
-                ).toString()
+                var duration = getDurationHour(
+                    getCurrentDate(),
+                    parseDateToddMMyyyy("${data.startDate} ${data?.startTime}")!!
+                )
+                if(duration > 0){
+                    timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
+                        Duration.ofMinutes( getDurationHour(
+                            getCurrentDate(),
+                            parseDateToddMMyyyy("${data.startDate} ${data?.startTime}")!!
+                        ) )
+                    ).toString()
+                }else{
+                    timeLeftTv.text = "TIME LEFT : 00:00"
+                }
+
             }
         }
 
@@ -149,7 +158,7 @@ class UpcommingJobsAdapter (private val itemList: List<Data>, private val contex
         }
 
         private fun parseDateToddMMyyyy(time: String): String? {
-            val inputPattern = "yyyy-MM-dd h:mm a"
+            val inputPattern = "MM-dd-yyyy h:mm a"
             val outputPattern = "dd-MM-yyyy HH:mm:ss"
             val inputFormat = SimpleDateFormat(inputPattern)
             val outputFormat = SimpleDateFormat(outputPattern)

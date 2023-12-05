@@ -93,38 +93,20 @@ class DashQuickCallsAdapter(private val itemList: List<Data>, private val contex
                     .centerCrop()
                     .into(agencyLogoImgView)
 
-                timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
-                    Duration.ofMinutes( getDurationHour(
-                        getCurrentDate(),
-                        parseDateToddMMyyyy("${data.start_date} ${data?.start_time}")!!
-                    ) )
-                ).toString()
-
-
-                /*object : CountDownTimer(
-                    getDurationHour(
-                        getCurrentDate(),
-                        parseDateToddMMyyyy("${data.start_date} ${data?.start_time}")!!
-                    ),
-                1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        var millisUntilFinished = millisUntilFinished
-                        val secondsInMilli: Long = 1000
-                        val minutesInMilli = secondsInMilli * 60
-                        val hoursInMilli = minutesInMilli * 60
-                        val elapsedHours = millisUntilFinished / hoursInMilli
-                        millisUntilFinished = millisUntilFinished % hoursInMilli
-                        val elapsedMinutes = millisUntilFinished / minutesInMilli
-                        millisUntilFinished = millisUntilFinished % minutesInMilli
-                        val elapsedSeconds = millisUntilFinished / secondsInMilli
-                        val yy = String.format("%02d:%02d:%2d", elapsedHours, elapsedMinutes, elapsedSeconds)
-                        timeLeftTv.setText(yy)
-                    }
-
-                    override fun onFinish() {
-                        timeLeftTv.setText("00:00:00")
-                    }
-                }.start()*/
+                val duration = getDurationHour(
+                    getCurrentDate(),
+                    parseDateToddMMyyyy("${data.start_date} ${data?.start_time}")!!
+                )
+                if(duration > 0){
+                    timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
+                        Duration.ofMinutes( getDurationHour(
+                            getCurrentDate(),
+                            parseDateToddMMyyyy("${data.start_date} ${data?.start_time}")!!
+                        ) )
+                    ).toString()
+                }else{
+                    timeLeftTv.text = "TIME LEFT : 00:00"
+                }
             }
         }
 
