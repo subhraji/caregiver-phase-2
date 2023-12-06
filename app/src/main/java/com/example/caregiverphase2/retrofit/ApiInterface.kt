@@ -60,6 +60,8 @@ import com.example.caregiverphase2.model.pojo.get_strikes.GetStrikesResonse
 import com.example.caregiverphase2.model.pojo.login.LoginRequest
 import com.example.caregiverphase2.model.pojo.login.LoginResponse
 import com.example.caregiverphase2.model.pojo.logout.LogoutResponse
+import com.example.caregiverphase2.model.pojo.mark_read_notification.MarkReadNotificationRequest
+import com.example.caregiverphase2.model.pojo.mark_read_notification.MarkReadNotificationResponse
 import com.example.caregiverphase2.model.pojo.register.RegisterResponse
 import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRegRequest
 import com.example.caregiverphase2.model.pojo.register_optional.SubmitOptionalRegResponse
@@ -435,4 +437,10 @@ interface ApiInterface {
         @Body body: RejectBiddedJobRequest?,
         @Header("Authorization") token: String,
     ): RejectBiddedJobResponse?
+
+    @POST("notification/mark-as-read")
+    suspend fun markReadNotification(
+        @Body body: MarkReadNotificationRequest?,
+        @Header("Authorization") token: String
+    ): MarkReadNotificationResponse?
 }

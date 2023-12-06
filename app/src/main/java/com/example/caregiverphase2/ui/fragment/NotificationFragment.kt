@@ -17,20 +17,23 @@ import com.example.caregiverphase2.databinding.FragmentLoginBinding
 import com.example.caregiverphase2.databinding.FragmentNotificationBinding
 import com.example.caregiverphase2.model.pojo.get_notifications.Data
 import com.example.caregiverphase2.model.repository.Outcome
+import com.example.caregiverphase2.utils.DeleteDocClickListener
 import com.example.caregiverphase2.utils.PrefManager
 import com.example.caregiverphase2.viewmodel.GetNotificationsViewModel
+import com.example.caregiverphase2.viewmodel.MarkReadNotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import gone
 import isConnectedToInternet
 import visible
 
 @AndroidEntryPoint
-class NotificationFragment : Fragment() {
+class NotificationFragment : Fragment(), DeleteDocClickListener{
     private var _binding: FragmentNotificationBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var accessToken: String
     private val mGetNotificationsViewModel: GetNotificationsViewModel by viewModels()
+    private val mMarkReadNotificationViewModel: MarkReadNotificationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +70,7 @@ class NotificationFragment : Fragment() {
 
         //observe
         getNotificationsObserve()
+        markReadNotificationsObserve()
     }
     private fun fillRecyclerView(list: MutableList<Data>) {
         val linearlayoutManager = LinearLayoutManager(activity)
@@ -74,7 +78,7 @@ class NotificationFragment : Fragment() {
             layoutManager = linearlayoutManager
             setHasFixedSize(true)
             isFocusable = false
-            adapter = NotificationListAdapter(list,requireActivity())
+            adapter = NotificationListAdapter(list,requireActivity(), this@NotificationFragment)
         }
     }
     private fun getNotificationsObserve(){
@@ -104,6 +108,31 @@ class NotificationFragment : Fragment() {
                 }
             }
         })
+    }
+    private fun markReadNotificationsObserve(){
+        mMarkReadNotificationViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
+            when(outcome){
+                is Outcome.Success ->{
+                    if(outcome.data?.success == true){
+
+                        mMarkReadNotificationViewModel.navigationComplete()
+                    }else{
+                        Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Outcome.Failure<*> -> {
+                    Toast.makeText(requireActivity(),outcome.e.message, Toast.LENGTH_SHORT).show()
+                    outcome.e.printStackTrace()
+                    Log.i("status",outcome.e.cause.toString())
+                }
+            }
+        })
+    }
+
+    override fun deleteDoc(id: Int, category: String) {
+        if(requireActivity().isConnectedToInternet()){
+            mMarkReadNotificationViewModel.markReadNotification(id.toString(),accessToken)
+        }
     }
 
 }

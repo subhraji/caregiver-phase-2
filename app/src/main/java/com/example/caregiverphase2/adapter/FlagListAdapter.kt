@@ -43,6 +43,7 @@ class FlagListAdapter (private val itemList: List<Data>,
                 bannedBidTv.text = data?.banned_from_bidding
                 bannedQuickCallTv.text = data?.banned_from_quick_call
                 rewardLooseTv.text = data?.rewards_loose.toString()
+                strikeCountTv.text = "${data?.flag_number}/3"
             }
         }
 
