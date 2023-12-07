@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.caregiverphase2.R
 import com.example.caregiverphase2.adapter.NotificationListAdapter
+import com.example.caregiverphase2.adapter.QuickCallListAdapter
 import com.example.caregiverphase2.databinding.FragmentLoginBinding
 import com.example.caregiverphase2.databinding.FragmentNotificationBinding
 import com.example.caregiverphase2.model.pojo.get_notifications.Data
@@ -34,6 +35,7 @@ class NotificationFragment : Fragment(), DeleteDocClickListener{
     private lateinit var accessToken: String
     private val mGetNotificationsViewModel: GetNotificationsViewModel by viewModels()
     private val mMarkReadNotificationViewModel: MarkReadNotificationViewModel by viewModels()
+    lateinit var adapter: NotificationListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,7 @@ class NotificationFragment : Fragment(), DeleteDocClickListener{
     }
 
     override fun onResume() {
+        fillRecyclerView()
         binding.notificationRecycler.gone()
         binding.completedJobsShimmerView.visible()
         binding.completedJobsShimmerView.startShimmer()
@@ -53,6 +56,7 @@ class NotificationFragment : Fragment(), DeleteDocClickListener{
         }
         super.onResume()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,14 +76,11 @@ class NotificationFragment : Fragment(), DeleteDocClickListener{
         getNotificationsObserve()
         markReadNotificationsObserve()
     }
-    private fun fillRecyclerView(list: MutableList<Data>) {
-        val linearlayoutManager = LinearLayoutManager(activity)
-        binding.notificationRecycler.apply {
-            layoutManager = linearlayoutManager
-            setHasFixedSize(true)
-            isFocusable = false
-            adapter = NotificationListAdapter(list,requireActivity(), this@NotificationFragment)
-        }
+    private fun fillRecyclerView() {
+        adapter = NotificationListAdapter(mutableListOf(), requireActivity(),this@NotificationFragment)
+        val layoutManager = LinearLayoutManager(requireActivity())
+        binding.notificationRecycler.layoutManager = layoutManager
+        binding.notificationRecycler.adapter = adapter
     }
     private fun getNotificationsObserve(){
         mGetNotificationsViewModel.response.observe(viewLifecycleOwner, Observer { outcome ->
@@ -90,8 +91,8 @@ class NotificationFragment : Fragment(), DeleteDocClickListener{
                     if(outcome.data?.success == true){
                         if(outcome.data?.data != null && outcome.data?.data?.size != 0){
                             binding.notificationRecycler.visible()
-                            fillRecyclerView(outcome.data?.data!!.toMutableList())
                             binding.noDataLottie.gone()
+                            adapter.add(outcome.data?.data!!)
                         }else{
                             binding.noDataLottie.visible()
                         }
@@ -114,7 +115,6 @@ class NotificationFragment : Fragment(), DeleteDocClickListener{
             when(outcome){
                 is Outcome.Success ->{
                     if(outcome.data?.success == true){
-
                         mMarkReadNotificationViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
@@ -132,6 +132,9 @@ class NotificationFragment : Fragment(), DeleteDocClickListener{
     override fun deleteDoc(id: Int, category: String) {
         if(requireActivity().isConnectedToInternet()){
             mMarkReadNotificationViewModel.markReadNotification(id.toString(),accessToken)
+            adapter.remove(category.toInt())
+        }else{
+            Toast.makeText(requireActivity(), "Oops! No internet connection.", Toast.LENGTH_SHORT).show()
         }
     }
 
