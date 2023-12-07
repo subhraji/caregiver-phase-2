@@ -39,7 +39,7 @@
         android:id="@+id/mark_read_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Merk Read"
+        android:text="Mark Read"
         android:textStyle="bold"
         android:textColor="@color/dash_green"
         app:layout_constraintEnd_toEndOf="parent"

@@ -36,6 +36,7 @@ class NotificationListAdapter (private val itemList: MutableList<Data>,
     fun remove(position: Int) {
         itemList.removeAt(position)
         notifyItemRemoved(position)
+        notifyItemRangeChanged(position, itemList.size)
     }
     override fun onBindViewHolder(holder: NotificationListAdapter.ViewHolder, position: Int) {
         val rowData = itemList[position]
@@ -49,7 +50,6 @@ class NotificationListAdapter (private val itemList: MutableList<Data>,
                 titleTv.text = data.type
                 contentTv.text = data.content
                 markReadTv.setOnClickListener {
-
                     deleteDocClickListener.deleteDoc(data?.notification_id,position.toString())
                 }
             }
