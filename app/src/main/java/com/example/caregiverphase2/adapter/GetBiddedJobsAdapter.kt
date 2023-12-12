@@ -85,6 +85,7 @@ class GetBiddedJobsAdapter (private val itemList: List<Data>, private val contex
                     getCurrentDate(),
                     parseDateToddMMyyyy("${data.startDate} ${data?.startTime}")!!
                 )
+                Log.e("duration", "duration is => $duration")
                 if(duration > 0){
                     timeLeftTv.text = "TIME LEFT : "+ LocalTime.MIN.plus(
                         Duration.ofMinutes( getDurationHour(
@@ -93,7 +94,7 @@ class GetBiddedJobsAdapter (private val itemList: List<Data>, private val contex
                         ) )
                     ).toString()
                 }else{
-                    "TIME LEFT : 00:00"
+                    timeLeftTv.text = "TIME LEFT : 00:00"
                 }
             }
         }
@@ -122,7 +123,7 @@ class GetBiddedJobsAdapter (private val itemList: List<Data>, private val contex
                 val durationDay = difference_In_Days.toInt()
                 val durationHour = difference_In_Hours.toInt()
 
-                durationTotalMin = (durationHour*60)+difference_In_Minutes.toInt()
+                durationTotalMin = (durationDay*24*60)+(durationHour*60)+difference_In_Minutes.toInt()
 
 
                 Log.d("dateTime","duration => "+
