@@ -1,6 +1,7 @@
 package com.example.caregiverphase2.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -38,12 +39,29 @@ class FlagListAdapter (private val itemList: List<Data>,
         fun bind(data: Data, context: Context) {
             itemBinding.apply {
                 reasonTv.text = "Reason: "+data?.flag_reason
-                startDateTimeTv.text = data?.start_date_time.toString()
-                endDateTimeTv.text = data?.lift_date_time
-                bannedBidTv.text = data?.banned_from_bidding
-                bannedQuickCallTv.text = data?.banned_from_quick_call
                 rewardLooseTv.text = data?.rewards_loose.toString()
                 strikeCountTv.text = "${data?.flag_number}/3"
+                startDateTimeTv.text = data?.start_date_time.toString()
+                endDateTimeTv.text = data?.lift_date_time
+
+                var bannedBid = ""
+                var bannedQuick = ""
+
+                var bannedBidArray = data?.banned_from_bidding.split(':')
+                if(bannedBidArray.size-1 <= 2){
+                    bannedBid = "${bannedBidArray[0]}:${bannedBidArray[1]} hrs"
+                }else{
+                    bannedBid = "${bannedBidArray[0]} day, ${bannedBidArray[1]}:${bannedBidArray[2]} hrs"
+                }
+
+                var bannedQuickArray = data?.banned_from_quick_call.split(':')
+                if(bannedQuickArray.size-1 <= 2){
+                    bannedQuick = "${bannedQuickArray[0]}:${bannedQuickArray[1]} hrs"
+                }else{
+                    bannedQuick = "${bannedQuickArray[0]} day, ${bannedQuickArray[1]}:${bannedQuickArray[2]} hrs"
+                }
+                bannedBidTv.text = bannedBid
+                bannedQuickCallTv.text = bannedQuick
             }
         }
 

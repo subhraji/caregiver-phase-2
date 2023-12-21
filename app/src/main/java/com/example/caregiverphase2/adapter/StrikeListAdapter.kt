@@ -44,11 +44,31 @@ class StrikeListAdapter (private val itemList: List<Data?>,
                 reasonTv.text = "Reason: "+data?.strike_reason
                 startDateTimeTv.text = data?.start_date_time.toString()
                 endDateTimeTv.text = data?.lift_date_time
-                bannedBidTv.text = data?.banned_from_bidding
-                bannedQuickCallTv.text = data?.banned_from_quick_call
                 rewardLooseTv.text = data?.rewards_loose.toString()
+
+
+                var bannedBid = ""
+                var bannedQuick = ""
+
+                var bannedBidArray = data?.banned_from_bidding.split(':')
+                if(bannedBidArray.size-1 <= 2){
+                    bannedBid = "${bannedBidArray[0]}:${bannedBidArray[1]} hrs"
+                }else{
+                    bannedBid = "${bannedBidArray[0]} day, ${bannedBidArray[1]}:${bannedBidArray[2]} hrs"
+                }
+
+                var bannedQuickArray = data?.banned_from_quick_call.split(':')
+                if(bannedQuickArray.size-1 <= 2){
+                    bannedQuick = "${bannedQuickArray[0]}:${bannedQuickArray[1]} hrs"
+                }else{
+                    bannedQuick = "${bannedQuickArray[0]} day, ${bannedQuickArray[1]}:${bannedQuickArray[2]} hrs"
+                }
+                bannedBidTv.text = bannedBid
+                bannedQuickCallTv.text = bannedQuick
+
                 root.setOnClickListener {
                     val intent = Intent(context, StrikeRemoveActivity::class.java)
+
                     context.startActivity(intent)
                 }
             }
