@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="@+id/notification_img"
         app:layout_constraintStart_toEndOf="@+id/notification_img"
         android:layout_marginStart="10dp"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toStartOf="@+id/mark_read_tv"/>
     <TextView
         android:id="@+id/content_tv"
         android:layout_width="0dp"
@@ -32,9 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/title_tv"
         app:layout_constraintStart_toStartOf="@+id/title_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="5dp"
-        android:maxLines="2"
-        android:ellipsize="end"/>
+        android:layout_marginTop="5dp"/>
     <TextView
         android:id="@+id/mark_read_tv"
         android:layout_width="wrap_content"
@@ -43,6 +41,17 @@
         android:textStyle="bold"
         android:textColor="@color/dash_green"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_tv"
+        app:layout_constraintTop_toTopOf="@+id/title_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/title_tv"
         android:layout_marginTop="5dp"/>
+    <TextView
+        android:id="@+id/read_more_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Read more"
+        android:textColor="@color/theme_blue"
+        android:textStyle="bold"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_tv"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

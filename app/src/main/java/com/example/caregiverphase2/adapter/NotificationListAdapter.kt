@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.caregiverphase2.databinding.NotificationItemLayoutBinding
 import com.example.caregiverphase2.model.pojo.get_notifications.Data
 import com.example.caregiverphase2.utils.DeleteDocClickListener
+import gone
+import visible
 
 
 class NotificationListAdapter (private val itemList: MutableList<Data>,
@@ -47,10 +49,20 @@ class NotificationListAdapter (private val itemList: MutableList<Data>,
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(data: Data, context: Context, deleteDocClickListener: DeleteDocClickListener, position: Int) {
             itemBinding.apply {
+                readMoreBtn.gone()
                 titleTv.text = data.type
-                contentTv.text = data.content
+                if(data.content.length > 80){
+                    contentTv.text = data.content.substring(0,80)+"..."
+                    readMoreBtn.visible()
+                }else{
+                    contentTv.text = data.content
+                }
                 markReadTv.setOnClickListener {
                     deleteDocClickListener.deleteDoc(data?.notification_id,position.toString())
+                }
+                readMoreBtn.setOnClickListener {
+                    contentTv.text = data.content
+                    readMoreBtn.gone()
                 }
             }
         }
