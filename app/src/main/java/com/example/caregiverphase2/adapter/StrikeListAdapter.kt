@@ -68,7 +68,7 @@ class StrikeListAdapter (private val itemList: List<Data?>,
 
                 root.setOnClickListener {
                     val intent = Intent(context, StrikeRemoveActivity::class.java)
-
+                    intent.putExtra("data", data)
                     context.startActivity(intent)
                 }
             }
