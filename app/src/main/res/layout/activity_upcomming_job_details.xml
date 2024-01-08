@@ -270,10 +270,10 @@
                             android:layout_height="40dp"
                             android:src="@drawable/ic_star_19" />
                         <TextView
+                            android:id="@+id/rewards_tv"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:textColor="@color/white"
-                            android:text="12"
                             android:gravity="center"
                             android:textStyle="bold"
                             android:textSize="12sp"

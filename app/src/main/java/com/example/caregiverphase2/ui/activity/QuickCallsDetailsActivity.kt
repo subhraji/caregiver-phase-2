@@ -169,6 +169,7 @@ class QuickCallsDetailsActivity : AppCompatActivity() {
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data[0].company_name.toString()
                         binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
+                        binding.rewardsTv.text = outcome.data!!.data[0].rewards
 
                         setTimer(
                             getDurationHour(

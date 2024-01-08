@@ -249,6 +249,8 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
                             binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                             binding.agencyNameTv.text = outcome.data!!.data[0].agencyName.toString()
                             binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
+                            binding.rewardsTv.text = outcome.data!!.data[0].rewards
+
                             Glide.with(this)
                                 .load(Constants.PUBLIC_URL+outcome.data!!.data[0].agencyPhoto) // image url
                                 .placeholder(R.color.dash_yellow) // any placeholder to load at start

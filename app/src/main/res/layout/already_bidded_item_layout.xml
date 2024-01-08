@@ -54,7 +54,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/agency_logo_img_view"
                 android:textSize="15sp"
-                android:text="Urgently required a caregiver for elderly patient"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:ellipsize="end"
@@ -128,6 +127,7 @@
                 android:src="@drawable/ic_star_19" />
 
             <TextView
+                android:id="@+id/rewards_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

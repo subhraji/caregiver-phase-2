@@ -54,4 +54,6 @@ data class Data(
     val agencyId: Int?,
     @SerializedName("owner_name")
     val ownerName: String?,
+    @SerializedName("rewards")
+    val rewards: String?,
 )

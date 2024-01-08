@@ -54,6 +54,7 @@ class DashOpenBidAdapter(private val itemList: List<Data>, private val context: 
             }
 
             itemBinding.apply {
+                rewardsTv.text = data?.rewards
                 jobTitleTv.text = data?.job_title.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.care_type

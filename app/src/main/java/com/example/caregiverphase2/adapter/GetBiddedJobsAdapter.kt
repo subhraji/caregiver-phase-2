@@ -49,8 +49,8 @@ class GetBiddedJobsAdapter (private val itemList: List<Data>, private val contex
             itemBinding.apply {
                 jobStatusTv.gone()
                 rightArrow.gone()
+                rewardsTv.text = data?.rewards
                 jobTitleTv.text = data?.jobTitle.toString()
-                priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.careItems.size.toString()+" "+data?.careType
                 addressTv.text = data?.shortAddress.toString()
                 hourHtv.text = data?.startTime+" - "+data?.endTime

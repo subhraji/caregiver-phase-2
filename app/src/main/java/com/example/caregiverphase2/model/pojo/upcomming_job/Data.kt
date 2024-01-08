@@ -45,4 +45,6 @@ data class Data(
     val checkList: List<String>,
     @SerializedName("address")
     val address: String,
+    @SerializedName("rewards")
+    val rewards: String,
 )

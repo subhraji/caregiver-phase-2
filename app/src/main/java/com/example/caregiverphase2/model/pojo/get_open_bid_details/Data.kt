@@ -51,5 +51,7 @@ data class Data(
     @SerializedName("start_time")
     val startTime: String,
     @SerializedName("status")
-    val status: String
+    val status: String,
+    @SerializedName("rewards")
+    val rewards: String
 )

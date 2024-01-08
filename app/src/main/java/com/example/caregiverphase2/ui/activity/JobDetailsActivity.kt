@@ -328,7 +328,7 @@ class JobDetailsActivity : AppCompatActivity() {
                         binding.priceTv.text = "$"+outcome.data!!.data[0].amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data[0].companyName.toString()
                         binding.jobDescTv.text = outcome.data!!.data[0].description.toString()
-
+                        binding.rewardTv.text = outcome.data!!.data[0].rewards.toString()
                         setTimer(
                             getDurationHour(
                                 getCurrentDate(),
@@ -409,7 +409,7 @@ class JobDetailsActivity : AppCompatActivity() {
                         binding.priceTv.text = "$"+outcome.data!!.data.amount.toString()
                         binding.agencyNameTv.text = outcome.data!!.data.companyName.toString()
                         binding.jobDescTv.text = outcome.data!!.data.description.toString()
-
+                        binding.rewardTv.text = outcome.data!!.data.rewards
                         setTimer(
                             getDurationHour(
                                 getCurrentDate(),

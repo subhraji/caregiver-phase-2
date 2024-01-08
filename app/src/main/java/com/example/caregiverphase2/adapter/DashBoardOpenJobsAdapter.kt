@@ -57,6 +57,7 @@ class DashBoardOpenJobsAdapter (private val itemList: MutableList<Data>,
         fun bind(data: Data, context: Context) {
 
             itemBinding.apply {
+                rewardTv.text = data?.rewards
                 jobTitleTv.text = data?.jobTitle.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.careType

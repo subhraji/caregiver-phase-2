@@ -51,8 +51,8 @@ class UpcommingJobsAdapter (private val itemList: List<Data>, private val contex
             itemBinding.apply {
                 jobStatusTv.gone()
                 rightArrow.gone()
+                rewardsTv.text = data?.rewards
                 timeLeftTv.setBackgroundTintList(ColorStateList.valueOf(context.resources.getColor(R.color.dash_green)))
-
                 jobTitleTv.text = data?.title.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.careType

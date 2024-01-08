@@ -23,5 +23,6 @@ data class Data(
     val short_address: String,
     val start_time: String,
     val status: String,
-    val distance: String?
+    val distance: String?,
+    val rewards: String?
 )

@@ -47,7 +47,6 @@ class CompletedJobsAdapter (private val itemList: List<Data>, private val contex
                 timeLeftTv.setBackgroundTintList(ColorStateList.valueOf(context.resources.getColor(R.color.theme_blue)))
                 jobStatusTv.text = "Waiting for payment"
                 timeLeftTv.text = "Completed 2 hrs ago"
-
                 jobTitleTv.text = data?.title.toString()
                 priceTv.text = "$"+data?.amount.toString()
                 careTypeTv.text = data?.care_type
@@ -56,6 +55,8 @@ class CompletedJobsAdapter (private val itemList: List<Data>, private val contex
                 dateHtv.text = convertDate(data?.start_date)+" to "+convertDate(data?.end_date)
                 priceTv.text = "$"+data?.amount.toString()
                 agencyNameTv.text = data?.agency_name.toString()
+                rewardsTv.text = data?.rewards
+
                 gen = ""
                 for(i in data?.care_items){
                     if(gen.isEmpty()){
