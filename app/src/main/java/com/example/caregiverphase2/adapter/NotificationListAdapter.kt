@@ -64,6 +64,7 @@ class NotificationListAdapter (private val itemList: MutableList<Data>,
                     contentTv.text = data.content
                     readMoreBtn.gone()
                 }
+                timeTv.text = data?.created_at
             }
         }
     }

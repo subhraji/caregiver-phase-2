@@ -133,7 +133,7 @@ class EmailVerificationActivity : AppCompatActivity() {
                         binding.otpView.text = null
 
                         if (outcome.data!!.token != null) {
-                            outcome.data!!.token?.let {
+                            outcome.data!!.token.let {
                                 PrefManager.setKeyAuthToken(it)
                                 PrefManager.setUserFullName(name)
                                 PrefManager.setLogInStatus(true)

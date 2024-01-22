@@ -237,7 +237,7 @@ class UpcommingJobDetailsActivity : AppCompatActivity() {
                                 if(gen.isEmpty()){
                                     gen = i.patientName+", "+i.gender+": "+i.age
                                 }else{
-                                    gen = gen+", "+i.gender+": "+i.age
+                                    gen = gen+" "+i.patientName+", "+i.gender+": "+i.age
                                 }
                             }
                             binding.ageTv.text = gen

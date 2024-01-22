@@ -100,6 +100,8 @@ class ProfileFragment : Fragment(), UploadDocListener {
 
         binding.changePicBtn.gone()
 
+        binding.nameTv.text = PrefManager.getUserFullName()
+
         //observer
         getProfileObserve()
         changeProfilePicObserve()
@@ -160,7 +162,6 @@ class ProfileFragment : Fragment(), UploadDocListener {
             }
         }
 
-        binding.nameTv.text = PrefManager.getUserFullName()
 
         binding.editBtn.setOnClickListener {
             if(isEdit == true){
@@ -346,6 +347,10 @@ class ProfileFragment : Fragment(), UploadDocListener {
                             }
                         }
 
+                        /*if(PrefManager.getUserFullName() != null && PrefManager.getUserFullName()!!.isEmpty()){
+                            binding.nameTv.text = outcome.data?.data?.
+                        }
+*/
                         mGetProfileViewModel.navigationComplete()
                     }else{
                         Toast.makeText(requireActivity(),outcome.data!!.message, Toast.LENGTH_SHORT).show()
