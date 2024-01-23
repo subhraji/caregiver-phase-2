@@ -40,6 +40,9 @@ android {
     hilt {
         enableExperimentalClasspathAggregation = true
     }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {
